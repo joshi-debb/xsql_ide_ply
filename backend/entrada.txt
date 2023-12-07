@@ -1,0 +1,10 @@
+create data base productos;
+create data base personas;
+
+create table parsona(
+    nombre NVARCHAR(5) NOT NULL ,
+    fecha DATE NOT NULL PRIMARY KEY 
+
+    
+
+)

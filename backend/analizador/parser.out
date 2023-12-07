@@ -1,0 +1,489 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CADENA
+    DIV
+    MAS
+    MENOS
+    MULT
+    WHERE
+
+Grammar
+
+Rule 0     S' -> ini
+Rule 1     ini -> instrucciones
+Rule 2     instrucciones -> instrucciones instruccion
+Rule 3     instrucciones -> instruccion
+Rule 4     instruccion -> crear_db
+Rule 5     instruccion -> crear_tb
+Rule 6     crear_db -> CREATE DATA BASE ID PYC
+Rule 7     crear_tb -> CREATE TABLE ID PARA atributos PARC
+Rule 8     atributos -> atributos COMA atributo
+Rule 9     atributos -> atributo
+Rule 10    atributo -> ID tipo atributo_opciones
+Rule 11    atributo_opciones -> atributo_opciones atributo_opcion
+Rule 12    atributo_opciones -> atributo_opcion
+Rule 13    atributo_opcion -> NOT NULL
+Rule 14    atributo_opcion -> NULL
+Rule 15    atributo_opcion -> PRIMARY KEY
+Rule 16    tipo -> INT
+Rule 17    tipo -> BIT
+Rule 18    tipo -> DECIMAL
+Rule 19    tipo -> DATE
+Rule 20    tipo -> DATETIME
+Rule 21    tipo -> NCHAR comp_n
+Rule 22    tipo -> NVARCHAR comp_n
+Rule 23    comp_n -> PARA ENTERO PARC
+
+Terminals, with rules where they appear
+
+BASE                 : 6
+BIT                  : 17
+CADENA               : 
+COMA                 : 8
+CREATE               : 6 7
+DATA                 : 6
+DATE                 : 19
+DATETIME             : 20
+DECIMAL              : 18
+DIV                  : 
+ENTERO               : 23
+ID                   : 6 7 10
+INT                  : 16
+KEY                  : 15
+MAS                  : 
+MENOS                : 
+MULT                 : 
+NCHAR                : 21
+NOT                  : 13
+NULL                 : 13 14
+NVARCHAR             : 22
+PARA                 : 7 23
+PARC                 : 7 23
+PRIMARY              : 15
+PYC                  : 6
+TABLE                : 7
+WHERE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+atributo             : 8 9
+atributo_opcion      : 11 12
+atributo_opciones    : 10 11
+atributos            : 7 8
+comp_n               : 21 22
+crear_db             : 4
+crear_tb             : 5
+ini                  : 0
+instruccion          : 2 3
+instrucciones        : 1 2
+tipo                 : 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . ini
+    (1) ini -> . instrucciones
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
+    (4) instruccion -> . crear_db
+    (5) instruccion -> . crear_tb
+    (6) crear_db -> . CREATE DATA BASE ID PYC
+    (7) crear_tb -> . CREATE TABLE ID PARA atributos PARC
+
+    CREATE          shift and go to state 6
+
+    ini                            shift and go to state 1
+    instrucciones                  shift and go to state 2
+    instruccion                    shift and go to state 3
+    crear_db                       shift and go to state 4
+    crear_tb                       shift and go to state 5
+
+state 1
+
+    (0) S' -> ini .
+
+
+
+state 2
+
+    (1) ini -> instrucciones .
+    (2) instrucciones -> instrucciones . instruccion
+    (4) instruccion -> . crear_db
+    (5) instruccion -> . crear_tb
+    (6) crear_db -> . CREATE DATA BASE ID PYC
+    (7) crear_tb -> . CREATE TABLE ID PARA atributos PARC
+
+    $end            reduce using rule 1 (ini -> instrucciones .)
+    CREATE          shift and go to state 6
+
+    instruccion                    shift and go to state 7
+    crear_db                       shift and go to state 4
+    crear_tb                       shift and go to state 5
+
+state 3
+
+    (3) instrucciones -> instruccion .
+
+    CREATE          reduce using rule 3 (instrucciones -> instruccion .)
+    $end            reduce using rule 3 (instrucciones -> instruccion .)
+
+
+state 4
+
+    (4) instruccion -> crear_db .
+
+    CREATE          reduce using rule 4 (instruccion -> crear_db .)
+    $end            reduce using rule 4 (instruccion -> crear_db .)
+
+
+state 5
+
+    (5) instruccion -> crear_tb .
+
+    CREATE          reduce using rule 5 (instruccion -> crear_tb .)
+    $end            reduce using rule 5 (instruccion -> crear_tb .)
+
+
+state 6
+
+    (6) crear_db -> CREATE . DATA BASE ID PYC
+    (7) crear_tb -> CREATE . TABLE ID PARA atributos PARC
+
+    DATA            shift and go to state 8
+    TABLE           shift and go to state 9
+
+
+state 7
+
+    (2) instrucciones -> instrucciones instruccion .
+
+    CREATE          reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    $end            reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+
+
+state 8
+
+    (6) crear_db -> CREATE DATA . BASE ID PYC
+
+    BASE            shift and go to state 10
+
+
+state 9
+
+    (7) crear_tb -> CREATE TABLE . ID PARA atributos PARC
+
+    ID              shift and go to state 11
+
+
+state 10
+
+    (6) crear_db -> CREATE DATA BASE . ID PYC
+
+    ID              shift and go to state 12
+
+
+state 11
+
+    (7) crear_tb -> CREATE TABLE ID . PARA atributos PARC
+
+    PARA            shift and go to state 13
+
+
+state 12
+
+    (6) crear_db -> CREATE DATA BASE ID . PYC
+
+    PYC             shift and go to state 14
+
+
+state 13
+
+    (7) crear_tb -> CREATE TABLE ID PARA . atributos PARC
+    (8) atributos -> . atributos COMA atributo
+    (9) atributos -> . atributo
+    (10) atributo -> . ID tipo atributo_opciones
+
+    ID              shift and go to state 15
+
+    atributos                      shift and go to state 16
+    atributo                       shift and go to state 17
+
+state 14
+
+    (6) crear_db -> CREATE DATA BASE ID PYC .
+
+    CREATE          reduce using rule 6 (crear_db -> CREATE DATA BASE ID PYC .)
+    $end            reduce using rule 6 (crear_db -> CREATE DATA BASE ID PYC .)
+
+
+state 15
+
+    (10) atributo -> ID . tipo atributo_opciones
+    (16) tipo -> . INT
+    (17) tipo -> . BIT
+    (18) tipo -> . DECIMAL
+    (19) tipo -> . DATE
+    (20) tipo -> . DATETIME
+    (21) tipo -> . NCHAR comp_n
+    (22) tipo -> . NVARCHAR comp_n
+
+    INT             shift and go to state 19
+    BIT             shift and go to state 20
+    DECIMAL         shift and go to state 21
+    DATE            shift and go to state 22
+    DATETIME        shift and go to state 23
+    NCHAR           shift and go to state 24
+    NVARCHAR        shift and go to state 25
+
+    tipo                           shift and go to state 18
+
+state 16
+
+    (7) crear_tb -> CREATE TABLE ID PARA atributos . PARC
+    (8) atributos -> atributos . COMA atributo
+
+    PARC            shift and go to state 26
+    COMA            shift and go to state 27
+
+
+state 17
+
+    (9) atributos -> atributo .
+
+    PARC            reduce using rule 9 (atributos -> atributo .)
+    COMA            reduce using rule 9 (atributos -> atributo .)
+
+
+state 18
+
+    (10) atributo -> ID tipo . atributo_opciones
+    (11) atributo_opciones -> . atributo_opciones atributo_opcion
+    (12) atributo_opciones -> . atributo_opcion
+    (13) atributo_opcion -> . NOT NULL
+    (14) atributo_opcion -> . NULL
+    (15) atributo_opcion -> . PRIMARY KEY
+
+    NOT             shift and go to state 30
+    NULL            shift and go to state 31
+    PRIMARY         shift and go to state 32
+
+    atributo_opciones              shift and go to state 28
+    atributo_opcion                shift and go to state 29
+
+state 19
+
+    (16) tipo -> INT .
+
+    NOT             reduce using rule 16 (tipo -> INT .)
+    NULL            reduce using rule 16 (tipo -> INT .)
+    PRIMARY         reduce using rule 16 (tipo -> INT .)
+
+
+state 20
+
+    (17) tipo -> BIT .
+
+    NOT             reduce using rule 17 (tipo -> BIT .)
+    NULL            reduce using rule 17 (tipo -> BIT .)
+    PRIMARY         reduce using rule 17 (tipo -> BIT .)
+
+
+state 21
+
+    (18) tipo -> DECIMAL .
+
+    NOT             reduce using rule 18 (tipo -> DECIMAL .)
+    NULL            reduce using rule 18 (tipo -> DECIMAL .)
+    PRIMARY         reduce using rule 18 (tipo -> DECIMAL .)
+
+
+state 22
+
+    (19) tipo -> DATE .
+
+    NOT             reduce using rule 19 (tipo -> DATE .)
+    NULL            reduce using rule 19 (tipo -> DATE .)
+    PRIMARY         reduce using rule 19 (tipo -> DATE .)
+
+
+state 23
+
+    (20) tipo -> DATETIME .
+
+    NOT             reduce using rule 20 (tipo -> DATETIME .)
+    NULL            reduce using rule 20 (tipo -> DATETIME .)
+    PRIMARY         reduce using rule 20 (tipo -> DATETIME .)
+
+
+state 24
+
+    (21) tipo -> NCHAR . comp_n
+    (23) comp_n -> . PARA ENTERO PARC
+
+    PARA            shift and go to state 34
+
+    comp_n                         shift and go to state 33
+
+state 25
+
+    (22) tipo -> NVARCHAR . comp_n
+    (23) comp_n -> . PARA ENTERO PARC
+
+    PARA            shift and go to state 34
+
+    comp_n                         shift and go to state 35
+
+state 26
+
+    (7) crear_tb -> CREATE TABLE ID PARA atributos PARC .
+
+    CREATE          reduce using rule 7 (crear_tb -> CREATE TABLE ID PARA atributos PARC .)
+    $end            reduce using rule 7 (crear_tb -> CREATE TABLE ID PARA atributos PARC .)
+
+
+state 27
+
+    (8) atributos -> atributos COMA . atributo
+    (10) atributo -> . ID tipo atributo_opciones
+
+    ID              shift and go to state 15
+
+    atributo                       shift and go to state 36
+
+state 28
+
+    (10) atributo -> ID tipo atributo_opciones .
+    (11) atributo_opciones -> atributo_opciones . atributo_opcion
+    (13) atributo_opcion -> . NOT NULL
+    (14) atributo_opcion -> . NULL
+    (15) atributo_opcion -> . PRIMARY KEY
+
+    PARC            reduce using rule 10 (atributo -> ID tipo atributo_opciones .)
+    COMA            reduce using rule 10 (atributo -> ID tipo atributo_opciones .)
+    NOT             shift and go to state 30
+    NULL            shift and go to state 31
+    PRIMARY         shift and go to state 32
+
+    atributo_opcion                shift and go to state 37
+
+state 29
+
+    (12) atributo_opciones -> atributo_opcion .
+
+    NOT             reduce using rule 12 (atributo_opciones -> atributo_opcion .)
+    NULL            reduce using rule 12 (atributo_opciones -> atributo_opcion .)
+    PRIMARY         reduce using rule 12 (atributo_opciones -> atributo_opcion .)
+    PARC            reduce using rule 12 (atributo_opciones -> atributo_opcion .)
+    COMA            reduce using rule 12 (atributo_opciones -> atributo_opcion .)
+
+
+state 30
+
+    (13) atributo_opcion -> NOT . NULL
+
+    NULL            shift and go to state 38
+
+
+state 31
+
+    (14) atributo_opcion -> NULL .
+
+    NOT             reduce using rule 14 (atributo_opcion -> NULL .)
+    NULL            reduce using rule 14 (atributo_opcion -> NULL .)
+    PRIMARY         reduce using rule 14 (atributo_opcion -> NULL .)
+    PARC            reduce using rule 14 (atributo_opcion -> NULL .)
+    COMA            reduce using rule 14 (atributo_opcion -> NULL .)
+
+
+state 32
+
+    (15) atributo_opcion -> PRIMARY . KEY
+
+    KEY             shift and go to state 39
+
+
+state 33
+
+    (21) tipo -> NCHAR comp_n .
+
+    NOT             reduce using rule 21 (tipo -> NCHAR comp_n .)
+    NULL            reduce using rule 21 (tipo -> NCHAR comp_n .)
+    PRIMARY         reduce using rule 21 (tipo -> NCHAR comp_n .)
+
+
+state 34
+
+    (23) comp_n -> PARA . ENTERO PARC
+
+    ENTERO          shift and go to state 40
+
+
+state 35
+
+    (22) tipo -> NVARCHAR comp_n .
+
+    NOT             reduce using rule 22 (tipo -> NVARCHAR comp_n .)
+    NULL            reduce using rule 22 (tipo -> NVARCHAR comp_n .)
+    PRIMARY         reduce using rule 22 (tipo -> NVARCHAR comp_n .)
+
+
+state 36
+
+    (8) atributos -> atributos COMA atributo .
+
+    PARC            reduce using rule 8 (atributos -> atributos COMA atributo .)
+    COMA            reduce using rule 8 (atributos -> atributos COMA atributo .)
+
+
+state 37
+
+    (11) atributo_opciones -> atributo_opciones atributo_opcion .
+
+    NOT             reduce using rule 11 (atributo_opciones -> atributo_opciones atributo_opcion .)
+    NULL            reduce using rule 11 (atributo_opciones -> atributo_opciones atributo_opcion .)
+    PRIMARY         reduce using rule 11 (atributo_opciones -> atributo_opciones atributo_opcion .)
+    PARC            reduce using rule 11 (atributo_opciones -> atributo_opciones atributo_opcion .)
+    COMA            reduce using rule 11 (atributo_opciones -> atributo_opciones atributo_opcion .)
+
+
+state 38
+
+    (13) atributo_opcion -> NOT NULL .
+
+    NOT             reduce using rule 13 (atributo_opcion -> NOT NULL .)
+    NULL            reduce using rule 13 (atributo_opcion -> NOT NULL .)
+    PRIMARY         reduce using rule 13 (atributo_opcion -> NOT NULL .)
+    PARC            reduce using rule 13 (atributo_opcion -> NOT NULL .)
+    COMA            reduce using rule 13 (atributo_opcion -> NOT NULL .)
+
+
+state 39
+
+    (15) atributo_opcion -> PRIMARY KEY .
+
+    NOT             reduce using rule 15 (atributo_opcion -> PRIMARY KEY .)
+    NULL            reduce using rule 15 (atributo_opcion -> PRIMARY KEY .)
+    PRIMARY         reduce using rule 15 (atributo_opcion -> PRIMARY KEY .)
+    PARC            reduce using rule 15 (atributo_opcion -> PRIMARY KEY .)
+    COMA            reduce using rule 15 (atributo_opcion -> PRIMARY KEY .)
+
+
+state 40
+
+    (23) comp_n -> PARA ENTERO . PARC
+
+    PARC            shift and go to state 41
+
+
+state 41
+
+    (23) comp_n -> PARA ENTERO PARC .
+
+    NOT             reduce using rule 23 (comp_n -> PARA ENTERO PARC .)
+    NULL            reduce using rule 23 (comp_n -> PARA ENTERO PARC .)
+    PRIMARY         reduce using rule 23 (comp_n -> PARA ENTERO PARC .)
+

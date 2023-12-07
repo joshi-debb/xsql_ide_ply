@@ -18,7 +18,6 @@ def p_inicio(t):
 def p_instrucciones(t):
     '''
     instrucciones : instrucciones instruccion
-                  | instrucciones
     '''
     t[1].append(t[2])
     t[0] = t[1]
@@ -45,8 +44,57 @@ def p_crear_db(t):
 
 def p_crear_tabla(t):
     '''
-    crear_tb : CREATE TABLE ID PARA PARC 
+    crear_tb : CREATE TABLE ID PARA atributos PARC
     '''
+    t[0] = t[1]
+
+def p_atributos(t):
+    '''
+    atributos : atributos COMA atributo
+              | atributo
+    '''
+    t[0] = t[1]
+
+
+def p_atributo(t):
+    '''
+    atributo : ID tipo atributo_opciones
+    '''
+    t[0] = t[1]
+
+def p_atributo_opciones(t):
+    '''
+    atributo_opciones : atributo_opciones atributo_opcion
+                      | atributo_opcion
+    '''
+    t[0] = t[1] 
+
+def p_atributo_opcion(t):
+    '''
+    atributo_opcion : NOT NULL
+        | NULL
+        | PRIMARY KEY
+    '''
+    t[0] = t[1]
+
+
+def p_tipo(t):
+    '''
+    tipo : INT
+        | BIT
+        | DECIMAL
+        | DATE
+        | DATETIME
+        | NCHAR comp_n
+        | NVARCHAR comp_n
+    '''
+    t[0] = t[1]
+
+def p_comp_n(t):
+    '''
+    comp_n : PARA ENTERO PARC
+    '''
+    t[0] = t[1]
 
 # Error sintactico
 def p_error(t):

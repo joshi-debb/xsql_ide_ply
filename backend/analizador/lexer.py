@@ -8,8 +8,22 @@ reservadas = {
     'base': 'BASE',
     'table': 'TABLE',
     'where': 'WHERE',
-    'integer': 'INTEGER'
+    
+    'null': 'NULL',
+    'not': 'NOT',
+    'primary': 'PRIMARY',
+    'key': 'KEY',
+    
+    'int': 'INT',
+    'bit': 'BIT',
+    'decimal': 'DECIMAL',
+    'date': 'DATE',
+    'datetime': 'DATETIME',
+    'nchar': 'NCHAR',
+    'nvarchar': 'NVARCHAR',
+    
 }
+
 
 tokens = [
     'ENTERO',
@@ -21,7 +35,8 @@ tokens = [
     'ID',
     'PARA',
     'PARC',
-    'PYC'
+    'PYC',
+    'COMA'
 ] + list(reservadas.values())
 
 # Caracteres ignorados
@@ -35,6 +50,13 @@ t_DIV = r'/'
 t_PYC = r';'
 t_PARA = r'\('
 t_PARC = r'\)'
+t_COMA = r','
+
+
+def t_ENTERO(t):
+    r'\d+'
+    t.value = int(t.value)
+    return t
 
 def t_ID(t):
      r'[a-zA-Z_][a-zA-Z_0-9]*'
