@@ -1,0 +1,193 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CADENA
+    DIV
+    ENTERO
+    INTEGER
+    MAS
+    MENOS
+    MULT
+    WHERE
+
+Grammar
+
+Rule 0     S' -> ini
+Rule 1     ini -> instrucciones
+Rule 2     instrucciones -> instrucciones instruccion
+Rule 3     instrucciones -> instruccion
+Rule 4     instruccion -> crear_db
+Rule 5     instruccion -> crear_tb
+Rule 6     crear_db -> CREATE DATA BASE ID PYC
+Rule 7     crear_tb -> CREATE TABLE ID PARA PARC
+
+Terminals, with rules where they appear
+
+BASE                 : 6
+CADENA               : 
+CREATE               : 6 7
+DATA                 : 6
+DIV                  : 
+ENTERO               : 
+ID                   : 6 7
+INTEGER              : 
+MAS                  : 
+MENOS                : 
+MULT                 : 
+PARA                 : 7
+PARC                 : 7
+PYC                  : 6
+TABLE                : 7
+WHERE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+crear_db             : 4
+crear_tb             : 5
+ini                  : 0
+instruccion          : 2 3
+instrucciones        : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . ini
+    (1) ini -> . instrucciones
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
+    (4) instruccion -> . crear_db
+    (5) instruccion -> . crear_tb
+    (6) crear_db -> . CREATE DATA BASE ID PYC
+    (7) crear_tb -> . CREATE TABLE ID PARA PARC
+
+    CREATE          shift and go to state 6
+
+    ini                            shift and go to state 1
+    instrucciones                  shift and go to state 2
+    instruccion                    shift and go to state 3
+    crear_db                       shift and go to state 4
+    crear_tb                       shift and go to state 5
+
+state 1
+
+    (0) S' -> ini .
+
+
+
+state 2
+
+    (1) ini -> instrucciones .
+    (2) instrucciones -> instrucciones . instruccion
+    (4) instruccion -> . crear_db
+    (5) instruccion -> . crear_tb
+    (6) crear_db -> . CREATE DATA BASE ID PYC
+    (7) crear_tb -> . CREATE TABLE ID PARA PARC
+
+    $end            reduce using rule 1 (ini -> instrucciones .)
+    CREATE          shift and go to state 6
+
+    instruccion                    shift and go to state 7
+    crear_db                       shift and go to state 4
+    crear_tb                       shift and go to state 5
+
+state 3
+
+    (3) instrucciones -> instruccion .
+
+    CREATE          reduce using rule 3 (instrucciones -> instruccion .)
+    $end            reduce using rule 3 (instrucciones -> instruccion .)
+
+
+state 4
+
+    (4) instruccion -> crear_db .
+
+    CREATE          reduce using rule 4 (instruccion -> crear_db .)
+    $end            reduce using rule 4 (instruccion -> crear_db .)
+
+
+state 5
+
+    (5) instruccion -> crear_tb .
+
+    CREATE          reduce using rule 5 (instruccion -> crear_tb .)
+    $end            reduce using rule 5 (instruccion -> crear_tb .)
+
+
+state 6
+
+    (6) crear_db -> CREATE . DATA BASE ID PYC
+    (7) crear_tb -> CREATE . TABLE ID PARA PARC
+
+    DATA            shift and go to state 8
+    TABLE           shift and go to state 9
+
+
+state 7
+
+    (2) instrucciones -> instrucciones instruccion .
+
+    CREATE          reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+    $end            reduce using rule 2 (instrucciones -> instrucciones instruccion .)
+
+
+state 8
+
+    (6) crear_db -> CREATE DATA . BASE ID PYC
+
+    BASE            shift and go to state 10
+
+
+state 9
+
+    (7) crear_tb -> CREATE TABLE . ID PARA PARC
+
+    ID              shift and go to state 11
+
+
+state 10
+
+    (6) crear_db -> CREATE DATA BASE . ID PYC
+
+    ID              shift and go to state 12
+
+
+state 11
+
+    (7) crear_tb -> CREATE TABLE ID . PARA PARC
+
+    PARA            shift and go to state 13
+
+
+state 12
+
+    (6) crear_db -> CREATE DATA BASE ID . PYC
+
+    PYC             shift and go to state 14
+
+
+state 13
+
+    (7) crear_tb -> CREATE TABLE ID PARA . PARC
+
+    PARC            shift and go to state 15
+
+
+state 14
+
+    (6) crear_db -> CREATE DATA BASE ID PYC .
+
+    CREATE          reduce using rule 6 (crear_db -> CREATE DATA BASE ID PYC .)
+    $end            reduce using rule 6 (crear_db -> CREATE DATA BASE ID PYC .)
+
+
+state 15
+
+    (7) crear_tb -> CREATE TABLE ID PARA PARC .
+
+    CREATE          reduce using rule 7 (crear_tb -> CREATE TABLE ID PARA PARC .)
+    $end            reduce using rule 7 (crear_tb -> CREATE TABLE ID PARA PARC .)
+
