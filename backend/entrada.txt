@@ -1,10 +1,40 @@
+-- Comentario
+/*
+   Comentario multilinea
+*/
+
 create data base productos;
 create data base personas;
 
 create table parsona(
     nombre NVARCHAR(5) NOT NULL ,
     fecha DATE NOT NULL PRIMARY KEY 
-
-    
-
 )
+
+SELECT CONCATENAR('HOLA','MUNDO')
+SELECT SUBSTRAER('HOLAMUNDO',1,4)
+SELECT HOY()
+SELECT CONTAR(*) FROM TABLA WHERE CAMPO1 = 1
+SELECT SUMA(IVA) FROM TABLA WHERE CAMPO1 = 1
+SELECT CAST ( 2 AS int )
+
+DECLARE @variable1 int
+DECLARE @variable2 nvarchar(20) = 333
+
+
+CREATE PROCEDURE procedure_name () AS
+CREATE PROCEDURE procedure_name (@Ciudad nvarchar(40), @Departamento nvarchar(10)) AS
+
+exec procedure_name 'Guatemala', 'Guatemala'
+exec procedure_name 
+
+CREATE FUNCTION retornarSuma(@ProductoID int)
+RETURNS int
+AS
+BEGIN
+    RETURN
+END
+
+ALTER TABLE Productos ADD Jugos nvarchar(20)
+
+ALTER TABLE Equipos DROP Goles
