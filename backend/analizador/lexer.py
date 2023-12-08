@@ -24,7 +24,6 @@ reservadas = {
     'add': 'ADD',
     'drop': 'DROP',
     'if': 'IF',
-
     
     'null': 'NULL',
     'not': 'NOT',

@@ -6,17 +6,21 @@
 create data base productos;
 create data base personas;
 
+algo PRIMARY key not null
+
 create table parsona(
-    nombre NVARCHAR(5) NOT NULL ,
+    nombre NVARCHAR(5) NULL,
+    nombre NVARCHAR(5) NOT NULL,
     fecha DATE NOT NULL PRIMARY KEY 
+    fecha DATE NOT NULL  
 )
 
 SELECT CONCATENAR('HOLA','MUNDO')
 SELECT SUBSTRAER('HOLAMUNDO',1,4)
 SELECT HOY()
-SELECT CONTAR(*) FROM TABLA WHERE CAMPO1 = 1
-SELECT SUMA(IVA) FROM TABLA WHERE CAMPO1 = 1
-SELECT CAST ( 2 AS int )
+SELECT CONTAR(*) FROM ID WHERE nombre = 'pepito'
+SELECT SUMA(IVA) FROM ID WHERE CAMPO1 = 1
+SELECT CAST ( ID AS TIPO )
 
 DECLARE @variable1 int
 DECLARE @variable2 nvarchar(20) = 333

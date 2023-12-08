@@ -2,6 +2,7 @@ from ply.yacc import yacc
 from analizador import lexer
 
 from interprete.expresiones.Literal import Literal
+from interprete.instrucciones.crearbd import CrearBD
 from interprete.extra.tipos import *
 
 tokens = lexer.tokens
@@ -59,7 +60,7 @@ def p_crear_db(t):
     '''
     crear_db : CREATE DATA BASE ID PYC
     '''
-    t[0] = t[1]
+    t[0] = CrearBD(t[4], t.lineno(1), t.lexpos(1))
 
 def p_crear_tabla(t):
     '''
