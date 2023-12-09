@@ -9,6 +9,13 @@ reservadas = {
     'table': 'TABLE',
     'where': 'WHERE',
     'select': 'SELECT',
+    'insert': 'INSERT',
+    'into': 'INTO',
+    'values': 'VALUES',
+    'update': 'UPDATE',
+    'delete': 'DELETE',
+    'drop': 'DROP',
+    'truncate': 'TRUNCATE',
     'from': 'FROM',
     'as': 'AS',
     'procedure': 'PROCEDURE',
@@ -126,8 +133,6 @@ def t_CADENA(t):
 def t_salto_linea(t):
     r'\n+'
     t.lexer.lineno += t.value.count(t.value)
-    #lex_pos_actual = t.lexpos
-    #print('Lineno: ', t.lexpos)
 
 def t_comentario(t):
     r'--.*'

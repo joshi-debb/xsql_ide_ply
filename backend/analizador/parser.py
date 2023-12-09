@@ -13,10 +13,7 @@ precedence = (
     ('left', 'AND'),
     ('left', 'MENOR', 'MAYOR', 'MENOR_IGUAL', 'MAYOR_IGUAL', 'DESIGUALDAD', 'IGUALDAD'),
     ('left', 'RESTAR', 'SUMAR'),
-    ('left', 'MODULO'),
-    ('left', 'MULT', 'DIV'),
-    #('left', 'AS'),
-    #('left', 'PUNTO'),
+    ('left', 'MULT', 'DIV', 'MODULO'),
     ('right', 'NEGACION'),
     ('right', 'UMENOS')
 )
@@ -44,21 +41,26 @@ def p_instrucciones_instruccion(t):
 
 def p_instruccion(t):
     '''
-    instruccion : crear_db
-                | crear_tb
-                | select
+    instruccion : crear_db PYC
+                | crear_tb PYC
+                | cmd_insert PYC
+                | cmd_update PYC
+                | cmd_delete PYC
+                | cmd_select PYC
+                | cmd_drop PYC
+                | cmd_truncate PYC
                 | declaracion_variable
                 | crear_procedure
                 | ejecutar_procedure
                 | crear_funcion
-                | alter
+                | cmd_alter
                 | expresion
     '''
     t[0] = t[1]
 
 def p_crear_db(t):
     '''
-    crear_db : CREATE DATA BASE ID PYC
+    crear_db : CREATE DATA BASE ID
     '''
     t[0] = CrearBD(t[4], t.lineno(1), t.lexpos(1))
 
@@ -67,6 +69,52 @@ def p_crear_tabla(t):
     crear_tb : CREATE TABLE ID PARA atributos PARC
     '''
     t[0] = t[1]
+
+# INSERT INTO nombre_tabla (col1, col2) VALUES (val1, val2);
+def p_cmd_insert(t):
+    '''
+    cmd_insert : INSERT INTO ID PARA columnas PARC VALUES PARA argumentos PARC
+    '''
+
+# UPDATE nombre_tabla SET asignaciones WHERE condiciones;
+def p_cmd_update(t):
+    '''
+    cmd_update : UPDATE ID SET asignaciones_columnas WHERE expresion
+    '''
+
+# DELETE FROM products WHERE price = 10;
+def p_cmd_delete(t):
+    '''
+    cmd_delete : DELETE FROM ID WHERE expresion
+    '''
+
+def p_cmd_select(t):
+    '''
+    cmd_select : SELECT op_select
+    '''
+
+# DROP TABLE nombre_tabla;
+def p_cmd_drop(t):
+    '''
+    cmd_drop : DROP TABLE ID
+    '''
+
+# TRUNCATE TABLE nombre_tabla;
+def p_cmd_truncate(t):
+    '''
+    cmd_truncate : TRUNCATE TABLE ID
+    '''
+
+def p_columnas(t):
+    '''
+    columnas : columnas COMA columna
+             | columna
+    '''
+
+def p_columna(t):
+    '''
+    columna : ID
+    '''
 
 def p_atributos(t):
     '''
@@ -98,10 +146,17 @@ def p_atributo_opcion(t):
     t[0] = t[1]
 
 # FUNCIONES DEL SISTEMA
-def p_funcion(t):
+def p_op_select(t):
     '''
-    select : SELECT funcion_sistema
+    op_select : funcion_sistema
+              | select_columnas
     '''
+
+def p_select_columnas(t):
+    '''
+    select_columnas : MULT FROM ID
+    '''
+
 
 def p_funcion_sistema(t):
     '''
@@ -138,6 +193,7 @@ def p_suma(t):
     suma : SUMA PARA ID PARC FROM ID WHERE expresion
     '''
 
+# CAST ( expression AS type )
 def p_cast(t):
     '''
     cast : CAST PARA expresion AS tipo PARC
@@ -163,6 +219,17 @@ def p_declaracion_inicializada(t):
 def p_asignacion_variable(t):
     '''
     asignacion : ARROBA ID IGUAL expresion
+    '''
+
+def p_asignaciones_columnas(t):
+    '''
+    asignaciones_columnas : asignaciones_columnas COMA asignacion_campo
+                          | asignacion_campo
+    '''
+
+def p_asignacion_campo(t):
+    '''
+    asignacion_campo : ID IGUAL expresion
     '''
 
 def p_crear_procedure(t):
@@ -198,7 +265,7 @@ def p_argumentos(t):
 
 def p_argumento(t):
     '''
-    argumento : expresion COMA expresion
+    argumento : expresion
               | empty
     '''
 
@@ -207,16 +274,17 @@ def p_ejecutar_procedure(t):
     ejecutar_procedure : EXEC ID argumentos
     '''
 
-def p_alter(t):
+def p_cmd_alter(t):
     '''
-    alter : ALTER TABLE ID comp_alter
+    cmd_alter : ALTER TABLE ID ADD ID tipo
+              | ALTER TABLE ID DROP ID
     '''
 
-def p_comp_alter(t):
-    '''
-    comp_alter : ADD ID tipo
-               | DROP ID
-    '''
+# def p_comp_alter(t):
+#     '''
+#     comp_alter : ADD ID tipo
+#                | DROP ID
+#     '''
 
 # Valores como tal. Eje. 123, "hola", var.
 def p_expresion(t):
@@ -228,6 +296,12 @@ def p_expresion(t):
               | ID
     '''
     t[0] = t[1]
+
+def p_expresion_parentesis(t):
+    '''
+    expresion : PARA expresion PARC
+    '''
+    t[0] = t[2]
 
 def p_expresion_relacional(t):
     '''

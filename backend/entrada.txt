@@ -6,21 +6,19 @@
 create data base productos;
 create data base personas;
 
-algo PRIMARY key not null
-
 create table parsona(
     nombre NVARCHAR(5) NULL,
     nombre NVARCHAR(5) NOT NULL,
-    fecha DATE NOT NULL PRIMARY KEY 
+    fecha DATE NOT NULL PRIMARY KEY,
     fecha DATE NOT NULL  
-)
+);
 
-SELECT CONCATENAR('HOLA','MUNDO')
-SELECT SUBSTRAER('HOLAMUNDO',1,4)
-SELECT HOY()
-SELECT CONTAR(*) FROM ID WHERE nombre = 'pepito'
-SELECT SUMA(IVA) FROM ID WHERE CAMPO1 = 1
-SELECT CAST ( ID AS TIPO )
+SELECT CONCATENAR('HOLA','MUNDO');
+SELECT SUBSTRAER('HOLAMUNDO',1,4);
+SELECT HOY();
+SELECT CONTAR(*) FROM ID WHERE nombre = 'pepito';
+SELECT SUMA(IVA) FROM ID WHERE CAMPO1 = 1;
+SELECT CAST ( ID AS int );
 
 DECLARE @variable1 int
 DECLARE @variable2 nvarchar(20) = 333
@@ -42,3 +40,15 @@ END
 ALTER TABLE Productos ADD Jugos nvarchar(20)
 
 ALTER TABLE Equipos DROP Goles
+
+INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', 9.99);
+
+UPDATE products SET price = 10 WHERE price = 5;
+UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a = 0 || a < 0;
+
+DELETE FROM products WHERE price = 10;
+DELETE FROM products WHERE price = 10 && cantidad != 0;
+
+DROP TABLE nombre_tabla;
+
+TRUNCATE TABLE nombre_tabla;
