@@ -3,7 +3,6 @@ from .atributo import Atributo
 from interprete.extra.tipos import *
 from interprete.expresiones.tipoChars import TipoChars
 
-
 from xml.dom import minidom
 
 class CrearTB(Instruccion):
@@ -13,23 +12,48 @@ class CrearTB(Instruccion):
         self.atributos = atributos
     
     def ejecutar(self):
-        print("nombre tabla: ", self.id)
-        for atributo in self.atributos:
-            print("atributo: ",atributo.id)
+        
+        current_database = 'productos'
+       
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+        mydoc = minidom.parse(datas)
+        bases = mydoc.getElementsByTagName('database')
+        for elem in bases:
+            if elem.getAttribute('name') == current_database:
+                # ##vreificar si existe la tabla
+                # tables = elem.getElementsByTagName('table')
+                # for table in tables:
+                #     if table.getAttribute('name') == self.id:
+                #         print("La tabla ya existe")
+                #         return
+                
+                ## Crear tabla
+                table = mydoc.createElement('table')
+                table.setAttribute('name', self.id)
+                elem.appendChild(table)
+                
+                ## Crear atributos
+                for atributo in self.atributos:
+                    attr = mydoc.createElement('atribute')
+                    attr.setAttribute('value', atributo.id)
+                    if isinstance(atributo.tipo, TipoChars):
+                        attr.setAttribute('type', str(atributo.tipo.charTipo))
+                    else:
+                        attr.setAttribute('type', str(atributo.tipo))
+                    
+                    ## Crear parametros
+                    for parametro in atributo.parametros:
+                        attr.setAttribute('param', str(parametro))
+                        
+                    table.appendChild(attr)
             
-            if isinstance(atributo.tipo, TipoChars):
-                print("tipo: ", atributo.tipo.charTipo)
-                print("valor: ", atributo.tipo.valor.ejecutar())
+                with open('backend/structure.xml', 'w', encoding='utf-8') as file:
+                    mydoc.writexml(file, indent='\t', addindent='\t', newl='\n')
+                print("Table created successfully")
+                
             else:
-                print("tipo: ", atributo.tipo)    
-            
-            for parametro in atributo.parametros:
-                if parametro == TipoOpciones.NOTNULL:
-                    print("not null")
-                elif parametro == TipoOpciones.NULL:
-                    print("null")
-                elif parametro == TipoOpciones.PRIMARYKEY:
-                    print("primary key")
-                print(parametro)
-            print("------------------")
+                print("La base de datos no existe")
+                
+    
+    
             

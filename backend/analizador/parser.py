@@ -6,6 +6,7 @@ from interprete.instrucciones.crearbd import CrearBD
 from interprete.instrucciones.creartb import CrearTB
 from interprete.instrucciones.atributo import Atributo
 from interprete.expresiones.tipoChars import TipoChars
+from interprete.instrucciones.use import Use
 
 from interprete.extra.tipos import *
 
@@ -59,6 +60,7 @@ def p_instruccion(t):
                 | crear_funcion
                 | cmd_alter
                 | expresion
+                | use_db PYC
     '''
     t[0] = t[1]
 
@@ -67,6 +69,12 @@ def p_crear_db(t):
     crear_db : CREATE DATA BASE ID
     '''
     t[0] = CrearBD(t[4], t.lineno(1), t.lexpos(1))
+
+def p_use_db(t):
+    '''
+    use_db : USE ID
+    '''
+    t[0] = Use(t[2], t.lineno(1), t.lexpos(1))
 
 def p_crear_tabla(t):
     '''

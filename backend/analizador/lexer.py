@@ -3,6 +3,7 @@ from ply import lex
 lex_pos_actual = 0
 
 reservadas = {
+    'use': 'USE',
     'create': 'CREATE',
     'data': 'DATA',
     'base': 'BASE',
