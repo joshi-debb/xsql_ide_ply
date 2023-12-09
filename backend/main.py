@@ -25,5 +25,5 @@ input = f.read()
 # print(input)
 instrucciones = parser.parse(input)
 # print('Longitud de las intrucciones ', len(instrucciones))
-# for instruccion in instrucciones:
-#     instruccion.ejecutar()
+for instruccion in instrucciones:
+    instruccion.ejecutar()

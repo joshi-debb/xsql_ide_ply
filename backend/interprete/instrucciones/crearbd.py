@@ -3,7 +3,6 @@ from .instruccion import Instruccion
 from xml.dom import minidom
 
 class CrearBD(Instruccion):
-    
     def __init__(self, id, linea:int, columna:int):
         super().__init__(linea, columna)
         self.id = id
