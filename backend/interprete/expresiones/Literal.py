@@ -1,4 +1,5 @@
 from .Expresion import Expresion
+from interprete.extra.retorno import Retorno
 
 class Literal(Expresion):
     def __init__(self, tipo, valor, linea:int, columna:int):
@@ -7,4 +8,4 @@ class Literal(Expresion):
         self.tipo = tipo
     
     def ejecutar(self):
-        return self.valor
+        return Retorno(tipo=self.tipo, valor=self.valor)

@@ -2,8 +2,15 @@
 	<xsqldata>
 		
 		
+		
+		
 		<database name="productos"/>
 		
+		
 	
+		
 		<database name="papitas"/>
+		
+	
+		<database name="personas"/>
 	</xsqldata>

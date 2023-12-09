@@ -8,12 +8,15 @@ class TipoDato(Enum):
     DATETIME = 5
     NCHAR = 6
     NVARCHAR = 7
+    BOOL = 8
+    ERROR = 9
 
 class TipoAritmetica(Enum):
     SUMA = 1
     RESTA = 2
     MULTIPLICACION = 3
     DIVISION = 4
+    UNARIO = 5
 
 class TipoRelacional(Enum):
     IGUALDAD = 1
