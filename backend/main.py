@@ -3,7 +3,7 @@ from analizador.parser import parser
 from xml.dom import minidom
 import os
 
-filename = 'backend/structure.xml'
+filename = './structure.xml'
 
 # Verificar si el archivo ya existe
 if os.path.exists(filename):
@@ -20,7 +20,7 @@ else:
 
     print("Structure XML created successfully")
 
-f = open('backend/entrada2.txt', 'r')
+f = open('./entrada2.txt', 'r')
 input = f.read()
 # print(input)
 instrucciones = parser.parse(input)

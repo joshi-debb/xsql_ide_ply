@@ -27,3 +27,8 @@ class TipoLogico(Enum):
     NOT = 1
     AND = 2
     OR = 3
+
+class TipoOpciones(Enum):
+    NOTNULL = 1
+    NULL = 2
+    PRIMARYKEY = 3

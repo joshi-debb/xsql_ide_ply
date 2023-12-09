@@ -68,7 +68,7 @@ def p_crear_tabla(t):
     '''
     crear_tb : CREATE TABLE ID PARA atributos PARC
     '''
-    t[0] = t[1]
+    # t[0] = CrearTB(t[3], t[5], t.lineno(1), t.lexpos(1))
 
 # INSERT INTO nombre_tabla (col1, col2) VALUES (val1, val2);
 def p_cmd_insert(t):
@@ -121,29 +121,48 @@ def p_atributos(t):
     atributos : atributos COMA atributo
               | atributo
     '''
-    t[0] = t[1]
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[3])
+        t[0] = t[1]
 
 
 def p_atributo(t):
     '''
     atributo : ID tipo atributo_opciones
     '''
-    t[0] = t[1]
+    # t[0] = Atributo(nombre, tipo, arreglo de opciones)
+    # t[0] = Atributo(t[1], t[2], t[3], t.lineno(1), t.lexpos(1))
 
 def p_atributo_opciones(t):
     '''
     atributo_opciones : atributo_opciones atributo_opcion
                       | atributo_opcion
     '''
-    t[0] = t[1] 
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[2])
+        t[0] = t[1]
 
 def p_atributo_opcion(t):
     '''
     atributo_opcion : NOT NULL
-                    | NULL
-                    | PRIMARY KEY
     '''
-    t[0] = t[1]
+    t[0] = TipoOpciones.NOTNULL
+
+def p_atributo_opcion_null(t):
+    '''
+    atributo_opcion : NULL
+    '''
+    t[0] = TipoOpciones.NULL
+
+def p_atributo_opcion_primarykey(t):
+    '''
+    atributo_opcion : PRIMARY KEY
+    '''
+    t[0] = TipoOpciones.PRIMARYKEY
 
 # FUNCIONES DEL SISTEMA
 def p_op_select(t):
