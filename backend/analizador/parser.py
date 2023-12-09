@@ -1,12 +1,17 @@
+from pickle import NONE
 from ply.yacc import yacc
 from analizador import lexer
 
 from interprete.expresiones.Literal import Literal
+from interprete.expresiones.aritmetica import Aritmetica
+from interprete.expresiones.logica import Logica
+from interprete.expresiones.relacional import Relacional
 from interprete.instrucciones.crearbd import CrearBD
 from interprete.instrucciones.creartb import CrearTB
 from interprete.instrucciones.atributo import Atributo
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.instrucciones.use import Use
+from interprete.instrucciones.println import Println
 
 from interprete.extra.tipos import *
 
@@ -61,8 +66,15 @@ def p_instruccion(t):
                 | cmd_alter
                 | expresion
                 | use_db PYC
+                | println
     '''
     t[0] = t[1]
+
+def p_println(t):
+    '''
+    println : PRINTLN PARA expresion PARC
+    '''
+    t[0] = Println(argumento=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_crear_db(t):
     '''
@@ -344,6 +356,18 @@ def p_expresion_relacional(t):
                | expresion MENOR_IGUAL expresion
                | expresion MAYOR_IGUAL expresion
     '''
+    if t[2] == '==':
+        t[0] = Relacional(op1=t[1], operador=TipoRelacional.IGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '!=':
+        t[0] = Relacional(op1=t[1], operador=TipoRelacional.DESIGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '<':
+        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MENOR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '>':
+        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MAYOR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '<=':
+        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MENOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '>=':
+        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MAYOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_aritmetica(t):
     '''
@@ -351,8 +375,21 @@ def p_expresion_aritmetica(t):
                 | expresion RESTAR expresion
                 | expresion MULT expresion
                 | expresion DIV expresion
-                | RESTAR expresion %prec UMENOS
     '''
+    if t[2] == '+':
+        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.SUMA, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '-':
+        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.RESTA, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '*':
+        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.MULTIPLICACION, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '/':
+        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.DIVISION, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_expresion_unaria(t):
+    '''
+    aritmetica : RESTAR expresion %prec UMENOS
+    '''
+    t[0] = Aritmetica(op1=t[2], operador=TipoAritmetica.UNARIO, op2=Literal(TipoDato.UNDEFINED, None, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_logica(t):
     '''
@@ -360,6 +397,12 @@ def p_expresion_logica(t):
            | expresion OR expresion
            | expresion AND expresion
     '''
+    if len(t) == 3:
+        t[0] = Logica(op1=t[2], operador=TipoLogico.NOT, op2=Literal(TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=0)
+    elif t[2] == '||':
+        t[0] = Logica(op1=t[1], operador=TipoLogico.OR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '&&':
+        t[0] = Logica(op1=t[1], operador=TipoLogico.AND, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_entero(t):
     '''

@@ -6,3 +6,7 @@ create table parsona(
     fecha_nac DATE NOT NULL PRIMARY KEY,
     genero BIT NOT NULL  
 );
+
+-- Lo agregue solo para validar que esten bien las operaciones
+println(1<3 && 4>2)
+println(0+1.2+(3/3)*2)

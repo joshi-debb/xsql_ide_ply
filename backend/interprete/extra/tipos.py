@@ -9,7 +9,8 @@ class TipoDato(Enum):
     NCHAR = 6
     NVARCHAR = 7
     BOOL = 8
-    ERROR = 9
+    UNDEFINED = 9
+    ERROR = 10
 
 class TipoAritmetica(Enum):
     SUMA = 1
