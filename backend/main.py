@@ -3,7 +3,7 @@ from analizador.parser import parser
 from xml.dom import minidom
 import os
 
-filename = './structure.xml'
+filename = 'backend/structure.xml'
 
 # Verificar si el archivo ya existe
 if os.path.exists(filename):
@@ -12,7 +12,7 @@ else:
     # Si no existe, crear la estructura y guardarla en el archivo
     doc = minidom.Document()
 
-    root = doc.createElement('xsqldata')
+    root = doc.createElement('SCHEMAS')
     doc.appendChild(root)
 
     with open('backend/structure.xml', 'w', encoding='utf-8') as file:
@@ -20,10 +20,10 @@ else:
 
     print("Structure XML created successfully")
 
-f = open('./entrada2.txt', 'r')
+f = open('backend/entrada2.txt', 'r')
 input = f.read()
 # print(input)
-instrucciones = parser.parse(input)
+instrucciones = parser.parse(input.lower())
 # print('Longitud de las intrucciones ', len(instrucciones))
 for instruccion in instrucciones:
     instruccion.ejecutar()

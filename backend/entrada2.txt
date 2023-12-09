@@ -1,4 +1,1 @@
-1
-2
-create data base productos;
-create data base ropa;
+create data base papitas;

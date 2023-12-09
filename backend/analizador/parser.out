@@ -111,7 +111,7 @@ Rule 100   tipo -> DATE
 Rule 101   tipo -> DATETIME
 Rule 102   tipo -> NCHAR comp_n
 Rule 103   tipo -> NVARCHAR comp_n
-Rule 104   comp_n -> PARA expresion PARC
+Rule 104   comp_n -> PARA literal PARC
 Rule 105   empty -> <empty>
 
 Terminals, with rules where they appear
@@ -220,13 +220,13 @@ declaracion_inicializada : 53
 declaracion_variable : 12
 ejecutar_procedure   : 14
 empty                : 65 69
-expresion            : 17 21 22 46 46 47 47 47 49 50 51 55 56 59 68 78 79 79 80 80 81 81 82 82 83 83 84 84 85 85 86 86 87 87 88 88 89 89 90 91 92 92 93 93 104
+expresion            : 17 21 22 46 46 47 47 47 49 50 51 55 56 59 68 78 79 79 80 80 81 81 82 82 83 83 84 84 85 85 86 86 87 87 88 88 89 89 90 91 92 92 93 93
 funcion_sistema      : 37
 hoy                  : 42
 ini                  : 0
 instruccion          : 2 3
 instrucciones        : 1 2
-literal              : 76
+literal              : 76 104
 logica               : 75
 op_select            : 23
 parametro            : 62 63
@@ -4365,7 +4365,7 @@ state 154
 state 155
 
     (102) tipo -> NCHAR . comp_n
-    (104) comp_n -> . PARA expresion PARC
+    (104) comp_n -> . PARA literal PARC
 
     PARA            shift and go to state 182
 
@@ -4374,7 +4374,7 @@ state 155
 state 156
 
     (103) tipo -> NVARCHAR . comp_n
-    (104) comp_n -> . PARA expresion PARC
+    (104) comp_n -> . PARA literal PARC
 
     PARA            shift and go to state 182
 
@@ -4875,45 +4875,16 @@ state 181
 
 state 182
 
-    (104) comp_n -> PARA . expresion PARC
-    (73) expresion -> . aritmetica
-    (74) expresion -> . relacional
-    (75) expresion -> . logica
-    (76) expresion -> . literal
-    (77) expresion -> . ID
-    (78) expresion -> . PARA expresion PARC
-    (86) aritmetica -> . expresion SUMAR expresion
-    (87) aritmetica -> . expresion RESTAR expresion
-    (88) aritmetica -> . expresion MULT expresion
-    (89) aritmetica -> . expresion DIV expresion
-    (90) aritmetica -> . RESTAR expresion
-    (79) relacional -> . expresion IGUAL expresion
-    (80) relacional -> . expresion IGUALDAD expresion
-    (81) relacional -> . expresion DESIGUALDAD expresion
-    (82) relacional -> . expresion MENOR expresion
-    (83) relacional -> . expresion MAYOR expresion
-    (84) relacional -> . expresion MENOR_IGUAL expresion
-    (85) relacional -> . expresion MAYOR_IGUAL expresion
-    (91) logica -> . NEGACION expresion
-    (92) logica -> . expresion OR expresion
-    (93) logica -> . expresion AND expresion
+    (104) comp_n -> PARA . literal PARC
     (94) literal -> . ENTERO
     (95) literal -> . CADENA
     (96) literal -> . FLOAT
 
-    ID              shift and go to state 19
-    PARA            shift and go to state 20
-    RESTAR          shift and go to state 36
-    NEGACION        shift and go to state 37
     ENTERO          shift and go to state 38
     CADENA          shift and go to state 39
     FLOAT           shift and go to state 40
 
-    expresion                      shift and go to state 203
-    aritmetica                     shift and go to state 31
-    relacional                     shift and go to state 32
-    logica                         shift and go to state 33
-    literal                        shift and go to state 34
+    literal                        shift and go to state 203
 
 state 183
 
@@ -5283,35 +5254,9 @@ state 202
 
 state 203
 
-    (104) comp_n -> PARA expresion . PARC
-    (86) aritmetica -> expresion . SUMAR expresion
-    (87) aritmetica -> expresion . RESTAR expresion
-    (88) aritmetica -> expresion . MULT expresion
-    (89) aritmetica -> expresion . DIV expresion
-    (79) relacional -> expresion . IGUAL expresion
-    (80) relacional -> expresion . IGUALDAD expresion
-    (81) relacional -> expresion . DESIGUALDAD expresion
-    (82) relacional -> expresion . MENOR expresion
-    (83) relacional -> expresion . MAYOR expresion
-    (84) relacional -> expresion . MENOR_IGUAL expresion
-    (85) relacional -> expresion . MAYOR_IGUAL expresion
-    (92) logica -> expresion . OR expresion
-    (93) logica -> expresion . AND expresion
+    (104) comp_n -> PARA literal . PARC
 
     PARC            shift and go to state 221
-    SUMAR           shift and go to state 50
-    RESTAR          shift and go to state 51
-    MULT            shift and go to state 52
-    DIV             shift and go to state 53
-    IGUAL           shift and go to state 54
-    IGUALDAD        shift and go to state 55
-    DESIGUALDAD     shift and go to state 56
-    MENOR           shift and go to state 57
-    MAYOR           shift and go to state 58
-    MENOR_IGUAL     shift and go to state 59
-    MAYOR_IGUAL     shift and go to state 60
-    OR              shift and go to state 61
-    AND             shift and go to state 62
 
 
 state 204
@@ -5522,33 +5467,33 @@ state 220
 
 state 221
 
-    (104) comp_n -> PARA expresion PARC .
+    (104) comp_n -> PARA literal PARC .
 
-    IGUAL           reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    CREATE          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    INSERT          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    UPDATE          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    DELETE          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    SELECT          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    DROP            reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    TRUNCATE        reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    EXEC            reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    ALTER           reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    ID              reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    PARA            reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    DECLARE         reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    RESTAR          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    NEGACION        reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    ENTERO          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    CADENA          reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    FLOAT           reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    $end            reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    NOT             reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    NULL            reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    PRIMARY         reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    PARC            reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    COMA            reduce using rule 104 (comp_n -> PARA expresion PARC .)
-    AS              reduce using rule 104 (comp_n -> PARA expresion PARC .)
+    IGUAL           reduce using rule 104 (comp_n -> PARA literal PARC .)
+    CREATE          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    INSERT          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    UPDATE          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    DELETE          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    SELECT          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    DROP            reduce using rule 104 (comp_n -> PARA literal PARC .)
+    TRUNCATE        reduce using rule 104 (comp_n -> PARA literal PARC .)
+    EXEC            reduce using rule 104 (comp_n -> PARA literal PARC .)
+    ALTER           reduce using rule 104 (comp_n -> PARA literal PARC .)
+    ID              reduce using rule 104 (comp_n -> PARA literal PARC .)
+    PARA            reduce using rule 104 (comp_n -> PARA literal PARC .)
+    DECLARE         reduce using rule 104 (comp_n -> PARA literal PARC .)
+    RESTAR          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    NEGACION        reduce using rule 104 (comp_n -> PARA literal PARC .)
+    ENTERO          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    CADENA          reduce using rule 104 (comp_n -> PARA literal PARC .)
+    FLOAT           reduce using rule 104 (comp_n -> PARA literal PARC .)
+    $end            reduce using rule 104 (comp_n -> PARA literal PARC .)
+    NOT             reduce using rule 104 (comp_n -> PARA literal PARC .)
+    NULL            reduce using rule 104 (comp_n -> PARA literal PARC .)
+    PRIMARY         reduce using rule 104 (comp_n -> PARA literal PARC .)
+    PARC            reduce using rule 104 (comp_n -> PARA literal PARC .)
+    COMA            reduce using rule 104 (comp_n -> PARA literal PARC .)
+    AS              reduce using rule 104 (comp_n -> PARA literal PARC .)
 
 
 state 222

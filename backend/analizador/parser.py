@@ -3,6 +3,10 @@ from analizador import lexer
 
 from interprete.expresiones.Literal import Literal
 from interprete.instrucciones.crearbd import CrearBD
+from interprete.instrucciones.creartb import CrearTB
+from interprete.instrucciones.atributo import Atributo
+from interprete.expresiones.tipoChars import TipoChars
+
 from interprete.extra.tipos import *
 
 tokens = lexer.tokens
@@ -68,7 +72,7 @@ def p_crear_tabla(t):
     '''
     crear_tb : CREATE TABLE ID PARA atributos PARC
     '''
-    # t[0] = CrearTB(t[3], t[5], t.lineno(1), t.lexpos(1))
+    t[0] = CrearTB(t[3], t[5], t.lineno(1), t.lexpos(1))
 
 # INSERT INTO nombre_tabla (col1, col2) VALUES (val1, val2);
 def p_cmd_insert(t):
@@ -133,7 +137,7 @@ def p_atributo(t):
     atributo : ID tipo atributo_opciones
     '''
     # t[0] = Atributo(nombre, tipo, arreglo de opciones)
-    # t[0] = Atributo(t[1], t[2], t[3], t.lineno(1), t.lexpos(1))
+    t[0] = Atributo(t[1], t[2], t[3], t.lineno(1), t.lexpos(1))
 
 def p_atributo_opciones(t):
     '''
@@ -353,7 +357,7 @@ def p_entero(t):
     '''
     literal : ENTERO
     '''
-    t[0] = Literal(TipoDato.INT, t[1], t.lineno(1), t.lexpos(1))
+    t[0] = Literal(TipoDato.INT, int(t[1]), t.lineno(1), t.lexpos(1))
 
 def p_cadena(t):
     '''
@@ -365,7 +369,7 @@ def p_decimal(t):
     '''
     literal : FLOAT
     '''
-    t[0] = Literal(TipoDato.DECIMAL, t[1], t.lineno(1), t.lexpos(1))
+    t[0] = Literal(TipoDato.DECIMAL, float(t[1]), t.lineno(1), t.lexpos(1))
 
 def p_tipo(t):
     '''
@@ -377,13 +381,26 @@ def p_tipo(t):
         | NCHAR comp_n
         | NVARCHAR comp_n
     '''
-    t[0] = t[1]
+    if(t[1] == 'int'):
+        t[0] = TipoDato.INT;
+    elif(t[1] == 'bit'):
+        t[0] = TipoDato.BIT;
+    elif(t[1] == 'decimal'):
+        t[0] = TipoDato.DECIMAL;
+    elif(t[1] == 'date'):
+        t[0] = TipoDato.DATE;
+    elif(t[1] == 'datetime'):
+        t[0] = TipoDato.DATETIME;
+    elif(t[1] == 'nchar'):
+        t[0] = TipoChars(TipoDato.NCHAR, t[2]);
+    elif(t[1] == 'nvarchar'):
+        t[0] = TipoChars(TipoDato.NVARCHAR, t[2]);
 
 def p_comp_n(t):
     '''
-    comp_n : PARA expresion PARC
+    comp_n : PARA literal PARC
     '''
-    t[0] = t[1]
+    t[0] = t[2]
 
 def p_empty(t):
     '''

@@ -7,4 +7,4 @@ class Literal(Expresion):
         self.tipo = tipo
     
     def ejecutar(self):
-        print('hola')
+        return self.valor
