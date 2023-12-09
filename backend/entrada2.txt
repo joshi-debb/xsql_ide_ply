@@ -1,0 +1,8 @@
+create data base productos;
+
+create table parsona(
+    nombre NVARCHAR(5) NULL,
+    apellido NVARCHAR(5) NOT NULL,
+    fecha_nac DATE NOT NULL PRIMARY KEY,
+    genero BIT NOT NULL  
+);
