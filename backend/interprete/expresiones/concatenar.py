@@ -1,0 +1,24 @@
+from .Expresion import Expresion
+from interprete.extra.tipos import TipoAritmetica, TipoDato
+from interprete.extra.retorno import Retorno
+
+class Concatenar(Expresion):
+    
+    def __init__(self, op1:Expresion, op2:Expresion, linea:int, columna:int):
+        super().__init__(linea, columna)
+        self.op1 = op1
+        self.op2 = op2
+    
+    def ejecutar(self):
+        print('------------------ CONCATENAR --------------------------')
+        op1:Retorno = self.op1.ejecutar()
+        op2:Retorno = self.op2.ejecutar()
+        resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
+
+        if (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) or (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
+            resultado.tipo = TipoDato.NVARCHAR
+            resultado.valor = op1.valor + op2.valor
+            print("La cancatenacion es: ", resultado.valor)
+        print('-----------------------------------------------------')
+
+        return resultado

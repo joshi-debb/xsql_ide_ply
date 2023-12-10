@@ -6,12 +6,21 @@ from interprete.expresiones.Literal import Literal
 from interprete.expresiones.aritmetica import Aritmetica
 from interprete.expresiones.logica import Logica
 from interprete.expresiones.relacional import Relacional
+from interprete.expresiones.concatenar import Concatenar
+from interprete.expresiones.substraer import Substraer
+from interprete.expresiones.hoy import Hoy
+from interprete.expresiones.suma import Suma
+from interprete.expresiones.contar import Contar
 from interprete.instrucciones.crearbd import CrearBD
 from interprete.instrucciones.creartb import CrearTB
 from interprete.instrucciones.atributo import Atributo
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.instrucciones.use import Use
 from interprete.instrucciones.println import Println
+from interprete.instrucciones.update import Update
+from interprete.instrucciones.delete import Delete
+from interprete.instrucciones.asignacion_campo import Campo
+from interprete.instrucciones.condicion_where import CondicionWhere
 
 from interprete.extra.tipos import *
 
@@ -103,19 +112,23 @@ def p_cmd_insert(t):
 # UPDATE nombre_tabla SET asignaciones WHERE condiciones;
 def p_cmd_update(t):
     '''
-    cmd_update : UPDATE ID SET asignaciones_columnas WHERE expresion
+    cmd_update : UPDATE ID SET campos WHERE condicion_where
     '''
+    t[0] = Update(t[2], t[4], t[6], t.lineno(1), t.lexpos(1))
 
 # DELETE FROM products WHERE price = 10;
 def p_cmd_delete(t):
     '''
-    cmd_delete : DELETE FROM ID WHERE expresion
+    cmd_delete : DELETE FROM ID WHERE condicion_where
     '''
+    t[0] = Delete(t[3], t[5], t.lineno(1), t.lexpos(1))
+
 
 def p_cmd_select(t):
     '''
     cmd_select : SELECT op_select
     '''
+    t[0] = t[2]
 
 # DROP TABLE nombre_tabla;
 def p_cmd_drop(t):
@@ -128,6 +141,12 @@ def p_cmd_truncate(t):
     '''
     cmd_truncate : TRUNCATE TABLE ID
     '''
+
+def p_condicion_where(t):
+    '''
+    condicion_where : ID IGUAL expresion
+    '''
+    t[0] = CondicionWhere(t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_columnas(t):
     '''
@@ -194,6 +213,7 @@ def p_op_select(t):
     op_select : funcion_sistema
               | select_columnas
     '''
+    t[0] = t[1]
 
 def p_select_columnas(t):
     '''
@@ -210,31 +230,38 @@ def p_funcion_sistema(t):
                     | suma
                     | cast
     '''
+    t[0] = t[1]
 
 def p_concatena(t):
     '''
     concatenar : CONCATENAR PARA expresion COMA expresion PARC
     '''
+    t[0] = Concatenar(t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_substraer(t):
     '''
     substraer : SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
     '''
+    t[0] = Substraer(t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
 
 def p_hoy(t):
     '''
     hoy : HOY PARA PARC
     '''
+    t[0] = Hoy(t.lineno(1), t.lexpos(1))
 
 def p_contar(t):
     '''
-    contar : CONTAR PARA MULT PARC  FROM ID WHERE expresion
+    contar : CONTAR PARA MULT PARC  FROM ID WHERE condicion_where
     '''
+    t[0] = Contar(t[6], t[8], t.lineno(1), t.lexpos(1))
 
 def p_suma(t):
     '''
-    suma : SUMA PARA ID PARC FROM ID WHERE expresion
+    suma : SUMA PARA expresion PARC FROM ID WHERE condicion_where
     '''
+    t[0] = Suma(t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
+    print(t[3])
 
 # CAST ( expression AS type )
 def p_cast(t):
@@ -266,14 +293,20 @@ def p_asignacion_variable(t):
 
 def p_asignaciones_columnas(t):
     '''
-    asignaciones_columnas : asignaciones_columnas COMA asignacion_campo
-                          | asignacion_campo
+    campos : campos COMA campo
+           | campo
     '''
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[3])
+        t[0] = t[1]
 
 def p_asignacion_campo(t):
     '''
-    asignacion_campo : ID IGUAL expresion
+    campo : ID IGUAL expresion
     '''
+    t[0] = Campo(t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_crear_procedure(t):
     '''
