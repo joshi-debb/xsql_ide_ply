@@ -54,6 +54,8 @@ reservadas = {
     'contar': 'CONTAR',
     'suma': 'SUMA',
     'cast': 'CAST',
+
+    'println': 'PRINTLN'
 }
 
 

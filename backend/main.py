@@ -25,6 +25,7 @@ f = open('backend/entrada2.txt', 'r')
 input = f.read()
 # print(input)
 instrucciones = parser.parse(input.lower())
-# print('Longitud de las intrucciones ', len(instrucciones))
+
+# Ejecutando todas las instrucciones
 for instruccion in instrucciones:
     instruccion.ejecutar()

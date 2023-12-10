@@ -1,0 +1,48 @@
+<database name="nombre_db">
+    <tables>
+        <table name="nombre_tabla_1">
+            <fields>
+                <field name="campo_1" type="tipo_dato_1" />
+                <field name="campo_2" type="tipo_dato_2" />
+                <!-- Otros campos -->
+            </fields>
+            <records>
+                <record>
+                    <field name="campo_1">valor_1</field>
+                    <field name="campo_2">valor_2</field>
+                    <!-- Otros valores de campos -->
+                </record>
+                <!-- Otros registros -->
+            </records>
+        </table>
+        <!-- Otras tablas -->
+    </tables>
+    
+    <functions>
+        <function name="nombre_funcion_1">
+            <parameters>
+                <parameter name="parametro_1" type="tipo_parametro_1" />
+                <parameter name="parametro_2" type="tipo_parametro_2" />
+                <!-- Otros parámetros -->
+            </parameters>
+            <body>
+                <!-- Cuerpo de la función -->
+            </body>
+        </function>
+        <!-- Otras funciones -->
+    </functions>
+    
+    <procedures>
+        <procedure name="nombre_procedimiento_1">
+            <parameters>
+                <parameter name="parametro_1" type="tipo_parametro_1" />
+                <parameter name="parametro_2" type="tipo_parametro_2" />
+                <!-- Otros parámetros -->
+            </parameters>
+            <body>
+                <!-- Cuerpo del procedimiento -->
+            </body>
+        </procedure>
+        <!-- Otros procedimientos -->
+    </procedures>
+</database>
