@@ -42,18 +42,29 @@ class Insert(Instruccion):
                                 if count_in_fields != count_from_paser:
                                     print("Error: la cantidad de campos no coincide")
                                     return
-
-                                for x in range(0, count_in_fields):
-                                    for recs in table.getElementsByTagName('records'):
-                                        for rc in recs.getElementsByTagName('field'):
-                                            val = self.tupla[x]
-                                            expr = val.ejecutar()
-                                            if str(expr.valor) == rc.firstChild.data:
-                                                print("Error: el campo ya existe")
-                                                return
-
+  
+                                counters = 0
                                 for x in range(0, count_in_fields):
                                     for atribute in fields.getElementsByTagName('field'):
+                                        if atribute.getAttribute('name') == self.campos[x]:
+                                            counters += 1
+                                
+                                if counters != count_in_fields:
+                                    print("Error: los campos no coinciden")
+                                    return
+                                    
+                                for x in range(0, count_in_fields):
+                                    for atribute in fields.getElementsByTagName('field'):
+                                        if atribute.getAttribute('param') == 'TipoOpciones.PRIMARYKEY':
+                                            primary_key = atribute.getAttribute('name')
+                                            for recs in table.getElementsByTagName('records'):
+                                                for rc in recs.getElementsByTagName('field'):
+                                                        val = self.tupla[x]
+                                                        expr = val.ejecutar()
+                                                        if str(expr.valor) == rc.firstChild.data and rc.getAttribute('name') == primary_key:
+                                                            print("Error: No se puede repetir la llave primaria")
+                                                            return
+                                            
                                         campo = self.campos[x]
                                         if campo == atribute.getAttribute('name'):
                                             val = self.tupla[x]

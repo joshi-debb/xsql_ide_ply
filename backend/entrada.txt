@@ -76,3 +76,7 @@ create table persona (
 );
 
 INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
+
+DROP TABLE persona;
+
+TRUNCATE TABLE persona;

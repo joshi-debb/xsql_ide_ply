@@ -22,6 +22,9 @@ from interprete.instrucciones.update import Update
 from interprete.instrucciones.delete import Delete
 from interprete.instrucciones.asignacion_campo import Campo
 from interprete.instrucciones.condicion_where import CondicionWhere
+from interprete.instrucciones.drop import Drop
+from interprete.instrucciones.truncate import Truncate
+
 
 from interprete.extra.tipos import *
 
@@ -137,12 +140,14 @@ def p_cmd_drop(t):
     '''
     cmd_drop : DROP TABLE ID
     '''
+    t[0] = Drop(t[3], t.lineno(1), t.lexpos(1))
 
 # TRUNCATE TABLE nombre_tabla;
 def p_cmd_truncate(t):
     '''
     cmd_truncate : TRUNCATE TABLE ID
     '''
+    t[0] = Truncate(t[3], t.lineno(1), t.lexpos(1))
 
 def p_condicion_where(t):
     '''

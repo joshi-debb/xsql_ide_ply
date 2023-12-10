@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SCHEMAS>
+	<current name="personas"/>
+	<database name="personas">
+		<tables>
+			<table name="persona">
+				<fields>
+					<field name="nombre" type="TipoDato.NVARCHAR" param="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param="TipoOpciones.NOTNULL"/>
+					<field name="edad" type="TipoDato.INT" param="TipoOpciones.NOTNULL"/>
+					<field name="fecha" type="TipoDato.DATE" param="TipoOpciones.NOTNULL"/>
+				</fields>
+			</table>
+		</tables>
+		<views/>
+		<functions/>
+		<procedures/>
+	</database>
+</SCHEMAS>

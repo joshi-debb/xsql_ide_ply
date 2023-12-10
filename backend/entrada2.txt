@@ -1,10 +1,1 @@
-create data base personas;
-
-use personas;
-
-create table persona (
-    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
-    apellido NVARCHAR(5) NOT NULL,
-    edad INT NOT NULL,
-    fecha DATE NOT NULL  
-);
+TRUNCATE TABLE persona;
