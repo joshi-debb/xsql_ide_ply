@@ -8,5 +8,3 @@ create table persona (
     edad INT NOT NULL,
     fecha DATE NOT NULL  
 );
-
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
