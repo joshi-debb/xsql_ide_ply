@@ -1,12 +1,12 @@
-create data base productos;
+create data base personas;
 
-create table parsona(
-    nombre NVARCHAR(5) NULL,
+use personas;
+
+create table persona (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
     apellido NVARCHAR(5) NOT NULL,
-    fecha_nac DATE NOT NULL PRIMARY KEY,
-    genero BIT NOT NULL  
+    edad INT NOT NULL,
+    fecha DATE NOT NULL  
 );
 
--- Lo agregue solo para validar que esten bien las operaciones
-println(1<3 && 4>2)
-println(0+1.2+(3/3)*2)
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');

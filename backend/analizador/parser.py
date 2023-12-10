@@ -12,6 +12,7 @@ from interprete.instrucciones.atributo import Atributo
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.instrucciones.use import Use
 from interprete.instrucciones.println import Println
+from interprete.instrucciones.insert import Insert
 
 from interprete.extra.tipos import *
 
@@ -99,6 +100,7 @@ def p_cmd_insert(t):
     '''
     cmd_insert : INSERT INTO ID PARA columnas PARC VALUES PARA argumentos PARC
     '''
+    t[0] = Insert(t[3], t[5], t[9], t.lineno(1), t.lexpos(1))
 
 # UPDATE nombre_tabla SET asignaciones WHERE condiciones;
 def p_cmd_update(t):
@@ -134,11 +136,17 @@ def p_columnas(t):
     columnas : columnas COMA columna
              | columna
     '''
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[3])
+        t[0] = t[1]
 
 def p_columna(t):
     '''
     columna : ID
     '''
+    t[0] = t[1]
 
 def p_atributos(t):
     '''
@@ -305,12 +313,18 @@ def p_argumentos(t):
     argumentos : argumentos COMA argumento
                | argumento
     '''
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[3])
+        t[0] = t[1]
 
 def p_argumento(t):
     '''
     argumento : expresion
               | empty
     '''
+    t[0] = t[1]
 
 def p_ejecutar_procedure(t):
     '''
@@ -457,6 +471,7 @@ def p_empty(t):
     '''
     empty :
     '''
+    t[0] = None
 
 # Error sintactico
 def p_error(t):

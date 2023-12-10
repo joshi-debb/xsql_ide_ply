@@ -1,17 +1,24 @@
 
 from .instruccion import Instruccion
+from xml.dom import minidom
 
 class Use(Instruccion):
-    current_db = ''
-    
     def __init__(self, id, line, column):
         self.id = id
         self.line = line
         self.column = column
         
     def ejecutar(self):
-        Use.current_db = self.id
-    
-    @classmethod
-    def getCurrentDB(cls):
-        return cls.current_db
+        with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
+            mydoc = minidom.parse(file)
+            current = mydoc.getElementsByTagName('current')[0]
+            current.setAttribute('name', self.id)
+            
+            xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
+            formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')
+            file.seek(0)
+            file.truncate()
+            file.write(formatted_xml)
+
+        print("Current database changed to: ", self.id)
+       

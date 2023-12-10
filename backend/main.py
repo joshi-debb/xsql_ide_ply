@@ -10,14 +10,22 @@ filename = 'backend/structure.xml'
 if os.path.exists(filename):
     pass
 else:
-    # Si no existe, crear la estructura y guardarla en el archivo
-    doc = minidom.Document()
-
-    root = doc.createElement('SCHEMAS')
-    doc.appendChild(root)
-
     with open('backend/structure.xml', 'w', encoding='utf-8') as file:
-        doc.writexml(file, indent='\t', addindent='\t', newl='\n')
+        mydoc = minidom.Document()
+        root = mydoc.createElement('SCHEMAS')
+        mydoc.appendChild(root)
+        
+        root = mydoc.documentElement
+        cbd = mydoc.createElement('current')
+
+        cbd.setAttribute('name', 'default')
+        root.appendChild(cbd)
+        
+        xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
+        formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')
+        file.seek(0)
+        file.truncate()
+        file.write(formatted_xml)
 
     print("Structure XML created successfully")
 
