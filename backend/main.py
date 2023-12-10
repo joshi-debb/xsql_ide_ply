@@ -3,6 +3,7 @@ from analizador.parser import parser
 from xml.dom import minidom
 import os
 
+
 filename = 'backend/structure.xml'
 
 # Verificar si el archivo ya existe

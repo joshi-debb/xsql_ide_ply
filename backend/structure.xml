@@ -4,10 +4,13 @@
 		
 		<database name="productos">
 			<table name="parsona">
-				<atribute value="nombre" type="TipoDato.NVARCHAR" param="TipoOpciones.NULL"/>
-				<atribute value="apellido" type="TipoDato.NVARCHAR" param="TipoOpciones.NOTNULL"/>
-				<atribute value="fecha_nac" type="TipoDato.DATE" param="TipoOpciones.PRIMARYKEY"/>
-				<atribute value="genero" type="TipoDato.BIT" param="TipoOpciones.NOTNULL"/>
+				<atributes>
+					<atribute value="nombre" type="TipoDato.NVARCHAR" param="TipoOpciones.NULL"/>
+					<atribute value="apellido" type="TipoDato.NVARCHAR" param="TipoOpciones.NOTNULL"/>
+					<atribute value="fecha_nac" type="TipoDato.DATE" param="TipoOpciones.PRIMARYKEY"/>
+					<atribute value="genero" type="TipoDato.BIT" param="TipoOpciones.NOTNULL"/>
+				</atributes>
+				<tuples/>
 			</table>
 		</database>
 		

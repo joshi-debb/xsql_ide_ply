@@ -20,17 +20,23 @@ class CrearTB(Instruccion):
         bases = mydoc.getElementsByTagName('database')
         for elem in bases:
             if elem.getAttribute('name') == current_database:
-                # ##vreificar si existe la tabla
-                # tables = elem.getElementsByTagName('table')
-                # for table in tables:
-                #     if table.getAttribute('name') == self.id:
-                #         print("La tabla ya existe")
-                #         return
+                ##vreificar si existe la tabla
+                tables = elem.getElementsByTagName('table')
+                for table in tables:
+                    if table.getAttribute('name') == self.id:
+                        print("La tabla ya existe")
+                        return
                 
                 ## Crear tabla
                 table = mydoc.createElement('table')
                 table.setAttribute('name', self.id)
                 elem.appendChild(table)
+                
+                atributes = mydoc.createElement('atributes')
+                table.appendChild(atributes)
+                
+                tuples = mydoc.createElement('tuples')
+                table.appendChild(tuples)
                 
                 ## Crear atributos
                 for atributo in self.atributos:
@@ -45,7 +51,7 @@ class CrearTB(Instruccion):
                     for parametro in atributo.parametros:
                         attr.setAttribute('param', str(parametro))
                         
-                    table.appendChild(attr)
+                    atributes.appendChild(attr)
             
                 with open('backend/structure.xml', 'w', encoding='utf-8') as file:
                     mydoc.writexml(file, indent='\t', addindent='\t', newl='\n')

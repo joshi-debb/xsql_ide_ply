@@ -21,6 +21,7 @@ class CrearBD(Instruccion):
         bd = mydoc.createElement('database')
         bd.setAttribute('name', self.id)
         raiz.appendChild(bd)
+        
         print("Database created successfully")
     
         with open('backend/structure.xml', 'w', encoding='utf-8') as file:
