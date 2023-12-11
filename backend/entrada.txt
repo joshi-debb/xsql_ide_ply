@@ -85,6 +85,7 @@ UPDATE persona SET edad = '18'  WHERE nombre = 'pepito';
 
 UPDATE persona SET edad = '25', apellido = 'zuleta', fecha = '11/03/1996'  WHERE nombre = 'pepito';
 
+DELETE FROM persona WHERE nombre = 'popis';
 
 
 INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
@@ -92,3 +93,24 @@ INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'
 INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
 INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
 INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');
+
+
+
+
+def p_cmd_alter_add(t):
+    '''
+    cmd_alter_add : ALTER TABLE ID ADD ID tipo
+    '''
+    t[0] = AlterADD(t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
+
+def p_cmd_alterc_add(t):
+    '''
+    cmd_alterc_add : ALTER TALBE ID ADD COLUMN ID tipo
+    '''
+    t[0] = AlterADD(t[3], t[6], t[7], t.lineno(1), t.lexpos(1))
+    
+def p_cmd_alter_drop(t):
+    '''
+    cmd_alter_drop : ALTER TABLE ID DROP ID
+    '''
+    t[0] = AlterDROP(t[3], t[5], t[6], t.lineno(1), t.lexpos(1))

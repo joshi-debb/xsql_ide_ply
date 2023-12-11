@@ -24,6 +24,7 @@ from interprete.instrucciones.asignacion_campo import Campo
 from interprete.instrucciones.condicion_where import CondicionWhere
 from interprete.instrucciones.drop import Drop
 from interprete.instrucciones.truncate import Truncate
+from interprete.instrucciones.alter import AlterADD, AlterDROP
 
 
 from interprete.extra.tipos import *
@@ -76,7 +77,7 @@ def p_instruccion(t):
                 | crear_procedure
                 | ejecutar_procedure
                 | crear_funcion
-                | cmd_alter
+                | cmd_alter PYC
                 | expresion
                 | use_db PYC
                 | println
@@ -368,12 +369,32 @@ def p_ejecutar_procedure(t):
     '''
     ejecutar_procedure : EXEC ID argumentos
     '''
+    t[0] = t[3]
 
 def p_cmd_alter(t):
     '''
-    cmd_alter : ALTER TABLE ID ADD ID tipo
-              | ALTER TABLE ID DROP ID
+    cmd_alter : ALTER TABLE ID ADD cmd_alter_comp tipo
     '''
+    t[0] = AlterADD(t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
+
+def p_cmd_alter_drop(t):
+    '''
+    cmd_alter : ALTER TABLE ID DROP ID
+    '''
+    t[0] = AlterDROP(t[3], t[5], t.lineno(1), t.lexpos(1))
+
+
+def p_cmd_alter_comp(t):
+    '''
+    cmd_alter_comp : COLUMN ID
+                    | ID
+    '''
+    if len(t) == 2:
+        t[0] = t[1]
+    else:
+        t[0] = t[2]
+
+
 
 # def p_comp_alter(t):
 #     '''
