@@ -1,1 +1,3 @@
-TRUNCATE TABLE persona;
+
+
+DELETE FROM persona WHERE nombre = 'popis';

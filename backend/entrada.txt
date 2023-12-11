@@ -80,3 +80,15 @@ INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'
 DROP TABLE persona;
 
 TRUNCATE TABLE persona;
+
+UPDATE persona SET edad = '18'  WHERE nombre = 'pepito';
+
+UPDATE persona SET edad = '25', apellido = 'zuleta', fecha = '11/03/1996'  WHERE nombre = 'pepito';
+
+
+
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');

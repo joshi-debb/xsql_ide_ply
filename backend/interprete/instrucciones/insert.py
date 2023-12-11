@@ -17,7 +17,7 @@ class Insert(Instruccion):
             mydoc = minidom.parse(file)
             
             current = mydoc.getElementsByTagName('current')[0]
-
+       
             for database in mydoc.getElementsByTagName('database'):
                 if database.getAttribute('name') == current.getAttribute('name'):                    
                     for table in database.getElementsByTagName('tables'):
@@ -42,7 +42,7 @@ class Insert(Instruccion):
                                 if count_in_fields != count_from_paser:
                                     print("Error: la cantidad de campos no coincide")
                                     return
-  
+
                                 counters = 0
                                 for x in range(0, count_in_fields):
                                     for atribute in fields.getElementsByTagName('field'):
@@ -80,7 +80,7 @@ class Insert(Instruccion):
                                             else:
                                                 print("Error: el tipo de dato no coincide")
                                                 return
-                            
+
                             
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
             formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')
