@@ -1,3 +1,10 @@
+create data base personas;
 
+use personas;
 
-ALTER TABLE persona DROP apellido;
+create table persona (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    fecha DATE NOT NULL  
+);

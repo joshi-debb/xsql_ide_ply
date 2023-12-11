@@ -6,69 +6,11 @@
 			<table name="persona">
 				<fields>
 					<field name="nombre" type="TipoDato.NVARCHAR" param="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param="TipoOpciones.NOTNULL"/>
+					<field name="edad" type="TipoDato.INT" param="TipoOpciones.NOTNULL"/>
 					<field name="fecha" type="TipoDato.DATE" param="TipoOpciones.NOTNULL"/>
-					<field name="apodo" type="TipoDato.NVARCHAR"/>
 				</fields>
-				<records>
-					<record>
-						<field name="nombre">pepito</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">papita</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">alita</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">anita</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">popis</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">ardilla</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-				</records>
-			</table>
-			<table name="escuela">
-				<fields>
-					<field name="profesor" type="TipoDato.NVARCHAR" param="TipoOpciones.NOTNULL"/>
-					<field name="alumno" type="TipoDato.NVARCHAR" param="TipoOpciones.NOTNULL"/>
-					<field name="zona" type="TipoDato.INT" param="TipoOpciones.PRIMARYKEY"/>
-					<field name="calle" type="TipoDato.DATE" param="TipoOpciones.NOTNULL"/>
-				</fields>
-				<records>
-					<record>
-						<field name="profesor">lupe</field>
-						<field name="alumno">pepito</field>
-						<field name="zona">12</field>
-						<field name="calle">322</field>
-					</record>
-					<record>
-						<field name="profesor">lupe</field>
-						<field name="alumno">pepito</field>
-						<field name="zona">13</field>
-						<field name="calle">322</field>
-					</record>
-				</records>
+				<records/>
 			</table>
 		</tables>
 		<views/>

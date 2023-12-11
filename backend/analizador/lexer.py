@@ -38,6 +38,7 @@ reservadas = {
     'not': 'NOT',
     'primary': 'PRIMARY',
     'key': 'KEY',
+    'references': 'REFERENCES',
     
     # TIPOS DE DATOS
     'int': 'INT',

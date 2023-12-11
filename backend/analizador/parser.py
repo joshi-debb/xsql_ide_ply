@@ -227,6 +227,12 @@ def p_atributo_opcion_references(t):
     '''
     t[0] = TipoOpciones.REFERENCES
 
+# def p_atributo_opcion_references_id(t):
+#     '''
+#     atributo_opcion : ID PARA ID  PARC
+#     '''
+
+
 # FUNCIONES DEL SISTEMA
 def p_op_select(t):
     '''
@@ -239,6 +245,7 @@ def p_select_columnas(t):
     '''
     select_columnas : MULT FROM ID
     '''
+    t[0] = t[3]
 
 
 def p_funcion_sistema(t):
@@ -349,9 +356,6 @@ def p_parametro(t):
     parametro : ARROBA ID tipo
               | empty
     '''
-
-def p_declaracion_parametro(t):
-    ''''''
 
 def p_argumentos(t):
     '''
