@@ -220,6 +220,12 @@ def p_atributo_opcion_primarykey(t):
     atributo_opcion : PRIMARY KEY
     '''
     t[0] = TipoOpciones.PRIMARYKEY
+    
+def p_atributo_opcion_references(t):
+    '''
+    atributo_opcion : REFERENCES
+    '''
+    t[0] = TipoOpciones.REFERENCES
 
 # FUNCIONES DEL SISTEMA
 def p_op_select(t):
@@ -379,7 +385,7 @@ def p_cmd_alter(t):
 
 def p_cmd_alter_drop(t):
     '''
-    cmd_alter : ALTER TABLE ID DROP ID
+    cmd_alter : ALTER TABLE ID DROP cmd_alter_comp
     '''
     t[0] = AlterDROP(t[3], t[5], t.lineno(1), t.lexpos(1))
 

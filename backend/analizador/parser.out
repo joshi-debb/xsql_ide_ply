@@ -84,7 +84,7 @@ Rule 73    argumento -> expresion
 Rule 74    argumento -> empty
 Rule 75    ejecutar_procedure -> EXEC ID argumentos
 Rule 76    cmd_alter -> ALTER TABLE ID ADD cmd_alter_comp tipo
-Rule 77    cmd_alter -> ALTER TABLE ID DROP ID
+Rule 77    cmd_alter -> ALTER TABLE ID DROP cmd_alter_comp
 Rule 78    cmd_alter_comp -> COLUMN ID
 Rule 79    cmd_alter_comp -> ID
 Rule 80    expresion -> aritmetica
@@ -154,7 +154,7 @@ FLOAT                : 103
 FROM                 : 26 44 54 55
 FUNCTION             : 66
 HOY                  : 53
-ID                   : 21 22 23 24 25 26 28 29 30 33 36 44 54 55 59 60 61 64 65 66 69 75 76 77 77 78 79 84
+ID                   : 21 22 23 24 25 26 28 29 30 33 36 44 54 55 59 60 61 64 65 66 69 75 76 77 78 79 84
 IF                   : 
 IGUAL                : 30 60 61 64 86
 IGUALDAD             : 87
@@ -210,7 +210,7 @@ campo                : 62 63
 campos               : 25 62
 cast                 : 50
 cmd_alter            : 16
-cmd_alter_comp       : 76
+cmd_alter_comp       : 76 77
 cmd_delete           : 8
 cmd_drop             : 10
 cmd_insert           : 6
@@ -289,7 +289,7 @@ state 0
     (75) ejecutar_procedure -> . EXEC ID argumentos
     (66) crear_funcion -> . CREATE FUNCTION ID PARA parametros PARC RETURNS tipo AS BEGIN RETURN END
     (76) cmd_alter -> . ALTER TABLE ID ADD cmd_alter_comp tipo
-    (77) cmd_alter -> . ALTER TABLE ID DROP ID
+    (77) cmd_alter -> . ALTER TABLE ID DROP cmd_alter_comp
     (80) expresion -> . aritmetica
     (81) expresion -> . relacional
     (82) expresion -> . logica
@@ -405,7 +405,7 @@ state 2
     (75) ejecutar_procedure -> . EXEC ID argumentos
     (66) crear_funcion -> . CREATE FUNCTION ID PARA parametros PARC RETURNS tipo AS BEGIN RETURN END
     (76) cmd_alter -> . ALTER TABLE ID ADD cmd_alter_comp tipo
-    (77) cmd_alter -> . ALTER TABLE ID DROP ID
+    (77) cmd_alter -> . ALTER TABLE ID DROP cmd_alter_comp
     (80) expresion -> . aritmetica
     (81) expresion -> . relacional
     (82) expresion -> . logica
@@ -992,7 +992,7 @@ state 31
 state 32
 
     (76) cmd_alter -> ALTER . TABLE ID ADD cmd_alter_comp tipo
-    (77) cmd_alter -> ALTER . TABLE ID DROP ID
+    (77) cmd_alter -> ALTER . TABLE ID DROP cmd_alter_comp
 
     TABLE           shift and go to state 96
 
@@ -2526,7 +2526,7 @@ state 95
 state 96
 
     (76) cmd_alter -> ALTER TABLE . ID ADD cmd_alter_comp tipo
-    (77) cmd_alter -> ALTER TABLE . ID DROP ID
+    (77) cmd_alter -> ALTER TABLE . ID DROP cmd_alter_comp
 
     ID              shift and go to state 136
 
@@ -4094,7 +4094,7 @@ state 135
 state 136
 
     (76) cmd_alter -> ALTER TABLE ID . ADD cmd_alter_comp tipo
-    (77) cmd_alter -> ALTER TABLE ID . DROP ID
+    (77) cmd_alter -> ALTER TABLE ID . DROP cmd_alter_comp
 
     ADD             shift and go to state 156
     DROP            shift and go to state 157
@@ -4496,10 +4496,14 @@ state 156
 
 state 157
 
-    (77) cmd_alter -> ALTER TABLE ID DROP . ID
+    (77) cmd_alter -> ALTER TABLE ID DROP . cmd_alter_comp
+    (78) cmd_alter_comp -> . COLUMN ID
+    (79) cmd_alter_comp -> . ID
 
-    ID              shift and go to state 192
+    COLUMN          shift and go to state 191
+    ID              shift and go to state 189
 
+    cmd_alter_comp                 shift and go to state 192
 
 state 158
 
@@ -5079,6 +5083,7 @@ state 189
     DATETIME        reduce using rule 79 (cmd_alter_comp -> ID .)
     NCHAR           reduce using rule 79 (cmd_alter_comp -> ID .)
     NVARCHAR        reduce using rule 79 (cmd_alter_comp -> ID .)
+    PYC             reduce using rule 79 (cmd_alter_comp -> ID .)
 
 
 state 190
@@ -5111,9 +5116,9 @@ state 191
 
 state 192
 
-    (77) cmd_alter -> ALTER TABLE ID DROP ID .
+    (77) cmd_alter -> ALTER TABLE ID DROP cmd_alter_comp .
 
-    PYC             reduce using rule 77 (cmd_alter -> ALTER TABLE ID DROP ID .)
+    PYC             reduce using rule 77 (cmd_alter -> ALTER TABLE ID DROP cmd_alter_comp .)
 
 
 state 193
@@ -5532,6 +5537,7 @@ state 216
     DATETIME        reduce using rule 78 (cmd_alter_comp -> COLUMN ID .)
     NCHAR           reduce using rule 78 (cmd_alter_comp -> COLUMN ID .)
     NVARCHAR        reduce using rule 78 (cmd_alter_comp -> COLUMN ID .)
+    PYC             reduce using rule 78 (cmd_alter_comp -> COLUMN ID .)
 
 
 state 217

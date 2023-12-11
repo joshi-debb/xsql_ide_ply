@@ -9,7 +9,6 @@ class Truncate(Instruccion):
         self.columna = column
 
     def ejecutar(self):
-        print("ejecutar")
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             

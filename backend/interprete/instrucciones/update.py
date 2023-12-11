@@ -31,6 +31,9 @@ class Update(Instruccion):
                                             for rc in recs.getElementsByTagName('field'):
                                                 for tup in self.tupla:
                                                     if rc.getAttribute('name') == tup.id:
+                                                        if rc.getAttribute('param') == 'TipoOpciones.PRIMARYKEY':
+                                                            print("Error: No se puede actualizar la llave primaria")
+                                                            return
                                                         rc.firstChild.data = tup.expresion.ejecutar().valor
         
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
