@@ -28,6 +28,7 @@ from interprete.instrucciones.alter import AlterADD, AlterDROP
 from interprete.instrucciones.declaracion_var import Declaracion
 from interprete.expresiones.acceso import Acceso
 from interprete.instrucciones.asignacion_var import AsignacionVar
+from interprete.instrucciones.select import Select
 
 
 from interprete.extra.tipos import *
@@ -138,7 +139,7 @@ def p_cmd_select(t):
     '''
     cmd_select : SELECT op_select
     '''
-    t[0] = t[2]
+    t[0] = Select(t[2], t.lineno(1), t.lexpos(1))
 
 # DROP TABLE nombre_tabla;
 def p_cmd_drop(t):

@@ -1,6 +1,3 @@
-create data base personas;
-
-use personas;
 
 create table persona (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
@@ -20,3 +17,4 @@ DECLARE @var2 bit;
 set @var2 = 0;
 
 println(4<2 && @hola<1);
+SELECT * FROM persona;
