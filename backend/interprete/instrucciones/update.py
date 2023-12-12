@@ -2,7 +2,7 @@ from interprete.instrucciones.instruccion import Instruccion
 from interprete.instrucciones.asignacion_campo import Campo
 from interprete.instrucciones.condicion_where import CondicionWhere
 from xml.dom import minidom
-
+from interprete.extra.enviroment import Enviroment
 
 class Update(Instruccion):
     def __init__(self, table_name:str, tupla:Campo, condicion:CondicionWhere, linea:int, columna:int):
@@ -11,7 +11,7 @@ class Update(Instruccion):
         self.tupla = tupla                 
         self.condicion = condicion
     
-    def ejecutar(self):  
+    def ejecutar(self, env:Enviroment):  
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             
@@ -34,7 +34,7 @@ class Update(Instruccion):
                                                         if rc.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or rc.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
                                                             print("Error: No se puede actualizar la llave primaria")
                                                             return
-                                                        rc.firstChild.data = tup.expresion.ejecutar().valor
+                                                        rc.firstChild.data = tup.expresion.ejecutar(env).valor
         
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
             formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')

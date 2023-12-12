@@ -2,8 +2,12 @@ from .instruccion import Instruccion
 from .atributo import Atributo
 from interprete.extra.tipos import *
 from interprete.expresiones.tipoChars import TipoChars
+<<<<<<< HEAD
 from interprete.instrucciones.reference import Reference
 
+=======
+from interprete.extra.enviroment import Enviroment
+>>>>>>> 7ad632a52e930145e6092ddb425fe4f079697849
 from xml.dom import minidom
 
 class CrearTB(Instruccion):
@@ -12,7 +16,7 @@ class CrearTB(Instruccion):
         self.id = id
         self.atributos = atributos
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             

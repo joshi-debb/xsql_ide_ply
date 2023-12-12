@@ -37,3 +37,8 @@ class TipoOpciones(Enum):
     NULL = 2
     PRIMARYKEY = 3
     REFERENCE = 4
+
+class TipoSimbolo(Enum):
+    VARIABLE = 1
+    FUNCTION = 2
+    PROCEDURE = 3

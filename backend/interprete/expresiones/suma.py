@@ -2,6 +2,7 @@ from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.instrucciones.condicion_where import CondicionWhere
+from interprete.extra.enviroment import Enviroment
 
 class Suma(Expresion):
     
@@ -11,14 +12,14 @@ class Suma(Expresion):
         self.table_name = table_name
         self.condicion = condicion
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         print('------------------ SUMA --------------------------')
         
         # Se acepta el nombre o numero de columna
         if isinstance(self.column, str):
             print("> Nombre/Numero de columna: ", self.column)
         else:
-            column:Retorno = self.column.ejecutar()
+            column:Retorno = self.column.ejecutar(env)
             print("> Nombre/Numero de columna: ", column.valor)
 
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
@@ -29,7 +30,7 @@ class Suma(Expresion):
         # Solo acepta condiciones del tipo: WHERE campo = expresion
         print("> Valor de la condicion: ")
         print("     Campo: ", self.condicion.id)
-        expresion = self.condicion.expresion.ejecutar()
+        expresion = self.condicion.expresion.ejecutar(env)
         print("     Expresion: ", expresion.valor)
 
         

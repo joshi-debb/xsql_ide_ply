@@ -1,5 +1,6 @@
 from analizador.parser import parser
-
+from interprete.extra.enviroment import Enviroment
+from interprete.extra.errores import TablaErrores
 from xml.dom import minidom
 import os
 
@@ -34,6 +35,12 @@ input = f.read()
 # print(input)
 instrucciones = parser.parse(input.lower())
 
+env = Enviroment(ent_anterior=None, ambito='Global')
+
 # Ejecutando todas las instrucciones
 for instruccion in instrucciones:
-    instruccion.ejecutar()
+    instruccion.ejecutar(env)
+
+print("------------ Errores ------------")
+for error in TablaErrores.errores:
+    print(error.serializar())

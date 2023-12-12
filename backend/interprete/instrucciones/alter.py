@@ -5,7 +5,7 @@ from interprete.expresiones.tipoChars import TipoChars
 
 
 from xml.dom import minidom
-
+from interprete.extra.enviroment import Enviroment
 
 class AlterADD(Instruccion):
     def __init__(self, name_table, campo, tipo:TipoDato , linea:int, columna:int):
@@ -15,7 +15,7 @@ class AlterADD(Instruccion):
         self.linea = linea
         self.columna = columna
         
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             
@@ -60,7 +60,7 @@ class AlterDROP(Instruccion):
         self.line = line
         self.columna = column
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             

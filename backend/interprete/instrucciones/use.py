@@ -1,4 +1,5 @@
 
+from interprete.extra.enviroment import Enviroment
 from .instruccion import Instruccion
 from xml.dom import minidom
 
@@ -8,7 +9,7 @@ class Use(Instruccion):
         self.line = line
         self.column = column
         
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             current = mydoc.getElementsByTagName('current')[0]

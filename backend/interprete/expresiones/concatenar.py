@@ -1,6 +1,7 @@
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
+from interprete.extra.enviroment import Enviroment
 
 class Concatenar(Expresion):
     
@@ -9,10 +10,10 @@ class Concatenar(Expresion):
         self.op1 = op1
         self.op2 = op2
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         print('------------------ CONCATENAR --------------------------')
-        op1:Retorno = self.op1.ejecutar()
-        op2:Retorno = self.op2.ejecutar()
+        op1:Retorno = self.op1.ejecutar(env)
+        op2:Retorno = self.op2.ejecutar(env)
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
 
         if (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) or (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
