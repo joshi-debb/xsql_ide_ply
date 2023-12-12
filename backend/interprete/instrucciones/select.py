@@ -11,13 +11,7 @@ class Select(Instruccion):
         self.linea = linea
         self.columna = columna
 
-<<<<<<< HEAD
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         if (isinstance(self.opciones, Concatenar)):
             self.opciones = self.opciones.concatenar()
-=======
-    def ejecutar(self, env:Enviroment):
-        print("ejecutar select")
-        print(self.opciones)
 
->>>>>>> 7ad632a52e930145e6092ddb425fe4f079697849
