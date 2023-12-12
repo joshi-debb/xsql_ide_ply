@@ -1,6 +1,8 @@
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoDato, TipoRelacional
 from interprete.extra.retorno import Retorno
+from interprete.extra.enviroment import Enviroment
+from interprete.extra.errores import Error, TablaErrores
 
 class Relacional(Expresion):
     def __init__(self, op1:Expresion, operador:TipoRelacional, op2:Expresion, linea, columna):
@@ -9,17 +11,17 @@ class Relacional(Expresion):
         self.op2 = op2
         self.operador = operador
     
-    def ejecutar(self):
-        op1:Retorno = self.op1.ejecutar()
-        op2:Retorno = self.op2.ejecutar()
+    def ejecutar(self, env:Enviroment):
+        op1:Retorno = self.op1.ejecutar(env)
+        op2:Retorno = self.op2.ejecutar(env)
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
 
-        # if op1.tipo == TipoDato.UNDEFINED or op2.tipo == TipoDato.UNDEFINED:
-        #     ctr.agregarError("Semántico", "Un operando no tiene un tipo de dato definido", ent.ambito, self.linea, self.columna)
-        #     return resultado
-        
+        # Que no haya error en los operandos
         if op1.tipo == TipoDato.ERROR or op2.tipo == TipoDato.ERROR:
-            print("Semántico", "Error al operar la expresion relacional.", self.linea, self.columna)
+            print("Error al realizar la operacion Relacional. En la linea " + str(self.linea))
+            # Agregando a la tabla de errores
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error al realizar operacion relacional.')
+            TablaErrores.addError(err)
             return resultado
         
         if self.operador == TipoRelacional.MAYOR:

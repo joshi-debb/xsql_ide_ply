@@ -2,6 +2,7 @@ from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.instrucciones.condicion_where import CondicionWhere
+from interprete.extra.enviroment import Enviroment
 
 class Contar(Expresion):
     
@@ -10,7 +11,7 @@ class Contar(Expresion):
         self.table_name = table_name
         self.condicion = condicion
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         print('------------------ CONTAR --------------------------')
 
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
@@ -21,7 +22,7 @@ class Contar(Expresion):
         # Solo acepta condiciones del tipo: WHERE campo = expresion
         print("> Valor de la condicion: ")
         print("     Campo: ", self.condicion.id)
-        expresion = self.condicion.expresion.ejecutar()
+        expresion = self.condicion.expresion.ejecutar(env)
         print("     Expresion: ", expresion.valor)
 
         print('-----------------------------------------------------')

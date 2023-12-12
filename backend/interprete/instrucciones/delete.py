@@ -2,6 +2,7 @@ from interprete.instrucciones.instruccion import Instruccion
 from interprete.instrucciones.asignacion_campo import Campo
 from interprete.instrucciones.condicion_where import CondicionWhere
 from xml.dom import minidom
+from interprete.extra.enviroment import Enviroment
 
 class Delete(Instruccion):
     def __init__(self, table_name:str, condicion:CondicionWhere, linea:int, columna:int):
@@ -9,7 +10,7 @@ class Delete(Instruccion):
         self.table_name = table_name
         self.condicion = condicion
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             
@@ -30,7 +31,7 @@ class Delete(Instruccion):
                                             for record in recs.getElementsByTagName('record'):
                                                 for rc in record.getElementsByTagName('field'):
                                                     if rc.getAttribute('name') == self.condicion.id:
-                                                        if rc.firstChild.data == self.condicion.expresion.ejecutar().valor:
+                                                        if rc.firstChild.data == self.condicion.expresion.ejecutar(env).valor:
                                                             record.parentNode.removeChild(record)
                                                             
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')

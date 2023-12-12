@@ -25,6 +25,9 @@ from interprete.instrucciones.condicion_where import CondicionWhere
 from interprete.instrucciones.drop import Drop
 from interprete.instrucciones.truncate import Truncate
 from interprete.instrucciones.alter import AlterADD, AlterDROP
+from interprete.instrucciones.declaracion_var import Declaracion
+from interprete.expresiones.acceso import Acceso
+from interprete.instrucciones.asignacion_var import AsignacionVar
 
 
 from interprete.extra.tipos import *
@@ -73,14 +76,15 @@ def p_instruccion(t):
                 | cmd_select PYC
                 | cmd_drop PYC
                 | cmd_truncate PYC
-                | declaracion_variable
+                | declaracion_variable PYC
+                | asignacion_variable PYC
                 | crear_procedure
                 | ejecutar_procedure
                 | crear_funcion
                 | cmd_alter PYC
                 | expresion
                 | use_db PYC
-                | println
+                | println PYC
     '''
     t[0] = t[1]
 
@@ -300,13 +304,14 @@ def p_cast(t):
 def p_declaracion_variable(t):
     '''
     declaracion_variable : declaracion
-                         | declaracion_inicializada
     '''
+    t[0] = t[1]
 
 def p_declaracion(t):
     '''
     declaracion : DECLARE ARROBA ID tipo
     '''
+    t[0] = Declaracion(t[3], t[4], t.lineno(1), t.lexpos(1))
 
 def p_declaracion_inicializada(t):
     '''
@@ -315,8 +320,9 @@ def p_declaracion_inicializada(t):
 
 def p_asignacion_variable(t):
     '''
-    asignacion : ARROBA ID IGUAL expresion
+    asignacion_variable : SET ARROBA ID IGUAL expresion
     '''
+    t[0] = AsignacionVar(t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_asignaciones_columnas(t):
     '''
@@ -419,7 +425,6 @@ def p_expresion(t):
               | relacional
               | logica
               | literal
-              | ID
     '''
     t[0] = t[1]
 
@@ -428,6 +433,12 @@ def p_expresion_parentesis(t):
     expresion : PARA expresion PARC
     '''
     t[0] = t[2]
+
+def p_acceso_var(t):
+    '''
+    expresion : ARROBA ID
+    '''
+    t[0] = Acceso(t[2], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_relacional(t):
     '''

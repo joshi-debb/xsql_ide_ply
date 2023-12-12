@@ -1,4 +1,4 @@
-
+from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom
 
@@ -8,7 +8,7 @@ class Drop(Instruccion):
         self.line = line
         self.columna = column
 
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         print("ejecutar")
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)

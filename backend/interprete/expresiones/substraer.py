@@ -1,7 +1,7 @@
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
-
+from interprete.extra.enviroment import Enviroment
 
 class Substraer(Expresion):
     
@@ -11,11 +11,11 @@ class Substraer(Expresion):
         self.inicio = inicio
         self.longitud = longitud
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         print('------------------ SUBSTRAER --------------------------')
-        op1:Retorno = self.op1.ejecutar()
-        inicio:Retorno = self.inicio.ejecutar()
-        longitud:Retorno = self.longitud.ejecutar()
+        op1:Retorno = self.op1.ejecutar(env)
+        inicio:Retorno = self.inicio.ejecutar(env)
+        longitud:Retorno = self.longitud.ejecutar(env)
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
 
         if op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR:

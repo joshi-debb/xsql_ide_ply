@@ -1,4 +1,5 @@
 
+from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Literal import Literal
 from interprete.extra.tipos import TipoDato
@@ -12,7 +13,7 @@ class Insert(Instruccion):
         self.line = line
         self.columna = column
 
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             
@@ -60,7 +61,7 @@ class Insert(Instruccion):
                                             for recs in table.getElementsByTagName('records'):
                                                 for rc in recs.getElementsByTagName('field'):
                                                         val = self.tupla[x]
-                                                        expr = val.ejecutar()
+                                                        expr = val.ejecutar(env)
                                                         if str(expr.valor) == rc.firstChild.data and rc.getAttribute('name') == primary_key:
                                                             print("Error: No se puede repetir la llave primaria")
                                                             return
@@ -68,7 +69,7 @@ class Insert(Instruccion):
                                         campo = self.campos[x]
                                         if campo == atribute.getAttribute('name'):
                                             val = self.tupla[x]
-                                            expr = val.ejecutar()
+                                            expr = val.ejecutar(env)
                                             
                                             expr.tipo = atribute.getAttribute('type')
 

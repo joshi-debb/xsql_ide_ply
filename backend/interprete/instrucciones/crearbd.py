@@ -1,5 +1,5 @@
 from .instruccion import Instruccion
-
+from interprete.extra.enviroment import Enviroment
 from xml.dom import minidom
 
 class CrearBD(Instruccion):
@@ -7,7 +7,7 @@ class CrearBD(Instruccion):
         super().__init__(linea, columna)
         self.id = id
     
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             bases = mydoc.getElementsByTagName('database')

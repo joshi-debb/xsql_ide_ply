@@ -8,3 +8,15 @@ create table persona (
     edad INT NOT NULL,
     fecha DATE NOT NULL  
 );
+
+Declare @hola int;
+set @hola = 123;
+println("El valor de la variable es: " + @hola + " unidades");
+
+DECLARE @var1 nvarchar(5);
+println(@var1);
+
+DECLARE @var2 bit;
+set @var2 = 0;
+
+println(4<2 && @hola<1);

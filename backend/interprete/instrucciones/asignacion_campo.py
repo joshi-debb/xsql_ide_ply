@@ -1,5 +1,6 @@
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Expresion import Expresion
+from interprete.extra.enviroment import Enviroment
 
 class Campo(Instruccion):
     def __init__(self, id:str, expresion:Expresion, linea:int, columna:int):
@@ -9,7 +10,7 @@ class Campo(Instruccion):
         self.columna = columna
     
     # No hace nada
-    def ejecutar(self):
+    def ejecutar(self, env:Enviroment):
         pass
     
     # Retorna el nombre del campo
