@@ -1,6 +1,8 @@
 
 from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom
+from interprete.expresiones.concatenar import Concatenar
+
 
 class Select(Instruccion):
     def __init__(self, opciones, linea, columna):
@@ -9,6 +11,5 @@ class Select(Instruccion):
         self.columna = columna
 
     def ejecutar(self):
-        print("ejecutar select")
-        print(self.opciones)
-
+        if (isinstance(self.opciones, Concatenar)):
+            self.opciones = self.opciones.concatenar()

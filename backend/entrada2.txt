@@ -1,3 +1,19 @@
+create data base personas;
 
+use personas;
 
-SELECT * FROM persona;
+create table renap (
+    dpi NVARCHAR(5) NOT NULL PRIMARY KEY,
+    asdf NVARCHAR(5) NOT NULL,
+    ff INT NOT NULL,
+    aaa DATE NOT NULL
+);
+
+create table persona (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    fecha DATE NOT NULL,
+
+    registro NVARCHAR(5) REFERENCE renap(dpi)
+);

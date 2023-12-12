@@ -26,6 +26,7 @@ from interprete.instrucciones.drop import Drop
 from interprete.instrucciones.truncate import Truncate
 from interprete.instrucciones.alter import AlterADD, AlterDROP
 from interprete.instrucciones.select import Select
+from interprete.instrucciones.reference import Reference
 
 
 from interprete.extra.tipos import *
@@ -224,14 +225,16 @@ def p_atributo_opcion_primarykey(t):
     
 def p_atributo_opcion_references(t):
     '''
-    atributo_opcion : REFERENCES
+    atributo_opcion : REFERENCE 
     '''
-    t[0] = TipoOpciones.REFERENCES
+    t[0] =  TipoOpciones.REFERENCE
 
-# def p_atributo_opcion_references_id(t):
-#     '''
-#     atributo_opcion : ID PARA ID  PARC
-#     '''
+def p_atributo_opcion_references_id(t):
+    '''
+    atributo_opcion : ID PARA ID  PARC
+    '''
+    t[0] = Reference(t[1], t[3], t.lineno(1), t.lexpos(1))
+
 
 
 # FUNCIONES DEL SISTEMA

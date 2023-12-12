@@ -36,4 +36,4 @@ class TipoOpciones(Enum):
     NOTNULL = 1
     NULL = 2
     PRIMARYKEY = 3
-    REFERENCES = 4
+    REFERENCE = 4
