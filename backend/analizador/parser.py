@@ -16,7 +16,7 @@ from interprete.instrucciones.creartb import CrearTB
 from interprete.instrucciones.atributo import Atributo
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.instrucciones.use import Use
-from interprete.instrucciones.println import Println
+from interprete.instrucciones.print import Print
 from interprete.instrucciones.insert import Insert
 from interprete.instrucciones.update import Update
 from interprete.instrucciones.delete import Delete
@@ -31,6 +31,10 @@ from interprete.instrucciones.asignacion_var import AsignacionVar
 from interprete.instrucciones.select import Select
 from interprete.instrucciones.if_else import IfElse
 from interprete.instrucciones.bloque import Bloque
+from interprete.instrucciones.reference import Reference
+from  interprete.instrucciones.else_if import ElseIf
+from interprete.instrucciones.select import Select
+from interprete.instrucciones.between import Between
 
 
 from interprete.extra.tipos import *
@@ -87,16 +91,9 @@ def p_instruccion(t):
                 | cmd_alter PYC
                 | expresion
                 | use_db PYC
-                | println PYC
                 | sentencia_if
     '''
     t[0] = t[1]
-
-def p_println(t):
-    '''
-    println : PRINTLN PARA expresion PARC
-    '''
-    t[0] = Println(argumento=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_crear_db(t):
     '''
@@ -138,11 +135,7 @@ def p_cmd_delete(t):
     t[0] = Delete(t[3], t[5], t.lineno(1), t.lexpos(1))
 
 
-def p_cmd_select(t):
-    '''
-    cmd_select : SELECT op_select
-    '''
-    t[0] = Select(t[2], t.lineno(1), t.lexpos(1))
+
 
 # DROP TABLE nombre_tabla;
 def p_cmd_drop(t):
@@ -163,6 +156,13 @@ def p_condicion_where(t):
     condicion_where : ID IGUAL expresion
     '''
     t[0] = CondicionWhere(t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_condicion_where_expresion(t):
+    '''
+    condicion_where : ID expresion
+                    | ID BETWEEN expresion
+    '''
+    t[0] = t[1]
 
 def p_columnas(t):
     '''
@@ -231,29 +231,96 @@ def p_atributo_opcion_primarykey(t):
     
 def p_atributo_opcion_references(t):
     '''
-    atributo_opcion : REFERENCES
+    atributo_opcion : REFERENCE 
     '''
-    t[0] = TipoOpciones.REFERENCES
+    t[0] =  TipoOpciones.REFERENCE
 
-# def p_atributo_opcion_references_id(t):
-#     '''
-#     atributo_opcion : ID PARA ID  PARC
-#     '''
+def p_atributo_opcion_references_id(t):
+    '''
+    atributo_opcion : ID PARA ID  PARC
+    '''
+    t[0] = Reference(t[1], t[3], t.lineno(1), t.lexpos(1))
 
+
+def p_cmd_select(t):
+    '''
+    cmd_select : SELECT op_select
+    '''
+    t[0] = t[2]
 
 # FUNCIONES DEL SISTEMA
 def p_op_select(t):
     '''
     op_select : funcion_sistema
-              | select_columnas
+              | select_tabla
+              | print
     '''
     t[0] = t[1]
 
-def p_select_columnas(t):
+
+def p_select_tabla(t):
     '''
-    select_columnas : MULT FROM ID
+    select_tabla : columnas FROM nombre_tablas WHERE condicion_where
     '''
-    t[0] = t[3]
+    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_select_tabla_1(t):
+    '''
+    select_tabla : columnas FROM nombre_tablas empty
+    '''
+    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_select_tabla_2(t):
+    '''
+    select_tabla : MULT FROM nombre_tablas WHERE condicion_where
+    '''
+    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_select_tabla_3(t):
+    '''
+    select_tabla : MULT FROM nombre_tablas empty
+    '''
+    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+
+
+def p_lista_tablas(t):
+    '''
+    nombre_tablas : columnas
+    '''
+    t[0] = t[1]
+
+
+def p_println(t):
+    '''
+    print : expresion
+    '''
+    t[0] = Print(argumento=t[1], linea=t.lineno(1), columna=t.lexpos(1))
+
+
+# SELECT * FROM nombre_tabla 
+# def p_select_tabla(t):
+#     '''
+#     select_columnas : MULT FROM ID
+#     '''
+#     t[0] = t[3]
+
+# # SELECT * FROM lista_tablas WHERE condicion_where
+# def p_select_campos(t):
+#     '''
+#     select_colmnas : MULT FROM tablas condicion_where
+#     '''
+
+# def p_lista_tablas(t):
+#     '''
+#     tablas : tablas ID
+#            | ID
+#     '''
+#     if len(t) == 2:
+#         t[0] = [t[1]]
+#     else:
+#         t[1].append(t[2])
+#         t[0] = t[1]
+
 
 
 def p_funcion_sistema(t):
@@ -422,16 +489,35 @@ def p_sentencia_if(t):
                  | IF expresion THEN bloque ELSE THEN bloque END IF
     '''
     if len(t) == 7: # if
-        t[0] = IfElse(condicion=t[2], bloque=Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], linea=t.lineno(1), columna=t.lexpos(1))
-  
-    elif len(t) == 10:   # If y else
-        t[0] = IfElse(condicion=t[2], bloque=Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=True, bloque_else=t[7], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = IfElse(condicion=t[2], bloque=Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
+    
+    elif len(t) == 8: # if - else if
+        bloque = Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = IfElse(condicion=t[2], bloque=bloque, bandera_else=False, bloque_else=[], elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+    
+    elif len(t) == 11: # if - else if - else
+        bloque = Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1))
+        bloque_else = Bloque(t[8], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = IfElse(condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+
+    elif len(t) == 10:   # If - else
+        bloque = Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1))
+        bloque_else = Bloque(t[7], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = IfElse(condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_lista_else_if(t):
     '''
     lista_else_if : lista_else_if ELSE IF expresion THEN bloque
                   | ELSE IF expresion THEN bloque
     '''
+    if len(t) == 7:
+        bloque = Bloque(t[6], linea=t.lineno(1), columna=t.lexpos(1))
+        t[1].append(ElseIf(condicion=t[4], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1)))
+        t[0] = t[1]
+    else:
+        bloque = Bloque(t[5], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = [ElseIf(condicion=t[3], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))]
+
 
 def p_bloque(t):
     '''
@@ -491,6 +577,12 @@ def p_expresion_relacional(t):
     elif t[2] == '>=':
         t[0] = Relacional(op1=t[1], operador=TipoRelacional.MAYOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
+def p_expresion_between(t):
+    '''
+    relacional : expresion AMPERSON expresion
+    '''
+    t[0] = t[1]
+
 def p_expresion_aritmetica(t):
     '''
     aritmetica : expresion SUMAR expresion
@@ -543,6 +635,18 @@ def p_decimal(t):
     literal : FLOAT
     '''
     t[0] = Literal(TipoDato.DECIMAL, float(t[1]), t.lineno(1), t.lexpos(1))
+
+def p_decimal(t):
+    '''
+    literal : ID
+    '''
+    t[0] = t[0]
+
+# def p_acceso_atributo_tabla(t):
+#     '''
+#     expresion : ID PT ID
+#     '''
+#     t[0] = AccesoAtributo(table_name=t[1], atribute_name=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_tipo(t):
     '''

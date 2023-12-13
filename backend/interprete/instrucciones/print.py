@@ -2,7 +2,7 @@ from interprete.extra.tipos import TipoDato
 from .instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
 
-class Println(Instruccion):
+class Print(Instruccion):
     def __init__(self, argumento, linea, columna):
         super().__init__(linea, columna)
         self.argumento = argumento

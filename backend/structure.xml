@@ -3,45 +3,24 @@
 	<current name="personas"/>
 	<database name="personas">
 		<tables>
+			<table name="renap">
+				<fields>
+					<field name="dpi" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="asdf" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="ff" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="aaa" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records/>
+			</table>
 			<table name="persona">
 				<fields>
-					<field name="nombre" type="TipoDato.NVARCHAR" param="TipoOpciones.PRIMARYKEY"/>
-					<field name="apellido" type="TipoDato.NVARCHAR" param="TipoOpciones.NOTNULL"/>
-					<field name="edad" type="TipoDato.INT" param="TipoOpciones.NOTNULL"/>
-					<field name="fecha" type="TipoDato.DATE" param="TipoOpciones.NOTNULL"/>
+					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+					<field name="registro" type="TipoDato.NVARCHAR" param1="TipoOpciones.REFERENCE" table="renap" field="dpi"/>
 				</fields>
-				<records>
-					<record>
-						<field name="nombre">pepito</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">papita</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">alita</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">anita</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-					<record>
-						<field name="nombre">popis</field>
-						<field name="apellido">papilla</field>
-						<field name="edad">12</field>
-						<field name="fecha">10/12/2023</field>
-					</record>
-				</records>
+				<records/>
 			</table>
 		</tables>
 		<views/>

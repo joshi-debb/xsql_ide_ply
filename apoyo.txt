@@ -1,3 +1,8 @@
+cantidad*tbdetallefactura.price / 1.12 > 100
+
+12*3 / 1.12 > 100
+
+
 
 from interprete.instrucciones.condicion_where import CondicionWhere
 from interprete.extra.enviroment import Enviroment
@@ -32,8 +37,8 @@ class Select(Instruccion):
                     # campo actual 'cantidad'
                     # campo actual 'tbdetallefactura'
 
-                    # valor_campo_tabla = 4
-                    # valor_campo_tabla = 6
+                    valor_campo_tabla = 4
+                    valor_campo_tabla = 6
                     
                     # texto = sustituir(campo, valor_campo_tabla, text)
                     # texto = '4*6 / 1.12 > 100'

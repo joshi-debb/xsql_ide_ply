@@ -35,12 +35,15 @@ reservadas = {
     'if': 'IF',
     'else': 'ELSE',
     'then': 'THEN',
+    'and': 'AMPERSON',
+    'as': 'AS',
+    'between': 'BETWEEN',
     
     'null': 'NULL',
     'not': 'NOT',
     'primary': 'PRIMARY',
     'key': 'KEY',
-    'references': 'REFERENCES',
+    'reference': 'REFERENCE',
     
     # TIPOS DE DATOS
     'int': 'INT',

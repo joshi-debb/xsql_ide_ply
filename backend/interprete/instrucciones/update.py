@@ -31,7 +31,7 @@ class Update(Instruccion):
                                             for rc in recs.getElementsByTagName('field'):
                                                 for tup in self.tupla:
                                                     if rc.getAttribute('name') == tup.id:
-                                                        if rc.getAttribute('param') == 'TipoOpciones.PRIMARYKEY':
+                                                        if rc.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or rc.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
                                                             print("Error: No se puede actualizar la llave primaria")
                                                             return
                                                         rc.firstChild.data = tup.expresion.ejecutar(env).valor
