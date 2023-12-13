@@ -33,6 +33,8 @@ reservadas = {
     'add': 'ADD',
     'drop': 'DROP',
     'if': 'IF',
+    'else': 'ELSE',
+    'then': 'THEN',
     
     'null': 'NULL',
     'not': 'NOT',

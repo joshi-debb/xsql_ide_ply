@@ -29,6 +29,8 @@ from interprete.instrucciones.declaracion_var import Declaracion
 from interprete.expresiones.acceso import Acceso
 from interprete.instrucciones.asignacion_var import AsignacionVar
 from interprete.instrucciones.select import Select
+from interprete.instrucciones.if_else import IfElse
+from interprete.instrucciones.bloque import Bloque
 
 
 from interprete.extra.tipos import *
@@ -86,6 +88,7 @@ def p_instruccion(t):
                 | expresion
                 | use_db PYC
                 | println PYC
+                | sentencia_if
     '''
     t[0] = t[1]
 
@@ -411,6 +414,30 @@ def p_cmd_alter_comp(t):
     else:
         t[0] = t[2]
 
+def p_sentencia_if(t):
+    '''
+    sentencia_if : IF expresion THEN bloque END IF
+                 | IF expresion THEN bloque lista_else_if END IF
+                 | IF expresion THEN bloque lista_else_if ELSE THEN bloque END IF
+                 | IF expresion THEN bloque ELSE THEN bloque END IF
+    '''
+    if len(t) == 7: # if
+        t[0] = IfElse(condicion=t[2], bloque=Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], linea=t.lineno(1), columna=t.lexpos(1))
+  
+    elif len(t) == 10:   # If y else
+        t[0] = IfElse(condicion=t[2], bloque=Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=True, bloque_else=t[7], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_lista_else_if(t):
+    '''
+    lista_else_if : lista_else_if ELSE IF expresion THEN bloque
+                  | ELSE IF expresion THEN bloque
+    '''
+
+def p_bloque(t):
+    '''
+    bloque : instrucciones
+    '''
+    t[0] = t[1]
 
 
 # def p_comp_alter(t):

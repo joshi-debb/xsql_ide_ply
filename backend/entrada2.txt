@@ -18,3 +18,42 @@ set @var2 = 0;
 
 println(4<2 && @hola<1);
 SELECT * FROM persona;
+
+
+IF 0 < 1 THEN
+    declare @v2 int;
+    println("Entre a un if");
+END IF
+
+IF 5 > 1 THEN
+    declare @v1 int;
+    println("Primer if");
+
+    IF 5 > 1 THEN
+        declare @v1 int;
+        println("If anidado");
+    ELSE THEN
+        declare @v2 bit;
+    END IF
+
+ELSE THEN
+    declare @v2 bit;
+END IF
+
+/*
+IF 5 < 1 THEN
+    declare @v1 int;
+ELSE IF 3 > 55 THEN
+    declare @v2 nvarchar(2);
+ELSE THEN
+    declare @v3 bit;
+END IF
+
+IF 5 < 1 THEN
+    declare @v1 int;
+ELSE IF 3 > 55 THEN
+    declare @v2 nvarchar(2);
+ELSE IF 66 > 55 THEN
+    declare @v3 nvarchar(2);
+END IF
+*/
