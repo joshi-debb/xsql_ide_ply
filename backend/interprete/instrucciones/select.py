@@ -15,19 +15,53 @@ class Select(Instruccion):
         self.columna = columna
 
     def ejecutar(self, env:Enviroment):
-        print('-------- CAMPOS -----------')
-        if self.campos == '*': # Seleccionar toda la tabla(s)
-            print('*')
+
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+
+        mydoc = minidom.parse(datas)
+        
+        current = mydoc.getElementsByTagName('current')[0]
+    
+        for database in mydoc.getElementsByTagName('database'):
+            if database.getAttribute('name') == current.getAttribute('name'):                    
+                for table in database.getElementsByTagName('tables'):
+                    for table in table.getElementsByTagName('table'):
+
+                        if self.campos == '*':
+                            for tabla in self.tablas:
+                                if table.getAttribute('name') == tabla:
+                                    fields = table.getElementsByTagName('fields')[0]
+                                    records = table.getElementsByTagName('records')[0]
+                                    print('-------- CAMPOS {} -----------'.format(tabla))
+                                    for field in fields.getElementsByTagName('field'):
+                                        print(field.getAttribute('name'))
+                                    for record in records.getElementsByTagName('record'):
+                                        print('-------- REGISTRO -----------')
+                                        for data in record.getElementsByTagName('field'):
+                                            print(data.firstChild.data)
+                               
+                                    
+                                    # fields = table.getElementsByTagName('fields')[0]
+                                    # records = table.getElementsByTagName('records')[0]
+
+
+
+        # print('-------- CAMPOS -----------')
+        # if self.campos == '*': # Seleccionar toda la tabla(s)
+           
+
+
+            # print('*')
             # Buscar las tablas de las que se quiere extraer la informacion
-            texto = 'cantidad*tbdetallefactura.price / 1.12 > 100'
-            for tabla in self.tablas:
-                print(tabla)
-                if self.condicion_where != None:
-                    nombre_campo = self.condicion_where.id
-                    valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
-                    # Validar que la fila cumpra con la condicion
-                    print('Nombre del campo: ', nombre_campo)
-                    print('Valor del campo: ',  valor_campo.valor)
+            # texto = 'cantidad*tbdetallefactura.price / 1.12 > 100'
+            # for tabla in self.tablas:
+            #     print(tabla)
+            #     if self.condicion_where != None:
+            #         nombre_campo = self.condicion_where.id
+            #         valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
+            #         # Validar que la fila cumpra con la condicion
+            #         print('Nombre del campo: ', nombre_campo)
+            #         print('Valor del campo: ',  valor_campo.valor)
 
                     # campo actual 'cantidad'
                     # campo actual 'tbdetallefactura'
@@ -45,25 +79,25 @@ class Select(Instruccion):
 
 
             
-        else:
-            for tabla in self.tablas:
-                for campo in self.campos:
-                    print(tabla)
-                    if self.condicion_where != None:
-                        nombre_campo = campo
-                        valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
-                        # Validar que la fila cumpra con la condicion
-                        print('Nombre del campo: ', nombre_campo)
-                        print('Valor del campo: ',  valor_campo.valor)
+        # else:
+        #     for tabla in self.tablas:
+        #         for campo in self.campos:
+        #             print(tabla)
+        #             if self.condicion_where != None:
+        #                 nombre_campo = campo
+        #                 valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
+        #                 # Validar que la fila cumpra con la condicion
+        #                 print('Nombre del campo: ', nombre_campo)
+        #                 print('Valor del campo: ',  valor_campo.valor)
 
-                        #lista_ids = parser.parse_where('id==3 && precio==90')
+        #                 #lista_ids = parser.parse_where('id==3 && precio==90')
                         
 
-                    else:
-                        pass
+        #             else:
+        #                 pass
         
-        print('-------- NOMBRES TABLAS -----------')
-        for tabla in self.tablas:
-            print(tabla)
+        # print('-------- NOMBRES TABLAS -----------')
+        # for tabla in self.tablas:
+        #     print(tabla)
 
 

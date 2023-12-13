@@ -56,7 +56,7 @@ class Insert(Instruccion):
                                     
                                 for x in range(0, count_in_fields):
                                     for atribute in fields.getElementsByTagName('field'):
-                                        if rc.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or rc.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
+                                        if atribute.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or atribute.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
                                             primary_key = atribute.getAttribute('name')
                                             for recs in table.getElementsByTagName('records'):
                                                 for rc in recs.getElementsByTagName('field'):

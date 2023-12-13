@@ -1,3 +1,6 @@
+create data base personas;
+
+use personas;
 
 create table persona (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
@@ -6,85 +9,28 @@ create table persona (
     fecha DATE NOT NULL  
 );
 
-Declare @hola int;
-set @hola = 123;
-SELECT ("El valor de la variable es: " + @hola + " unidades");
 
-DECLARE @var1 nvarchar(5);
-SELECT (@var1);
-
-DECLARE @var2 bit;
-set @var2 = 0;
-
-SELECT (4<2 && @hola<1);
-SELECT * FROM persona;
+create table Estudiante (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    fecha DATE NOT NULL  
+);
 
 
-IF 0 < 1 THEN
-    declare @v2 int;
-    SELECT ("Entre a un if");
-END IF
 
-IF 0 > 1 THEN
-    declare @v1 int;
-    SELECT ("Primer if");
-
-    IF 5 > 1 THEN
-        declare @v1 int;
-        SELECT ("If anidado");
-    ELSE THEN
-        declare @v2 bit;
-    END IF
-
-ELSE THEN
-    declare @v2 bit;
-    SELECT ("Entro al else");
-END IF
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');
 
 
-IF 4 < 0 THEN
-    declare @v1 int;
-ELSE IF 3 > 55 THEN
-    declare @v2 nvarchar(2);
-ELSE THEN
-    declare @v3 bit;
-END IF
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');
 
 
-declare @num int;
-set @num = 1;
-
-IF @num == 0 THEN
-    declare @v1 int;
-    SELECT ("num = " + @num);
-ELSE IF @num == 1 THEN
-    declare @v2 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE IF @num == 2 THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE IF @num == 3 THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE IF @num == 4 THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-END IF
-
-/*
-SELECT * FROM tbproductos;
-SELECT * FROM tbproductos, tbservicios;
-SELECT * FROM tbfactura where id=3;
-SELECT precio FROM tbproductos;
-SELECT precio FROM tbproductos, tbclientes;
-SELECT precio,descripcion FROM tbproductos, tbclientes;
-SELECT precio,descripcion FROM tbproductos, tbclientes WHERE precio=0;
-
-SELECT * from tbfactura where fechafactura between '2023-01-01' and '2023-03-03';
-
-
-SELECT 'hola';
-*/
+SELECT * FROM persona, Estudiante;
