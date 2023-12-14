@@ -19,18 +19,20 @@ create table Estudiante (
 
 
 
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','aaaa',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','bbbb',13,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','cccc',14,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','dddd',15,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','eeee',16,'10/12/2023');
 
 
-INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
-INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'10/12/2023');
-INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
-INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
-INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('aaaa','asdf',22,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('ddd','ffdfd',32,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('affffita','asd',52,'10/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('eee','fddfd',12,'50/12/2023');
+INSERT INTO Estudiante (nombre,apellido,edad,fecha) VALUES ('wwww','sasaaa',112,'10/12/2023');
 
 
-SELECT * FROM persona, Estudiante;
+--SELECT * FROM persona, Estudiante;
+
+SELECT nombre FROM persona WHERE edad = 12;

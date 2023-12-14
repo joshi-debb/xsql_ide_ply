@@ -39,12 +39,44 @@ class Select(Instruccion):
                                         print('-------- REGISTRO -----------')
                                         for data in record.getElementsByTagName('field'):
                                             print(data.firstChild.data)
-                               
+                        else:
+
+                            for tabla in self.tablas:
+                                if table.getAttribute('name') == tabla:
+                                    fields = table.getElementsByTagName('fields')[0]
+                                    records = table.getElementsByTagName('records')[0]
+                                    nombre_campo = ''
+                                    print('-------- CAMPOS {} -----------'.format(tabla))
+                                    for field in fields.getElementsByTagName('field'):
+                                        for campo in self.campos:
+                                            if self.condicion_where != None:
+                                                print(field.getAttribute('name'))
+                                                nombre_campo = campo
+                                                valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
+                                                # Validar que la fila cumpra con la condicion
+                                                # print('Nombre del campo: ', nombre_campo)
+                                                # print('Valor del campo: ',  valor_campo.valor)
+                                                # print(field.getAttribute('name'))
+                                                for record in records.getElementsByTagName('record'):
+                                                    print('-------- REGISTRO -----------')
+                                                    for data in record.getElementsByTagName('field'):
+                                                        # print(data.getAttribute('name'), '==', nombre_campo, '&&', data.firstChild.data, '==', valor_campo.valor)
+                                                        #print(str(data.firstChild.data), '==', valor_campo.valor)
+                                                        if str(data.firstChild.data) == valor_campo.valor:
+                                                            print('a',data.getAttribute('name'))
+                                                            print(data.firstChild.data)
+                                            
+                                            else:
+                                                if field.getAttribute('name') == campo:
+                                                    print(field.getAttribute('name'))
+                                                    for record in records.getElementsByTagName('record'):
+                                                        print('-------- REGISTRO -----------')
+                                                        for data in record.getElementsByTagName('field'):
+                                                            if data.getAttribute('name') == campo:
+                                                                print(data.firstChild.data)          
+                                        
                                     
-                                    # fields = table.getElementsByTagName('fields')[0]
-                                    # records = table.getElementsByTagName('records')[0]
-
-
+                                            
 
         # print('-------- CAMPOS -----------')
         # if self.campos == '*': # Seleccionar toda la tabla(s)
