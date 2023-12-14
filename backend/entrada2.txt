@@ -1,3 +1,6 @@
+create data base personas;
+
+use personas;
 
 create table persona (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
@@ -7,7 +10,7 @@ create table persona (
 );
 
 
-/*
+
 DROP TABLE persona;
 
 TRUNCATE TABLE persona;
@@ -47,109 +50,15 @@ ELSE THEN
     SELECT ("Entro al else");
 END IF;
 
+create table Estudiante (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    fecha DATE NOT NULL  
+);
 
-IF 4 < 0 THEN
-    declare @v1 int;
-ELSE IF 3 > 55 THEN
-    declare @v2 nvarchar(2);
-ELSE THEN
-    declare @v3 bit;
-END IF;
-
-
-declare @num int;
-set @num = 1;
-
-IF (@num + 1) == 0 THEN
-    declare @v1 int;
-    SELECT ("num = " + @num);
-ELSE IF @num == 1 THEN
-    declare @v2 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE IF @num == 2 THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE IF @num == 3 THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE IF @num == 4 THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-ELSE THEN
-    declare @v3 nvarchar(2);
-    SELECT ("num = " + @num);
-END IF;
-
-
-WHILE @num < 5 
-    BEGIN
-    SET @num = @num + 1;
-    SELECT "Valor de num = " + @num;
-END;
-
-SELECT "Al salir de WHILE num = " + @num;
-declare @gerson int;
-
-SELECT "hola" + (3-3);
-
-
-SELECT * FROM tbproductos;
-SELECT * FROM tbproductos, tbservicios;
-SELECT * FROM tbfactura where id=3;
-SELECT precio FROM tbproductos;
-SELECT precio FROM tbproductos, tbclientes;
-SELECT precio,descripcion FROM tbproductos, tbclientes;
-SELECT precio,descripcion FROM tbproductos, tbclientes WHERE precio=0;
-
-SELECT * from tbfactura where fechafactura between '2023-01-01' and '2023-03-03';
-
-
-SELECT 'hola';
-*/
-
-SELECT precio,descripcion FROM tbproductos, tbclientes WHERE precio=0;
-SELECT * from tbdetallefactura,tbproducto where (cantidad*tbdetallefactura )/1.12 > 100 && factura=12 || precio;
-SELECT * FROM tbproductos;
-SELECT * FROM tbproductos, tbservicios;
-SELECT * FROM tbfactura where id=3;
-SELECT precio FROM tbproductos;
-SELECT precio FROM tbproductos, tbclientes;
-SELECT precio,descripcion FROM tbproductos, tbclientes;
-SELECT precio,descripcion FROM tbproductos, tbclientes WHERE precio=0;
-
-IF 0 > 1 THEN
-    declare @v1 int;
-    SELECT ("Primer if");
-
-    IF 5 > 1 THEN
-        declare @v1 int;
-        SELECT ("If anidado");
-    ELSE THEN
-        declare @v2 bit;
-    END IF;
-
-ELSE THEN
-    declare @v2 bit;
-    SELECT ("Entro al else");
-END IF;
-
-funcion:
-    IF 0 > 1 THEN
-    DECLARE @v1 int;
-    SELECT ("primer if");
-    IF 5 > 1 THEN
-    DECLARE @v1 int;
-    SELECT ("if anidado");
-
-    ELSE THEN
-    DECLARE @v2 bit;
-
-    END IF;
-
-    ELSE THEN
-    DECLARE @v2 bit;
-    SELECT ("entro al else");
-
-    END IF;
-
-
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','aaaa',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','bbbb',13,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','cccc',14,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','dddd',15,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','eeee',16,'10/12/2023');

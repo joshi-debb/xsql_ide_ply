@@ -3,23 +3,45 @@
 	<current name="personas"/>
 	<database name="personas">
 		<tables>
-			<table name="renap">
-				<fields>
-					<field name="dpi" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
-					<field name="asdf" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="ff" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
-					<field name="aaa" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
-				</fields>
-				<records/>
-			</table>
-			<table name="persona">
+			<table name="estudiante">
 				<fields>
 					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
 					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
 					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
 					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
 				</fields>
-				<records/>
+				<records>
+					<record>
+						<field name="nombre">aaaa</field>
+						<field name="apellido">asdf</field>
+						<field name="edad">22</field>
+						<field name="fecha">10/12/2023</field>
+					</record>
+					<record>
+						<field name="nombre">ddd</field>
+						<field name="apellido">ffdfd</field>
+						<field name="edad">32</field>
+						<field name="fecha">10/12/2023</field>
+					</record>
+					<record>
+						<field name="nombre">affffita</field>
+						<field name="apellido">asd</field>
+						<field name="edad">52</field>
+						<field name="fecha">10/12/2023</field>
+					</record>
+					<record>
+						<field name="nombre">eee</field>
+						<field name="apellido">fddfd</field>
+						<field name="edad">12</field>
+						<field name="fecha">50/12/2023</field>
+					</record>
+					<record>
+						<field name="nombre">wwww</field>
+						<field name="apellido">sasaaa</field>
+						<field name="edad">112</field>
+						<field name="fecha">10/12/2023</field>
+					</record>
+				</records>
 			</table>
 		</tables>
 		<views/>
