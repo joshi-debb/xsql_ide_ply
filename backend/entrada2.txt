@@ -1,5 +1,31 @@
+create data base personas;
+
+use personas;
+
+create table persona (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    fecha DATE NOT NULL  
+);
 
 
-UPDATE persona SET apellido = 'holamundo', edad = '26' WHERE nombre ='carlitos';
+create table alumno (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    registro INT NOT NULL,
+    grado NVARCHAR(5) NOT NULL    
+);
 
--- DELETE FROM persona where apellido = 'santos';
+
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('juanito', 'cascabel', 17, '01/15/2005');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('lola', 'molinillo', 18, '05/23/2004');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('carlitos', 'travesura', 19, '09/08/2003');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('maria', 'santos', 20, '11/30/2002');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('pedrito', 'flores', 21, '03/12/2001');
+
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('juan', 'lopez', 1001, '1A');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('ana', 'gomez', 1002, '2B');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('carlos', 'perez', 1003, '3C');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('maria', 'martinez', 1004, '4D');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('pedro', 'rodriguez', 1005, '5E');

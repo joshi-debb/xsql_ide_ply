@@ -12,59 +12,30 @@ class Update(Instruccion):
         self.condicion = condicion
     
     def ejecutar(self, env:Enviroment):
-        print('------------------ UPDATE --------------------------')
-        print("> Nombre de tabla: ", self.table_name)
 
-        print("> Tupla: (valores a asignar) ")
-        for tup in self.tupla:
-            print("     Campo: ", tup.id)
-            expresion = tup.expresion.ejecutar(env)
-            print("     Expresion: ", expresion.valor)
+        if self.is_pk_repetido(env):
+            print("Error: Llave primaria repetida")
+            return
 
-        # Solo acepta condiciones del tipo: WHERE campo = expresion
-        print("> Valor de la condicion: ")
-        print("     Campo: ", self.condicion.id)
-        expresion = self.condicion.expresion.ejecutar(env)
-        print("     Expresion: ", expresion.valor)
-        print('-----------------------------------------------------')
-
-        
-
-
+        if self.look_in_pos(env) < 0:
+            print("Error: Registro no encontrado")
+            return
 
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             
             current = mydoc.getElementsByTagName('current')[0]
 
-            #actualizar tabla donde se cumpla la condicion
             for database in mydoc.getElementsByTagName('database'):
                 if database.getAttribute('name') == current.getAttribute('name'):
                     for table in database.getElementsByTagName('tables'):
                         for table in table.getElementsByTagName('table'):
                             if table.getAttribute('name') == self.table_name:
-                                ##encontrar el campo a actualizar
-                                ##UPDATE persona SET nombre = 'aaaaaa' WHERE nombre = 'juanito';
-                                ##UPDATE self.table_name SET tup.id = tup.expresion.ejecutar(env).valor WHERE self.condicion.id = self.condicion.expresion.ejecutar(env).valor;
-                                ###print('UPDATE ' + self.table_name + ' SET ' + tup.id + ' = ' + tup.expresion.ejecutar(env).valor + ' WHERE ' + self.condicion.id + ' = ' + self.condicion.expresion.ejecutar(env).valor + ';')
-                                found = 0
-                                cont_records = 0
-                                for recs in table.getElementsByTagName('records'):
-                                    for record in recs.getElementsByTagName('record'):
-                                        cont_records += 1
-                                        for rc in record.getElementsByTagName('field'):
-                                            #print(rc.getAttribute('name'),' =' , rc.firstChild.data)
-                                            if rc.getAttribute('name') == self.condicion.id and rc.firstChild.data == self.condicion.expresion.ejecutar(env).valor:
-                                                print(rc.getAttribute('name'), '=', self.condicion.id)
-                                                print(rc.firstChild.data, 'es?', self.condicion.expresion.ejecutar(env).valor)
-                                                found = cont_records
-                                                break
-
-                                for rc in  table.getElementsByTagName('records')[0].getElementsByTagName('record')[found-1].getElementsByTagName('field'):
+                                for rc in  table.getElementsByTagName('records')[0].getElementsByTagName('record')[self.look_in_pos(env)].getElementsByTagName('field'):
                                     for tup in self.tupla:
                                         if rc.getAttribute('name') == tup.id:
-                                            print(rc.getAttribute('name'), '=', tup.id)
                                             rc.firstChild.data = tup.expresion.ejecutar(env).valor
+                                            print('Registro actualizado')
                                             break
      
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
@@ -72,3 +43,63 @@ class Update(Instruccion):
             file.seek(0)
             file.truncate()
             file.write(formatted_xml)
+
+    def look_in_pos(self, env:Enviroment) -> int:
+        with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
+            mydoc = minidom.parse(file)
+            
+            current = mydoc.getElementsByTagName('current')[0]
+
+            for database in mydoc.getElementsByTagName('database'):
+                if database.getAttribute('name') == current.getAttribute('name'):
+                    for table in database.getElementsByTagName('tables'):
+                        for table in table.getElementsByTagName('table'):
+                            if table.getAttribute('name') == self.table_name:
+                                found = 0
+                                cont_records = 0
+                                for recs in table.getElementsByTagName('records'):
+                                    for record in recs.getElementsByTagName('record'):
+                                        cont_records += 1
+                                        for rc in record.getElementsByTagName('field'):
+                                            if rc.getAttribute('name') == self.condicion.id and rc.firstChild.data == self.condicion.expresion.ejecutar(env).valor:
+                                                found = cont_records
+                                                break
+        return found-1
+
+
+    def is_pk_repetido(self, env:Enviroment) -> bool:
+
+        is_pk = False
+        repeated = False
+
+
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+
+        mydoc = minidom.parse(datas)
+        
+        current = mydoc.getElementsByTagName('current')[0]
+    
+        for database in mydoc.getElementsByTagName('database'):
+            if database.getAttribute('name') == current.getAttribute('name'):                    
+                for table in database.getElementsByTagName('tables'):
+                    for table in table.getElementsByTagName('table'):
+                        if table.getAttribute('name') == self.table_name:
+                            fields = table.getElementsByTagName('fields')[0]
+                            for field in fields.getElementsByTagName('field'):
+                                for tup in self.tupla:
+                                    if field.getAttribute('name') == tup.id:
+                                        if field.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or field.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY': 
+                                            is_pk = True
+                                            break
+                            
+                            if is_pk == True:
+                                records = table.getElementsByTagName('records')[0]
+
+                                for recs in records.getElementsByTagName('record'):
+                                    for rc in recs.getElementsByTagName('field'):
+                                        for tup in self.tupla:
+                                            if rc.getAttribute('name') == tup.id:
+                                                if rc.firstChild.data == tup.expresion.ejecutar(env).valor:
+                                                    return True
+        
+        return False
