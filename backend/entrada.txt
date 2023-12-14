@@ -191,3 +191,98 @@ SELECT * from tbfactura where fechafactura between '2023-01-01' and '2023-03-03'
 
 SELECT 'hola';
 */
+
+
+
+create data base personas;
+
+use personas;
+
+create table persona (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    fecha DATE NOT NULL  
+);
+
+
+
+DROP TABLE persona;
+
+TRUNCATE TABLE persona;
+
+Declare @hola decimal;
+set @hola = 123.12+1;
+SELECT ("El valor de la variable es: " + @hola + " unidades");
+
+DECLARE @var1 nvarchar(5);
+SELECT (@var1);
+
+DECLARE @var2 bit;
+set @var2 = 0;
+
+SELECT (4<2 && @hola<1);
+SELECT * FROM persona;
+
+
+IF 0 < 1 THEN
+    declare @v2 int;
+    SELECT ("Entre a un if");
+END IF;
+
+IF 0 > 1 THEN
+    declare @v1 int;
+    SELECT ("Primer if");
+
+    IF 5 > 1 THEN
+        declare @v1 int;
+        SELECT ("If anidado");
+    ELSE THEN
+        declare @v2 bit;
+    END IF;
+
+ELSE THEN
+    declare @v2 bit;
+    SELECT ("Entro al else");
+END IF;
+
+
+
+
+
+
+
+
+
+
+create data base personas;
+
+use personas;
+
+create table persona (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    fecha DATE NOT NULL  
+);
+
+
+create table alumno (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    registro INT NOT NULL,
+    grado NVARCHAR(5) NOT NULL    
+);
+
+
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('juanito', 'cascabel', 17, '01/15/2005');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('lola', 'molinillo', 18, '05/23/2004');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('carlitos', 'travesura', 19, '09/08/2003');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('maria', 'santos', 20, '11/30/2002');
+INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('pedrito', 'flores', 21, '03/12/2001');
+
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('juan', 'lopez', 1001, '1A');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('ana', 'gomez', 1002, '2B');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('carlos', 'perez', 1003, '3C');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('maria', 'martinez', 1004, '4D');
+INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('pedro', 'rodriguez', 1005, '5E');
