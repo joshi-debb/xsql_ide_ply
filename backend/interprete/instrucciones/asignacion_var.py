@@ -8,7 +8,8 @@ from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import Error, TablaErrores
 
 class AsignacionVar(Instruccion):
-    def __init__(self, id:str, expresion:Expresion, linea:int, columna:int):
+    def __init__(self, text_val:str, id:str, expresion:Expresion, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.id = id
         self.expresion = expresion
         self.linea = linea
@@ -18,6 +19,9 @@ class AsignacionVar(Instruccion):
         
         # Validar que la variable exista en la tabla de simbolos
         if not env.existe_simbolo(self.id, TipoSimbolo.VARIABLE):
+            # Agregando a la tabla de erorres
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error de asignacion de variable. No existe una variable con el nombre {self.id}')
+            TablaErrores.addError(err)
             return self
 
         simbolo = env.getSimbolo(self.id, TipoSimbolo.VARIABLE)

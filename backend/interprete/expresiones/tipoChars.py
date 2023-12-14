@@ -5,7 +5,8 @@ from interprete.extra.tipos import *
 from interprete.extra.enviroment import Enviroment
 
 class TipoChars(Expresion):
-    def __init__(self, charTipo:TipoDato, valor:Literal):
+    def __init__(self, text_val:int,charTipo:TipoDato, valor:Literal):
+        self.text_val = text_val
         self.charTipo = charTipo
         self.valor = valor
         

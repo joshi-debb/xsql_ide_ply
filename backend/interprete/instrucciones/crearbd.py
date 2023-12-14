@@ -3,8 +3,8 @@ from interprete.extra.enviroment import Enviroment
 from xml.dom import minidom
 
 class CrearBD(Instruccion):
-    def __init__(self, id, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, id, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.id = id
     
     def ejecutar(self, env:Enviroment):

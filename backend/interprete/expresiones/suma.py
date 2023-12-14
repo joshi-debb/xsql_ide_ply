@@ -6,8 +6,8 @@ from interprete.extra.enviroment import Enviroment
 
 class Suma(Expresion):
     
-    def __init__(self, column:Expresion, table_name:str, condicion:CondicionWhere, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, column:Expresion, table_name:str, condicion:CondicionWhere, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.column = column
         self.table_name = table_name
         self.condicion = condicion

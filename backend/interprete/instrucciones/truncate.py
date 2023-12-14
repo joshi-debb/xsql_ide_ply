@@ -3,7 +3,8 @@ from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom
 
 class Truncate(Instruccion):
-    def __init__(self, name_table, line, column):
+    def __init__(self, text_val:str, name_table, line, column):
+        super().__init__(text_val, line, column)
         self.name_table = name_table
         self.line = line
         self.columna = column

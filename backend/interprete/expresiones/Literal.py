@@ -4,8 +4,8 @@ from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
 
 class Literal(Expresion):
-    def __init__(self, tipo, valor, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, tipo, valor, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.valor = valor
         self.tipo = tipo
     

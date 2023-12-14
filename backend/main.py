@@ -38,8 +38,11 @@ instrucciones = parser.parse(input.lower())
 env = Enviroment(ent_anterior=None, ambito='Global')
 
 # Ejecutando todas las instrucciones
+#try:
 for instruccion in instrucciones:
     instruccion.ejecutar(env)
+#except Exception as e:
+#    print(f'ERROR al ejecutar las instrucciones')
 
 print("------------ Errores ------------")
 for error in TablaErrores.errores:

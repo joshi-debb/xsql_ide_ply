@@ -7,8 +7,8 @@ from interprete.extra.tipos import TipoDato
 
 class ElseIf(Instruccion):
 
-    def __init__(self, condicion:Expresion, bloque:Instruccion, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, condicion:Expresion, bloque:Instruccion, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.condicion = condicion
         self.bloque = bloque
         

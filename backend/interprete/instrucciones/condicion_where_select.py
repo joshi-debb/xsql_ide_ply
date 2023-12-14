@@ -3,7 +3,8 @@ from interprete.expresiones.Expresion import Expresion
 from interprete.extra.enviroment import Enviroment
 
 class CondicionWhereSelect(Instruccion):
-    def __init__(self, expresion:str, linea:int, columna:int):
+    def __init__(self, text_val:str, expresion:str, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.expresion = expresion
         self.linea = linea
         self.columna = columna

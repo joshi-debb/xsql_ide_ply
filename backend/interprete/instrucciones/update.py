@@ -5,8 +5,8 @@ from xml.dom import minidom
 from interprete.extra.enviroment import Enviroment
 
 class Update(Instruccion):
-    def __init__(self, table_name:str, tupla:Campo, condicion:CondicionWhere, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, table_name:str, tupla:Campo, condicion:CondicionWhere, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.table_name = table_name
         self.tupla = tupla                 
         self.condicion = condicion

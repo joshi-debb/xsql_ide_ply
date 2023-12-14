@@ -3,8 +3,8 @@ from interprete.extra.enviroment import Enviroment
 
 class Bloque(Instruccion):
 
-    def __init__(self, instrucciones:Instruccion, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, instrucciones:Instruccion, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.instrucciones = instrucciones
         self.linea = linea
         self.columna = columna
@@ -12,7 +12,6 @@ class Bloque(Instruccion):
     def ejecutar(self, env: Enviroment):
         # Creando nuevo entorno
         new_env = Enviroment(ent_anterior=env, ambito="Local")
-        
         # Ejecutando las instrucciones
         try:
             for instruccion in self.instrucciones:

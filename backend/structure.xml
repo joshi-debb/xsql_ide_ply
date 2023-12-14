@@ -18,7 +18,6 @@
 					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
 					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
 					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
-					<field name="registro" type="TipoDato.NVARCHAR" param1="TipoOpciones.REFERENCE" table="renap" field="dpi"/>
 				</fields>
 				<records/>
 			</table>

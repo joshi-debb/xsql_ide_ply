@@ -1,4 +1,5 @@
 from ply import lex
+from interprete.extra.errores import *
 
 lex_pos_actual = 0
 
@@ -35,6 +36,7 @@ reservadas = {
     'if': 'IF',
     'else': 'ELSE',
     'then': 'THEN',
+    'while': 'WHILE',
     'and': 'AMPERSON',
     'as': 'AS',
     'between': 'BETWEEN',
@@ -96,6 +98,8 @@ tokens = [
 # Caracteres ignorados
 t_ignore = ' \t'
 
+
+
 # Tokens con regex
 t_SUMAR = r'\+'
 t_RESTAR = r'-'
@@ -119,16 +123,16 @@ t_NEGACION = r'!'
 t_ARROBA = r'@'
 
 def t_FLOAT(t):
-    r"""\d+\.\d+"""
+    r'\d+\.\d+'
     try:
-        t.value = float(t.value)
+        t.value = t.value
     except ValueError:
         t.value = 0
     return t
 
 def t_ENTERO(t):
     r'\d+'
-    t.value = int(t.value)
+    t.value = t.value
     return t
 
 def t_ID(t):
@@ -142,7 +146,7 @@ def t_CADENA(t):
 
 def t_salto_linea(t):
     r'\n+'
-    t.lexer.lineno += t.value.count(t.value)
+    t.lexer.lineno += t.value.count('\n')
 
 def t_comentario(t):
     r'--.*'
@@ -154,11 +158,14 @@ def t_multicomentarios(t):
 
 # manejo de errores léxicos
 def t_error(t):
-    print(f'Caracter no reconocido {t.value[0]!r}. En la linea {t.lexer.lineno}')
+    # Agregando a la tabla de erorres
+    err = Error(tipo='Léxico', linea=t.lexer.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Caracter no reconocido: {t.value[0]}')
+    TablaErrores.addError(err)
     t.lexer.skip(1)
 
+
 def find_column(inp, token):
-    line_start = inp.rfind('\n', 0, token.lexpos) + 1
+    line_start = inp.rfind('\n', 0, token.lexpos + 1) + 1
     return (token.lexpos - line_start) + 1
 
 

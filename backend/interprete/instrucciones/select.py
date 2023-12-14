@@ -7,7 +7,8 @@ from interprete.expresiones.concatenar import Concatenar
 from interprete.extra.retorno import Retorno
 
 class Select(Instruccion):
-    def __init__(self, campos:str, tablas:str, condicion_where:CondicionWhere, linea:int, columna:int):
+    def __init__(self, text_val:str, campos:str, tablas:str, condicion_where:CondicionWhere, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.campos = campos
         self.tablas = tablas
         self.condicion_where = condicion_where
@@ -15,6 +16,7 @@ class Select(Instruccion):
         self.columna = columna
 
     def ejecutar(self, env:Enviroment):
+        
         print('-------- CAMPOS -----------')
         if self.campos == '*': # Seleccionar toda la tabla(s)
             print('*')
@@ -23,11 +25,12 @@ class Select(Instruccion):
             for tabla in self.tablas:
                 print(tabla)
                 if self.condicion_where != None:
-                    nombre_campo = self.condicion_where.id
-                    valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
-                    # Validar que la fila cumpra con la condicion
-                    print('Nombre del campo: ', nombre_campo)
-                    print('Valor del campo: ',  valor_campo.valor)
+                    # nombre_campo = self.condicion_where.id
+                    # valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
+                    # # Validar que la fila cumpra con la condicion
+                    # print('Nombre del campo: ', nombre_campo)
+                    # print('Valor del campo: ',  valor_campo.valor)
+                    pass
 
                     # campo actual 'cantidad'
                     # campo actual 'tbdetallefactura'
@@ -51,10 +54,10 @@ class Select(Instruccion):
                     print(tabla)
                     if self.condicion_where != None:
                         nombre_campo = campo
-                        valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
+                        #valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
                         # Validar que la fila cumpra con la condicion
                         print('Nombre del campo: ', nombre_campo)
-                        print('Valor del campo: ',  valor_campo.valor)
+                        #print('Valor del campo: ',  valor_campo.valor)
 
                         #lista_ids = parser.parse_where('id==3 && precio==90')
                         
@@ -65,5 +68,13 @@ class Select(Instruccion):
         print('-------- NOMBRES TABLAS -----------')
         for tabla in self.tablas:
             print(tabla)
+        
+        if self.condicion_where != None:
+            print('La condicion where es: ', self.condicion_where.text_val)
+
+        # instruccion = parse.parse(self.condicion_where.text_val)
+        # retorno = intruccion.ejecutar()
+        # if retorno.valor == True:
+            # guardar en una lista
 
 

@@ -6,7 +6,8 @@ from interprete.extra.tipos import TipoDato
 from xml.dom import minidom
 
 class Insert(Instruccion):
-    def __init__(self, name_table, campos, tupla:Literal, line, column):
+    def __init__(self, text_val:str, name_table, campos, tupla:Literal, line, column):
+        super().__init__(text_val, line, column)
         self.name_table = name_table
         self.campos = campos
         self.tupla = tupla

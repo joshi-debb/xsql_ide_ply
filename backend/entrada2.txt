@@ -6,8 +6,14 @@ create table persona (
     fecha DATE NOT NULL  
 );
 
-Declare @hola int;
-set @hola = 123;
+
+/*
+DROP TABLE persona;
+
+TRUNCATE TABLE persona;
+
+Declare @hola decimal;
+set @hola = 123.12+1;
 SELECT ("El valor de la variable es: " + @hola + " unidades");
 
 DECLARE @var1 nvarchar(5);
@@ -23,7 +29,7 @@ SELECT * FROM persona;
 IF 0 < 1 THEN
     declare @v2 int;
     SELECT ("Entre a un if");
-END IF
+END IF;
 
 IF 0 > 1 THEN
     declare @v1 int;
@@ -34,12 +40,12 @@ IF 0 > 1 THEN
         SELECT ("If anidado");
     ELSE THEN
         declare @v2 bit;
-    END IF
+    END IF;
 
 ELSE THEN
     declare @v2 bit;
     SELECT ("Entro al else");
-END IF
+END IF;
 
 
 IF 4 < 0 THEN
@@ -48,13 +54,13 @@ ELSE IF 3 > 55 THEN
     declare @v2 nvarchar(2);
 ELSE THEN
     declare @v3 bit;
-END IF
+END IF;
 
 
 declare @num int;
 set @num = 1;
 
-IF @num == 0 THEN
+IF (@num + 1) == 0 THEN
     declare @v1 int;
     SELECT ("num = " + @num);
 ELSE IF @num == 1 THEN
@@ -72,9 +78,21 @@ ELSE IF @num == 4 THEN
 ELSE THEN
     declare @v3 nvarchar(2);
     SELECT ("num = " + @num);
-END IF
+END IF;
 
-/*
+
+WHILE @num < 5 
+    BEGIN
+    SET @num = @num + 1;
+    SELECT "Valor de num = " + @num;
+END;
+
+SELECT "Al salir de WHILE num = " + @num;
+declare @gerson int;
+
+SELECT "hola" + (3-3);
+
+
 SELECT * FROM tbproductos;
 SELECT * FROM tbproductos, tbservicios;
 SELECT * FROM tbfactura where id=3;
@@ -88,3 +106,50 @@ SELECT * from tbfactura where fechafactura between '2023-01-01' and '2023-03-03'
 
 SELECT 'hola';
 */
+
+SELECT precio,descripcion FROM tbproductos, tbclientes WHERE precio=0;
+SELECT * from tbdetallefactura,tbproducto where (cantidad*tbdetallefactura )/1.12 > 100 && factura=12 || precio;
+SELECT * FROM tbproductos;
+SELECT * FROM tbproductos, tbservicios;
+SELECT * FROM tbfactura where id=3;
+SELECT precio FROM tbproductos;
+SELECT precio FROM tbproductos, tbclientes;
+SELECT precio,descripcion FROM tbproductos, tbclientes;
+SELECT precio,descripcion FROM tbproductos, tbclientes WHERE precio=0;
+
+IF 0 > 1 THEN
+    declare @v1 int;
+    SELECT ("Primer if");
+
+    IF 5 > 1 THEN
+        declare @v1 int;
+        SELECT ("If anidado");
+    ELSE THEN
+        declare @v2 bit;
+    END IF;
+
+ELSE THEN
+    declare @v2 bit;
+    SELECT ("Entro al else");
+END IF;
+
+funcion:
+    IF 0 > 1 THEN
+    DECLARE @v1 int;
+    SELECT ("primer if");
+    IF 5 > 1 THEN
+    DECLARE @v1 int;
+    SELECT ("if anidado");
+
+    ELSE THEN
+    DECLARE @v2 bit;
+
+    END IF;
+
+    ELSE THEN
+    DECLARE @v2 bit;
+    SELECT ("entro al else");
+
+    END IF;
+
+

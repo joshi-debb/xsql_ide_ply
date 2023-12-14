@@ -4,7 +4,8 @@ from .instruccion import Instruccion
 from xml.dom import minidom
 
 class Use(Instruccion):
-    def __init__(self, id, line, column):
+    def __init__(self, text_val:str, id, line, column):
+        super().__init__(text_val, line, column)
         self.id = id
         self.line = line
         self.column = column

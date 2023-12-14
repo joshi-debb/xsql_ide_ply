@@ -5,8 +5,8 @@ from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import Error, TablaErrores
 
 class Logica(Expresion):
-    def __init__(self, op1:Expresion, operador:TipoLogico, op2:Expresion, linea, columna):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, op1:Expresion, operador:TipoLogico, op2:Expresion, linea, columna):
+        super().__init__(text_val, linea, columna)
         self.op1 = op1
         self.op2 = op2
         self.operador = operador

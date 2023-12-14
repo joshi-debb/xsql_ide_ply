@@ -9,7 +9,8 @@ from interprete.instrucciones.else_if import ElseIf
 
 class IfElse(Instruccion):
 
-    def __init__(self, condicion:Expresion, bloque:Instruccion, bandera_else:Boolean, bloque_else:Instruccion, elseifs:ElseIf, linea:int, columna:int):
+    def __init__(self, text_val:str, condicion:Expresion, bloque:Instruccion, bandera_else:Boolean, bloque_else:Instruccion, elseifs:ElseIf, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.condicion = condicion
         self.bloque = bloque
         self.bandera_else = bandera_else
@@ -19,6 +20,7 @@ class IfElse(Instruccion):
         self.columna = columna
         
     def ejecutar(self, env: Enviroment):
+        print(self.text_val)
         
         val_condicion:Retorno = self.condicion.ejecutar(env)
 

@@ -8,7 +8,8 @@ from xml.dom import minidom
 from interprete.extra.enviroment import Enviroment
 
 class AlterADD(Instruccion):
-    def __init__(self, name_table, campo, tipo:TipoDato , linea:int, columna:int):
+    def __init__(self, text_val:str, name_table, campo, tipo:TipoDato , linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.name_table = name_table
         self.campo = campo
         self.tipo = tipo
@@ -54,7 +55,8 @@ class AlterADD(Instruccion):
     
 
 class AlterDROP(Instruccion):
-    def __init__(self, name_table, campo, line, column):
+    def __init__(self, text_val:str, name_table, campo, line, column):
+        super().__init__(text_val, line, column)
         self.name_table = name_table
         self.campo = campo
         self.line = line

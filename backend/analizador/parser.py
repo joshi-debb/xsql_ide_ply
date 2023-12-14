@@ -1,4 +1,4 @@
-from pickle import NONE
+from interprete.expresiones.Expresion import Expresion
 from ply.yacc import yacc
 from analizador import lexer
 
@@ -35,11 +35,61 @@ from interprete.instrucciones.reference import Reference
 from  interprete.instrucciones.else_if import ElseIf
 from interprete.instrucciones.select import Select
 from interprete.instrucciones.between import Between
+from interprete.instrucciones._while import While
+from interprete.extra.errores import *
 
 
 from interprete.extra.tipos import *
 
 tokens = lexer.tokens
+
+# Define la función find_column
+def find_column(input_text, token):
+    last_cr = input_text.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - last_cr) + 1
+
+def getTextVal(instrucciones):
+    text_var = ''
+    for instruccion in instrucciones:
+        text_var += instruccion.text_val
+    return text_var
+
+def getTextVal_coma(params):
+    text_var = ''
+    for i in len(params):
+        if i == len(params) - 1:
+            text_var += params[i]
+        else:
+            text_var += params[i] + ', '
+    return text_var
+
+def getTextValExp_coma(params):
+    text_var = ''
+    for i in len(params):
+        if isinstance(params[i], Expresion) or isinstance(params[i], Campo):
+            if i == len(params) - 1:
+                text_var += params[i].text_val
+            else:
+                text_var += params[i].text_val + ', '
+    return text_var
+
+def tipoToStr(tipo):
+    if tipo == TipoDato.INT:
+        return 'int'
+    elif tipo == TipoDato.BIT:
+        return 'bit'
+    elif tipo == TipoDato.DECIMAL:
+        return 'decimal'
+    elif tipo == TipoDato.DATE:
+        return 'date'
+    elif tipo == TipoDato.DATETIME:
+        return 'datetime'
+    elif tipo == TipoDato.NCHAR:
+        return 'nchar'
+    elif tipo == TipoDato.NVARCHAR:
+        return 'nvarchar'
+    elif isinstance(tipo, TipoChars):
+        return tipo.text_val
 
 # precedencia de operadores
 precedence = (
@@ -85,54 +135,56 @@ def p_instruccion(t):
                 | cmd_truncate PYC
                 | declaracion_variable PYC
                 | asignacion_variable PYC
-                | crear_procedure
-                | ejecutar_procedure
-                | crear_funcion
+                | crear_procedure PYC
+                | ejecutar_procedure PYC
+                | crear_funcion PYC
                 | cmd_alter PYC
-                | expresion
+                | expresion PYC
                 | use_db PYC
-                | sentencia_if
+                | sentencia_if PYC
+                | while PYC
     '''
+    t[1].text_val += ';\n' 
     t[0] = t[1]
 
 def p_crear_db(t):
     '''
     crear_db : CREATE DATA BASE ID
     '''
-    t[0] = CrearBD(t[4], t.lineno(1), t.lexpos(1))
+    t[0] = CrearBD('', t[4], t.lineno(1), t.lexpos(1))
 
 def p_use_db(t):
     '''
     use_db : USE ID
     '''
-    t[0] = Use(t[2], t.lineno(1), t.lexpos(1))
+    t[0] = Use('', t[2], t.lineno(1), t.lexpos(1))
 
 def p_crear_tabla(t):
     '''
     crear_tb : CREATE TABLE ID PARA atributos PARC
     '''
-    t[0] = CrearTB(t[3], t[5], t.lineno(1), t.lexpos(1))
+    t[0] = CrearTB('', t[3], t[5], t.lineno(1), t.lexpos(1))
 
 # INSERT INTO nombre_tabla (col1, col2) VALUES (val1, val2);
 def p_cmd_insert(t):
     '''
     cmd_insert : INSERT INTO ID PARA columnas PARC VALUES PARA argumentos PARC
     '''
-    t[0] = Insert(t[3], t[5], t[9], t.lineno(1), t.lexpos(1))
+    t[0] = Insert('', t[3], t[5], t[9], t.lineno(1), t.lexpos(1))
 
 # UPDATE nombre_tabla SET asignaciones WHERE condiciones;
 def p_cmd_update(t):
     '''
     cmd_update : UPDATE ID SET campos WHERE condicion_where
     '''
-    t[0] = Update(t[2], t[4], t[6], t.lineno(1), t.lexpos(1))
+    t[0] = Update('', t[2], t[4], t[6], t.lineno(1), t.lexpos(1))
 
 # DELETE FROM products WHERE price = 10;
 def p_cmd_delete(t):
     '''
     cmd_delete : DELETE FROM ID WHERE condicion_where
     '''
-    t[0] = Delete(t[3], t[5], t.lineno(1), t.lexpos(1))
+    t[0] = Delete('', t[3], t[5], t.lineno(1), t.lexpos(1))
 
 
 
@@ -142,25 +194,25 @@ def p_cmd_drop(t):
     '''
     cmd_drop : DROP TABLE ID
     '''
-    t[0] = Drop(t[3], t.lineno(1), t.lexpos(1))
+    t[0] = Drop('', t[3], t.lineno(1), t.lexpos(1))
 
 # TRUNCATE TABLE nombre_tabla;
 def p_cmd_truncate(t):
     '''
     cmd_truncate : TRUNCATE TABLE ID
     '''
-    t[0] = Truncate(t[3], t.lineno(1), t.lexpos(1))
+    t[0] = Truncate('', t[3], t.lineno(1), t.lexpos(1))
 
 def p_condicion_where(t):
     '''
     condicion_where : ID IGUAL expresion
     '''
-    t[0] = CondicionWhere(t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = CondicionWhere('', t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_condicion_where_expresion(t):
     '''
-    condicion_where : ID expresion
-                    | ID BETWEEN expresion
+    condicion_where_select : ID BETWEEN expresion
+                           | expresion
     '''
     t[0] = t[1]
 
@@ -239,7 +291,7 @@ def p_atributo_opcion_references_id(t):
     '''
     atributo_opcion : ID PARA ID  PARC
     '''
-    t[0] = Reference(t[1], t[3], t.lineno(1), t.lexpos(1))
+    t[0] = Reference('', t[1], t[3], t.lineno(1), t.lexpos(1))
 
 
 def p_cmd_select(t):
@@ -260,27 +312,27 @@ def p_op_select(t):
 
 def p_select_tabla(t):
     '''
-    select_tabla : columnas FROM nombre_tablas WHERE condicion_where
+    select_tabla : columnas FROM nombre_tablas WHERE condicion_where_select
     '''
-    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_1(t):
     '''
     select_tabla : columnas FROM nombre_tablas empty
     '''
-    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_2(t):
     '''
-    select_tabla : MULT FROM nombre_tablas WHERE condicion_where
+    select_tabla : MULT FROM nombre_tablas WHERE condicion_where_select
     '''
-    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_3(t):
     '''
     select_tabla : MULT FROM nombre_tablas empty
     '''
-    t[0] = Select(campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 
 def p_lista_tablas(t):
@@ -294,7 +346,8 @@ def p_println(t):
     '''
     print : expresion
     '''
-    t[0] = Print(argumento=t[1], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'SELECT {t[1].text_val}'
+    t[0] = Print(text_val=text_val, argumento=t[1], linea=t.lineno(1), columna=t.lexpos(1))
 
 
 # SELECT * FROM nombre_tabla 
@@ -338,32 +391,31 @@ def p_concatena(t):
     '''
     concatenar : CONCATENAR PARA expresion COMA expresion PARC
     '''
-    t[0] = Concatenar(t[3], t[5], t.lineno(1), t.lexpos(1))
+    t[0] = Concatenar('', t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_substraer(t):
     '''
     substraer : SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
     '''
-    t[0] = Substraer(t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
+    t[0] = Substraer('', t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
 
 def p_hoy(t):
     '''
     hoy : HOY PARA PARC
     '''
-    t[0] = Hoy(t.lineno(1), t.lexpos(1))
+    t[0] = Hoy('', t.lineno(1), t.lexpos(1))
 
 def p_contar(t):
     '''
     contar : CONTAR PARA MULT PARC  FROM ID WHERE condicion_where
     '''
-    t[0] = Contar(t[6], t[8], t.lineno(1), t.lexpos(1))
+    t[0] = Contar('', t[6], t[8], t.lineno(1), t.lexpos(1))
 
 def p_suma(t):
     '''
     suma : SUMA PARA expresion PARC FROM ID WHERE condicion_where
     '''
-    t[0] = Suma(t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
-    print(t[3])
+    t[0] = Suma('', t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
 
 # CAST ( expression AS type )
 def p_cast(t):
@@ -382,7 +434,8 @@ def p_declaracion(t):
     '''
     declaracion : DECLARE ARROBA ID tipo
     '''
-    t[0] = Declaracion(t[3], t[4], t.lineno(1), t.lexpos(1))
+    text_val = f'DECLARE @{t[3]} {tipoToStr(t[4])}'
+    t[0] = Declaracion(text_val, t[3], t[4], t.lineno(1), t.lexpos(1))
 
 def p_declaracion_inicializada(t):
     '''
@@ -393,7 +446,8 @@ def p_asignacion_variable(t):
     '''
     asignacion_variable : SET ARROBA ID IGUAL expresion
     '''
-    t[0] = AsignacionVar(t[3], t[5], t.lineno(1), t.lexpos(1))
+    text_val = f'SET @ {t[3]} = {t[5].text_val}'
+    t[0] = AsignacionVar(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_asignaciones_columnas(t):
     '''
@@ -410,7 +464,8 @@ def p_asignacion_campo(t):
     '''
     campo : ID IGUAL expresion
     '''
-    t[0] = Campo(t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'{t[1]} = {t[3].text_val}'
+    t[0] = Campo(text_val, t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_crear_procedure(t):
     '''
@@ -460,15 +515,27 @@ def p_ejecutar_procedure(t):
 
 def p_cmd_alter(t):
     '''
-    cmd_alter : ALTER TABLE ID ADD cmd_alter_comp tipo
+    cmd_alter : ALTER TABLE ID ADD COLUMN ID tipo
+              | ALTER TABLE ID ADD ID tipo
     '''
-    t[0] = AlterADD(t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
+    if len(t) == 8:
+        text_val = f'ALTER TABLE {t[3]} ADD {t[6]} + {tipoToStr(t[7])}'
+        t[0] = AlterADD(text_val, t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
+    else:
+        text_val = f'ALTER TABLE {t[3]} ADD {t[5]} + {tipoToStr(t[6])}'
+        t[0] = AlterADD(text_val, t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
 
 def p_cmd_alter_drop(t):
     '''
-    cmd_alter : ALTER TABLE ID DROP cmd_alter_comp
+    cmd_alter : ALTER TABLE ID DROP COLUMN ID
+              | ALTER TABLE ID DROP ID
     '''
-    t[0] = AlterDROP(t[3], t[5], t.lineno(1), t.lexpos(1))
+    if len(t) == 7:
+        text_val = f'ALTER TABLE {t[3]} DROP COLUMN {t[6]}'
+        t[0] = AlterDROP(text_val, t[3], t[6], t.lineno(1), t.lexpos(1))
+    else:
+        text_val = f'ALTER TABLE {t[3]} DROP {t[5]}'
+        t[0] = AlterDROP(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 
 def p_cmd_alter_comp(t):
@@ -489,21 +556,25 @@ def p_sentencia_if(t):
                  | IF expresion THEN bloque ELSE THEN bloque END IF
     '''
     if len(t) == 7: # if
-        t[0] = IfElse(condicion=t[2], bloque=Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
+        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nEND IF'
+        t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
     
     elif len(t) == 8: # if - else if
-        bloque = Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1))
-        t[0] = IfElse(condicion=t[2], bloque=bloque, bandera_else=False, bloque_else=[], elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} {getTextVal(t[5])} END IF'
+        bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=False, bloque_else=[], elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
     
     elif len(t) == 11: # if - else if - else
-        bloque = Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1))
-        bloque_else = Bloque(t[8], linea=t.lineno(1), columna=t.lexpos(1))
-        t[0] = IfElse(condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} {getTextVal(t[5])} ELSE THEN\n {getTextVal(t[8])} END IF'
+        bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
+        bloque_else = Bloque(getTextVal(t[8]), t[8], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
     elif len(t) == 10:   # If - else
-        bloque = Bloque(t[4], linea=t.lineno(1), columna=t.lexpos(1))
-        bloque_else = Bloque(t[7], linea=t.lineno(1), columna=t.lexpos(1))
-        t[0] = IfElse(condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
+        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nELSE THEN\n {getTextVal(t[7])} \nEND IF'
+        bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
+        bloque_else = Bloque(getTextVal(t[7]), t[7], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_lista_else_if(t):
     '''
@@ -511,13 +582,23 @@ def p_lista_else_if(t):
                   | ELSE IF expresion THEN bloque
     '''
     if len(t) == 7:
-        bloque = Bloque(t[6], linea=t.lineno(1), columna=t.lexpos(1))
-        t[1].append(ElseIf(condicion=t[4], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1)))
+        text_val = f'ELSE IF {t[4].text_val} THEN\n {getTextVal(t[6])}\n'
+        bloque = Bloque(getTextVal(t[6]), t[6], linea=t.lineno(1), columna=t.lexpos(1))
+        t[1].append(ElseIf(text_val=text_val, condicion=t[4], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1)))
         t[0] = t[1]
     else:
-        bloque = Bloque(t[5], linea=t.lineno(1), columna=t.lexpos(1))
-        t[0] = [ElseIf(condicion=t[3], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))]
+        text_val = f'ELSE IF {t[3].text_val} THEN\n {getTextVal(t[5])}\n'
+        bloque = Bloque(getTextVal(t[5]), t[5], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = [ElseIf(text_val=text_val, condicion=t[3], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))]
 
+
+def p_while(t):
+    '''
+    while : WHILE expresion BEGIN bloque END
+    '''
+    text_val = t[1] + t[2].text_val + t[3] + getTextVal(t[4]) + t[5]
+    bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = While(text_val=text_val, condicion=t[2], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_bloque(t):
     '''
@@ -546,13 +627,15 @@ def p_expresion_parentesis(t):
     '''
     expresion : PARA expresion PARC
     '''
+    t[2].text_val = t[1] + t[2].text_val + t[3]
     t[0] = t[2]
 
 def p_acceso_var(t):
     '''
     expresion : ARROBA ID
     '''
-    t[0] = Acceso(t[2], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = t[1] + t[2]  
+    t[0] = Acceso(text_val, t[2], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_relacional(t):
     '''
@@ -564,18 +647,22 @@ def p_expresion_relacional(t):
                | expresion MENOR_IGUAL expresion
                | expresion MAYOR_IGUAL expresion
     '''
-    if t[2] == '==':
-        t[0] = Relacional(op1=t[1], operador=TipoRelacional.IGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'{t[1].text_val} {t[2]} {t[3].text_val}'
+    if t[2] == '=':
+        t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif t[2] == '==':
+        t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.IGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '!=':
-        t[0] = Relacional(op1=t[1], operador=TipoRelacional.DESIGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.DESIGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '<':
-        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MENOR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.MENOR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '>':
-        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MAYOR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.MAYOR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '<=':
-        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MENOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.MENOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '>=':
-        t[0] = Relacional(op1=t[1], operador=TipoRelacional.MAYOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.MAYOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    
 
 def p_expresion_between(t):
     '''
@@ -590,20 +677,22 @@ def p_expresion_aritmetica(t):
                 | expresion MULT expresion
                 | expresion DIV expresion
     '''
+    text_val = f'{t[1].text_val} {t[2]} {t[3].text_val}'
     if t[2] == '+':
-        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.SUMA, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Aritmetica(text_val=text_val, op1=t[1], operador=TipoAritmetica.SUMA, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '-':
-        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.RESTA, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Aritmetica(text_val=text_val,op1=t[1], operador=TipoAritmetica.RESTA, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '*':
-        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.MULTIPLICACION, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Aritmetica(text_val=text_val,op1=t[1], operador=TipoAritmetica.MULTIPLICACION, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '/':
-        t[0] = Aritmetica(op1=t[1], operador=TipoAritmetica.DIVISION, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Aritmetica(text_val=text_val,op1=t[1], operador=TipoAritmetica.DIVISION, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_unaria(t):
     '''
     aritmetica : RESTAR expresion %prec UMENOS
     '''
-    t[0] = Aritmetica(op1=t[2], operador=TipoAritmetica.UNARIO, op2=Literal(TipoDato.UNDEFINED, None, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = t[1] + t[2].text_val
+    t[0] = Aritmetica(text_val=text_val, op1=t[2], operador=TipoAritmetica.UNARIO, op2=Literal(TipoDato.UNDEFINED, None, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_logica(t):
     '''
@@ -612,35 +701,40 @@ def p_expresion_logica(t):
            | expresion AND expresion
     '''
     if len(t) == 3:
-        t[0] = Logica(op1=t[2], operador=TipoLogico.NOT, op2=Literal(TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=0)
+        text_val = f'- {t[1]} {t[2].text_val}'
+        t[0] = Logica(text_val, op1=t[2], operador=TipoLogico.NOT, op2=Literal(TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=0)
+
     elif t[2] == '||':
-        t[0] = Logica(op1=t[1], operador=TipoLogico.OR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        text_val = f'{t[1].text_val} || {t[3].text_val}'
+        t[0] = Logica(text_val, op1=t[1], operador=TipoLogico.OR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+
     elif t[2] == '&&':
-        t[0] = Logica(op1=t[1], operador=TipoLogico.AND, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+        text_val = f'{t[1].text_val} && {t[3].text_val}'
+        t[0] = Logica(text_val=text_val, op1=t[1], operador=TipoLogico.AND, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_entero(t):
     '''
     literal : ENTERO
     '''
-    t[0] = Literal(TipoDato.INT, int(t[1]), t.lineno(1), t.lexpos(1))
+    t[0] = Literal(t[1], TipoDato.INT, int(t[1]), t.lineno(1), t.lexpos(1))
 
 def p_cadena(t):
     '''
     literal : CADENA
     '''
-    t[0] = Literal(TipoDato.NCHAR, t[1], t.lineno(1), t.lexpos(1))
+    t[0] = Literal(t[1], TipoDato.NCHAR, t[1], t.lineno(1), t.lexpos(1))
 
 def p_decimal(t):
     '''
     literal : FLOAT
     '''
-    t[0] = Literal(TipoDato.DECIMAL, float(t[1]), t.lineno(1), t.lexpos(1))
+    t[0] = Literal(t[1], TipoDato.DECIMAL, float(t[1]), t.lineno(1), t.lexpos(1))
 
-def p_decimal(t):
+def p_id(t):
     '''
     literal : ID
     '''
-    t[0] = t[0]
+    t[0] = Acceso(t[1], t[1], linea=t.lineno(1), columna=t.lexpos(1))
 
 # def p_acceso_atributo_tabla(t):
 #     '''
@@ -655,8 +749,8 @@ def p_tipo(t):
         | DECIMAL
         | DATE
         | DATETIME
-        | NCHAR comp_n
-        | NVARCHAR comp_n
+        | NCHAR PARA literal PARC
+        | NVARCHAR PARA literal PARC
     '''
     if(t[1] == 'int'):
         t[0] = TipoDato.INT;
@@ -669,15 +763,12 @@ def p_tipo(t):
     elif(t[1] == 'datetime'):
         t[0] = TipoDato.DATETIME;
     elif(t[1] == 'nchar'):
-        t[0] = TipoChars(TipoDato.NCHAR, t[2]);
+        text_val = t[1] + t[2] + t[3].text_val + t[4]
+        t[0] = TipoChars(text_val, TipoDato.NCHAR, t[2]);
     elif(t[1] == 'nvarchar'):
-        t[0] = TipoChars(TipoDato.NVARCHAR, t[2]);
+        text_val = t[1] + t[2] + t[3].text_val + t[4]
+        t[0] = TipoChars(text_val, TipoDato.NVARCHAR, t[2]);
 
-def p_comp_n(t):
-    '''
-    comp_n : PARA literal PARC
-    '''
-    t[0] = t[2]
 
 def p_empty(t):
     '''
@@ -685,12 +776,15 @@ def p_empty(t):
     '''
     t[0] = None
 
-# Error sintactico
+# Error sintáctico
 def p_error(t):
     if t:
-        print(f"Error sintáctico en línea {t.lineno}, posición {t.lexpos}: '{t.value}'")
+        # Agregando a la tabla de erorres
+        err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Error sintáxis en token: {t.value}')
     else:
-        print("Error sintáctico: final de entrada inesperado")
+        # Agregando a la tabla de erorres
+        err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Final inesperado.')
+    TablaErrores.addError(err)
 
 
 # Build the parser

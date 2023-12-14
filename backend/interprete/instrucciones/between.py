@@ -3,8 +3,8 @@ from interprete.instrucciones.instruccion import Instruccion
 
 class Between(Instruccion):
     
-    def __init__(self, op1:str, op2:str, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, op1:str, op2:str, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.op1 = op1
         self.op2 = op2
     

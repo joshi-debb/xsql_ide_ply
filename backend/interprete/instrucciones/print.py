@@ -3,11 +3,13 @@ from .instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
 
 class Print(Instruccion):
-    def __init__(self, argumento, linea, columna):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, argumento, linea, columna):
+        super().__init__(text_val, linea, columna)
+        self.text_val = text_val
         self.argumento = argumento
     
     def ejecutar(self, env:Enviroment):
+        print("La expresion es: ", self.text_val)
         exp = self.argumento.ejecutar(env)
 
         # Validar que no haya un error en la expresion

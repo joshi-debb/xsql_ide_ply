@@ -5,8 +5,8 @@ from interprete.extra.enviroment import Enviroment
 
 class Substraer(Expresion):
     
-    def __init__(self, op1:Expresion, inicio:Expresion, longitud:Expresion, linea:int, columna:int):
-        super().__init__(linea, columna)
+    def __init__(self, text_val:str, op1:Expresion, inicio:Expresion, longitud:Expresion, linea:int, columna:int):
+        super().__init__(text_val, linea, columna)
         self.op1 = op1
         self.inicio = inicio
         self.longitud = longitud

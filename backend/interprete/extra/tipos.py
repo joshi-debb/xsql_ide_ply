@@ -26,6 +26,7 @@ class TipoRelacional(Enum):
     MAYOR_IGUAL = 4
     MENOR = 5
     MAYOR = 6
+    IGUAL = 7
 
 class TipoLogico(Enum):
     NOT = 1
