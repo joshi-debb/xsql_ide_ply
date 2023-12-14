@@ -25,9 +25,6 @@ class Select(Instruccion):
             from analizador.parser import parser
 
             # instruccion = parser.parse(self.condicion_where.text_val.lower())
-            print('La condicion where es: ', self.condicion_where.text_val.lower())
-
-            # instruccion = parser.parse('SELECT nombre FROM persona WHERE edad > 0;'.lower())
 
             # for instruccion in instruccion:                 
             #     retorno = instruccion.ejecutar(env)

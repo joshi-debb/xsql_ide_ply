@@ -70,9 +70,7 @@ class Update(Instruccion):
     def is_pk_repetido(self, env:Enviroment) -> bool:
 
         is_pk = False
-        repeated = False
-
-
+        
         datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
         mydoc = minidom.parse(datas)

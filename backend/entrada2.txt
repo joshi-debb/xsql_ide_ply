@@ -1,3 +1,5 @@
+/*
+
 create data base personas;
 
 use personas;
@@ -29,3 +31,11 @@ INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('ana', 'gomez', 1
 INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('carlos', 'perez', 1003, '3C');
 INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('maria', 'martinez', 1004, '4D');
 INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('pedro', 'rodriguez', 1005, '5E');
+
+
+
+UPDATE persona SET edad = '17' WHERE nombre = 'lola';
+*/
+
+
+SELECT * FROM persona WHERE edad = '26';

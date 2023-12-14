@@ -20,7 +20,7 @@
 					<record>
 						<field name="nombre">lola</field>
 						<field name="apellido">molinillo</field>
-						<field name="edad">18</field>
+						<field name="edad">17</field>
 						<field name="fecha">05/23/2004</field>
 					</record>
 					<record>
