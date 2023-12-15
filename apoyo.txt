@@ -37,3 +37,9 @@ def ejecutar(self, env:Enviroment):
 
         cadena_modificada = sustituirCadena('precio', '55')
         cadena_modificada = '55 = 0 OR (55 < 12*12/12) AND 44 != 55'
+
+        if "otro" in texto:
+            print("La cadena 'otro' fue encontrada.")
+        else:
+            print("La cadena 'otro' no fue encontrada.")
+

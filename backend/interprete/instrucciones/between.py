@@ -7,6 +7,10 @@ class Between(Instruccion):
         super().__init__(text_val, linea, columna)
         self.op1 = op1
         self.op2 = op2
+        self.operador = ''
     
     def ejecutar(self, env: Enviroment):
-        pass
+        if 'OR' in self.text_val:
+            self.operador = 'OR'
+        elif 'AND' in self.text_val:
+            self.operador = 'AND'

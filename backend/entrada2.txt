@@ -1,0 +1,6 @@
+SELECT * FROM nombre_de_la_tabla;
+
+SELECT columna1, columna2 FROM nombre_de_la_tabla;
+
+SELECT * FROM productos
+WHERE fecha_vencimiento = '2023-01-01' || fecha ='2023-12-31';

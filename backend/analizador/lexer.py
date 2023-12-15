@@ -38,6 +38,7 @@ reservadas = {
     'then': 'THEN',
     'while': 'WHILE',
     'and': 'AMPERSON',
+    'or': 'OLOGICO',
     'as': 'AS',
     'between': 'BETWEEN',
     

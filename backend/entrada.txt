@@ -88,14 +88,6 @@ UPDATE persona SET edad = '25', apellido = 'zuleta', fecha = '11/03/1996'  WHERE
 DELETE FROM persona WHERE nombre = 'popis';
 
 
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');
-
-
-
 ALTER TABLE persona DROP nombre;
 
 
@@ -286,3 +278,21 @@ INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('ana', 'gomez', 1
 INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('carlos', 'perez', 1003, '3C');
 INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('maria', 'martinez', 1004, '4D');
 INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('pedro', 'rodriguez', 1005, '5E');
+
+
+
+SELECT * FROM nombre_de_la_tabla;
+
+SELECT columna1, columna2 FROM nombre_de_la_tabla;
+
+SELECT columna1, columna2 FROM nombre_de_la_tabla WHERE edad > 0 and altura < 100;
+
+SELECT * FROM productos
+WHERE fecha_vencimiento BETWEEN '2023-01-01' && '2023-12-31';
+
+SELECT * FROM productos
+WHERE precio BETWEEN 10.00 AND 50.00;
+
+SELECT * FROM productos
+WHERE precio BETWEEN 10.00 AND 50.00
+  AND fecha_vencimiento > '2023-06-30';

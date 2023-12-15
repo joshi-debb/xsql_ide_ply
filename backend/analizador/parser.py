@@ -37,6 +37,7 @@ from interprete.instrucciones.select import Select
 from interprete.instrucciones.between import Between
 from interprete.instrucciones._while import While
 from interprete.extra.errores import *
+from interprete.instrucciones.procedure import Procedure
 
 
 from interprete.extra.tipos import *
@@ -480,8 +481,15 @@ def p_asignacion_campo(t):
 
 def p_crear_procedure(t):
     '''
-    crear_procedure : CREATE PROCEDURE ID PARA parametros PARC AS 
+    crear_procedure : CREATE PROCEDURE ID PARA PARC AS BEGIN bloque END
     '''
+    text_val = f'CREATE PROCEDURE {t[3]} () AS BEGIN {getTextVal(t[8])} END'
+    t[0] = Procedure(text_val, t[3], '', Bloque(getTextVal(t[8]), t[8], linea=t.lineno(1), columna=t.lexpos(1)), t.lineno(1), t.lexpos(1))
+    
+    # if len(t) == 7: # if
+    #     text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nEND IF'
+    #     t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
+    
 
 def p_crear_funcion(t):
     '''
@@ -715,11 +723,11 @@ def p_expresion_logica(t):
         text_val = f'- {t[1]} {t[2].text_val}'
         t[0] = Logica(text_val, op1=t[2], operador=TipoLogico.NOT, op2=Literal(TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=0)
 
-    elif t[2] == '||':
+    elif t[2] == '||' or t[2] == 'or':
         text_val = f'{t[1].text_val} || {t[3].text_val}'
         t[0] = Logica(text_val, op1=t[1], operador=TipoLogico.OR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
-    elif t[2] == '&&':
+    elif t[2] == '&&' or t[2] == 'and':
         text_val = f'{t[1].text_val} && {t[3].text_val}'
         t[0] = Logica(text_val=text_val, op1=t[1], operador=TipoLogico.AND, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
