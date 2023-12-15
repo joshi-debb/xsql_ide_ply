@@ -62,7 +62,7 @@ reservadas = {
     'hoy': 'HOY',
     'contar': 'CONTAR',
     'suma': 'SUMA',
-    'cast': 'CAST',
+    'cas': 'CAS',
 
     'println': 'PRINTLN'
 }

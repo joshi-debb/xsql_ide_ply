@@ -1,0 +1,2 @@
+SELECT CONCATENAR('HOLA','MUNDO');
+SELECT CAS ( @ger AS int );

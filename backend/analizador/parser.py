@@ -37,6 +37,7 @@ from interprete.instrucciones.select import Select
 from interprete.instrucciones.between import Between
 from interprete.instrucciones._while import While
 from interprete.extra.errores import *
+from interprete.expresiones.cas import Cas
 
 
 from interprete.extra.tipos import *
@@ -66,7 +67,7 @@ def getTextVal_coma(params):
 def getTextValExp_coma(params):
     text_var = ''
     for i in range(len(params)):
-        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo):
+        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion):
             if i == len(params) - 1:
                 text_var += params[i].text_val
             else:
@@ -389,7 +390,7 @@ def p_funcion_sistema(t):
                     | hoy
                     | contar
                     | suma
-                    | cast
+                    | cas
     '''
     t[0] = t[1]
 
@@ -428,11 +429,13 @@ def p_suma(t):
     text_val = f'SUMA ( {t[3].text_val} ) FROM {t[6]} WHERE {t[8].text_val}'
     t[0] = Suma(text_val, t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
 
-# CAST ( expression AS type )
+# CAS ( expression AS type )
 def p_cast(t):
     '''
-    cast : CAST PARA expresion AS tipo PARC
+    cas : CAS PARA expresion AS tipo PARC
     '''
+    text_val = f'CAS ( {t[3].text_val} AS {tipoToStr(t[5])} )'
+    t[0] = Cas(text_val=text_val, op=t[3], tipo=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 # DECLARACION DE VARIABLES
 def p_declaracion_variable(t):
@@ -482,6 +485,7 @@ def p_crear_procedure(t):
     '''
     crear_procedure : CREATE PROCEDURE ID PARA parametros PARC AS 
     '''
+    #t[0] = 
 
 def p_crear_funcion(t):
     '''
@@ -493,12 +497,21 @@ def p_parametros(t):
     parametros : parametros COMA parametro
                | parametro
     '''
+    if len(t) == 2: 
+        t[0] = [t[1]]
+    else:           
+        t[1].append(t[3])
+        t[0] = t[1]
+
 
 def p_parametro(t):
     '''
     parametro : ARROBA ID tipo
               | empty
     '''
+    if len(t) == 4:
+        text_val = f'@ {t[2]} {tipoToStr(t[3])}'
+        t[0] = Declaracion(text_val=text_val, id=t[2], tipo=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_argumentos(t):
     '''
@@ -794,7 +807,7 @@ def p_error(t):
         err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Error sintáxis en token: {t.value}')
     else:
         # Agregando a la tabla de erorres
-        err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Final inesperado.')
+        err = Error(tipo='Sintáctico', linea=0, columna=0, descripcion=f'Final inesperado.')
     TablaErrores.addError(err)
 
 
