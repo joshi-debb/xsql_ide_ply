@@ -10,6 +10,7 @@ class Hoy(Expresion):
         super().__init__(text_val, linea, columna)
     
     def ejecutar(self, env:Enviroment):
+        print('HOY: text_val: ', self.text_val)
         print('------------------ HOY --------------------------')
         # Obtener la fecha y hora actual
         now = datetime.now()

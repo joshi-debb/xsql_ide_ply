@@ -126,7 +126,7 @@ SELECT * FROM persona;
 IF 0 < 1 THEN
     declare @v2 int;
     SELECT ("Entre a un if");
-END IF
+END IF;
 
 IF 0 > 1 THEN
     declare @v1 int;

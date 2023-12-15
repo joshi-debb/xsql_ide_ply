@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SCHEMAS>
-	<current name="personas"/>
+	<current name="productos"/>
 	<database name="personas">
 		<tables>
 			<table name="estudiante">
@@ -40,6 +40,46 @@
 						<field name="apellido">sasaaa</field>
 						<field name="edad">112</field>
 						<field name="fecha">10/12/2023</field>
+					</record>
+				</records>
+			</table>
+			<table name="persona">
+				<fields>
+					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="nombre">pepito</field>
+						<field name="apellido">zuleta</field>
+						<field name="edad">25</field>
+						<field name="fecha">11/03/1996</field>
+					</record>
+					<record>
+						<field name="nombre">papita</field>
+						<field name="apellido">zuleta</field>
+						<field name="edad">25</field>
+						<field name="fecha">11/03/1996</field>
+					</record>
+					<record>
+						<field name="nombre">alita</field>
+						<field name="apellido">zuleta</field>
+						<field name="edad">25</field>
+						<field name="fecha">11/03/1996</field>
+					</record>
+					<record>
+						<field name="nombre">anita</field>
+						<field name="apellido">zuleta</field>
+						<field name="edad">25</field>
+						<field name="fecha">11/03/1996</field>
+					</record>
+					<record>
+						<field name="nombre">popis</field>
+						<field name="apellido">zuleta</field>
+						<field name="edad">25</field>
+						<field name="fecha">11/03/1996</field>
 					</record>
 				</records>
 			</table>

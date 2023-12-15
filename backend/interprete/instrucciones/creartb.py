@@ -13,7 +13,7 @@ class CrearTB(Instruccion):
         self.id = id
         self.atributos = atributos
     
-    def ejecutar(self, env:Enviroment):
+    def ejecutar(self, env:Enviroment):        
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             

@@ -12,6 +12,7 @@ class Contar(Expresion):
         self.condicion = condicion
     
     def ejecutar(self, env:Enviroment):
+        print('CONTAR: text_val: ', self.text_val)
         print('------------------ CONTAR --------------------------')
 
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)

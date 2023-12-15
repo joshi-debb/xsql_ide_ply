@@ -18,7 +18,7 @@ class Select(Instruccion):
     def ejecutar(self, env:Enviroment):
 
         if self.condicion_where != None:
-            print('La condicion where es: ', self.condicion_where.text_val)
+            print(self.condicion_where.text_val)
 
         # instruccion = parse.parse(self.condicion_where.text_val)
         # retorno = intruccion.ejecutar()

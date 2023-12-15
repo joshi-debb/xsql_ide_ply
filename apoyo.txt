@@ -1,74 +1,39 @@
-cantidad*tbdetallefactura.price / 1.12 > 100
+def ejecutar(self, env:Enviroment):
+        '''
+        nombre        precio | cantidad
+         ricito           12       4
+         agua              0      10
+        '''
 
-12*3 / 1.12 > 100
-
-
-
-from interprete.instrucciones.condicion_where import CondicionWhere
-from interprete.extra.enviroment import Enviroment
-from interprete.instrucciones.instruccion import Instruccion
-from xml.dom import minidom
-from interprete.expresiones.concatenar import Concatenar
-from interprete.extra.retorno import Retorno
-
-class Select(Instruccion):
-    def __init__(self, campos:str, tablas:str, condicion_where:CondicionWhere, linea:int, columna:int):
-        self.campos = campos
-        self.tablas = tablas
-        self.condicion_where = condicion_where
-        self.linea = linea
-        self.columna = columna
-
-    def ejecutar(self, env:Enviroment):
-        print('-------- CAMPOS -----------')
-        if self.campos == '*': # Seleccionar toda la tabla(s)
-            print('*')
-            # Buscar las tablas de las que se quiere extraer la informacion
-            texto = 'cantidad*tbdetallefactura.price / 1.12 > 100'
-            for tabla in self.tablas:
-                print(tabla)
-                if self.condicion_where != None:
-                    nombre_campo = self.condicion_where.id
-                    valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
-                    # Validar que la fila cumpra con la condicion
-                    print('Nombre del campo: ', nombre_campo)
-                    print('Valor del campo: ',  valor_campo.valor)
-
-                    # campo actual 'cantidad'
-                    # campo actual 'tbdetallefactura'
-
-                    valor_campo_tabla = 4
-                    valor_campo_tabla = 6
-                    
-                    # texto = sustituir(campo, valor_campo_tabla, text)
-                    # texto = '4*6 / 1.12 > 100'
-            
-            # escribimos en el archivo
-            # parseamos el archivo
-            # ejecutamos instrucciones
-            # Si devuelve True, guardar en una lista
-
-
-            
-        else:
-            for tabla in self.tablas:
-                for campo in self.campos:
-                    print(tabla)
-                    if self.condicion_where != None:
-                        nombre_campo = campo
-                        valor_campo:Retorno = self.condicion_where.expresion.ejecutar(env)
-                        # Validar que la fila cumpra con la condicion
-                        print('Nombre del campo: ', nombre_campo)
-                        print('Valor del campo: ',  valor_campo.valor)
-
-                        #lista_ids = parser.parse_where('id==3 && precio==90')
-                        
-
-                    else:
-                        pass
+        cadena_original = 'precio = 0 AND cantidad < 12'
+        cadena_original_1 = 'precio = 0 AND cantidad < 12'
         
-        print('-------- NOMBRES TABLAS -----------')
-        for tabla in self.tablas:
-            print(tabla)
+        fields = getEncabezados()
+        # [nombre, ricito, cantidad]
 
+        registros = []
 
+        for record in records:
+            cadena_original = cadena_original_1
+            for field in fields:
+                bandera = existeEnCadena(field, cadena_original)
+                if badera == True:
+                    valor = getValor(field)
+                    cadena_original.sustituir(valor, field)
+                
+            expresion = parser.parse('precio = 0 OR (44 < 12*12/12) AND 44 != 55')
+            retorno:Retorno = expresion.ejecutar(env)
+            if retorno.valor == True:
+                registro.append([precio, descripcion])
+            [[33, "buen producto"], [55, 'agotado']]
+        
+        [
+            [33, "buen producto"], 
+            [55, 'agotado'], 
+            [44, 'excelente']
+        ]
+
+        bandera = existeCaden('precio', 'precio = 0 OR (precio < 12*12/12) AND 44 != 55')
+
+        cadena_modificada = sustituirCadena('precio', '55')
+        cadena_modificada = '55 = 0 OR (55 < 12*12/12) AND 44 != 55'

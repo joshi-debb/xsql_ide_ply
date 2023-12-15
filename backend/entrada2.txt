@@ -1,6 +1,14 @@
-create data base personas;
-
-use personas;
+SELECT SUMA(IVA) FROM ID WHERE CAMPO1 = 1;
+SELECT CONTAR(*) FROM ID WHERE nombre = 'pepito';
+SELECT HOY();
+SELECT SUBSTRAER('HOLAMUNDO',1,4);
+SELECT CONCATENAR('HOLA','MUNDO');
+SELECT * FROM tbproductos;
+SELECT * FROM tbproductos, tbservicios;
+SELECT precio FROM tbproductos;
+SELECT precio FROM tbproductos, tbclientes;
+SELECT precio,descripcion FROM tbproductos, tbclientes;
+SELECT precio,descripcion FROM tbproductos, tbclientes WHERE precio=0;
 
 create table persona (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
@@ -9,29 +17,20 @@ create table persona (
     fecha DATE NOT NULL  
 );
 
-
-
-DROP TABLE persona;
-
-TRUNCATE TABLE persona;
-
-Declare @hola decimal;
-set @hola = 123.12+1;
-SELECT ("El valor de la variable es: " + @hola + " unidades");
-
-DECLARE @var1 nvarchar(5);
-SELECT (@var1);
-
-DECLARE @var2 bit;
-set @var2 = 0;
-
-SELECT (4<2 && @hola<1);
-SELECT * FROM persona;
-
+CREATE TABLE persona (
+ nombre nvarchar(5) not null primary key, apellido nvarchar(5) not null, edad int not null, fecha date not null
+);
 
 IF 0 < 1 THEN
     declare @v2 int;
     SELECT ("Entre a un if");
+END IF;
+
+IF 5 > 1 THEN
+    declare @v1 int;
+    SELECT ("If anidado");
+ELSE THEN
+    declare @v2 bit;
 END IF;
 
 IF 0 > 1 THEN
@@ -50,15 +49,20 @@ ELSE THEN
     SELECT ("Entro al else");
 END IF;
 
-create table Estudiante (
-    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
-    apellido NVARCHAR(5) NOT NULL,
-    edad INT NOT NULL,
-    fecha DATE NOT NULL  
-);
+TRUNCATE TABLE products;
+DELETE FROM products WHERE price = 10;
 
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','aaaa',12,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','bbbb',13,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','cccc',14,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','dddd',15,'10/12/2023');
-INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','eeee',16,'10/12/2023');
+UPDATE persona SET edad = '18'  WHERE nombre = 'pepito';
+UPDATE persona SET edad = '25', apellido = 'zuleta', fecha = '11/03/1996'  WHERE nombre = 'pepito';
+
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('pepito','papilla',12,'10/12/2023');
+
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('papita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('alita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('anita','papilla',12,'10/12/2023');
+INSERT INTO persona (nombre,apellido,edad,fecha) VALUES ('popis','papilla',12,'10/12/2023');
+
+
+use productos;
+
+create data base personas;

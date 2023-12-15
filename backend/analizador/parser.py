@@ -56,7 +56,7 @@ def getTextVal(instrucciones):
 
 def getTextVal_coma(params):
     text_var = ''
-    for i in len(params):
+    for i in range(len(params)):
         if i == len(params) - 1:
             text_var += params[i]
         else:
@@ -65,13 +65,34 @@ def getTextVal_coma(params):
 
 def getTextValExp_coma(params):
     text_var = ''
-    for i in len(params):
-        if isinstance(params[i], Expresion) or isinstance(params[i], Campo):
+    for i in range(len(params)):
+        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo):
             if i == len(params) - 1:
                 text_var += params[i].text_val
             else:
                 text_var += params[i].text_val + ', '
     return text_var
+
+def atributoOpcionesToStr(atributos):
+    text_val = ''
+    for i in range(len(atributos)):   
+        atr_str = ''
+        if atributos[i] == TipoOpciones.NOTNULL:
+            atr_str = 'not null'
+        elif atributos[i] == TipoOpciones.NULL:
+            atr_str = 'null'
+        elif atributos[i] == TipoOpciones.PRIMARYKEY:
+            atr_str = 'primary key'
+        elif atributos[i] == TipoOpciones.REFERENCE:
+            atr_str = 'reference'
+        elif isinstance(atributos[i], Reference):
+            atr_str = atributos[i].text_val
+
+        if i == len(atributos) - 1:
+            text_val += atr_str
+        else:
+            text_val += atr_str + ' '
+    return text_val
 
 def tipoToStr(tipo):
     if tipo == TipoDato.INT:
@@ -151,63 +172,69 @@ def p_crear_db(t):
     '''
     crear_db : CREATE DATA BASE ID
     '''
-    t[0] = CrearBD('', t[4], t.lineno(1), t.lexpos(1))
+    text_val = f'CREATE DATA BASE {t[4]}'
+    t[0] = CrearBD(text_val, t[4], t.lineno(1), t.lexpos(1))
 
 def p_use_db(t):
     '''
     use_db : USE ID
     '''
-    t[0] = Use('', t[2], t.lineno(1), t.lexpos(1))
+    text_val = f'USE {t[2]}'
+    t[0] = Use(text_val, t[2], t.lineno(1), t.lexpos(1))
 
 def p_crear_tabla(t):
     '''
     crear_tb : CREATE TABLE ID PARA atributos PARC
     '''
-    t[0] = CrearTB('', t[3], t[5], t.lineno(1), t.lexpos(1))
+    text_val = f'CREATE TABLE {t[3]} (\n {getTextValExp_coma(t[5])} \n)'
+    t[0] = CrearTB(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 # INSERT INTO nombre_tabla (col1, col2) VALUES (val1, val2);
 def p_cmd_insert(t):
     '''
     cmd_insert : INSERT INTO ID PARA columnas PARC VALUES PARA argumentos PARC
     '''
-    t[0] = Insert('', t[3], t[5], t[9], t.lineno(1), t.lexpos(1))
+    text_val = f'INSERT INTO {t[3]} ( {getTextVal_coma(t[5])} ) VALUES ( {getTextValExp_coma(t[9])} )'
+    t[0] = Insert(text_val, t[3], t[5], t[9], t.lineno(1), t.lexpos(1))
 
 # UPDATE nombre_tabla SET asignaciones WHERE condiciones;
 def p_cmd_update(t):
     '''
     cmd_update : UPDATE ID SET campos WHERE condicion_where
     '''
-    t[0] = Update('', t[2], t[4], t[6], t.lineno(1), t.lexpos(1))
+    text_val = f'UPDATE {t[2]} SET {getTextValExp_coma(t[4])} WHERE {t[6].text_val}'
+    t[0] = Update(text_val, t[2], t[4], t[6], t.lineno(1), t.lexpos(1))
 
 # DELETE FROM products WHERE price = 10;
 def p_cmd_delete(t):
     '''
     cmd_delete : DELETE FROM ID WHERE condicion_where
     '''
-    t[0] = Delete('', t[3], t[5], t.lineno(1), t.lexpos(1))
-
-
-
+    text_val = f'DELETE FROM {t[3]} WHERE {t[5].text_val}'
+    t[0] = Delete(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 # DROP TABLE nombre_tabla;
 def p_cmd_drop(t):
     '''
     cmd_drop : DROP TABLE ID
     '''
-    t[0] = Drop('', t[3], t.lineno(1), t.lexpos(1))
+    text_val = f'DROP TABLE {t[3]}'
+    t[0] = Drop(text_val, t[3], t.lineno(1), t.lexpos(1))
 
 # TRUNCATE TABLE nombre_tabla;
 def p_cmd_truncate(t):
     '''
     cmd_truncate : TRUNCATE TABLE ID
     '''
-    t[0] = Truncate('', t[3], t.lineno(1), t.lexpos(1))
+    text_val = f'TRUNCATE TABLE {t[3]}'
+    t[0] = Truncate(text_val, t[3], t.lineno(1), t.lexpos(1))
 
 def p_condicion_where(t):
     '''
     condicion_where : ID IGUAL expresion
     '''
-    t[0] = CondicionWhere('', t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'{t[1]} = {t[3].text_val}'
+    t[0] = CondicionWhere(text_val, t[1], t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_condicion_where_expresion(t):
     '''
@@ -249,8 +276,8 @@ def p_atributo(t):
     '''
     atributo : ID tipo atributo_opciones
     '''
-    # t[0] = Atributo(nombre, tipo, arreglo de opciones)
-    t[0] = Atributo(t[1], t[2], t[3], t.lineno(1), t.lexpos(1))
+    text_val = f'{t[1]} {tipoToStr(t[2])} {atributoOpcionesToStr(t[3])}'
+    t[0] = Atributo(text_val, t[1], t[2], t[3], t.lineno(1), t.lexpos(1))
 
 def p_atributo_opciones(t):
     '''
@@ -291,7 +318,8 @@ def p_atributo_opcion_references_id(t):
     '''
     atributo_opcion : ID PARA ID  PARC
     '''
-    t[0] = Reference('', t[1], t[3], t.lineno(1), t.lexpos(1))
+    text_val = f'{t[1]} ( {t[3]} )'
+    t[0] = Reference(text_val, t[1], t[3], t.lineno(1), t.lexpos(1))
 
 
 def p_cmd_select(t):
@@ -314,25 +342,29 @@ def p_select_tabla(t):
     '''
     select_tabla : columnas FROM nombre_tablas WHERE condicion_where_select
     '''
-    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'SELECT {getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])} WHERE {t[5]}'
+    t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_1(t):
     '''
     select_tabla : columnas FROM nombre_tablas empty
     '''
-    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'SELECT {getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])}'
+    t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_2(t):
     '''
     select_tabla : MULT FROM nombre_tablas WHERE condicion_where_select
     '''
-    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'SELECT * FROM {getTextVal_coma(t[3])} WHERE {t[5]}'
+    t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_3(t):
     '''
     select_tabla : MULT FROM nombre_tablas empty
     '''
-    t[0] = Select('', campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'SELECT * {getTextVal_coma(t[3])}'
+    t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 
 def p_lista_tablas(t):
@@ -350,32 +382,6 @@ def p_println(t):
     t[0] = Print(text_val=text_val, argumento=t[1], linea=t.lineno(1), columna=t.lexpos(1))
 
 
-# SELECT * FROM nombre_tabla 
-# def p_select_tabla(t):
-#     '''
-#     select_columnas : MULT FROM ID
-#     '''
-#     t[0] = t[3]
-
-# # SELECT * FROM lista_tablas WHERE condicion_where
-# def p_select_campos(t):
-#     '''
-#     select_colmnas : MULT FROM tablas condicion_where
-#     '''
-
-# def p_lista_tablas(t):
-#     '''
-#     tablas : tablas ID
-#            | ID
-#     '''
-#     if len(t) == 2:
-#         t[0] = [t[1]]
-#     else:
-#         t[1].append(t[2])
-#         t[0] = t[1]
-
-
-
 def p_funcion_sistema(t):
     '''
     funcion_sistema : concatenar
@@ -391,31 +397,36 @@ def p_concatena(t):
     '''
     concatenar : CONCATENAR PARA expresion COMA expresion PARC
     '''
-    t[0] = Concatenar('', t[3], t[5], t.lineno(1), t.lexpos(1))
+    text_val = f'CONCATENAR ( {t[3].text_val}, {t[5].text_val} )'
+    t[0] = Concatenar(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_substraer(t):
     '''
     substraer : SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
     '''
-    t[0] = Substraer('', t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
+    text_val = f'SUBSTRAER ( {t[3].text_val}, {t[5].text_val}, {t[7].text_val} )'
+    t[0] = Substraer(text_val, t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
 
 def p_hoy(t):
     '''
     hoy : HOY PARA PARC
     '''
-    t[0] = Hoy('', t.lineno(1), t.lexpos(1))
+    text_val = f'HOY ()'
+    t[0] = Hoy(text_val, t.lineno(1), t.lexpos(1))
 
 def p_contar(t):
     '''
-    contar : CONTAR PARA MULT PARC  FROM ID WHERE condicion_where
+    contar : CONTAR PARA MULT PARC FROM ID WHERE condicion_where
     '''
-    t[0] = Contar('', t[6], t[8], t.lineno(1), t.lexpos(1))
+    text_val = f'CONTAR ( * ) FROM {t[6]} WHERE {t[8].text_val}'
+    t[0] = Contar(text_val, t[6], t[8], t.lineno(1), t.lexpos(1))
 
 def p_suma(t):
     '''
     suma : SUMA PARA expresion PARC FROM ID WHERE condicion_where
     '''
-    t[0] = Suma('', t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
+    text_val = f'SUMA ( {t[3].text_val} ) FROM {t[6]} WHERE {t[8].text_val}'
+    t[0] = Suma(text_val, t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
 
 # CAST ( expression AS type )
 def p_cast(t):

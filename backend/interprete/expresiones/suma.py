@@ -1,3 +1,4 @@
+from interprete.expresiones.acceso import Acceso
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -13,11 +14,12 @@ class Suma(Expresion):
         self.condicion = condicion
     
     def ejecutar(self, env:Enviroment):
+        print('SUMA: text_val: ', self.text_val)
         print('------------------ SUMA --------------------------')
         
         # Se acepta el nombre o numero de columna
-        if isinstance(self.column, str):
-            print("> Nombre/Numero de columna: ", self.column)
+        if isinstance(self.column, Acceso):
+            print("> Nombre/Numero de columna: ", self.column.id)
         else:
             column:Retorno = self.column.ejecutar(env)
             print("> Nombre/Numero de columna: ", column.valor)

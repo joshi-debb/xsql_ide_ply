@@ -11,6 +11,7 @@ class Concatenar(Expresion):
         self.op2 = op2
     
     def ejecutar(self, env:Enviroment):
+        print('CONCATENAR: text_val: ', self.text_val)
         print('------------------ CONCATENAR --------------------------')
         op1:Retorno = self.op1.ejecutar(env)
         op2:Retorno = self.op2.ejecutar(env)

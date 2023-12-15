@@ -12,6 +12,7 @@ class Substraer(Expresion):
         self.longitud = longitud
     
     def ejecutar(self, env:Enviroment):
+        print('SUBSTRAER: text_val: ', self.text_val)
         print('------------------ SUBSTRAER --------------------------')
         op1:Retorno = self.op1.ejecutar(env)
         inicio:Retorno = self.inicio.ejecutar(env)
