@@ -19,7 +19,7 @@ class Select(Instruccion):
         self.columna = columna
         self.aux = ''
         self.condicion_bet_aux = ''
-        self.condicion_between = 'campo ' + '>'  +' op1 ' + '&&' + ' campo ' + '<' + ' op2'
+        self.condicion_between = 'campo ' + '>='  +' op1 ' + '&&' + ' campo ' + '<=' + ' op2'
         
     def get_valor(self):
         return self.aux
@@ -167,29 +167,43 @@ class Select(Instruccion):
     
     def select_where_between(self, env:Enviroment):
         if isinstance(self.condicion_where, Between):
+            
+            from analizador.parser import parser
+            
             print('Es between')
             op1 = self.condicion_where.op1.text_val
             op2 = self.condicion_where.op2.text_val
             campos = self.condicion_where.campo
             
-            if op1.tipo == TipoDato.DATETIME:
+            if self.condicion_where.op1.tipo == TipoDato.DATETIME:
                 op1 = op1.valor.strftime('%Y-%m-%d %H:%M:%S')
-            elif op1.tipo == TipoDato.DATE:
-                op1 = op1.valor.strftime('%Y-%m-%d')
+            # elif op1.tipo == TipoDato.DATE:
+            #     op1 = op1.valor.strftime('%Y-%m-%d')
 
-            if op2.tipo == TipoDato.DATETIME:
-                op2 = op2.valor.strftime('%Y-%m-%d %H:%M:%S')
-            elif op2.tipo == TipoDato.DATE:
-                op2 = op2.valor.strftime('%Y-%m-%d')
-                
+            # if op2.tipo == TipoDato.DATETIME:
+            #     op2 = op2.valor.strftime('%Y-%m-%d %H:%M:%S')
+            # elif op2.tipo == TipoDato.DATE:
+            #     op2 = op2.valor.strftime('%Y-%m-%d')
+            
+            
+      
                 
             
             self.set_condicion_between(self.get_condicion_between().replace('op1',op1))
             self.set_condicion_between(self.get_condicion_between().replace('op2',op2))
             self.set_condicion_between(self.get_condicion_between().replace('campo',campos))
-                                        
+            
+            # if 'HOY ()' in self.get_condicion_between():
+            #     expresion = parser.parse('HOY();')
 
-            from analizador.parser import parser
+            #     retorno:Retorno = expresion[0].ejecutar(env)
+                
+            #     # x = retorno.valor.date()
+                
+            #     self.set_condicion_between(self.get_condicion_between().replace('HOY ()',retorno.valor))
+            
+
+            
             
             datas = open('backend/structure.xml', 'r+', encoding='utf-8')
             mydoc = minidom.parse(datas)

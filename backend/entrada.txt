@@ -293,14 +293,6 @@ END;
 
 
 
-
-
-
-
-
-
-
-
 create data base personas;
 
 use personas;

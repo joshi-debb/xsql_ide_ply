@@ -439,7 +439,7 @@ def p_hoy(t):
     '''
     hoy : HOY PARA PARC
     '''
-    text_val = f'HOY ()'
+    text_val = f'HOY()'
     t[0] = Hoy(text_val, t.lineno(1), t.lexpos(1))
 
 def p_contar(t):
