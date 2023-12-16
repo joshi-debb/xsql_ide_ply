@@ -6,6 +6,7 @@ from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Expresion import Expresion
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import Error, TablaErrores
+from interprete.expresiones.tipoChars import TipoChars
 
 class AsignacionVar(Instruccion):
     def __init__(self, text_val:str, id:str, expresion:Expresion, linea:int, columna:int):
@@ -27,24 +28,17 @@ class AsignacionVar(Instruccion):
         simbolo = env.getSimbolo(self.id, TipoSimbolo.VARIABLE)
         exp = self.expresion.ejecutar(env)
 
-        # print('Tipo del simbolo: ', simbolo.tipo)
-        # print('Tipo de exp: ', exp.tipo)
+        print('Tipo del simbolo: ', simbolo.tipo)
+        print('Tipo de exp: ', exp.tipo)
 
         if exp.tipo == TipoDato.ERROR:
             # Agregando error a la tabla de erorres
             err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error en la asignacion de variable')
             TablaErrores.addError(err)
             return self
-
-        # El tipo de la variable debe coincidir con el tipo de de dato asignandose
-        if exp.tipo != simbolo.tipo and (simbolo.tipo != TipoDato.BIT):
-            # Agregando a la tabla de erorres
-            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='La expresion debe ser del mismo tipo que la variable')
-            TablaErrores.addError(err)
-            return self
         
         if simbolo.tipo == TipoDato.BIT:
-            if exp.tipo != TipoDato.INT:
+            if exp.tipo != TipoDato.INT and exp.tipo != TipoDato.NULL:
                 # Agregando a la tabla de erorres
                 err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error Semantico. El valor a asignar debe ser tipo bit (1 o 0)')
                 TablaErrores.addError(err)
@@ -53,14 +47,32 @@ class AsignacionVar(Instruccion):
                 simbolo.valor = True
             elif exp.valor == 0:
                 simbolo.valor = False
-            elif exp.valot == 'null':
+            elif exp.valor == 'null':
                 simbolo.valor = None
             else:
                 # Agregando a la tabla de erorres
-                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error Semantico. El valor a asignar debe ser tipo bit (1 o 0)')
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error Semantico. El valor a asignar debe ser tipo bit (1, 0 o null)')
                 TablaErrores.addError(err)
                 return self
             return self
+        elif simbolo.tipo == TipoDato.NCHAR or simbolo.tipo == TipoDato.NVARCHAR:
+            if exp.tipo == TipoDato.NCHAR or exp.tipo == TipoDato.NVARCHAR:
+                simbolo.tipo = simbolo.tipo
+                simbolo.valor = exp.valor
+            else:
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
+                TablaErrores.addError(err)
+                return self
+            return self
+        
+        # El tipo de la variable debe coincidir con el tipo de de dato asignandose
+        if exp.tipo != simbolo.tipo:
+            # Agregando a la tabla de erorres
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='La expresion debe ser del mismo tipo que la variable')
+            TablaErrores.addError(err)
+            return self
+
         else:
             # Modificando el valor de la variable
             simbolo.valor = exp.valor

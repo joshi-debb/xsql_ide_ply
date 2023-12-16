@@ -1,3 +1,6 @@
+from interprete.instrucciones.when import When
+from interprete.instrucciones.instruccion import Instruccion
+from interprete.instrucciones.argumento import Argumento
 from interprete.expresiones.Expresion import Expresion
 from ply.yacc import yacc
 from analizador import lexer
@@ -41,6 +44,9 @@ from interprete.expresiones.cas import Cas
 from interprete.instrucciones.procedure import Procedure
 from interprete.expresiones._return import Return
 from interprete.instrucciones.function import Function
+from interprete.instrucciones.exec import Exec
+from interprete.instrucciones.llamada_funcion import LlamadaFnc
+from interprete.instrucciones.case import Case
 
 
 from interprete.extra.tipos import *
@@ -70,7 +76,7 @@ def getTextVal_coma(params):
 def getTextValExp_coma(params):
     text_var = ''
     for i in range(len(params)):
-        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion):
+        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion) or isinstance(params[i], Argumento) or isinstance(params[i], LlamadaFnc) or isinstance(params[i], Case):
             if i == len(params) - 1:
                 text_var += params[i].text_val
             else:
@@ -210,7 +216,7 @@ def p_crear_tabla(t):
 # INSERT INTO nombre_tabla (col1, col2) VALUES (val1, val2);
 def p_cmd_insert(t):
     '''
-    cmd_insert : INSERT INTO ID PARA columnas PARC VALUES PARA argumentos PARC
+    cmd_insert : INSERT INTO ID PARA columnas PARC VALUES PARA valores PARC
     '''
     text_val = f'INSERT INTO {t[3]} ({getTextVal_coma(t[5])}) VALUES ({getTextValExp_coma(t[9])})'
     t[0] = Insert(text_val, t[3], t[5], t[9], t.lineno(1), t.lexpos(1))
@@ -348,6 +354,7 @@ def p_cmd_select(t):
     '''
     cmd_select : SELECT op_select
     '''
+    t[2].text_val = 'SELECT ' + t[2].text_val
     t[0] = t[2]
 
 # FUNCIONES DEL SISTEMA
@@ -364,28 +371,28 @@ def p_select_tabla(t):
     '''
     select_tabla : columnas FROM nombre_tablas WHERE condicion_where_select
     '''
-    text_val = f'SELECT {getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
+    text_val = f'{getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_1(t):
     '''
     select_tabla : columnas FROM nombre_tablas empty
     '''
-    text_val = f'SELECT {getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])}'
+    text_val = f'{getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_2(t):
     '''
     select_tabla : MULT FROM nombre_tablas WHERE condicion_where_select
     '''
-    text_val = f'SELECT * FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
+    text_val = f'* FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_3(t):
     '''
     select_tabla : MULT FROM nombre_tablas
     '''
-    text_val = f'SELECT * FROM {getTextVal_coma(t[3])}'
+    text_val = f'* FROM {getTextVal_coma(t[3])}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 
@@ -400,7 +407,7 @@ def p_println(t):
     '''
     print : expresion
     '''
-    text_val = f'SELECT {t[1].text_val}'
+    text_val = f'{t[1].text_val}'
     t[0] = Print(text_val=text_val, argumento=t[1], linea=t.lineno(1), columna=t.lexpos(1))
 
 
@@ -419,35 +426,35 @@ def p_concatena(t):
     '''
     concatenar : CONCATENAR PARA expresion COMA expresion PARC
     '''
-    text_val = f'SELECT CONCATENAR ({t[3].text_val}, {t[5].text_val})'
+    text_val = f'CONCATENAR ({t[3].text_val}, {t[5].text_val})'
     t[0] = Concatenar(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_substraer(t):
     '''
     substraer : SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
     '''
-    text_val = f'SELECT SUBSTRAER ({t[3].text_val}, {t[5].text_val}, {t[7].text_val})'
+    text_val = f'SUBSTRAER ({t[3].text_val}, {t[5].text_val}, {t[7].text_val})'
     t[0] = Substraer(text_val, t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
 
 def p_hoy(t):
     '''
     hoy : HOY PARA PARC
     '''
-    text_val = f'SELECT HOY ()'
+    text_val = f'HOY ()'
     t[0] = Hoy(text_val, t.lineno(1), t.lexpos(1))
 
 def p_contar(t):
     '''
     contar : CONTAR PARA MULT PARC FROM ID WHERE condicion_where
     '''
-    text_val = f'SELECT CONTAR (*) FROM {t[6]} WHERE {t[8].text_val}'
+    text_val = f'CONTAR (*) FROM {t[6]} WHERE {t[8].text_val}'
     t[0] = Contar(text_val, t[6], t[8], t.lineno(1), t.lexpos(1))
 
 def p_suma(t):
     '''
     suma : SUMA PARA expresion PARC FROM ID WHERE condicion_where
     '''
-    text_val = f'SELECT SUMA ({t[3].text_val}) FROM {t[6]} WHERE {t[8].text_val}'
+    text_val = f'SUMA ({t[3].text_val}) FROM {t[6]} WHERE {t[8].text_val}'
     t[0] = Suma(text_val, t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
 
 # CAS ( expression AS type )
@@ -455,7 +462,7 @@ def p_cast(t):
     '''
     cas : CAS PARA expresion AS tipo PARC
     '''
-    text_val = f'SELECT CAS ({t[3].text_val} AS {tipoToStr(t[5])})'
+    text_val = f'CAS ({t[3].text_val} AS {tipoToStr(t[5])})'
     t[0] = Cas(text_val=text_val, op=t[3], tipo=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 # DECLARACION DE VARIABLES
@@ -547,6 +554,31 @@ def p_parametro(t):
         text_val = f'@ {t[2]} AS {tipoToStr(t[4])}'
         t[0] = Declaracion(text_val=text_val, id=t[2], tipo=t[4], linea=t.lineno(1), columna=t.lexpos(1))
 
+def p_valores(t):
+    '''
+    valores : valores COMA valor
+            | valor
+    '''
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[3])
+        t[0] = t[1]
+
+def p_valor(t):
+    '''
+    valor     : expresion
+              | empty
+    '''
+    t[0] = t[1]
+
+def p_ejecutar_procedure(t):
+    '''
+    ejecutar_procedure : EXEC ID argumentos
+    '''
+    text_val = f'EXEC {t[2]} {getTextValExp_coma(t[3])}'
+    t[0] = Exec(text_val=text_val, nombre_proc=t[2], linea=t.lineno(1), columna=t.lexpos(1))
+
 def p_argumentos(t):
     '''
     argumentos : argumentos COMA argumento
@@ -557,19 +589,20 @@ def p_argumentos(t):
     else:
         t[1].append(t[3])
         t[0] = t[1]
+    
 
 def p_argumento(t):
     '''
-    argumento : expresion
+    argumento : ARROBA ID IGUAL expresion
+              | expresion
               | empty
     '''
-    t[0] = t[1]
-
-def p_ejecutar_procedure(t):
-    '''
-    ejecutar_procedure : EXEC ID argumentos
-    '''
-    t[0] = t[3]
+    if len(t) == 2 and (isinstance(t[1], Expresion) or isinstance(t[1], Instruccion)):
+        text_val = f'{t[1].text_val}'
+        t[0] = Argumento(text_val=text_val, id=None, expresion=t[1], linea=t.lineno(1), columna=t.lexpos(1))
+    elif len(t) == 5:
+        text_val = f'@{t[2]} = {t[4].text_val}'
+        t[0] = Argumento(text_val=text_val, id=t[2], expresion=t[4], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_cmd_alter(t):
     '''
@@ -672,12 +705,6 @@ def p_bloque(t):
     t[0] = t[1]
 
 
-# def p_comp_alter(t):
-#     '''
-#     comp_alter : ADD ID tipo
-#                | DROP ID
-#     '''
-
 # Valores como tal. Eje. 123, "hola", var.
 def p_expresion(t):
     '''
@@ -685,6 +712,8 @@ def p_expresion(t):
               | relacional
               | logica
               | literal
+              | llamada_fnc
+              | case
     '''
     t[0] = t[1]
 
@@ -701,6 +730,51 @@ def p_acceso_var(t):
     '''
     text_val = t[1] + t[2]  
     t[0] = Acceso(text_val, t[2], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_case(t):
+    '''
+    case : CASE lista_when ELSE THEN bloque END ID
+         | CASE lista_when END ID
+    '''
+    if len(t) == 5:
+        text_val = f'CASE {getTextValExp_coma(t[2])} END {t[4]}'
+        t[0] = Case(text_val=text_val, lista_when=t[2], _else=False, bloque_else=[], linea=t.lineno(1), columna=t.lexpos(1))
+    else:
+        text_val = f'CASE {getTextValExp_coma(t[2])} ELSE THEN {getTextVal(t[5])} END {t[7]}'
+        bloque = Bloque(getTextVal(t[5]), t[5], linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Case(text_val=text_val, lista_when=t[2], _else=False, bloque_else=bloque, linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_case_lista_when(t):
+    '''
+    lista_when : lista_when c_when
+               | c_when
+    '''
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[2])
+        t[0] = t[1]
+
+def p_case_when(t):
+    '''
+    c_when : WHEN expresion THEN bloque
+    '''
+    text_val = f'WHEN {t[2].text_val} THEN {getTextVal(t[4])}'
+    bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
+    t[1] = When(text_val=text_val, condicion=t[2], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_llamada_funcion(t):
+    '''
+    llamada_fnc : ID PARA argumentos PARC
+    '''
+    text_val = f'{t[1]} ({getTextValExp_coma(t[3])})'
+    t[0] = LlamadaFnc(text_val=text_val, nombre_fnc=t[1], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_llamada_funciones_sistema(t):
+    '''
+    llamada_fnc : funcion_sistema
+    '''
+    t[0] = t[1]
 
 def p_expresion_relacional(t):
     '''

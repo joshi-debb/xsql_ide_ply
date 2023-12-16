@@ -14,8 +14,9 @@ class Procedure(Instruccion):
         self.instrucciones = instrucciones
 
     def ejecutar(self, env:Enviroment):
-        print('PROCEDIMIENTO: ', self.text_val)
-        return 
+        print('PROCEDIMIENTO: ', self.text_val) 
+
+        # Guardar procedimiento en XML
 
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
@@ -25,15 +26,15 @@ class Procedure(Instruccion):
             for database in mydoc.getElementsByTagName('database'):
                 if database.getAttribute('name') == current.getAttribute('name'):
                     for procedure in database.getElementsByTagName('procedures'):
-                        if procedure.getAttribute('name') == self.nombre_proc:
+                        if procedure.getAttribute('name') == self.id:
                             print("El procedimiento ya existe")
                             return
                         
                         #crear procedimiento
                         procedure = mydoc.createElement('procedure')
-                        procedure.setAttribute('name', self.nombre_proc)
+                        procedure.setAttribute('name', self.id)
                         
-                        procedure.appendChild(mydoc.createTextNode(self.body))
+                        procedure.appendChild(mydoc.createTextNode(str(self.text_val)))
                         
                         database.appendChild(procedure)
                         

@@ -1,1 +1,120 @@
-select 3 == 4 || 1 < 2;
+CREATE FUNCTION Retornasuma(@ProductID int, @id as decimal) 
+RETURNS int 
+AS 
+-- Returns the stock level for the product. 
+BEGIN 
+    create data base productos;
+
+    SELECT CONCATENAR('HOLA','MUNDO');
+    SELECT SUBSTRAER('HOLAMUNDO',1,4);
+    SELECT HOY();
+    SELECT CONTAR(*) FROM ID WHERE nombre = 'pepito';
+    SELECT SUMA(IVA) FROM ID WHERE CAMPO1 = 1;
+    SELECT CAS (@ID AS int);
+
+    DECLARE @variable1 int;
+    DECLARE @variable2 nvarchar(20);
+    DECLARE @contador decimal;
+
+    INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', 9.99);
+    UPDATE products SET price = 10 WHERE price = 5;
+    UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a = 0 || a < 0;
+    DELETE FROM products WHERE price = 10;
+    DELETE FROM products WHERE price = 10 && cantidad != 0;
+    ALTER TABLE Productos ADD Jugos nvarchar(20);
+    DROP TABLE nombre_tabla;
+    TRUNCATE TABLE nombre_tabla;
+    UPDATE persona SET edad = '25', apellido = 'zuleta', fecha = '11/03/1996'  WHERE nombre = 'pepito';
+    SELECT ("El valor de la variable es: " + @hola + " unidades");
+
+    use productos;
+
+    create table papitas(
+        nombre NVARCHAR(5) NULL,
+        apellido NVARCHAR(5) NOT NULL,
+        fecha_nac DATE NOT NULL PRIMARY KEY,
+        genero BIT NOT NULL  
+    );
+
+    IF 0 > 1 THEN
+        declare @v1 int;
+        SELECT ("Primer if");
+
+        IF 5 > 1 THEN
+            declare @v1 int;
+            SELECT ("If anidado");
+        ELSE THEN
+            declare @v2 bit;
+        END IF;
+    ELSE THEN
+        declare @v2 bit;
+        SELECT ("Entro al else");
+    END IF;
+
+    declare @num int;
+    set @num = 1;
+
+    IF @num == 0 THEN
+        declare @v1 int;
+        SELECT ("num = " + @num);
+    ELSE IF @num == 1 THEN
+        declare @v2 nvarchar(2);
+        SELECT ("num = " + @num);
+    ELSE IF @num == 2 THEN
+        declare @v3 nvarchar(2);
+        SELECT ("num = " + @num);
+    ELSE IF @num == 3 THEN
+        declare @v3 nvarchar(2);
+        SELECT ("num = " + @num);
+    ELSE IF @num == 4 THEN
+        declare @v3 nvarchar(2);
+        SELECT ("num = " + @num);
+    ELSE THEN
+        declare @v3 nvarchar(2);
+        SELECT ("num = " + @num);
+    END IF;
+
+    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('juanito', 'cascabel', 17, '01/15/2005');
+    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('lola', 'molinillo', 18, '05/23/2004');
+    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('carlitos', 'travesura', 19, '09/08/2003');
+    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('maria', 'santos', 20, '11/30/2002');
+    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('pedrito', 'flores', 21, '03/12/2001');
+
+    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('juan', 'lopez', 1001, '1A');
+    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('ana', 'gomez', 1002, '2B');
+    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('carlos', 'perez', 1003, '3C');
+    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('maria', 'martinez', 1004, '4D');
+    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('pedro', 'rodriguez', 1005, '5E');
+
+
+
+    SELECT * FROM nombre_de_la_tabla;
+
+    SELECT columna1, columna2 FROM nombre_de_la_tabla;
+
+    SELECT columna1, columna2 FROM nombre_de_la_tabla WHERE edad > 0 && altura < 100;
+
+    SELECT * FROM productos
+    WHERE precio BETWEEN fecha_vencimiento && '2023-06-30';
+
+    declare @cont decimal;
+    set @cont = 12.2;
+    set @cont = hoy() + 12 || today(@ciudad='Guatemala', @zona="18");
+
+    set @cont = case 
+                when edad > 18 && edad <= 25 then 
+                    set @cont = 12.2;
+                when edad > 25 && edad <= 35 then 
+                    set @cont = 12.2;
+                when edad >35 && edad <= 45 then 
+                    set @cont = 12.2;
+                else then 
+                    set @cont = 12.2;
+                end clasificacion;
+END;
+
+
+EXEC Retornasuma @precio = 44, @departamento = "Guatemala", tia();
+getTipo();
+
+SELECT * from tbfactura where fechafactura between '2023-01-01' && hoy();
