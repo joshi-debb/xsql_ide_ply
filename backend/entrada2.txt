@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE FUNCTION Retornasuma(@ProductID int, @id as decimal) 
 RETURNS int 
 AS 
@@ -118,3 +119,11 @@ EXEC Retornasuma @precio = 44, @departamento = "Guatemala", tia();
 getTipo();
 
 SELECT * from tbfactura where fechafactura between '2023-01-01' && hoy();
+=======
+<<<<<<< HEAD
+
+SELECT nombre, apellido FROM persona WHERE edad == 19 || edad == 21;
+=======
+select 3 == 4 || 1 < 2;
+>>>>>>> 874b427c638ccdbc876052915e351b39dfaca7a1
+>>>>>>> d81dc4344d5f965b25df5411077785c6f6da4012

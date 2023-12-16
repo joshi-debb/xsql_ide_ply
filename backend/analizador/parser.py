@@ -36,7 +36,6 @@ from interprete.instrucciones.if_else import IfElse
 from interprete.instrucciones.bloque import Bloque
 from interprete.instrucciones.reference import Reference
 from  interprete.instrucciones.else_if import ElseIf
-from interprete.instrucciones.select import Select
 from interprete.instrucciones.between import Between
 from interprete.instrucciones._while import While
 from interprete.extra.errores import *
