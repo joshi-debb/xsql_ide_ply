@@ -296,3 +296,8 @@ WHERE precio BETWEEN 10.00 AND 50.00;
 SELECT * FROM productos
 WHERE precio BETWEEN 10.00 AND 50.00
   AND fecha_vencimiento > '2023-06-30';
+
+
+
+
+SELECT nombre, apellido FROM persona, alumno WHERE edad > 20;

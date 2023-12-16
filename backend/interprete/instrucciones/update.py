@@ -45,25 +45,26 @@ class Update(Instruccion):
             file.write(formatted_xml)
 
     def look_in_pos(self, env:Enviroment) -> int:
-        with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
-            mydoc = minidom.parse(file)
-            
-            current = mydoc.getElementsByTagName('current')[0]
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
-            for database in mydoc.getElementsByTagName('database'):
-                if database.getAttribute('name') == current.getAttribute('name'):
-                    for table in database.getElementsByTagName('tables'):
-                        for table in table.getElementsByTagName('table'):
-                            if table.getAttribute('name') == self.table_name:
-                                found = 0
-                                cont_records = 0
-                                for recs in table.getElementsByTagName('records'):
-                                    for record in recs.getElementsByTagName('record'):
-                                        cont_records += 1
-                                        for rc in record.getElementsByTagName('field'):
-                                            if rc.getAttribute('name') == self.condicion.id and rc.firstChild.data == self.condicion.expresion.ejecutar(env).valor:
-                                                found = cont_records
-                                                break
+        mydoc = minidom.parse(datas)
+        
+        current = mydoc.getElementsByTagName('current')[0]
+
+        for database in mydoc.getElementsByTagName('database'):
+            if database.getAttribute('name') == current.getAttribute('name'):
+                for table in database.getElementsByTagName('tables'):
+                    for table in table.getElementsByTagName('table'):
+                        if table.getAttribute('name') == self.table_name:
+                            found = 0
+                            cont_records = 0
+                            for recs in table.getElementsByTagName('records'):
+                                for record in recs.getElementsByTagName('record'):
+                                    cont_records += 1
+                                    for rc in record.getElementsByTagName('field'):
+                                        if rc.getAttribute('name') == self.condicion.id and rc.firstChild.data == self.condicion.expresion.ejecutar(env).valor:
+                                            found = cont_records
+                                            break
         return found-1
 
 
