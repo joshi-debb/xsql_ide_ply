@@ -12,4 +12,6 @@ class Literal(Expresion):
     def ejecutar(self, env:Enviroment):
         if self.tipo == TipoDato.NCHAR or self.tipo == TipoDato.NVARCHAR:
             self.valor = self.valor.replace("\\n", "\n").replace("\\\\", "\\").replace("\\r", "\r").replace("\\t", "\t").replace("\\\"", "\"").replace("\\\'", "\'").replace("\"", "").replace("\'", "")
+        # print('Vamos a retornar el valor: ', self.valor)
+        # print('Vamos a retornar el tipo: ', self.tipo)
         return Retorno(tipo=self.tipo, valor=self.valor)

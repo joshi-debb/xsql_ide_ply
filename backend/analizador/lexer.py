@@ -37,7 +37,6 @@ reservadas = {
     'else': 'ELSE',
     'then': 'THEN',
     'while': 'WHILE',
-    'and': 'AMPERSON',
     'as': 'AS',
     'between': 'BETWEEN',
     

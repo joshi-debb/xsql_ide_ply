@@ -17,32 +17,30 @@
         </table>
         <!-- Otras tablas -->
     </tables>
-    
+
     <functions>
         <function name="nombre_funcion_1">
-            <parameters>
-                <parameter name="parametro_1" type="tipo_parametro_1" />
-                <parameter name="parametro_2" type="tipo_parametro_2" />
-                <!-- Otros parámetros -->
-            </parameters>
-            <body>
-                <!-- Cuerpo de la función -->
-            </body>
+            
+            
         </function>
         <!-- Otras funciones -->
     </functions>
     
     <procedures>
-        <procedure name="nombre_procedimiento_1">
-            <parameters>
-                <parameter name="parametro_1" type="tipo_parametro_1" />
-                <parameter name="parametro_2" type="tipo_parametro_2" />
-                <!-- Otros parámetros -->
-            </parameters>
-            <body>
-                <!-- Cuerpo del procedimiento -->
-            </body>
+        <procedure name="sp_nuevoprocedimiento">
+            CREATE PROCEDURE sp_nuevoprocedimiento(@MONTO AS DECIMAL,@IDFACTURA INT)
+            AS
+            BEGIN
+            DECLARE @IVA DECIMAL;
+            DECLARE @ISR DECIMAL;
+            SET @IVA = @MONTO - @MONTO/1.12;
+            IF @MONTO > 2000 THEN
+                SET @ISR = @MONTO *0.07;
+            ELSE
+            SET @ISR = @MONTO *0.10;
+                END IF;
+            UPDATE tbfactura set monto = @monto where idfactura = @idfactura;
+            END;
         </procedure>
-        <!-- Otros procedimientos -->
     </procedures>
 </database>
