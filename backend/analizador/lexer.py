@@ -39,6 +39,8 @@ reservadas = {
     'while': 'WHILE',
     'as': 'AS',
     'between': 'BETWEEN',
+    'case': 'CASE',
+    'when': 'WHEN',
     
     'null': 'NULL',
     'not': 'NOT',

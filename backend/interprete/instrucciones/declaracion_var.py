@@ -12,7 +12,8 @@ class Declaracion(Instruccion):
     def __init__(self, text_val:str, id:str, tipo:TipoDato, linea:int, columna:int):
         super().__init__(text_val, linea, columna)
         self.id = id
-        self.tipo = tipo
+        if isinstance(tipo, TipoChars): self.tipo = tipo.charTipo
+        else:                           self.tipo = tipo
         
     def ejecutar(self, env:Enviroment):
 

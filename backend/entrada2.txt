@@ -1,2 +1,0 @@
-
-SELECT nombre, apellido FROM persona, alumno WHERE altura > 1.60 && altura < 1.80;
