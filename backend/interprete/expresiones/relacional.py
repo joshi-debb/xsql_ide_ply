@@ -16,6 +16,13 @@ class Relacional(Expresion):
         op2:Retorno = self.op2.ejecutar(env)
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
 
+        # print('type: ', type(op1))
+        # print('op1: ', op1.valor)
+        # print(op1.tipo)
+        # print('type: ', type(op2))
+        # print('op2: ', op2.valor)
+        # print(op2.tipo)
+
         # Que no haya error en los operandos
         if op1.tipo == TipoDato.ERROR or op2.tipo == TipoDato.ERROR:
             print("Error al realizar la operacion Relacional. En la linea " + str(self.linea))
@@ -44,7 +51,7 @@ class Relacional(Expresion):
                 resultado.tipo = TipoDato.BOOL
                 resultado.valor = (op1.valor <= op2.valor)
         
-        elif self.operador == TipoRelacional.IGUALDAD:
+        elif self.operador == TipoRelacional.IGUALDAD or self.operador == TipoRelacional.IGUAL:
             if (op1.tipo == TipoDato.INT or op1.tipo == TipoDato.DECIMAL) and (op2.tipo == TipoDato.INT or op2.tipo == TipoDato.DECIMAL):
                 resultado.tipo = TipoDato.BOOL
                 resultado.valor = (op1.valor == op2.valor)

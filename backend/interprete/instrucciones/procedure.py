@@ -1,18 +1,21 @@
-from interprete.instrucciones.instruccion import Instruccion
+from .instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
+from interprete.instrucciones.declaracion_var import Declaracion
+from interprete.instrucciones.bloque import Bloque
 
 from xml.dom import minidom
 
 
 class Procedure(Instruccion):
-    def __init__(self, text_val, nombre_proc, parametros, instrucciones, line, column):
-        Instruccion.__init__(self,None,line,column)
-  
-        
-        self.nombre_proc = 'nombre del procedure'
-        self.body = 'instrucciones de procedure'
+    def __init__(self, text_val:str, id:str, parametros:Declaracion, instrucciones:Bloque, linea, columna):
+        super().__init__(text_val, linea, columna)
+        self.id = id
+        self.parametros = parametros
+        self.instrucciones = instrucciones
 
     def ejecutar(self, env:Enviroment):
+        print('PROCEDIMIENTO: ', self.text_val)
+        return 
 
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)

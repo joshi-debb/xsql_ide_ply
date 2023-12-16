@@ -12,10 +12,10 @@ SELECT SUBSTRAER('HOLAMUNDO',1,4);
 SELECT HOY();
 SELECT CONTAR(*) FROM ID WHERE nombre = 'pepito';
 SELECT SUMA(IVA) FROM ID WHERE CAMPO1 = 1;
-SELECT CAST ( ID AS int );
+SELECT CAS ( ID AS int );
 
-DECLARE @variable1 int
-DECLARE @variable2 nvarchar(20) = 333
+DECLARE @variable1 int;
+DECLARE @variable2 nvarchar(20);
 
 
 CREATE PROCEDURE procedure_name () AS
@@ -31,7 +31,7 @@ BEGIN
     RETURN
 END
 
-ALTER TABLE Productos ADD Jugos nvarchar(20)
+ALTER TABLE Productos ADD Jugos nvarchar(20);
 
 ALTER TABLE Equipos DROP Goles
 
@@ -129,12 +129,12 @@ IF 0 > 1 THEN
         SELECT ("If anidado");
     ELSE THEN
         declare @v2 bit;
-    END IF
+    END IF;
 
 ELSE THEN
     declare @v2 bit;
     SELECT ("Entro al else");
-END IF
+END IF;
 
 
 IF 4 < 0 THEN
@@ -143,7 +143,7 @@ ELSE IF 3 > 55 THEN
     declare @v2 nvarchar(2);
 ELSE THEN
     declare @v3 bit;
-END IF
+END IF;
 
 
 declare @num int;
@@ -167,7 +167,7 @@ ELSE IF @num == 4 THEN
 ELSE THEN
     declare @v3 nvarchar(2);
     SELECT ("num = " + @num);
-END IF
+END IF;
 
 /*
 SELECT * FROM tbproductos;
@@ -238,6 +238,58 @@ ELSE THEN
     SELECT ("Entro al else");
 END IF;
 
+CREATE PROCEDURE sp_conteo (@i int)
+AS
+BEGIN
+    DECLARE @contador int;
+    IF 0 > 1 THEN
+        declare @v1 int;
+        SELECT ("Primer if");
+
+        IF 5 > 1 THEN
+            declare @v1 int;
+            SELECT ("If anidado");
+        ELSE THEN
+            declare @v2 bit;
+        END IF;
+
+    ELSE THEN
+        declare @v2 bit;
+        SELECT ("Entro al else");
+    END IF;
+END;
+
+CREATE PROCEDURE sp_nuevoprocedimiento(@MONTO 
+DECIMAL,@IDFACTURA AS INT)
+AS
+BEGIN 
+DECLARE @IVA DECIMAL;
+ DECLARE @ISR DECIMAL;
+ 
+ SET @IVA = @MONTO - @MONTO/1.12;
+ IF @MONTO > 2000 THEN 
+ SET @ISR = @MONTO *0.07;
+ELSE then
+ SET @ISR = @MONTO *0.10;
+ END IF;
+ 
+ UPDATE tbfactura set monto = @monto where idfactura = @idfactura;
+END;
+
+CREATE PROCEDURE sp_conteo (@i AS int)
+AS
+    BEGIN
+    DECLARE @contador AS int;
+    if(@i != 0) then
+        WHILE @contador < @i
+        BEGIN
+            SELECT CONCATENAR(" EJECUCION No.",@i);
+            SET @i= @i+1;
+        END;
+    ELSE then
+        SELECT "NO HAY NADA QUE HACER";
+    end if;
+END;
 
 
 
@@ -294,10 +346,11 @@ SELECT * FROM productos
 WHERE precio BETWEEN 10.00 AND 50.00;
 
 SELECT * FROM productos
+
 WHERE precio BETWEEN 10.00 AND 50.00
   AND fecha_vencimiento > '2023-06-30';
 
 
-
-
 SELECT nombre, apellido FROM persona, alumno WHERE edad > 20;
+
+WHERE precio BETWEEN fecha_vencimiento && '2023-06-30';

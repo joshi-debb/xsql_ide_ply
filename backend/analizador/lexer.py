@@ -37,8 +37,6 @@ reservadas = {
     'else': 'ELSE',
     'then': 'THEN',
     'while': 'WHILE',
-    'and': 'AMPERSON',
-    'or': 'OLOGICO',
     'as': 'AS',
     'between': 'BETWEEN',
     
@@ -63,7 +61,7 @@ reservadas = {
     'hoy': 'HOY',
     'contar': 'CONTAR',
     'suma': 'SUMA',
-    'cast': 'CAST',
+    'cas': 'CAS',
 
     'println': 'PRINTLN'
 }

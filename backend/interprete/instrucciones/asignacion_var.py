@@ -27,6 +27,9 @@ class AsignacionVar(Instruccion):
         simbolo = env.getSimbolo(self.id, TipoSimbolo.VARIABLE)
         exp = self.expresion.ejecutar(env)
 
+        # print('Tipo del simbolo: ', simbolo.tipo)
+        # print('Tipo de exp: ', exp.tipo)
+
         if exp.tipo == TipoDato.ERROR:
             # Agregando error a la tabla de erorres
             err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error en la asignacion de variable')
@@ -50,6 +53,8 @@ class AsignacionVar(Instruccion):
                 simbolo.valor = True
             elif exp.valor == 0:
                 simbolo.valor = False
+            elif exp.valot == 'null':
+                simbolo.valor = None
             else:
                 # Agregando a la tabla de erorres
                 err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error Semantico. El valor a asignar debe ser tipo bit (1 o 0)')

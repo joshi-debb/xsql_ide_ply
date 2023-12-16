@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 
 SELECT nombre, apellido FROM persona WHERE edad == 19 || edad == 21;
+=======
+select 3 == 4 || 1 < 2;
+>>>>>>> 874b427c638ccdbc876052915e351b39dfaca7a1

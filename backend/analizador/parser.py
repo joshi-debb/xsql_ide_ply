@@ -36,7 +36,10 @@ from  interprete.instrucciones.else_if import ElseIf
 from interprete.instrucciones.between import Between
 from interprete.instrucciones._while import While
 from interprete.extra.errores import *
+from interprete.expresiones.cas import Cas
 from interprete.instrucciones.procedure import Procedure
+from interprete.expresiones._return import Return
+from interprete.instrucciones.function import Function
 
 
 from interprete.extra.tipos import *
@@ -66,7 +69,7 @@ def getTextVal_coma(params):
 def getTextValExp_coma(params):
     text_var = ''
     for i in range(len(params)):
-        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo):
+        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion):
             if i == len(params) - 1:
                 text_var += params[i].text_val
             else:
@@ -114,6 +117,7 @@ def tipoToStr(tipo):
 
 # precedencia de operadores
 precedence = (
+    ('right', 'IGUAL'),
     ('left', 'OR'),
     ('left', 'AND'),
     ('left', 'MENOR', 'MAYOR', 'MENOR_IGUAL', 'MAYOR_IGUAL', 'DESIGUALDAD', 'IGUALDAD'),
@@ -146,26 +150,39 @@ def p_instrucciones_instruccion(t):
 
 def p_instruccion(t):
     '''
-    instruccion : crear_db PYC
-                | crear_tb PYC
-                | cmd_insert PYC
-                | cmd_update PYC
-                | cmd_delete PYC
-                | cmd_select PYC
-                | cmd_drop PYC
-                | cmd_truncate PYC
+    instruccion : clausula PYC
                 | declaracion_variable PYC
                 | asignacion_variable PYC
                 | crear_procedure PYC
                 | ejecutar_procedure PYC
                 | crear_funcion PYC
-                | cmd_alter PYC
                 | expresion PYC
-                | use_db PYC
-                | sentencia_if PYC
-                | while PYC
+                | sentencia_control PYC
     '''
     t[1].text_val += ';\n' 
+    t[0] = t[1]
+
+def p_sentencias_control(t):
+    '''
+    sentencia_control : s_if
+                      | s_while
+                      | s_return
+    '''
+    t[0] = t[1]
+
+def p_clausulas(t):
+    '''
+    clausula : use_db
+             | crear_db
+             | crear_tb
+             | cmd_insert
+             | cmd_update
+             | cmd_delete
+             | cmd_select
+             | cmd_drop
+             | cmd_truncate
+             | cmd_alter
+    '''
     t[0] = t[1]
 
 def p_crear_db(t):
@@ -194,7 +211,7 @@ def p_cmd_insert(t):
     '''
     cmd_insert : INSERT INTO ID PARA columnas PARC VALUES PARA argumentos PARC
     '''
-    text_val = f'INSERT INTO {t[3]} ( {getTextVal_coma(t[5])} ) VALUES ( {getTextValExp_coma(t[9])} )'
+    text_val = f'INSERT INTO {t[3]} ({getTextVal_coma(t[5])}) VALUES ({getTextValExp_coma(t[9])})'
     t[0] = Insert(text_val, t[3], t[5], t[9], t.lineno(1), t.lexpos(1))
 
 # UPDATE nombre_tabla SET asignaciones WHERE condiciones;
@@ -238,10 +255,14 @@ def p_condicion_where(t):
 
 def p_condicion_where_expresion(t):
     '''
-    condicion_where_select : ID BETWEEN expresion
-                           | expresion
+    condicion_where_select : expresion
+                           | ID BETWEEN expresion AND expresion
     '''
-    t[0] = t[1]
+    if len(t) == 2:
+        t[0] = t[1]
+    else:
+        text_val = f'{t[1]} BETWEEN {t[3].text_val} && {t[5].text_val}'
+        t[0] = Between(text_val=text_val, campo=t[1], op1=t[3], op2=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_columnas(t):
     '''
@@ -342,7 +363,7 @@ def p_select_tabla(t):
     '''
     select_tabla : columnas FROM nombre_tablas WHERE condicion_where_select
     '''
-    text_val = f'SELECT {getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])} WHERE {t[5]}'
+    text_val = f'SELECT {getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_1(t):
@@ -356,14 +377,14 @@ def p_select_tabla_2(t):
     '''
     select_tabla : MULT FROM nombre_tablas WHERE condicion_where_select
     '''
-    text_val = f'SELECT * FROM {getTextVal_coma(t[3])} WHERE {t[5]}'
+    text_val = f'SELECT * FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_3(t):
     '''
-    select_tabla : MULT FROM nombre_tablas empty
+    select_tabla : MULT FROM nombre_tablas
     '''
-    text_val = f'SELECT * {getTextVal_coma(t[3])}'
+    text_val = f'SELECT * FROM {getTextVal_coma(t[3])}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 
@@ -389,7 +410,7 @@ def p_funcion_sistema(t):
                     | hoy
                     | contar
                     | suma
-                    | cast
+                    | cas
     '''
     t[0] = t[1]
 
@@ -397,42 +418,44 @@ def p_concatena(t):
     '''
     concatenar : CONCATENAR PARA expresion COMA expresion PARC
     '''
-    text_val = f'CONCATENAR ( {t[3].text_val}, {t[5].text_val} )'
+    text_val = f'SELECT CONCATENAR ({t[3].text_val}, {t[5].text_val})'
     t[0] = Concatenar(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_substraer(t):
     '''
     substraer : SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
     '''
-    text_val = f'SUBSTRAER ( {t[3].text_val}, {t[5].text_val}, {t[7].text_val} )'
+    text_val = f'SELECT SUBSTRAER ({t[3].text_val}, {t[5].text_val}, {t[7].text_val})'
     t[0] = Substraer(text_val, t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
 
 def p_hoy(t):
     '''
     hoy : HOY PARA PARC
     '''
-    text_val = f'HOY ()'
+    text_val = f'SELECT HOY ()'
     t[0] = Hoy(text_val, t.lineno(1), t.lexpos(1))
 
 def p_contar(t):
     '''
     contar : CONTAR PARA MULT PARC FROM ID WHERE condicion_where
     '''
-    text_val = f'CONTAR ( * ) FROM {t[6]} WHERE {t[8].text_val}'
+    text_val = f'SELECT CONTAR (*) FROM {t[6]} WHERE {t[8].text_val}'
     t[0] = Contar(text_val, t[6], t[8], t.lineno(1), t.lexpos(1))
 
 def p_suma(t):
     '''
     suma : SUMA PARA expresion PARC FROM ID WHERE condicion_where
     '''
-    text_val = f'SUMA ( {t[3].text_val} ) FROM {t[6]} WHERE {t[8].text_val}'
+    text_val = f'SELECT SUMA ({t[3].text_val}) FROM {t[6]} WHERE {t[8].text_val}'
     t[0] = Suma(text_val, t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
 
-# CAST ( expression AS type )
+# CAS ( expression AS type )
 def p_cast(t):
     '''
-    cast : CAST PARA expresion AS tipo PARC
+    cas : CAS PARA expresion AS tipo PARC
     '''
+    text_val = f'SELECT CAS ({t[3].text_val} AS {tipoToStr(t[5])})'
+    t[0] = Cas(text_val=text_val, op=t[3], tipo=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 # DECLARACION DE VARIABLES
 def p_declaracion_variable(t):
@@ -444,9 +467,14 @@ def p_declaracion_variable(t):
 def p_declaracion(t):
     '''
     declaracion : DECLARE ARROBA ID tipo
+                | DECLARE ARROBA ID AS tipo
     '''
-    text_val = f'DECLARE @{t[3]} {tipoToStr(t[4])}'
-    t[0] = Declaracion(text_val, t[3], t[4], t.lineno(1), t.lexpos(1))
+    if len(t) == 5:
+        text_val = f'DECLARE @{t[3]} {tipoToStr(t[4])}'
+        t[0] = Declaracion(text_val, t[3], t[4], t.lineno(1), t.lexpos(1))
+    elif len(t) == 6:
+        text_val = f'DECLARE @{t[3]} AS {tipoToStr(t[5])}'
+        t[0] = Declaracion(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_declaracion_inicializada(t):
     '''
@@ -480,32 +508,43 @@ def p_asignacion_campo(t):
 
 def p_crear_procedure(t):
     '''
-    crear_procedure : CREATE PROCEDURE ID PARA PARC AS BEGIN bloque END
+    crear_procedure : CREATE PROCEDURE ID PARA parametros PARC AS BEGIN bloque END
     '''
-    text_val = f'CREATE PROCEDURE {t[3]} () AS BEGIN {getTextVal(t[8])} END'
-    t[0] = Procedure(text_val, t[3], '', Bloque(getTextVal(t[8]), t[8], linea=t.lineno(1), columna=t.lexpos(1)), t.lineno(1), t.lexpos(1))
-    
-    # if len(t) == 7: # if
-    #     text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nEND IF'
-    #     t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
-    
+    text_val = f'CREATE PROCEDURE {t[3]} ({getTextValExp_coma(t[5])}) \nAS \nBEGIN \n{getTextVal(t[9])}END'
+    bloque = Bloque(getTextVal(t[9]), t[9], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Procedure(text_val=text_val, id=t[3], parametros=t[5], instrucciones=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_crear_funcion(t):
     '''
-    crear_funcion : CREATE FUNCTION ID PARA parametros PARC RETURNS tipo AS BEGIN RETURN END
+    crear_funcion : CREATE FUNCTION ID PARA parametros PARC RETURNS tipo AS BEGIN bloque END
     '''
+    text_val = f'CREATE FUNCTION {t[3]} ({getTextValExp_coma(t[5])}) \nRETURNS {tipoToStr(t[8])} \nAS \nBEGIN {getTextVal(t[11])} END'
+    t[0] = Function(text_val=text_val, tipo_ret=tipoToStr(t[8]), id=t[3], parametros=t[5], instrucciones=t[11], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_parametros(t):
     '''
     parametros : parametros COMA parametro
                | parametro
     '''
+    if len(t) == 2: 
+        t[0] = [t[1]]
+    else:           
+        t[1].append(t[3])
+        t[0] = t[1]
+
 
 def p_parametro(t):
     '''
     parametro : ARROBA ID tipo
+              | ARROBA ID AS tipo
               | empty
     '''
+    if len(t) == 4:
+        text_val = f'@ {t[2]} {tipoToStr(t[3])}'
+        t[0] = Declaracion(text_val=text_val, id=t[2], tipo=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    elif len(t) == 5:
+        text_val = f'@ {t[2]} AS {tipoToStr(t[4])}'
+        t[0] = Declaracion(text_val=text_val, id=t[2], tipo=t[4], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_argumentos(t):
     '''
@@ -537,10 +576,10 @@ def p_cmd_alter(t):
               | ALTER TABLE ID ADD ID tipo
     '''
     if len(t) == 8:
-        text_val = f'ALTER TABLE {t[3]} ADD {t[6]} + {tipoToStr(t[7])}'
+        text_val = f'ALTER TABLE {t[3]} ADD {t[6]} {tipoToStr(t[7])}'
         t[0] = AlterADD(text_val, t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
     else:
-        text_val = f'ALTER TABLE {t[3]} ADD {t[5]} + {tipoToStr(t[6])}'
+        text_val = f'ALTER TABLE {t[3]} ADD {t[5]} {tipoToStr(t[6])}'
         t[0] = AlterADD(text_val, t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
 
 def p_cmd_alter_drop(t):
@@ -566,15 +605,22 @@ def p_cmd_alter_comp(t):
     else:
         t[0] = t[2]
 
+def p_sentencia_return(t):
+    '''
+    s_return : RETURN expresion
+    '''
+    text_val = f'RETURN {t[2].text_val}'
+    t[0] = Return(text_val=text_val, exp_ret=t[2], linea=t.lineno(1), columna=t.lexpos(1))
+
 def p_sentencia_if(t):
     '''
-    sentencia_if : IF expresion THEN bloque END IF
+    s_if : IF expresion THEN bloque END IF
                  | IF expresion THEN bloque lista_else_if END IF
                  | IF expresion THEN bloque lista_else_if ELSE THEN bloque END IF
                  | IF expresion THEN bloque ELSE THEN bloque END IF
     '''
     if len(t) == 7: # if
-        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nEND IF'
+        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} END IF'
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
     
     elif len(t) == 8: # if - else if
@@ -589,7 +635,7 @@ def p_sentencia_if(t):
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
     elif len(t) == 10:   # If - else
-        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nELSE THEN\n {getTextVal(t[7])} \nEND IF'
+        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nELSE THEN\n {getTextVal(t[7])} END IF'
         bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
         bloque_else = Bloque(getTextVal(t[7]), t[7], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
@@ -610,11 +656,11 @@ def p_lista_else_if(t):
         t[0] = [ElseIf(text_val=text_val, condicion=t[3], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))]
 
 
-def p_while(t):
+def p_sentencia_while(t):
     '''
-    while : WHILE expresion BEGIN bloque END
+    s_while : WHILE expresion BEGIN bloque END
     '''
-    text_val = t[1] + t[2].text_val + t[3] + getTextVal(t[4]) + t[5]
+    text_val = f'WHILE {t[2].text_val} \nBEGIN \n{getTextVal(t[4])} END'
     bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
     t[0] = While(text_val=text_val, condicion=t[2], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
@@ -667,6 +713,7 @@ def p_expresion_relacional(t):
     '''
     text_val = f'{t[1].text_val} {t[2]} {t[3].text_val}'
     if t[2] == '=':
+        print('----- OPERACION IGUAL ------')
         t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '==':
         t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.IGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
@@ -680,13 +727,6 @@ def p_expresion_relacional(t):
         t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.MENOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '>=':
         t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.MAYOR_IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
-    
-
-def p_expresion_between(t):
-    '''
-    relacional : expresion AMPERSON expresion
-    '''
-    t[0] = t[1]
 
 def p_expresion_aritmetica(t):
     '''
@@ -722,11 +762,12 @@ def p_expresion_logica(t):
         text_val = f'- {t[1]} {t[2].text_val}'
         t[0] = Logica(text_val, op1=t[2], operador=TipoLogico.NOT, op2=Literal(TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=0)
 
-    elif t[2] == '||' or t[2] == 'or':
+    elif t[2] == '||':
+        print('Encontre un OR')
         text_val = f'{t[1].text_val} || {t[3].text_val}'
         t[0] = Logica(text_val, op1=t[1], operador=TipoLogico.OR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
-    elif t[2] == '&&' or t[2] == 'and':
+    elif t[2] == '&&':
         text_val = f'{t[1].text_val} && {t[3].text_val}'
         t[0] = Logica(text_val=text_val, op1=t[1], operador=TipoLogico.AND, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
@@ -753,6 +794,12 @@ def p_id(t):
     literal : ID
     '''
     t[0] = Acceso(t[1], t[1], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_null(t):
+    '''
+    literal : NULL
+    '''
+    t[0] = Literal(t[1], valor=t[1], tipo=TipoDato.NULL, linea=t.lineno(1), columna=t.lexpos(1))
 
 # def p_acceso_atributo_tabla(t):
 #     '''
@@ -781,10 +828,10 @@ def p_tipo(t):
     elif(t[1] == 'datetime'):
         t[0] = TipoDato.DATETIME;
     elif(t[1] == 'nchar'):
-        text_val = t[1] + t[2] + t[3].text_val + t[4]
+        text_val = f'NCHAR ({t[3].text_val})'
         t[0] = TipoChars(text_val, TipoDato.NCHAR, t[2]);
     elif(t[1] == 'nvarchar'):
-        text_val = t[1] + t[2] + t[3].text_val + t[4]
+        text_val = f'NVARCHAR ({t[3].text_val})'
         t[0] = TipoChars(text_val, TipoDato.NVARCHAR, t[2]);
 
 
@@ -801,7 +848,7 @@ def p_error(t):
         err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Error sintáxis en token: {t.value}')
     else:
         # Agregando a la tabla de erorres
-        err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Final inesperado.')
+        err = Error(tipo='Sintáctico', linea=0, columna=0, descripcion=f'Final inesperado.')
     TablaErrores.addError(err)
 
 
