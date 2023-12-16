@@ -3,10 +3,10 @@ from interprete.instrucciones.condicion_where import CondicionWhere
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom
-from interprete.expresiones.concatenar import Concatenar
+from interprete.instrucciones.between import Between
+from interprete.extra.tipos import TipoDato
 
 from interprete.extra.retorno import Retorno
-
 
 
 class Select(Instruccion):
@@ -17,35 +17,49 @@ class Select(Instruccion):
         self.condicion_where = condicion_where
         self.linea = linea
         self.columna = columna
+        self.aux = ''
+        self.condicion_bet_aux = ''
+        self.condicion_between = 'campo ' + '>'  +' op1 ' + '&&' + ' campo ' + '<' + ' op2'
+        
+    def get_valor(self):
+        return self.aux
+    
+    def set_valor(self, aux):
+        self.aux = aux
+        
+    def get_condicion_between(self):
+        return self.condicion_between
+
+    def set_condicion_between(self, condicion_between):
+        self.condicion_between = condicion_between
+        
+    def get_condicion_bet_aux(self):
+        return self.condicion_bet_aux
+
+    def set_condicion_bet_aux(self, condicion_bet_aux):
+        self.condicion_bet_aux = condicion_bet_aux
+        
 
     def ejecutar(self, env:Enviroment):
-        print('Ejecutando select')
-        # for campo in self.campos:
-        #     print('Campo: ', campo)
-        # for tabla in self.tablas:
-        #     print('Tabla: ', tabla)
-        # print('Condicion: ', self.condicion_where.text_val)\
-            
-        
-        # print('-----------------')
-        # print('tabla: ', self.listar_campos(env)[0])
-        # print('campos: ')
-        
-        # for i in range(1,len(self.listar_campos(env))):
-        #     print(self.listar_campos(env)[i])
-        
+                
         if self.condicion_where == None:
             if self.campos == '*':
                 self.select_all(env)
             else:
                 self.select_fields(env)
         else:
-            self.select_where(env)
+            if self.campos == '*':
+                if isinstance(self.condicion_where, Between):
+                    self.select_where_between(env)
+                else:
+                    self.select_where(env)
+            else:
+                if isinstance(self.condicion_where, Between):
+                    self.select_where_between(env)
+                else:
+                    self.select_where(env)
         
-            
-            
-            
-    
+        
     def select_all(self, env:Enviroment):
         datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
@@ -71,7 +85,6 @@ class Select(Instruccion):
                                         for data in record.getElementsByTagName('field'):
                                             print(data.firstChild.data)
         
-    
     def select_fields(self, env:Enviroment):
         datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
@@ -98,8 +111,6 @@ class Select(Instruccion):
                                                     if data.getAttribute('name') == campo:
                                                         print(data.firstChild.data)
         
-    
-    
     def look_in_pos(self, pos:int):
 
         datas = open('backend/structure.xml', 'r+', encoding='utf-8')
@@ -139,20 +150,73 @@ class Select(Instruccion):
                                 for recs in table.getElementsByTagName('records'):
                                     for record in recs.getElementsByTagName('record'):
                                         cont_records += 1
+                                        
+                                        self.set_valor(self.condicion_where.text_val.replace('\'',''))
+                                        
                                         for rc in record.getElementsByTagName('field'):
                                             if rc.getAttribute('name') in self.condicion_where.text_val:
-                                                aux = self.condicion_where.text_val.replace(rc.getAttribute('name'),rc.firstChild.data)
-                                                aux += ';'
-                                                
-                                                expresion = parser.parse(aux.lower())
+                                                self.set_valor(self.get_valor().replace(rc.getAttribute('name'),rc.firstChild.data))
+                                              
+                                        self.aux += ';'
+                                        expresion = parser.parse(self.aux.lower())
 
-                                                retorno:Retorno = expresion[0].ejecutar(env)
-                                                if retorno.valor == True:
-                                                    
-
-                                                    self.look_in_pos(cont_records-1)
-                                                    break
-    
+                                        retorno:Retorno = expresion[0].ejecutar(env)
+                                        if retorno.valor == True:
+                                            self.look_in_pos(cont_records-1)
+                                            
     
     def select_where_between(self, env:Enviroment):
-        pass                                                
+        if isinstance(self.condicion_where, Between):
+            print('Es between')
+            op1 = self.condicion_where.op1.text_val
+            op2 = self.condicion_where.op2.text_val
+            campos = self.condicion_where.campo
+            
+            if op1.tipo == TipoDato.DATETIME:
+                op1 = op1.valor.strftime('%Y-%m-%d %H:%M:%S')
+            elif op1.tipo == TipoDato.DATE:
+                op1 = op1.valor.strftime('%Y-%m-%d')
+
+            if op2.tipo == TipoDato.DATETIME:
+                op2 = op2.valor.strftime('%Y-%m-%d %H:%M:%S')
+            elif op2.tipo == TipoDato.DATE:
+                op2 = op2.valor.strftime('%Y-%m-%d')
+                
+                
+            
+            self.set_condicion_between(self.get_condicion_between().replace('op1',op1))
+            self.set_condicion_between(self.get_condicion_between().replace('op2',op2))
+            self.set_condicion_between(self.get_condicion_between().replace('campo',campos))
+                                        
+
+            from analizador.parser import parser
+            
+            datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+            mydoc = minidom.parse(datas)
+                
+            current = mydoc.getElementsByTagName('current')[0]
+
+            for database in mydoc.getElementsByTagName('database'):
+                if database.getAttribute('name') == current.getAttribute('name'):
+                    for table in database.getElementsByTagName('tables'):
+                        for table in table.getElementsByTagName('table'):
+                            for tabla in self.tablas:
+                                if table.getAttribute('name') == tabla:
+                                    cont_records = 0
+                                    for recs in table.getElementsByTagName('records'):
+                                        for record in recs.getElementsByTagName('record'):
+                                            cont_records += 1
+                                            self.set_condicion_bet_aux(self.condicion_between)
+                                            for rc in record.getElementsByTagName('field'):
+                                                if rc.getAttribute('name') in self.get_condicion_between():
+                                                    self.set_condicion_bet_aux(self.get_condicion_bet_aux().replace(rc.getAttribute('name'),rc.firstChild.data))
+                                                
+                                            self.condicion_bet_aux += ';'
+                                            print(self.condicion_bet_aux)
+                                            expresion = parser.parse(self.condicion_bet_aux.lower())
+
+                                            retorno:Retorno = expresion[0].ejecutar(env)
+                                            if retorno.valor == True:
+                                                self.look_in_pos(cont_records-1)
+
+    
