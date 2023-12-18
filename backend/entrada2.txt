@@ -51,40 +51,25 @@ END;
 
 exec crearTablaAlumno;
 
-CREATE FUNCTION insertarAlumnos (@flag as int)
+CREATE FUNCTION insertarAlumnos (@altura as decimal, @cadena as nchar(4))
 RETURNS int
 AS
 BEGIN
-    IF @flag == 1 THEN
-        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('juan', 'lopez', 1001, '1A', 1.80);
-        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2B', 1.55);
-        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3C', 1.65);
-        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4D', 1.77);
-        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5E', 1.71);
+    -- IF @flag == 1 THEN
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES (@cadena, 'lopez', 1001, '1A', @altura);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2B', @altura);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3C', @altura);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4D', @altura);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5E', @altura);
         RETURN 1;
-    ELSE THEN
-        RETURN 0;
-    END IF;
+    -- ELSE THEN
+    --    RETURN 0;
+    -- END IF;
 END;
 
 declare @band as int;
-set @band = insertarAlumnos(@flag = 1);
+declare @nombre as NVARCHAR(10);
+set @nombre = 'chabelo';
+set @band = insertarAlumnos(9.9, @nombre);
+select @band;
 
-IF @band == 1 THEN
-    declare @j decimal;
-    WHILE @j < 5 
-    BEGIN
-        SELECT 'Dentro de WHILE, @flag = 1';
-        set @j = @j + 1;
-    END;
-ELSE IF @band == 0 THEN
-    declare @i decimal;
-    WHILE @i < 5 
-    BEGIN
-        SELECT 'Dentro de WHILE, @flag = 0';
-        set @i = @i + 1;
-    END;
-END IF;
-
-
-SELECT SUMA(edad) FROM persona WHERE altura > 1.2;

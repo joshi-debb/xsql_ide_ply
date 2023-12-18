@@ -102,7 +102,7 @@ class LlamadaFnc(Instruccion):
             return exp
 
         else:
-            err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'La función {self.nombre_fnc} debe retornar una expresión.')
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'La función {self.nombre_fnc} debe retornar una expresión.')
             TablaErrores.addError(err)
 
         return Retorno(tipo=TipoDato.ERROR, valor=None)

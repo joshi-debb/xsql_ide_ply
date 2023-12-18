@@ -1,15 +1,10 @@
-CREATE FUNCTION insertaralumnos (@flag AS int) 
+CREATE FUNCTION insertaralumnos (@altura AS decimal, @cadena AS NCHAR(4)) 
 RETURNS int 
 AS 
-BEGIN IF @flag == 1 THEN
- INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('juan', 'lopez', 1001, '1a', 1.80);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2b', 1.55);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3c', 1.65);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4d', 1.77);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5e', 1.71);
+BEGIN INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES (@cadena, 'lopez', 1001, '1a', @altura);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2b', @altura);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3c', @altura);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4d', @altura);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5e', @altura);
 RETURN 1;
- 
-ELSE THEN
- RETURN 0;
- END IF;
  END;

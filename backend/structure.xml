@@ -59,39 +59,39 @@
 				</fields>
 				<records>
 					<record>
-						<field name="nombre">juan</field>
+						<field name="nombre">chabelo</field>
 						<field name="apellido">lopez</field>
 						<field name="registro">1001</field>
 						<field name="grado">1a</field>
-						<field name="altura">1.8</field>
+						<field name="altura">9.9</field>
 					</record>
 					<record>
 						<field name="nombre">ana</field>
 						<field name="apellido">gomez</field>
 						<field name="registro">1002</field>
 						<field name="grado">2b</field>
-						<field name="altura">1.55</field>
+						<field name="altura">9.9</field>
 					</record>
 					<record>
 						<field name="nombre">carlos</field>
 						<field name="apellido">perez</field>
 						<field name="registro">1003</field>
 						<field name="grado">3c</field>
-						<field name="altura">1.65</field>
+						<field name="altura">9.9</field>
 					</record>
 					<record>
 						<field name="nombre">maria</field>
 						<field name="apellido">martinez</field>
 						<field name="registro">1004</field>
 						<field name="grado">4d</field>
-						<field name="altura">1.77</field>
+						<field name="altura">9.9</field>
 					</record>
 					<record>
 						<field name="nombre">pedro</field>
 						<field name="apellido">rodriguez</field>
 						<field name="registro">1005</field>
 						<field name="grado">5e</field>
-						<field name="altura">1.71</field>
+						<field name="altura">9.9</field>
 					</record>
 				</records>
 			</table>
