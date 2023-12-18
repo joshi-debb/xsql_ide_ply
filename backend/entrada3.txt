@@ -1,3 +1,6 @@
+/* PARA PRUEBAS */
+
+
 CREATE FUNCTION sumar (@num1 as int, @num2 as int)
 RETURNS int
 AS

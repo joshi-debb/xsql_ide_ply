@@ -87,3 +87,4 @@ ELSE IF @band == 0 THEN
 END IF;
 
 
+SELECT SUMA(edad) FROM persona WHERE altura > 1.2;

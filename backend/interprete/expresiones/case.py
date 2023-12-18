@@ -37,7 +37,6 @@ class Case(Expresion):
         
         # Si viene un bloque ELSE
         if self._else == True:
-            print('SE EJECUTARA EL ELSE')
             new_env = Enviroment(ent_anterior=env, ambito="CASE")
             ret = self.bloque_else.ejecutar(new_env)
             if isinstance(ret, Return):
