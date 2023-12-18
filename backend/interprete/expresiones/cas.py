@@ -1,15 +1,77 @@
+from interprete.expresiones.tipoChars import TipoChars
 from .Expresion import Expresion
-from interprete.extra.tipos import TipoAritmetica, TipoDato
+from interprete.extra.tipos import *
 from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.errores import *
+from interprete.extra.symbol import Symbol
 
 class Cas(Expresion):
     
-    def __init__(self, text_val:str, op:Expresion, tipo:TipoDato, linea:int, columna:int):
+    def __init__(self, text_val:str, id_var:Expresion, tipo:TipoDato, linea:int, columna:int):
         super().__init__(text_val, linea, columna)
-        self.op1 = op
-        self.tipo = tipo
+        self.id_var = id_var
+        if isinstance(tipo, TipoChars): self.tipo = tipo.charTipo
+        else:                           self.tipo = tipo
     
     def ejecutar(self, env: Enviroment):
-        print('CAS -> text_val: ', self.text_val)
-        return super().ejecutar(env)
+        # Si no existe la variable en alguna tabla de simbolos
+        if not env.existe_simbolo(self.id_var, TipoSimbolo.VARIABLE):
+            # Agregando a la tabla de erorres
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error en el casteo. No existe una variable con el nombre {self.id_var}')
+            TablaErrores.addError(err)
+            return Retorno(tipo=TipoDato.ERROR, valor=None)
+        
+        # Trayendo la variable
+        simbolo:Symbol = env.getSimbolo(self.id_var, TipoSimbolo.VARIABLE)
+        if simbolo.tipo == TipoDato.BIT:
+            if self.tipo == TipoDato.INT:
+                simbolo.tipo = TipoDato.INT
+                if simbolo.valor == None:
+                    simbolo.valor = 0    
+                else:
+                    simbolo.valor = int(simbolo.valor)
+            elif self.tipo == TipoDato.NCHAR or self.tipo == TipoDato.NVARCHAR:
+                simbolo.tipo = self.tipo   
+                if simbolo.valor == True:    simbolo.valor = '1'
+                elif simbolo.valor == False: simbolo.valor = '0'
+                elif simbolo.valor == None:  simbolo.valor = '0'
+            else:
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error en el casteo. No se puede realizar un casteo de un {simbolo.tipo.name} a un {self.tipo.name}')
+                TablaErrores.addError(err)
+                return Retorno(tipo=TipoDato.ERROR, valor=None)
+
+        elif simbolo.tipo == TipoDato.NCHAR or simbolo.tipo == TipoDato.NVARCHAR:
+            if self.tipo == TipoDato.INT:
+                suma_ascii = 0
+                for char in simbolo.valor:
+                    suma_ascii += ord(char)
+                simbolo.tipo = TipoDato.INT
+                simbolo.valor = suma_ascii
+            else:
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error en el casteo. No se puede realizar un casteo de un {simbolo.tipo.name} a un {self.tipo.name}')
+                TablaErrores.addError(err)
+                return Retorno(tipo=TipoDato.ERROR, valor=None)
+        
+        elif simbolo.tipo == TipoDato.INT:
+            if self.tipo == TipoDato.NVARCHAR or self.tipo == TipoDato.NCHAR:
+                simbolo.tipo = self.tipo
+                if simbolo.valor > 255: simbolo.valor = chr(0) # Convertir el valor null a cadena
+                else:                   simbolo.valor = chr(simbolo.valor)
+            elif self.tipo == TipoDato.DECIMAL:
+                simbolo.tipo = TipoDato.DECIMAL
+                simbolo.valor = float(simbolo.valor)
+            else:
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error en el casteo. No se puede realizar un casteo de un {simbolo.tipo.name} a un {self.tipo.name}')
+                TablaErrores.addError(err)
+                return Retorno(tipo=TipoDato.ERROR, valor=None)
+        elif simbolo.tipo == TipoDato.DECIMAL:
+            if self.tipo == TipoDato.INT:
+                simbolo.tipo = TipoDato.INT
+                simbolo.valor = int(simbolo.valor)
+        else:
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error en el casteo. No se puede realizar un casteo de un {simbolo.tipo.name} a un {self.tipo.name}')
+            TablaErrores.addError(err)
+            return Retorno(tipo=TipoDato.ERROR, valor=None)
+
+        return Retorno(tipo=simbolo.tipo, valor=simbolo.valor)

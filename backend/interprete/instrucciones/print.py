@@ -9,7 +9,6 @@ class Print(Instruccion):
         self.argumento = argumento
     
     def ejecutar(self, env:Enviroment):
-        print("La expresion es: ", self.text_val)
         exp = self.argumento.ejecutar(env)
 
         # Validar que no haya un error en la expresion

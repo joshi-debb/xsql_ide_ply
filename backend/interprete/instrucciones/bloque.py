@@ -1,5 +1,6 @@
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
+from interprete.expresiones._return import Return
 
 class Bloque(Instruccion):
 
@@ -11,11 +12,13 @@ class Bloque(Instruccion):
     
     def ejecutar(self, env: Enviroment):
         # Creando nuevo entorno
-        new_env = Enviroment(ent_anterior=env, ambito="Local")
+        # new_env = Enviroment(ent_anterior=env, ambito="Local")
         # Ejecutando las instrucciones
         try:
             for instruccion in self.instrucciones:
-                instruccion.ejecutar(new_env)
+                ret = instruccion.ejecutar(env)
+                if isinstance(ret, Return):
+                    return ret
         except Exception as e:
             print(f'ERROR: en la linea: {self.linea} y columna: {self.columna}')
 

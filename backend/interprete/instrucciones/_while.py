@@ -1,3 +1,4 @@
+from interprete.expresiones._return import Return
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Expresion import Expresion
@@ -30,7 +31,14 @@ class While(Instruccion):
         
         # Ejecutando bloque de instrucciones dentro del while
         while val_condicion.valor == True:
-            retorno = self.bloque.ejecutar(env)
-            val_condicion = self.condicion.ejecutar(env)
+            new_env = Enviroment(ent_anterior=env, ambito="WHILE")
+            ret = self.bloque.ejecutar(new_env)
+            if isinstance(ret, Return):
+                if not env.dentroDeFuncion():
+                    err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo puede haber una sentencia RETURN dentro de una función')
+                    TablaErrores.addError(err)
+                    return self
+                return ret
+            val_condicion = self.condicion.ejecutar(new_env)
 
         return self        

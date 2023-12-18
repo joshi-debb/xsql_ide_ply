@@ -17,9 +17,9 @@ BEGIN
 
     INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', 9.99);
     UPDATE products SET price = 10 WHERE price = 5;
-    UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a = 0 || a < 0;
+    UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a = 0;
     DELETE FROM products WHERE price = 10;
-    DELETE FROM products WHERE price = 10 && cantidad != 0;
+    DELETE FROM products WHERE price = 10;
     ALTER TABLE Productos ADD Jugos nvarchar(20);
     DROP TABLE nombre_tabla;
     TRUNCATE TABLE nombre_tabla;
@@ -96,6 +96,88 @@ BEGIN
     SELECT * FROM productos
     WHERE precio BETWEEN fecha_vencimiento && '2023-06-30';
 
+    declare @var1 int;
+    -- select "El valor por defecto de var1 es: " + @var1;
+    set @var1 = 9;
+
+    set @var1 = (1+2+3)/6 + @var1/9;
+    select @var1;
+
+    declare @var2 nvarchar(5);
+
+    set @var2 = concatenar('hola', 'mundo');
+    select "La cadena concatenada es: " + @var2;
+
+    declare @var3 datetime;
+    set @var3 = hoy();
+
+    select @var3;
+
+    select substraer('holamundo', 1, 4);
+    select hoy();
+    select concatenar('hola', 'mundo1');
+    select if(4 > 0, 'hola', 'adios');
+
 END;
+
+declare @cont int;
+
+WHILE @cont < 5
+    BEGIN 
+    select 'Valor actual: ' + @cont;
+    set @cont = @cont + 1;
+    declare @cont1 int;
+    IF @cont == 3 THEN
+        SELECT 'El valor de contador es 3';
+        declare @text nvarchar(4);
+        set @text = 'GERSON';
+        SELECT 'Se creo otra variable con valor: ' + @text;
+    ELSE THEN
+        SELECT 'No pasa nada ' + @cont;
+    END IF;
+END;
+
+
+-- PROCEDIMINETOS
+CREATE PROCEDURE sumar (@num1 nvarchar(4), @num2 as int)
+AS
+BEGIN
+    DECLARE @var1 int;
+    set @var1 = 22;
+    select 'Me llegaron los valores: @num1: ' + ' @num2: ' + @num2;
+    select @num1;
+    select 'SIIIIUUUUU';
+END;
+
+
+declare @ciudad nvarchar(4);
+set @ciudad = 'Gerson';
+select @ciudad;
+
+exec sumar @ciudad, (2+2/2)/3;
+
+
+-- FUNCIONES
+CREATE FUNCTION sumar (@num1 as int, @num2 as int)
+RETURNS int
+AS
+BEGIN
+    declare @total as int;
+    set @total = @num1 + @num2;
+
+    RETURN @total;
+END;
+
+
+declare @ciudad int;
+set @ciudad = 123;
+select @ciudad;
+
+exec sumar @ciudad, (2+2/2)/3;
+
+declare @op as int;
+
+set @op = sumar(1, 2);
+select @op;
 
 

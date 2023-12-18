@@ -1,13 +1,6 @@
-# Definir una cadena
-from cgitb import text
+# Convertir un entero a carácter ASCII
+numero_entero = 0  # Por ejemplo, el número ASCII para 'A'
 
+caracter_ascii = chr(numero_entero)
 
-texto = "precio = 10 AND precio < 12"
-
-# Verificar si la cadena "otro" está en el texto
-if "precio" in texto:
-    print("La cadena 'precio' fue encontrada.")
-    texto = texto.replace("precio", '10')
-    print(texto)
-else:
-    print("La cadena 'otro' no fue encontrada.")
+print("El carácter ASCII correspondiente al entero {} es: {}".format(numero_entero, caracter_ascii))

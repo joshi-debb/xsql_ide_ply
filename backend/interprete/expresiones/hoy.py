@@ -10,15 +10,12 @@ class Hoy(Expresion):
         super().__init__(text_val, linea, columna)
     
     def ejecutar(self, env:Enviroment):
-        print('HOY: text_val: ', self.text_val)
-        print('------------------ HOY --------------------------')
         # Obtener la fecha y hora actual
         now = datetime.now()
+        
         # Formatear la fecha y hora sin segundos
         formato = "%Y-%m-%d %H:%M"
         fecha_hora_formateada = now.strftime(formato)
         resultado = Retorno(tipo=TipoDato.DATETIME, valor=fecha_hora_formateada)
-        print("DATETIME: ", fecha_hora_formateada)
-        print('-----------------------------------------------------')
 
         return resultado

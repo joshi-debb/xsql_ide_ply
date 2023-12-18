@@ -1,3 +1,4 @@
+from interprete.expresiones._return import Return
 from xmlrpc.client import Boolean
 from interprete.extra.tipos import TipoDato
 from interprete.extra.enviroment import Enviroment
@@ -19,9 +20,7 @@ class IfElse(Instruccion):
         self.linea = linea
         self.columna = columna
         
-    def ejecutar(self, env: Enviroment):
-        print(self.text_val)
-        
+    def ejecutar(self, env: Enviroment):        
         val_condicion:Retorno = self.condicion.ejecutar(env)
 
         if val_condicion.tipo == TipoDato.ERROR:
@@ -36,18 +35,43 @@ class IfElse(Instruccion):
             TablaErrores.addError(err)
             return Retorno(tipo=TipoDato.ERROR, valor=None)
         
+        new_env = Enviroment(ent_anterior=env, ambito="IF")
+
         # Ejecutando bloque de instrucciones dentro de if
         if val_condicion.valor == True:
-            return self.bloque.ejecutar(env)
+            ret = self.bloque.ejecutar(new_env)
+
+            if isinstance(ret, Return):
+                if not env.dentroDeFuncion():
+                    err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo puede haber una sentencia RETURN dentro de una función')
+                    TablaErrores.addError(err)
+                    return self
+                return ret
+            return self
         
         # Si hay condiciones else if
         if len(self.elseifs) != 0:
             for elseif in self.elseifs:
                 if elseif.evaluarCondicion(env):
-                    return elseif.ejecutar(env)
+                    new_env = Enviroment(ent_anterior=env, ambito="IF")
+                    ret = elseif.ejecutar(new_env)
+                    if isinstance(ret, Return):
+                        if not env.dentroDeFuncion():
+                            err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo puede haber una sentencia RETURN dentro de una función')
+                            TablaErrores.addError(err)
+                            return self
+                        return ret
+                    return self
                 
         # Si hay un bloque else...
         if self.bandera_else == True:
-            return self.bloque_else.ejecutar(env)
+            new_env = Enviroment(ent_anterior=env, ambito="IF")
+            ret = self.bloque_else.ejecutar(new_env)
+            if isinstance(ret, Return):
+                if not env.dentroDeFuncion():
+                    err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo puede haber una sentencia RETURN dentro de una función')
+                    TablaErrores.addError(err)
+                    return self
+                return ret
 
-        return super().ejecutar(env)
+        return self

@@ -12,6 +12,7 @@ class Declaracion(Instruccion):
     def __init__(self, text_val:str, id:str, tipo:TipoDato, linea:int, columna:int):
         super().__init__(text_val, linea, columna)
         self.id = id
+        self.valor = None
         if isinstance(tipo, TipoChars): self.tipo = tipo.charTipo
         else:                           self.tipo = tipo
         
@@ -25,21 +26,22 @@ class Declaracion(Instruccion):
             return self
         
         # Simbolo a insertar en tabla de simbolos
-        simbolo = Symbol(TipoSimbolo.VARIABLE, self.tipo, self.id, None, env.ambito, None)
+        simbolo = Symbol(TipoSimbolo.VARIABLE, self.tipo, self.id, self.valor, env.ambito, None)
 
         # Guardando con un valor por defecto
-        if self.tipo == TipoDato.INT:
-            simbolo.valor = 0
-        elif self.tipo == TipoDato.DECIMAL:
-            simbolo.valor = 0.0
-        elif self.tipo == TipoDato.DATE:
-            simbolo.valor = ' '
-        elif self.tipo == TipoDato.DATETIME:
-            simbolo.valor = ' '
-        elif isinstance(self.tipo, TipoChars):
-            simbolo.valor = ' '
-        elif self.tipo == TipoDato.BIT:
-            simbolo.valor = False
+        if self.valor == None:
+            if self.tipo == TipoDato.INT:
+                simbolo.valor = 0
+            elif self.tipo == TipoDato.DECIMAL:
+                simbolo.valor = 0.0
+            elif self.tipo == TipoDato.DATE:
+                simbolo.valor = ' '
+            elif self.tipo == TipoDato.DATETIME:
+                simbolo.valor = ' '
+            elif isinstance(self.tipo, TipoChars):
+                simbolo.valor = ' '
+            elif self.tipo == TipoDato.BIT:
+                simbolo.valor = False
         
         env.insertar_simbolo(self.id, simbolo)
 

@@ -28,9 +28,6 @@ class AsignacionVar(Instruccion):
         simbolo = env.getSimbolo(self.id, TipoSimbolo.VARIABLE)
         exp = self.expresion.ejecutar(env)
 
-        print('Tipo del simbolo: ', simbolo.tipo)
-        print('Tipo de exp: ', exp.tipo)
-
         if exp.tipo == TipoDato.ERROR:
             # Agregando error a la tabla de erorres
             err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error en la asignacion de variable')

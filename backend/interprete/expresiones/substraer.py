@@ -12,8 +12,6 @@ class Substraer(Expresion):
         self.longitud = longitud
     
     def ejecutar(self, env:Enviroment):
-        print('SUBSTRAER: text_val: ', self.text_val)
-        print('------------------ SUBSTRAER --------------------------')
         op1:Retorno = self.op1.ejecutar(env)
         inicio:Retorno = self.inicio.ejecutar(env)
         longitud:Retorno = self.longitud.ejecutar(env)
@@ -22,7 +20,5 @@ class Substraer(Expresion):
         if op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR:
             resultado.tipo = TipoDato.NVARCHAR
             resultado.valor = op1.valor[inicio.valor:longitud.valor+inicio.valor]
-            print("La substraccion es: ", resultado.valor)
-        print('-----------------------------------------------------')
 
         return resultado

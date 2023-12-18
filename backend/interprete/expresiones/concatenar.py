@@ -11,8 +11,6 @@ class Concatenar(Expresion):
         self.op2 = op2
     
     def ejecutar(self, env:Enviroment):
-        print('CONCATENAR: text_val: ', self.text_val)
-        print('------------------ CONCATENAR --------------------------')
         op1:Retorno = self.op1.ejecutar(env)
         op2:Retorno = self.op2.ejecutar(env)
         resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
@@ -20,7 +18,5 @@ class Concatenar(Expresion):
         if (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) or (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
             resultado.tipo = TipoDato.NVARCHAR
             resultado.valor = op1.valor + op2.valor
-            print("La cancatenacion es: ", resultado.valor)
-        print('-----------------------------------------------------')
 
         return resultado

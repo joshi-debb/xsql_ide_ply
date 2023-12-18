@@ -11,6 +11,7 @@ class TipoDato(Enum):
     BOOL = 8
     NULL = 9
     ERROR = 10
+    UNDEFINED = 11
 
 class TipoAritmetica(Enum):
     SUMA = 1

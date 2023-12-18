@@ -1,10 +1,10 @@
-from interprete.instrucciones.when import When
-from interprete.instrucciones.instruccion import Instruccion
-from interprete.instrucciones.argumento import Argumento
-from interprete.expresiones.Expresion import Expresion
 from ply.yacc import yacc
 from analizador import lexer
 
+from interprete.expresiones.when import When
+from interprete.instrucciones.instruccion import Instruccion
+from interprete.instrucciones.argumento import Argumento
+from interprete.expresiones.Expresion import Expresion
 from interprete.expresiones.Literal import Literal
 from interprete.expresiones.aritmetica import Aritmetica
 from interprete.expresiones.logica import Logica
@@ -45,7 +45,8 @@ from interprete.expresiones._return import Return
 from interprete.instrucciones.function import Function
 from interprete.instrucciones.exec import Exec
 from interprete.instrucciones.llamada_funcion import LlamadaFnc
-from interprete.instrucciones.case import Case
+from interprete.expresiones.case import Case
+from interprete.expresiones.ternario import OpTernario
 
 
 from interprete.extra.tipos import *
@@ -123,10 +124,9 @@ def tipoToStr(tipo):
 
 # precedencia de operadores
 precedence = (
-    ('right', 'IGUAL'),
     ('left', 'OR'),
     ('left', 'AND'),
-    ('left', 'MENOR', 'MAYOR', 'MENOR_IGUAL', 'MAYOR_IGUAL', 'DESIGUALDAD', 'IGUALDAD'),
+    ('left', 'MENOR', 'MAYOR', 'MENOR_IGUAL', 'MAYOR_IGUAL', 'DESIGUALDAD', 'IGUALDAD', 'IGUAL'),
     ('left', 'RESTAR', 'SUMAR'),
     ('left', 'MULT', 'DIV', 'MODULO'),
     ('right', 'NEGACION'),
@@ -352,15 +352,18 @@ def p_atributo_opcion_references_id(t):
 def p_cmd_select(t):
     '''
     cmd_select : SELECT op_select
+               | op_select
     '''
-    t[2].text_val = 'SELECT ' + t[2].text_val
-    t[0] = t[2]
+    if len(t) == 3:
+        t[2].text_val = 'SELECT ' + t[2].text_val
+        t[0] = t[2]
+    else:
+        t[0] = t[1]
 
 # FUNCIONES DEL SISTEMA
 def p_op_select(t):
     '''
-    op_select : funcion_sistema
-              | select_tabla
+    op_select : select_tabla
               | print
     '''
     t[0] = t[1]
@@ -439,7 +442,7 @@ def p_hoy(t):
     '''
     hoy : HOY PARA PARC
     '''
-    text_val = f'HOY ()'
+    text_val = f'HOY()'
     t[0] = Hoy(text_val, t.lineno(1), t.lexpos(1))
 
 def p_contar(t):
@@ -459,10 +462,10 @@ def p_suma(t):
 # CAS ( expression AS type )
 def p_cast(t):
     '''
-    cas : CAS PARA expresion AS tipo PARC
+    cas : CAS PARA ARROBA ID AS tipo PARC
     '''
-    text_val = f'CAS ({t[3].text_val} AS {tipoToStr(t[5])})'
-    t[0] = Cas(text_val=text_val, op=t[3], tipo=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'CAS (@{t[4]} AS {tipoToStr(t[6])})'
+    t[0] = Cas(text_val=text_val, id_var=t[4], tipo=t[6], linea=t.lineno(1), columna=t.lexpos(1))
 
 # DECLARACION DE VARIABLES
 def p_declaracion_variable(t):
@@ -526,7 +529,8 @@ def p_crear_funcion(t):
     crear_funcion : CREATE FUNCTION ID PARA parametros PARC RETURNS tipo AS BEGIN bloque END
     '''
     text_val = f'CREATE FUNCTION {t[3]} ({getTextValExp_coma(t[5])}) \nRETURNS {tipoToStr(t[8])} \nAS \nBEGIN {getTextVal(t[11])} END'
-    t[0] = Function(text_val=text_val, tipo_ret=tipoToStr(t[8]), id=t[3], parametros=t[5], instrucciones=t[11], linea=t.lineno(1), columna=t.lexpos(1))
+    bloque = Bloque(getTextVal(t[11]), t[11], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Function(text_val=text_val, tipo_ret=t[8], id=t[3], parametros=t[5], instrucciones=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_parametros(t):
     '''
@@ -547,10 +551,10 @@ def p_parametro(t):
               | empty
     '''
     if len(t) == 4:
-        text_val = f'@ {t[2]} {tipoToStr(t[3])}'
+        text_val = f'@{t[2]} {tipoToStr(t[3])}'
         t[0] = Declaracion(text_val=text_val, id=t[2], tipo=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif len(t) == 5:
-        text_val = f'@ {t[2]} AS {tipoToStr(t[4])}'
+        text_val = f'@{t[2]} AS {tipoToStr(t[4])}'
         t[0] = Declaracion(text_val=text_val, id=t[2], tipo=t[4], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_valores(t):
@@ -576,7 +580,7 @@ def p_ejecutar_procedure(t):
     ejecutar_procedure : EXEC ID argumentos
     '''
     text_val = f'EXEC {t[2]} {getTextValExp_coma(t[3])}'
-    t[0] = Exec(text_val=text_val, nombre_proc=t[2], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Exec(text_val=text_val, nombre_proc=t[2], argumentos=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_argumentos(t):
     '''
@@ -713,6 +717,7 @@ def p_expresion(t):
               | literal
               | llamada_fnc
               | case
+              | ternario
     '''
     t[0] = t[1]
 
@@ -767,13 +772,20 @@ def p_llamada_funcion(t):
     llamada_fnc : ID PARA argumentos PARC
     '''
     text_val = f'{t[1]} ({getTextValExp_coma(t[3])})'
-    t[0] = LlamadaFnc(text_val=text_val, nombre_fnc=t[1], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = Exec(text_val=text_val, nombre_proc=t[1], argumentos=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_llamada_funciones_sistema(t):
     '''
     llamada_fnc : funcion_sistema
     '''
     t[0] = t[1]
+
+def p_op_ternario(t):
+    '''
+    ternario : IF PARA expresion COMA expresion COMA expresion PARC 
+    '''
+    text_val = f'IF ({t[3].text_val}, {t[5].text_val}, {t[7].text_val})'
+    t[0] = OpTernario(text_val=text_val, condicion=t[3], instruccionTrue=t[5], instruccionFalse=t[7], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_relacional(t):
     '''
@@ -834,7 +846,7 @@ def p_expresion_logica(t):
     '''
     if len(t) == 3:
         text_val = f'- {t[1]} {t[2].text_val}'
-        t[0] = Logica(text_val, op1=t[2], operador=TipoLogico.NOT, op2=Literal(TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=0)
+        t[0] = Logica(text_val, op1=t[2], operador=TipoLogico.NOT, op2=Literal('', TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=t.lexpos(1))
 
     elif t[2] == '||':
         print('Encontre un OR')
@@ -888,6 +900,8 @@ def p_tipo(t):
         | DECIMAL
         | DATE
         | DATETIME
+        | NCHAR
+        | NVARCHAR
         | NCHAR PARA literal PARC
         | NVARCHAR PARA literal PARC
     '''
@@ -902,11 +916,17 @@ def p_tipo(t):
     elif(t[1] == 'datetime'):
         t[0] = TipoDato.DATETIME;
     elif(t[1] == 'nchar'):
-        text_val = f'NCHAR ({t[3].text_val})'
-        t[0] = TipoChars(text_val, TipoDato.NCHAR, t[2]);
+        if len(t) == 2:
+            t[0] = TipoDato.NCHAR
+        else:
+            text_val = f'NCHAR({t[3].text_val})'
+            t[0] = TipoChars(text_val, TipoDato.NCHAR, t[2]);
     elif(t[1] == 'nvarchar'):
-        text_val = f'NVARCHAR ({t[3].text_val})'
-        t[0] = TipoChars(text_val, TipoDato.NVARCHAR, t[2]);
+        if len(t) == 2:
+            t[0] = TipoDato.NVARCHAR
+        else:
+            text_val = f'NVARCHAR({t[3].text_val})'
+            t[0] = TipoChars(text_val, TipoDato.NVARCHAR, t[2]);
 
 
 def p_empty(t):

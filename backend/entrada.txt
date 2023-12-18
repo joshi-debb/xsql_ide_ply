@@ -293,12 +293,6 @@ END;
 
 
 
-
-
-
-
-
-
 create data base personas;
 
 use personas;
@@ -307,29 +301,33 @@ create table persona (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
     apellido NVARCHAR(5) NOT NULL,
     edad INT NOT NULL,
+    altura DECIMAL NOT NULL,
     fecha DATE NOT NULL  
 );
+
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('juanito', 'cascabel', 17, '01/15/2005', 1.80);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('lola', 'molinillo', 18, '05/23/2004', 1.55);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('carlitos', 'travesura', 19, '09/08/2003', 1.65);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('maria', 'santos', 20, '11/30/2002', 1.77);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('pedrito', 'flores', 21, '03/12/2001', 1.71);
 
 
 create table alumno (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
     apellido NVARCHAR(5) NOT NULL,
     registro INT NOT NULL,
+    altura DECIMAL NOT NULL,
     grado NVARCHAR(5) NOT NULL    
 );
 
 
-INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('juanito', 'cascabel', 17, '01/15/2005');
-INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('lola', 'molinillo', 18, '05/23/2004');
-INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('carlitos', 'travesura', 19, '09/08/2003');
-INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('maria', 'santos', 20, '11/30/2002');
-INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('pedrito', 'flores', 21, '03/12/2001');
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('juan', 'lopez', 1001, '1A', 1.80);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2B', 1.55);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3C', 1.65);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4D', 1.77);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5E', 1.71);
 
-INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('juan', 'lopez', 1001, '1A');
-INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('ana', 'gomez', 1002, '2B');
-INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('carlos', 'perez', 1003, '3C');
-INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('maria', 'martinez', 1004, '4D');
-INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('pedro', 'rodriguez', 1005, '5E');
+
 
 
 
@@ -343,7 +341,8 @@ SELECT * FROM productos
 WHERE fecha_vencimiento BETWEEN '2023-01-01' && '2023-12-31';
 
 SELECT * FROM productos
-WHERE precio BETWEEN 10.00 AND 50.00;
+WHERE precio BETWEEN 10.00 AND 50.00 && ;
+
 
 SELECT * FROM productos
 

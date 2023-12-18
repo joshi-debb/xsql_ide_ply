@@ -1,0 +1,6 @@
+CREATE PROCEDURE sp_conteo (@i int, @j AS decimal) 
+AS 
+BEGIN 
+SELECT 'los valores recibidos en el procedimiento son: ';
+SELECT '@i = ' + @i + ' y @j = ' + @j;
+END;
