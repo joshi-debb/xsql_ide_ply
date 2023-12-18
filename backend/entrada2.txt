@@ -1,6 +1,3 @@
-SELECT CONTAR(*) FROM personas WHERE CAMPO1 = 1;
-SELECT CONTAR(*) FROM personas WHERE CAMPO1 = 1 && CAMPO2 = 3;
-SELECT CONTAR(*) FROM personas,carros WHERE CAMPO1 = 1 && CAMPO2 = 3;
 
-SELECT SUMA(IVA) FROM personas WHERE CAMPO1 = 1;
-SELECT SUMA(IVA, ISR) FROM personas, casas WHERE CAMPO1 = 1 || CAMPO2 = 1;
+
+SELECT SUMA(edad) FROM persona WHERE altura > 1.2;
