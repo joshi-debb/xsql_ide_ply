@@ -1,2 +1,1 @@
-SELECT * FROM persona
-WHERE fecha BETWEEN '2023-01-01' && HOY();
+DROP TABLE persona;
