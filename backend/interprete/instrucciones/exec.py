@@ -23,38 +23,24 @@ class Exec(Instruccion):
     def ejecutar(self, env:Enviroment):
         from analizador.parser import parser
         
+        # Validar que exista el procedimiento self.nombre_proc en la base de datos en uso
+
+        # Si existe, leer la funcion y parsearla
         text = ''
         with open('backend/ejemplo.txt', 'r', encoding='utf-8') as file:
             text = file.read()
         
-        instruccion:Procedure|Function = parser.parse(text.lower())[0]
+        # Obteniendo el procedure
+        instruccion:Procedure = parser.parse(text.lower())[0]
 
-        # Guardando la funcion/procedimiento en la tabla de simbolos
+        # Guardando el procedimiento en la tabla de simbolos
         instruccion.guardarEnTablaSimbolos(env)
 
-        # instruccion = parser.parse('cadena')
-        simbolo = None
-
-        if isinstance(instruccion, Procedure):
-            if not env.existe_simbolo(self.nombre_proc, TipoSimbolo.PROCEDURE):
-                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'No existe un procedimiento llamado "{self.nombre_proc}"')
-                TablaErrores.addError(err)
-                return Retorno(tipo=TipoDato.ERROR, valor=None)
-            simbolo = env.getSimbolo(self.nombre_proc, TipoSimbolo.PROCEDURE)
-            
-            # Creando un nuevo entorno 
-            new_env = Enviroment(ent_anterior=env, ambito="PROCEDURE")
-
-        elif isinstance(instruccion, Function):
-            if not env.existe_simbolo(self.nombre_proc, TipoSimbolo.FUNCTION):
-                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'No existe una función llamada "{self.nombre_proc}"')
-                TablaErrores.addError(err)
-                return Retorno(tipo=TipoDato.ERROR, valor=None)
-            simbolo = env.getSimbolo(self.nombre_proc, TipoSimbolo.FUNCTION)
-
-            # Creando un nuevo entorno 
-            new_env = Enviroment(ent_anterior=env, ambito="FUNCTION")
-            new_env.setDentroFuncion(True)
+        # Obteniendo el procedimiento de la tabla de simbolos    
+        simbolo = env.getSimbolo(self.nombre_proc, TipoSimbolo.PROCEDURE)
+        
+        # Creando un nuevo entorno 
+        new_env = Enviroment(ent_anterior=env, ambito="PROCEDURE")            
 
         # Validar que la llamada tenga la misma cantidad de parametros que recibe el procedimiento
         if len(self.argumentos) != len(simbolo.parametros):
@@ -62,7 +48,10 @@ class Exec(Instruccion):
             TablaErrores.addError(err)
             return Retorno(tipo=TipoDato.ERROR, valor=None)
 
+        # Parametros que recibe el procedimiento en su declaracion
         parametros = simbolo.parametros
+
+        # Declarando los parametros
         for parametro in parametros:
             parametro.ejecutar(new_env)
         
@@ -84,7 +73,6 @@ class Exec(Instruccion):
 
                     if parametro.id == argumento.id:
                         asignaciones.append(AsignacionVar('', parametro.id, argumento.expresion, self.linea, self.columna))
-
         else:
             i = 0
             for parametro in parametros:
@@ -96,27 +84,17 @@ class Exec(Instruccion):
                 asignaciones.append(AsignacionVar('', parametro.id, self.argumentos[i].expresion, self.linea, self.columna))
                 i += 1
 
-        # Declarar los parametros de la funcion (Declaraciones) en un nuevo entorno
+        # Asignando los parametros del procedimiento con los valores dados en la llamada
         for asignacion in asignaciones:
             asignacion.ejecutar(new_env)
         
+        # Ejecutando las instrucciones dentro del procedimiento
         ret = simbolo.instrucciones.ejecutar(new_env)
 
+        # No puede haber un 'RETURN' dentro de un procedimiento, solo en una función
         if isinstance(ret, Return):
-            if new_env.getDentroFunction():
-                exp:Retorno = ret.exp_ret.ejecutar(new_env)
-                
-                # Validar que el retorno sea del mismo tipo
-                if instruccion.getTipoRetorno() != exp.tipo:
-                    err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'La sentencia RETURN debe retornar el mismo tipo especificado en la función y no un tipo {exp.tipo.name}')
-                    TablaErrores.addError(err)
-                    return Retorno(tipo=TipoDato.ERROR, valor=None)
-                return exp
-
-            else:
-                err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo se puede utilizar la sentencia RETURN dento de una función')
-                TablaErrores.addError(err)
-                return Retorno(tipo=TipoDato.ERROR, valor=None)
+            err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo se puede utilizar la sentencia RETURN dento de una función.')
+            TablaErrores.addError(err)
 
         return Retorno(tipo=TipoDato.ERROR, valor=None)
 

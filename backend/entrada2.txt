@@ -1,6 +1,89 @@
-SELECT CONTAR(*) FROM personas WHERE CAMPO1 = 1;
-SELECT CONTAR(*) FROM personas WHERE CAMPO1 = 1 && CAMPO2 = 3;
-SELECT CONTAR(*) FROM personas,carros WHERE CAMPO1 = 1 && CAMPO2 = 3;
+select '';
 
-SELECT SUMA(IVA) FROM personas WHERE CAMPO1 = 1;
-SELECT SUMA(IVA, ISR) FROM personas, casas WHERE CAMPO1 = 1 || CAMPO2 = 1;
+select '------ OPERACIONES CON TABLAS -------';
+CREATE PROCEDURE crearDB ()
+AS
+BEGIN
+    create data base personas;
+END;
+
+exec crearDB;
+
+use personas;
+
+CREATE PROCEDURE crearTablaPersona ()
+AS
+BEGIN
+    create table persona (
+        nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+        apellido NVARCHAR(5) NOT NULL,
+        edad INT NOT NULL,
+        altura DECIMAL NOT NULL,
+        fecha DATE NOT NULL  
+    );
+END;
+
+exec crearTablaPersona;
+
+CREATE PROCEDURE insertarPersonas ()
+AS
+BEGIN
+    INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('juanito', 'cascabel', 17, '01/11/2005', 1.80);
+    INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('lola', 'molinillo', 18, '05/03/2004', 1.55);
+    INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('carlitos', 'travesura', 19, '09/08/2003', 1.65);
+    INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('maria', 'santos', 20, '11/01/2002', 1.77);
+    INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('pedrito', 'flores', 21, '03/02/2001', 1.71);
+END;
+
+exec insertarPersonas;
+
+CREATE PROCEDURE crearTablaAlumno ()
+AS
+BEGIN
+    create table alumno (
+        nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+        apellido NVARCHAR(5) NOT NULL,
+        registro INT NOT NULL,
+        altura DECIMAL NOT NULL,
+        grado NVARCHAR(5) NOT NULL    
+    );
+END;
+
+exec crearTablaAlumno;
+
+CREATE FUNCTION insertarAlumnos (@flag as int)
+RETURNS int
+AS
+BEGIN
+    IF @flag == 1 THEN
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('juan', 'lopez', 1001, '1A', 1.80);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2B', 1.55);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3C', 1.65);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4D', 1.77);
+        INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5E', 1.71);
+        RETURN 1;
+    ELSE THEN
+        RETURN 0;
+    END IF;
+END;
+
+declare @band as int;
+set @band = insertarAlumnos(@flag = 1);
+
+IF @band == 1 THEN
+    declare @j decimal;
+    WHILE @j < 5 
+    BEGIN
+        SELECT 'Dentro de WHILE, @flag = 1';
+        set @j = @j + 1;
+    END;
+ELSE IF @band == 0 THEN
+    declare @i decimal;
+    WHILE @i < 5 
+    BEGIN
+        SELECT 'Dentro de WHILE, @flag = 0';
+        set @i = @i + 1;
+    END;
+END IF;
+
+

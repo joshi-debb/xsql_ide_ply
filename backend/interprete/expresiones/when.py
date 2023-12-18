@@ -14,7 +14,7 @@ class When(Instruccion):
         self.bloque = bloque
     
     def ejecutar(self, env: Enviroment):
-        return super().ejecutar(env)
+        return self.bloque.ejecutar(env)
     
     def evaluarCondicion(self, env:Enviroment):
         val_condicion:Retorno = self.condicion.ejecutar(env)

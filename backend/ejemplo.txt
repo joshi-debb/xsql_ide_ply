@@ -1,6 +1,15 @@
-CREATE PROCEDURE sp_conteo (@i int, @j AS decimal) 
+CREATE FUNCTION insertaralumnos (@flag AS int) 
+RETURNS int 
 AS 
-BEGIN 
-SELECT 'los valores recibidos en el procedimiento son: ';
-SELECT '@i = ' + @i + ' y @j = ' + @j;
-END;
+BEGIN IF @flag == 1 THEN
+ INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('juan', 'lopez', 1001, '1a', 1.80);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2b', 1.55);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3c', 1.65);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4d', 1.77);
+INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5e', 1.71);
+RETURN 1;
+ 
+ELSE THEN
+ RETURN 0;
+ END IF;
+ END;

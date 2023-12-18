@@ -19,12 +19,16 @@ class Function(Instruccion):
         self.instrucciones = instrucciones
     
     def ejecutar(self, env: Enviroment):
-        # Guardar la funcion en el XML en la base de datos actual
-        # Validar que no exista un funcion con el mismo nombre antes de insertar en XML
+        
+        # Validar que no exista una función con el mismo nombre antes de insertar en XML en la base de dato en uso.
+        
+        # Guardar la función en el XML en la base de datos actual.
+        
+        # Escribir el contenido de la función en el XML
         with open('backend/ejemplo.txt', 'w', encoding='utf-8') as file:
             file.write(self.text_val)
         
-        return self
+        return self     # Este retorno se queda asi
     
     # Insertar un nuevo simbolo (procedimiento) a la tabla de simbolos
     def guardarEnTablaSimbolos(self, env:Enviroment):

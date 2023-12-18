@@ -19,16 +19,19 @@ class Procedure(Instruccion):
 
     def ejecutar(self, env:Enviroment):
 
-        # Guardar el procedimiento en el XML en la base de datos actual
-        # Validar que no exista un procedimiento con el mismo nombre antes de insertar en XML
+        # Validar que no exista un procedimiento con el mismo nombre antes de insertar en XML en la base de dato en uso.
+        
+        # Guardar el procedimiento en el XML en la base de datos actual.
+        
+        # Escribir el contenido del procedimiento en el XML
         with open('backend/ejemplo.txt', 'w', encoding='utf-8') as file:
             file.write(self.text_val)
 
-        return self
+        return self         # Este retorno se queda asi
         
     
     # Insertar un nuevo simbolo (procedimiento) a la tabla de simbolos
-    def guardarEnTablaSimbolos(self,env:Enviroment):
+    def guardarEnTablaSimbolos(self, env:Enviroment):
         simbolo = Symbol(TipoSimbolo.PROCEDURE, TipoDato.UNDEFINED, self.id, None, env.ambito, self.parametros, self.instrucciones)
         env.insertar_simbolo(self.id, simbolo)
 

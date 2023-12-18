@@ -76,7 +76,7 @@ def getTextVal_coma(params):
 def getTextValExp_coma(params):
     text_var = ''
     for i in range(len(params)):
-        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion) or isinstance(params[i], Argumento) or isinstance(params[i], LlamadaFnc) or isinstance(params[i], Case):
+        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion) or isinstance(params[i], Argumento) or isinstance(params[i], LlamadaFnc) or isinstance(params[i], When):
             if i == len(params) - 1:
                 text_var += params[i].text_val
             else:
@@ -760,7 +760,7 @@ def p_case(t):
     else:
         text_val = f'CASE {getTextValExp_coma(t[2])} ELSE THEN {getTextVal(t[5])} END {t[7]}'
         bloque = Bloque(getTextVal(t[5]), t[5], linea=t.lineno(1), columna=t.lexpos(1))
-        t[0] = Case(text_val=text_val, lista_when=t[2], _else=False, bloque_else=bloque, linea=t.lineno(1), columna=t.lexpos(1))
+        t[0] = Case(text_val=text_val, lista_when=t[2], _else=True, bloque_else=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_case_lista_when(t):
     '''
@@ -779,14 +779,14 @@ def p_case_when(t):
     '''
     text_val = f'WHEN {t[2].text_val} THEN {getTextVal(t[4])}'
     bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
-    t[1] = When(text_val=text_val, condicion=t[2], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = When(text_val=text_val, condicion=t[2], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_llamada_funcion(t):
     '''
     llamada_fnc : ID PARA argumentos PARC
     '''
     text_val = f'{t[1]} ({getTextValExp_coma(t[3])})'
-    t[0] = Exec(text_val=text_val, nombre_proc=t[1], argumentos=t[3], linea=t.lineno(1), columna=t.lexpos(1))
+    t[0] = LlamadaFnc(text_val=text_val, nombre_fnc=t[1], argumentos=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_llamada_funciones_sistema(t):
     '''
@@ -862,7 +862,6 @@ def p_expresion_logica(t):
         t[0] = Logica(text_val, op1=t[2], operador=TipoLogico.NOT, op2=Literal('', TipoDato.BOOL, False, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=t.lexpos(1))
 
     elif t[2] == '||':
-        print('Encontre un OR')
         text_val = f'{t[1].text_val} || {t[3].text_val}'
         t[0] = Logica(text_val, op1=t[1], operador=TipoLogico.OR, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
