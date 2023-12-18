@@ -293,6 +293,15 @@ END;
 
 
 
+
+
+
+
+
+
+---------- TABLAS E INSERTS ESTAN BUENOS --------------------------------------------------------
+
+
 create data base personas;
 
 use personas;
@@ -305,11 +314,11 @@ create table persona (
     fecha DATE NOT NULL  
 );
 
-INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('juanito', 'cascabel', 17, '01/15/2005', 1.80);
-INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('lola', 'molinillo', 18, '05/23/2004', 1.55);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('juanito', 'cascabel', 17, '01/11/2005', 1.80);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('lola', 'molinillo', 18, '05/03/2004', 1.55);
 INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('carlitos', 'travesura', 19, '09/08/2003', 1.65);
-INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('maria', 'santos', 20, '11/30/2002', 1.77);
-INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('pedrito', 'flores', 21, '03/12/2001', 1.71);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('maria', 'santos', 20, '11/01/2002', 1.77);
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('pedrito', 'flores', 21, '03/02/2001', 1.71);
 
 
 create table alumno (
@@ -328,28 +337,46 @@ INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 
 INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5E', 1.71);
 
 
+--------------SELECT CORRECTOS -------------------
+
+SELECT * FROM persona;
+
+SELECT * FROM persona WHERE edad > 20;
+
+SELECT * FROM persona, nombre_otra_tabla WHERE edad > 20;
+SELECT * FROM persona, nombre_otra_tabla WHERE edad > 20 && edad < 80;
+
+SELECT * FROM persona
+WHERE fecha BETWEEN '01/01/2004' && HOY();
+
+SELECT * FROM persona
+WHERE edad BETWEEN '12' && '18';
+
+SELECT * FROM persona
+WHERE altura BETWEEN '1.5' && '1.8';
+
+--------------------------------------------------------------------
+
+DROP TABLE persona;
+
+TRUNCATE TABLE persona;
+
+UPDATE persona SET edad = '18'  WHERE nombre = 'pepito';
+
+UPDATE persona SET edad = '25', apellido = 'zuleta', fecha = '11/03/1996'  WHERE nombre = 'pepito';
+
+DELETE FROM persona WHERE nombre = 'popis';
+
+ALTER TABLE persona ADD estado_civil NVARCHAR(20);
+
+ALTER TABLE persona DROP nombre;
 
 
 
-SELECT * FROM nombre_de_la_tabla;
-
-SELECT columna1, columna2 FROM nombre_de_la_tabla;
-
-SELECT columna1, columna2 FROM nombre_de_la_tabla WHERE edad > 0 and altura < 100;
-
-SELECT * FROM productos
-WHERE fecha_vencimiento BETWEEN '2023-01-01' && '2023-12-31';
-
-SELECT * FROM productos
-WHERE precio BETWEEN 10.00 AND 50.00 && ;
 
 
-SELECT * FROM productos
-
-WHERE precio BETWEEN 10.00 AND 50.00
-  AND fecha_vencimiento > '2023-06-30';
 
 
-SELECT nombre, apellido FROM persona, alumno WHERE edad > 20;
 
-WHERE precio BETWEEN fecha_vencimiento && '2023-06-30';
+
+-- si da tiempo agrerar operaciones con fecha a where simple en consulta select

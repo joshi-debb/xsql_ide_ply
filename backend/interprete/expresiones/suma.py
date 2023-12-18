@@ -7,33 +7,27 @@ from interprete.extra.enviroment import Enviroment
 
 class Suma(Expresion):
     
-    def __init__(self, text_val:str, column:Expresion, table_name:str, condicion:CondicionWhere, linea:int, columna:int):
+    def __init__(self, text_val:str, campos:str, tablas:str, condicion_where:CondicionWhere, linea:int, columna:int):
         super().__init__(text_val, linea, columna)
-        self.column = column
-        self.table_name = table_name
-        self.condicion = condicion
+        self.campos = campos
+        self.tablas = tablas
+        self.condicion_where = condicion_where
     
     def ejecutar(self, env:Enviroment):
         print('SUMA: text_val: ', self.text_val)
         print('------------------ SUMA --------------------------')
         
-        # Se acepta el nombre o numero de columna
-        if isinstance(self.column, Acceso):
-            print("> Nombre/Numero de columna: ", self.column.id)
-        else:
-            column:Retorno = self.column.ejecutar(env)
-            print("> Nombre/Numero de columna: ", column.valor)
+        resultado = Retorno(tipo=TipoDato.INT, valor=0)
 
-        resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
+        print('CAMPOS: ')
+        for campo in self.campos:
+            print(campo)
         
+        print('TABLAS: ')
+        for tabla in self.tablas:
+            print(tabla)
 
-        print("> Nombre de tabla: ", self.table_name)
-
-        # Solo acepta condiciones del tipo: WHERE campo = expresion
-        print("> Valor de la condicion: ")
-        print("     Campo: ", self.condicion.id)
-        expresion = self.condicion.expresion.ejecutar(env)
-        print("     Expresion: ", expresion.valor)
+        print('CONDICION WHERE: ', self.condicion_where.text_val)
 
         
         print('-----------------------------------------------------')

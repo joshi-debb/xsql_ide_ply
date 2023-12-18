@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<SCHEMAS>
+	<current name="personas"/>
+	<database name="personas">
+		<tables/>
+		<views/>
+		<functions/>
+		<procedures/>
+	</database>
+</SCHEMAS>
+>>>>>>> ef40bcc54bac74b2e386d3d8a2a7ab60f9bf5254

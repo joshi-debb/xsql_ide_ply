@@ -1,183 +1,219 @@
-CREATE PROCEDURE sp_conteo (@i int, @j as decimal)
-AS
-BEGIN
-
-    create data base productos;
-
-    SELECT CONCATENAR('HOLA','MUNDO');
-    SELECT SUBSTRAER('HOLAMUNDO',1,4);
-    SELECT HOY();
-    SELECT CONTAR(*) FROM ID WHERE nombre = 'pepito';
-    SELECT SUMA(IVA) FROM ID WHERE CAMPO1 = 1;
-    SELECT CAS (@ID AS int);
-
-    DECLARE @variable1 int;
-    DECLARE @variable2 nvarchar(20);
-    DECLARE @contador decimal;
-
-    INSERT INTO products (product_no, name, price) VALUES (1, 'Cheese', 9.99);
-    UPDATE products SET price = 10 WHERE price = 5;
-    UPDATE mytable SET a = 5, b = 3, c = 1 WHERE a = 0;
-    DELETE FROM products WHERE price = 10;
-    DELETE FROM products WHERE price = 10;
-    ALTER TABLE Productos ADD Jugos nvarchar(20);
-    DROP TABLE nombre_tabla;
-    TRUNCATE TABLE nombre_tabla;
-    UPDATE persona SET edad = '25', apellido = 'zuleta', fecha = '11/03/1996'  WHERE nombre = 'pepito';
-    SELECT ("El valor de la variable es: " + @hola + " unidades");
-
-    use productos;
-
-    create table papitas(
-        nombre NVARCHAR(5) NULL,
-        apellido NVARCHAR(5) NOT NULL,
-        fecha_nac DATE NOT NULL PRIMARY KEY,
-        genero BIT NOT NULL  
-    );
-
-    IF 0 > 1 THEN
-        declare @v1 int;
-        SELECT ("Primer if");
-
-        IF 5 > 1 THEN
-            declare @v1 int;
-            SELECT ("If anidado");
-        ELSE THEN
-            declare @v2 bit;
-        END IF;
-    ELSE THEN
-        declare @v2 bit;
-        SELECT ("Entro al else");
-    END IF;
-
-    declare @num int;
-    set @num = 1;
-
-    IF @num == 0 THEN
-        declare @v1 int;
-        SELECT ("num = " + @num);
-    ELSE IF @num == 1 THEN
-        declare @v2 nvarchar(2);
-        SELECT ("num = " + @num);
-    ELSE IF @num == 2 THEN
-        declare @v3 nvarchar(2);
-        SELECT ("num = " + @num);
-    ELSE IF @num == 3 THEN
-        declare @v3 nvarchar(2);
-        SELECT ("num = " + @num);
-    ELSE IF @num == 4 THEN
-        declare @v3 nvarchar(2);
-        SELECT ("num = " + @num);
-    ELSE THEN
-        declare @v3 nvarchar(2);
-        SELECT ("num = " + @num);
-    END IF;
-
-    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('juanito', 'cascabel', 17, '01/15/2005');
-    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('lola', 'molinillo', 18, '05/23/2004');
-    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('carlitos', 'travesura', 19, '09/08/2003');
-    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('maria', 'santos', 20, '11/30/2002');
-    INSERT INTO persona (nombre, apellido, edad, fecha) VALUES ('pedrito', 'flores', 21, '03/12/2001');
-
-    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('juan', 'lopez', 1001, '1A');
-    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('ana', 'gomez', 1002, '2B');
-    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('carlos', 'perez', 1003, '3C');
-    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('maria', 'martinez', 1004, '4D');
-    INSERT INTO alumno (nombre, apellido, registro, grado) VALUES ('pedro', 'rodriguez', 1005, '5E');
-
-
-
-    SELECT * FROM nombre_de_la_tabla;
-
-    SELECT columna1, columna2 FROM nombre_de_la_tabla;
-
-    SELECT columna1, columna2 FROM nombre_de_la_tabla WHERE edad > 0 && altura < 100;
-
-    SELECT * FROM productos
-    WHERE precio BETWEEN fecha_vencimiento && '2023-06-30';
-
-    declare @var1 int;
-    -- select "El valor por defecto de var1 es: " + @var1;
-    set @var1 = 9;
-
-    set @var1 = (1+2+3)/6 + @var1/9;
-    select @var1;
-
-    declare @var2 nvarchar(5);
-
-    set @var2 = concatenar('hola', 'mundo');
-    select "La cadena concatenada es: " + @var2;
-
-    declare @var3 datetime;
-    set @var3 = hoy();
-
-    select @var3;
-
-    select substraer('holamundo', 1, 4);
-    select hoy();
-    select concatenar('hola', 'mundo1');
-    select if(4 > 0, 'hola', 'adios');
-
-END;
-
-declare @cont int;
-
-WHILE @cont < 5
-    BEGIN 
-    select 'Valor actual: ' + @cont;
-    set @cont = @cont + 1;
-    declare @cont1 int;
-    IF @cont == 3 THEN
-        SELECT 'El valor de contador es 3';
-        declare @text nvarchar(4);
-        set @text = 'GERSON';
-        SELECT 'Se creo otra variable con valor: ' + @text;
-    ELSE THEN
-        SELECT 'No pasa nada ' + @cont;
-    END IF;
-END;
-
-
--- PROCEDIMINETOS
-CREATE PROCEDURE sumar (@num1 nvarchar(4), @num2 as int)
-AS
-BEGIN
-    DECLARE @var1 int;
-    set @var1 = 22;
-    select 'Me llegaron los valores: @num1: ' + ' @num2: ' + @num2;
-    select @num1;
-    select 'SIIIIUUUUU';
-END;
-
-
-declare @ciudad nvarchar(4);
-set @ciudad = 'Gerson';
-select @ciudad;
-
-exec sumar @ciudad, (2+2/2)/3;
-
-
--- FUNCIONES
 CREATE FUNCTION sumar (@num1 as int, @num2 as int)
 RETURNS int
 AS
 BEGIN
-    declare @total as int;
+    DECLARE @total as int;
     set @total = @num1 + @num2;
 
-    RETURN @total;
+    IF @total >= 0 && @total <= 10 THEN
+        SELECT 'El total es >= 0 y <= a 10';
+        return @total;
+
+    ELSE IF @total >= 11 && @total <= 20  THEN
+        select 'El total es >= 11 y <= 20';
+        return @total;
+    
+    ELSE IF @total >= 21 && @total <= 30  THEN
+        select 'El total es >= 31 y <= 30';
+        return @total;
+
+    ELSE THEN
+        SELECT 'El resultado es > 30';
+        declare @cont as int;
+
+        WHILE @cont < @total
+            BEGIN 
+            select 'Valor actual de @cont: ' + @cont;
+            set @cont = @cont + 1;
+            IF @cont == 3 THEN
+                SELECT 'El valor de contador es 3';
+                RETURN @total;
+            END IF;
+        END;
+    END IF;
+END;
+
+IF !(4 <= 0) THEN
+    select 'Negando exprecion';
+END IF;
+
+select '';
+select '------ FUNCIONES Y PROCEDIMIENTOS -------';
+declare @val as int;
+set @val = sumar(1, 39);
+select "El resultado de la suma es: " + @val;
+select "El resultado de 10 + 10 es: " + sumar(10, 10);
+select '';
+
+select '------ CASTEOS -------';
+
+-- Declaraciones
+declare @val1 as decimal;
+declare @val2 as int;
+declare @val3 as int;
+declare @cad1 as NVARCHAR(4);
+declare @cad2 NVARCHAR(10);
+declare @flag1 as bit;
+
+
+-- De INT a DECIMAL
+set @val1 = cas(@val as decimal);
+select '@val casteado a DECIMAL = ' + @val1;
+
+-- De DECIMAL a INT
+set @val2 = cas(@val1 as int);
+select '@val1 casteado a INT = ' + @val2;
+
+-- De BIT a INT
+set @flag1 = 1;
+set @val3 = cas(@flag1 as INT);
+select '@flag1 casteado a INT: ' + @val3;
+
+-- De NCHAR a INT
+declare @val4 as int;
+declare @cad3 as NCHAR(2);
+set @cad3 = 'aa';
+set @val4 = cas(@cad3 as INT);
+
+-- De NVARCHAR a INT
+declare @val5 as int;
+declare @cad4 as NVARCHAR(2);
+set @cad4 = 'a';
+set @val5 = cas(@cad4 as INT);
+select '@cad4 casteado a INT: ' + @val5;
+
+-- De INT a NVARCHAR
+DECLARE @val6 int;
+DECLARE @cad5 as NVARCHAR(10);
+set @val6 = 97;
+set @cad5 = cas(@val6 as NVARCHAR(10));
+select '@val6 casteado a NVARCHAR: ' + @cad5;
+
+-- De INT a NCHAR
+DECLARE @val7 int;
+DECLARE @cad6 as NCHAR(10);
+set @val7 = 97;
+set @cad6 = cas(@val7 as NCHAR(10));
+select '@val7 casteado a NCHAR: ' + @cad6;
+
+select '';
+
+select '------ FUNCIONES DEL SISTEMA -------';
+
+-- CONCATENAR
+declare @cad7 as nchar(8);
+set @cad7 = concatenar('HOLA', ' MUNDO');
+SELECT 'La concatenacion es: ' + @cad7;
+
+-- SUBSTRAER
+declare @inicio as int;
+declare @fin as int;
+set @inicio = 1;
+set @fin = 2+2;
+select 'La substraccion es: ' + SUBSTRAER('HOLAMUNDO', @inicio, @fin);
+
+-- HOY
+declare @fecha_hoy as datetime;
+set @fecha_hoy = HOY();
+select 'La fecha y hora de hoy es: ';
+select @fecha_hoy;
+
+
+select '';
+
+select '------ IF -------';
+
+CREATE FUNCTION multDecimales (@val1 as decimal, @val2 decimal)
+RETURNS DECIMAL
+AS
+BEGIN
+    DECLARE @sum as decimal;
+    set @sum = @val1 * @val2;
+    return @sum;
+END;
+
+declare @val8 DECIMAL;
+set @val8 = multDecimales(1.8, 5.0);
+select 'El resultado es: ' + @val8;
+
+IF @val8 == 0 || @val8 == 10 THEN
+    select 'Val8 = ' + @val8;
+ELSE IF @val8 > 0 && @val8 <= 5 THEN
+    select 'Val8 > 0 y <= 5';
+ELSE IF @val8 > 5 && @val8 <= 10 THEN
+    select 'Val8 > 5 y <= 10';
+ELSE IF @val8 > 10 && @val8 <= 20 THEN
+    select 'Val8 > 10 y <= 20';
+END IF;
+
+declare @val9 as int;
+declare @val10 as int;
+declare @val11 as int;
+set @val9 = 9;
+set @val10 = 9;
+set @val11 = 9;
+
+IF @val9 == @val10 && @val10 == @val11 THEN
+    SELECT 'Todas las variables tienen el mismo valor de ' + @val9;
+ELSE THEN
+    SELECT 'Tiene valores distintos';
+END IF;
+
+
+set @val8 = multDecimales(11.8, 55.0);
+select 'El resultado es: ' + @val8;
+
+IF @val8 == 0 || @val8 == 10 THEN
+    select 'Val8 = ' + @val8;
+ELSE IF @val8 > 0 && @val8 <= 5 THEN
+    select 'Val8 > 0 y <= 5';
+ELSE IF @val8 > 5 && @val8 <= 10 THEN
+    select 'Val8 > 5 y <= 10';
+ELSE IF @val8 > 10 && @val8 <= 20 THEN
+    select 'Val8 > 10 y <= 20';
+ELSE THEN
+    select 'El resultado es > 20';
+END IF;
+
+select '';
+
+select '------ WHILE -------';
+declare @i as decimal;
+
+WHILE @i < 5
+BEGIN
+    select 'Valor de i: ' + @i;
+    set @i = @i + 1;
+    IF @i == 5 THEN
+        SELECT 'Se llego al fin del WHILE';
+        IF @i == 6 THEN
+            SELECT 'Entro al if mas interno';
+        ELSE THEN
+            SELECT 'Entro al else mas interno';
+        END IF;
+    END IF;
 END;
 
 
-declare @ciudad int;
-set @ciudad = 123;
-select @ciudad;
+select '';
 
-exec sumar @ciudad, (2+2/2)/3;
+select '------ OPERADOR TERNARIO IF -------';
+DECLARE @edad as int;
+declare @etapa as NVARCHAR(18);
+set @edad = 18;
 
-declare @op as int;
+set @etapa = if(@edad < 10, 'Ninio', 'adolescente');
+SELECT 'La etapa de la persona es: ' + @etapa;  
 
-set @op = sumar(1, 2);
-select @op;
+CREATE PROCEDURE sp_conteo (@i int, @j as decimal)
+AS
+BEGIN
 
+    select 'Los valores recibidos en el procedimiento son: ';
+    select '@i = ' + @i + ' y @j = ' + @j;
 
+END;
+
+exec sp_conteo 1, 3.3;
+exec sp_conteo @i=1, @j=3.3;
+exec sp_conteo @j=3.3, @i=1;

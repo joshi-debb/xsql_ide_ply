@@ -16,16 +16,16 @@ class Case(Expresion):
     
     def ejecutar(self, env: Enviroment):
         # Si hay condiciones else if
-        if len(self.lista_when) != 0:
-            for when in self.lista_when:
-                if when.evaluarCondicion(env):
-                    new_env = Enviroment(ent_anterior=env, ambito="CASE")
-                    ret = when.ejecutar(new_env)
-                    if isinstance(ret, Return):
-                        if not env.dentroDeFuncion():
-                            err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo puede haber una sentencia RETURN dentro de una función')
-                            TablaErrores.addError(err)
-                            return self
-                        return ret
-                    return self
+        # if len(self.lista_when) != 0:
+        #     for when in self.lista_when:
+        #         if when.evaluarCondicion(env):
+        #             new_env = Enviroment(ent_anterior=env, ambito="CASE")
+        #             ret = when.ejecutar(new_env)
+        #             if isinstance(ret, Return):
+        #                 if not env.dentroDeFuncion():
+        #                     err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo puede haber una sentencia RETURN dentro de una función')
+        #                     TablaErrores.addError(err)
+        #                     return self
+        #                 return ret
+        #             return self
         return super().ejecutar(env)

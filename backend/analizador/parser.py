@@ -447,17 +447,31 @@ def p_hoy(t):
 
 def p_contar(t):
     '''
-    contar : CONTAR PARA MULT PARC FROM ID WHERE condicion_where
+    contar : CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
     '''
-    text_val = f'CONTAR (*) FROM {t[6]} WHERE {t[8].text_val}'
-    t[0] = Contar(text_val, t[6], t[8], t.lineno(1), t.lexpos(1))
+    text_val = f'CONTAR (*) FROM {getTextVal_coma(t[6])} WHERE {t[8].text_val}'
+    t[0] = Contar(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=t[8], linea=t.lineno(1), columna=t.lexpos(1))
+
+# def p_select_tabla_2(t):
+#     '''
+#     select_tabla : MULT FROM nombre_tablas WHERE condicion_where_select
+#     '''
+#     text_val = f'* FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
+#     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_suma(t):
     '''
-    suma : SUMA PARA expresion PARC FROM ID WHERE condicion_where
+    suma : SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
     '''
-    text_val = f'SUMA ({t[3].text_val}) FROM {t[6]} WHERE {t[8].text_val}'
-    t[0] = Suma(text_val, t[3], t[6], t[8], t.lineno(1), t.lexpos(1))
+    text_val = f'SUMA ({getTextVal_coma(t[3])}) FROM {getTextVal_coma(t[6])} WHERE {t[8].text_val}'
+    t[0] = Suma(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=t[8], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_suma_1(t):
+    '''
+    suma : SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    '''
+    text_val = f'SUMA ({t[3]}) FROM {getTextVal_coma(t[6])} WHERE {t[8].text_val}'
+    t[0] = Suma(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=t[8], linea=t.lineno(1), columna=t.lexpos(1))
 
 # CAS ( expression AS type )
 def p_cast(t):
@@ -799,7 +813,6 @@ def p_expresion_relacional(t):
     '''
     text_val = f'{t[1].text_val} {t[2]} {t[3].text_val}'
     if t[2] == '=':
-        print('----- OPERACION IGUAL ------')
         t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '==':
         t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.IGUALDAD, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
