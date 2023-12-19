@@ -21,41 +21,27 @@ class Exec(Instruccion):
         self.nombre_proc = nombre_proc
         if argumentos[0] == None: self.argumentos = []
         else:                     self.argumentos = argumentos
+        self.text = ''
 
     def ejecutar(self, env:Enviroment):
         from analizador.parser import parser
-        
-        
+
         datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
         mydoc = minidom.parse(datas)
+        current = mydoc.getElementsByTagName('current')[0]  
+        bases = mydoc.getElementsByTagName('database')
         
-        current = mydoc.getElementsByTagName('current')[0]
-        
-        print(current.getAttribute('name'))
-    
-        for database in mydoc.getElementsByTagName('database'):
-            if database.getAttribute('name') == current.getAttribute('name'):
-                print(database.getAttribute('name'))                  
-                for proceducre in database.getElementsByTagName('procedures'):
-                    for procs in proceducre.getElementsByTagName('procedure'):
-                        print(procs.getAttribute('name'), self.nombre_proc)
-                        if procs.getAttribute('name') == self.nombre_proc:
-                            print("Procedimiento encontrado")
-                            break
-                        else:
-                            print("Procedimiento no encontrado")
-                            return
-        
-        # Validar que exista el procedimiento self.nombre_proc en la base de datos en uso
-
-        # Si existe, leer la funcion y parsearla
-        text = ''
-        # with open('backend/ejemplo.txt', 'r', encoding='utf-8') as file:
-        #     text = file.read()
+        for elem in bases:
+            if elem.getAttribute('name') == current.getAttribute('name'):
+                procedures = elem.getElementsByTagName('procedure')
+                for procedure in procedures:
+                    if procedure.getAttribute('name') == self.nombre_proc:
+                        self.text = str(procedure.firstChild.data)
+                        break
         
         # Obteniendo el procedure
-        instruccion:Procedure = parser.parse(text.lower())[0]
+        instruccion:Procedure = parser.parse(self.text.lower())[0]
 
         # Guardando el procedimiento en la tabla de simbolos
         instruccion.guardarEnTablaSimbolos(env)
@@ -122,4 +108,4 @@ class Exec(Instruccion):
 
         return Retorno(tipo=TipoDato.ERROR, valor=None)
 
-        
+    

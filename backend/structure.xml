@@ -2,13 +2,25 @@
 <SCHEMAS>
 	<current name="personas"/>
 	<database name="personas">
-		<tables/>
+		<tables>
+			<table name="holas">
+				<fields>
+					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
+					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records/>
+			</table>
+		</tables>
 		<views/>
 		<functions>
-			<function name="insertaralumnos">CREATE FUNCTION insertaralumnos (@flag AS int) RETURNS int AS BEGIN IF @flag == 1 THEN INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('juan', 'lopez', 1001, '1a', 1.80);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2b', 1.55);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3c', 1.65);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4d', 1.77);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5e', 1.71);RETURN 1; ELSE THEN RETURN 0; END IF; END;</function>
+			<function name="sumar">CREATE FUNCTION sumar (@num1 AS int, @num2 AS int) RETURNS int AS BEGIN DECLARE @total AS int;SET @ total = @num1 + @num2;IF @total &gt;= 0 &amp;&amp; @total &lt;= 10 THEN SELECT 'el total es &gt;= 0 y &lt;= a 10';RETURN @total; ELSE IF @total &gt;= 11 &amp;&amp; @total &lt;= 20 THEN SELECT 'el total es &gt;= 11 y &lt;= 20';RETURN @total;ELSE IF @total &gt;= 21 &amp;&amp; @total &lt;= 30 THEN SELECT 'el total es &gt;= 31 y &lt;= 30';RETURN @total; ELSE THEN SELECT 'el resultado es &gt; 30';DECLARE @cont AS int;WHILE @cont &lt; @total BEGIN SELECT 'valor actual de @cont: ' + @cont;SET @ cont = @cont + 1;IF @cont == 3 THEN SELECT 'el valor de contador es 3';RETURN @total; END IF; END; END IF; END;</function>
+			<function name="multdecimales">CREATE FUNCTION multdecimales (@val1 AS decimal, @val2 decimal) RETURNS decimal AS BEGIN DECLARE @sum AS decimal;SET @ sum = @val1 * @val2;RETURN @sum; END;</function>
 		</functions>
 		<procedures>
-			<procedure name="creartablapersona">CREATE PROCEDURE creartablapersona () AS BEGIN CREATE TABLE persona ( nombre NVARCHAR(5) not null primary key, apellido NVARCHAR(5) not null, edad int not null, altura decimal not null, fecha date not null );END;</procedure>
+			<procedure name="creartablapersona">CREATE PROCEDURE creartablapersona () AS BEGIN CREATE TABLE holas ( nombre NVARCHAR(5) not null primary key, apellido NVARCHAR(5) not null, edad int not null, altura decimal not null, fecha date not null );END;</procedure>
 			<procedure name="sp_conteo">CREATE PROCEDURE sp_conteo (@i int, @j AS decimal) AS BEGIN SELECT 'los valores recibidos en el procedimiento son: ';SELECT '@i = ' + @i + ' y @j = ' + @j;END;</procedure>
 		</procedures>
 	</database>
