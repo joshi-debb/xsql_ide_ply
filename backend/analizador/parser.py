@@ -284,8 +284,12 @@ def p_columnas(t):
 def p_columna(t):
     '''
     columna : ID
+            | ID PT ID
     '''
-    t[0] = t[1]
+    if len(t) == 2:
+        t[0] = t[1]
+    else:
+        t[0] = f'{t[1]}.{t[3]}'
 
 def p_atributos(t):
     '''
@@ -302,9 +306,15 @@ def p_atributos(t):
 def p_atributo(t):
     '''
     atributo : ID tipo atributo_opciones
+             | ID tipo 
     '''
-    text_val = f'{t[1]} {tipoToStr(t[2])} {atributoOpcionesToStr(t[3])}'
-    t[0] = Atributo(text_val, t[1], t[2], t[3], t.lineno(1), t.lexpos(1))
+    if len(t) == 4:
+        text_val = f'{t[1]} {tipoToStr(t[2])} {atributoOpcionesToStr(t[3])}'
+        t[0] = Atributo(text_val, t[1], t[2], t[3], t.lineno(1), t.lexpos(1))
+    else:
+        text_val = f'{t[1]} {tipoToStr(t[2])}'
+        t[0] = Atributo(text_val, t[1], t[2], [], t.lineno(1), t.lexpos(1))
+
 
 def p_atributo_opciones(t):
     '''

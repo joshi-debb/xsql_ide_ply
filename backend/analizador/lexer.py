@@ -58,7 +58,7 @@ reservadas = {
     'nvarchar': 'NVARCHAR',
     
     # FUNCIONES DEL SISTEMA
-    'concatenar': 'CONCATENAR',
+    'concatena': 'CONCATENAR',
     'substraer': 'SUBSTRAER',
     'hoy': 'HOY',
     'contar': 'CONTAR',
@@ -91,6 +91,7 @@ tokens = [
     'ID',
     'PARA',
     'PARC',
+    'PT',
     'PYC',
     'COMA',
     'ARROBA'
@@ -107,6 +108,7 @@ t_RESTAR = r'-'
 t_MULT = r'\*'
 t_DIV = r'/'
 t_MODULO = r'%'
+t_PT = r'/.'
 t_PYC = r';'
 t_PARA = r'\('
 t_PARC = r'\)'

@@ -31,9 +31,9 @@ else:
     print("Structure XML created successfully")
 
 f = open('backend/entrada2.txt', 'r')
-input = f.read()
+entrada = f.read()
 # print(input)
-instrucciones = parser.parse(input.lower())
+instrucciones = parser.parse(entrada.lower())
 
 env = Enviroment(ent_anterior=None, ambito='Global')
 
@@ -47,3 +47,13 @@ for instruccion in instrucciones:
 print("------------ Errores ------------")
 for error in TablaErrores.errores:
     print(error.serializar())
+
+    
+opt = input('Borrar archivo structure.xml? s/n: ')
+if opt == 's':    
+    # Verificar si el archivo existe antes de intentar borrarlo
+    if os.path.exists('backend/structure.xml'):
+        os.remove('backend/structure.xml')
+        print(f"El archivo {'backend/structure.xml'} ha sido borrado con éxito.")
+    else:
+        print(f"El archivo {'backend/structure.xml'} no existe.")
