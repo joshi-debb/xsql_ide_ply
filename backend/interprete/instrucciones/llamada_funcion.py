@@ -10,6 +10,7 @@ from interprete.extra.retorno import Retorno
 from interprete.instrucciones.asignacion_var import AsignacionVar
 from interprete.instrucciones.argumento import Argumento
 from interprete.expresiones._return import Return
+from xml.dom import minidom
 
 # Esta clase buscará la funcion en el XML
 class LlamadaFnc(Instruccion):
@@ -18,19 +19,27 @@ class LlamadaFnc(Instruccion):
         self.nombre_fnc = nombre_fnc
         if argumentos[0] == None: self.argumentos = []
         else:                     self.argumentos = argumentos
+        self.text = ''
 
     def ejecutar(self, env:Enviroment):
         from analizador.parser import parser
 
-        # Validar que exista el procedimiento self.nombre_proc en la base de datos en uso
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
-        # Si existe, leer la funcion y parsearla
-        text = ''
-        with open('backend/ejemplo.txt', 'r', encoding='utf-8') as file:
-            text = file.read()
+        mydoc = minidom.parse(datas)
+        current = mydoc.getElementsByTagName('current')[0]  
+        bases = mydoc.getElementsByTagName('database')
+        
+        for elem in bases:
+            if elem.getAttribute('name') == current.getAttribute('name'):
+                functions = elem.getElementsByTagName('function')
+                for function in functions:
+                    if function.getAttribute('name') == self.nombre_fnc:
+                        self.text = str(function.firstChild.data)
+                        break
         
         # Obteniendo la Funcion
-        instruccion:Function = parser.parse(text.lower())[0]
+        instruccion:Function = parser.parse(self.text.lower())[0]
 
         # Guardando la funcion en la tabla de simbolos
         instruccion.guardarEnTablaSimbolos(env)
@@ -44,7 +53,7 @@ class LlamadaFnc(Instruccion):
 
         # Validar que la llamada tenga la misma cantidad de parametros que recibe la función
         if len(self.argumentos) != len(simbolo.parametros):
-            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'La llamada al procedimiento debe tener la misma cantidad de argumentos que el procedimiento "{self.nombre_proc}"')
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'La llamada al procedimiento debe tener la misma cantidad de argumentos que el procedimiento "{self.nombre_fnc}"')
             TablaErrores.addError(err)
             return Retorno(tipo=TipoDato.ERROR, valor=None)
 
@@ -67,7 +76,7 @@ class LlamadaFnc(Instruccion):
             for parametro in parametros:
                 for argumento in self.argumentos:
                     if argumento.id == None:
-                        err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Los argumentos deben tener la misma estructura en la llamada al procedure "{self.nombre_proc}"')
+                        err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Los argumentos deben tener la misma estructura en la llamada al function "{self.nombre_fnc}"')
                         TablaErrores.addError(err)
                         return Retorno(tipo=TipoDato.ERROR, valor=None)
 
@@ -77,7 +86,7 @@ class LlamadaFnc(Instruccion):
             i = 0
             for parametro in parametros:
                 if self.argumentos[i].id != None:
-                    err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Los argumentos deben tener la misma estructura en la llamada al procedure "{self.nombre_proc}"')
+                    err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Los argumentos deben tener la misma estructura en la llamada al function "{self.nombre_fnc}"')
                     TablaErrores.addError(err)
                     return Retorno(tipo=TipoDato.ERROR, valor=None)
 
