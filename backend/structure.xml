@@ -2,102 +2,14 @@
 <SCHEMAS>
 	<current name="personas"/>
 	<database name="personas">
-		<tables>
-			<table name="persona">
-				<fields>
-					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
-					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
-					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
-					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
-				</fields>
-				<records>
-					<record>
-						<field name="nombre">juanito</field>
-						<field name="apellido">cascabel</field>
-						<field name="edad">17</field>
-						<field name="fecha">01/11/2005</field>
-						<field name="altura">1.8</field>
-					</record>
-					<record>
-						<field name="nombre">lola</field>
-						<field name="apellido">molinillo</field>
-						<field name="edad">18</field>
-						<field name="fecha">05/03/2004</field>
-						<field name="altura">1.55</field>
-					</record>
-					<record>
-						<field name="nombre">carlitos</field>
-						<field name="apellido">travesura</field>
-						<field name="edad">19</field>
-						<field name="fecha">09/08/2003</field>
-						<field name="altura">1.65</field>
-					</record>
-					<record>
-						<field name="nombre">maria</field>
-						<field name="apellido">santos</field>
-						<field name="edad">20</field>
-						<field name="fecha">11/01/2002</field>
-						<field name="altura">1.77</field>
-					</record>
-					<record>
-						<field name="nombre">pedrito</field>
-						<field name="apellido">flores</field>
-						<field name="edad">21</field>
-						<field name="fecha">03/02/2001</field>
-						<field name="altura">1.71</field>
-					</record>
-				</records>
-			</table>
-			<table name="alumno">
-				<fields>
-					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
-					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="registro" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
-					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
-					<field name="grado" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-				</fields>
-				<records>
-					<record>
-						<field name="nombre">chabelo</field>
-						<field name="apellido">lopez</field>
-						<field name="registro">1001</field>
-						<field name="grado">1a</field>
-						<field name="altura">9.9</field>
-					</record>
-					<record>
-						<field name="nombre">ana</field>
-						<field name="apellido">gomez</field>
-						<field name="registro">1002</field>
-						<field name="grado">2b</field>
-						<field name="altura">9.9</field>
-					</record>
-					<record>
-						<field name="nombre">carlos</field>
-						<field name="apellido">perez</field>
-						<field name="registro">1003</field>
-						<field name="grado">3c</field>
-						<field name="altura">9.9</field>
-					</record>
-					<record>
-						<field name="nombre">maria</field>
-						<field name="apellido">martinez</field>
-						<field name="registro">1004</field>
-						<field name="grado">4d</field>
-						<field name="altura">9.9</field>
-					</record>
-					<record>
-						<field name="nombre">pedro</field>
-						<field name="apellido">rodriguez</field>
-						<field name="registro">1005</field>
-						<field name="grado">5e</field>
-						<field name="altura">9.9</field>
-					</record>
-				</records>
-			</table>
-		</tables>
+		<tables/>
 		<views/>
-		<functions/>
-		<procedures/>
+		<functions>
+			<function name="insertaralumnos">CREATE FUNCTION insertaralumnos (@flag AS int) RETURNS int AS BEGIN IF @flag == 1 THEN INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('juan', 'lopez', 1001, '1a', 1.80);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2b', 1.55);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3c', 1.65);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4d', 1.77);INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5e', 1.71);RETURN 1; ELSE THEN RETURN 0; END IF; END;</function>
+		</functions>
+		<procedures>
+			<procedure name="creartablapersona">CREATE PROCEDURE creartablapersona () AS BEGIN CREATE TABLE persona ( nombre NVARCHAR(5) not null primary key, apellido NVARCHAR(5) not null, edad int not null, altura decimal not null, fecha date not null );END;</procedure>
+			<procedure name="sp_conteo">CREATE PROCEDURE sp_conteo (@i int, @j AS decimal) AS BEGIN SELECT 'los valores recibidos en el procedimiento son: ';SELECT '@i = ' + @i + ' y @j = ' + @j;END;</procedure>
+		</procedures>
 	</database>
 </SCHEMAS>

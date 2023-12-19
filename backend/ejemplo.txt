@@ -1,10 +1,30 @@
-CREATE FUNCTION insertaralumnos (@altura AS decimal, @cadena AS NCHAR(4)) 
+CREATE FUNCTION sumar (@num1 AS int, @num2 AS int) 
 RETURNS int 
 AS 
-BEGIN INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES (@cadena, 'lopez', 1001, '1a', @altura);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('ana', 'gomez', 1002, '2b', @altura);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('carlos', 'perez', 1003, '3c', @altura);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('maria', 'martinez', 1004, '4d', @altura);
-INSERT INTO alumno (nombre, apellido, registro, grado, altura) VALUES ('pedro', 'rodriguez', 1005, '5e', @altura);
-RETURN 1;
+BEGIN DECLARE @total AS int;
+SET @ total = @num1 + @num2;
+IF @total >= 0 && @total <= 10 THEN
+ SELECT 'el total es >= 0 y <= a 10';
+RETURN @total;
+ ELSE IF @total >= 11 && @total <= 20 THEN
+ SELECT 'el total es >= 11 y <= 20';
+RETURN @total;
+
+ELSE IF @total >= 21 && @total <= 30 THEN
+ SELECT 'el total es >= 31 y <= 30';
+RETURN @total;
+
+ ELSE THEN
+ SELECT 'el resultado es > 30';
+DECLARE @cont AS int;
+WHILE @cont < @total 
+BEGIN 
+SELECT 'valor actual de @cont: ' + @cont;
+SET @ cont = @cont + 1;
+IF @cont == 3 THEN
+ SELECT 'el valor de contador es 3';
+RETURN @total;
+ END IF;
+ END;
+ END IF;
  END;

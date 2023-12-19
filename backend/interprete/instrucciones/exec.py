@@ -12,6 +12,8 @@ from interprete.extra.tipos import TipoSimbolo
 from interprete.extra.symbol import Symbol
 from interprete.extra.tipos import TipoDato
 
+from xml.dom import minidom
+
 # Esta clase buscará el procedimiento en el XML
 class Exec(Instruccion):
     def __init__(self, text_val, nombre_proc, argumentos:Argumento, linea, columna):
@@ -23,12 +25,34 @@ class Exec(Instruccion):
     def ejecutar(self, env:Enviroment):
         from analizador.parser import parser
         
+        
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+
+        mydoc = minidom.parse(datas)
+        
+        current = mydoc.getElementsByTagName('current')[0]
+        
+        print(current.getAttribute('name'))
+    
+        for database in mydoc.getElementsByTagName('database'):
+            if database.getAttribute('name') == current.getAttribute('name'):
+                print(database.getAttribute('name'))                  
+                for proceducre in database.getElementsByTagName('procedures'):
+                    for procs in proceducre.getElementsByTagName('procedure'):
+                        print(procs.getAttribute('name'), self.nombre_proc)
+                        if procs.getAttribute('name') == self.nombre_proc:
+                            print("Procedimiento encontrado")
+                            break
+                        else:
+                            print("Procedimiento no encontrado")
+                            return
+        
         # Validar que exista el procedimiento self.nombre_proc en la base de datos en uso
 
         # Si existe, leer la funcion y parsearla
         text = ''
-        with open('backend/ejemplo.txt', 'r', encoding='utf-8') as file:
-            text = file.read()
+        # with open('backend/ejemplo.txt', 'r', encoding='utf-8') as file:
+        #     text = file.read()
         
         # Obteniendo el procedure
         instruccion:Procedure = parser.parse(text.lower())[0]
