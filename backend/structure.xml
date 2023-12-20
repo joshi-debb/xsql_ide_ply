@@ -1,27 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SCHEMAS>
-	<current name="personas"/>
-	<database name="personas">
-		<tables>
-			<table name="holas">
-				<fields>
-					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
-					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
-					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
-					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
-				</fields>
-				<records/>
-			</table>
-		</tables>
-		<views/>
-		<functions>
-			<function name="sumar">CREATE FUNCTION sumar (@num1 AS int, @num2 AS int) RETURNS int AS BEGIN DECLARE @total AS int;SET @ total = @num1 + @num2;IF @total &gt;= 0 &amp;&amp; @total &lt;= 10 THEN SELECT 'el total es &gt;= 0 y &lt;= a 10';RETURN @total; ELSE IF @total &gt;= 11 &amp;&amp; @total &lt;= 20 THEN SELECT 'el total es &gt;= 11 y &lt;= 20';RETURN @total;ELSE IF @total &gt;= 21 &amp;&amp; @total &lt;= 30 THEN SELECT 'el total es &gt;= 31 y &lt;= 30';RETURN @total; ELSE THEN SELECT 'el resultado es &gt; 30';DECLARE @cont AS int;WHILE @cont &lt; @total BEGIN SELECT 'valor actual de @cont: ' + @cont;SET @ cont = @cont + 1;IF @cont == 3 THEN SELECT 'el valor de contador es 3';RETURN @total; END IF; END; END IF; END;</function>
-			<function name="multdecimales">CREATE FUNCTION multdecimales (@val1 AS decimal, @val2 decimal) RETURNS decimal AS BEGIN DECLARE @sum AS decimal;SET @ sum = @val1 * @val2;RETURN @sum; END;</function>
-		</functions>
-		<procedures>
-			<procedure name="creartablapersona">CREATE PROCEDURE creartablapersona () AS BEGIN CREATE TABLE holas ( nombre NVARCHAR(5) not null primary key, apellido NVARCHAR(5) not null, edad int not null, altura decimal not null, fecha date not null );END;</procedure>
-			<procedure name="sp_conteo">CREATE PROCEDURE sp_conteo (@i int, @j AS decimal) AS BEGIN SELECT 'los valores recibidos en el procedimiento son: ';SELECT '@i = ' + @i + ' y @j = ' + @j;END;</procedure>
-		</procedures>
-	</database>
+	<current name="default"/>
 </SCHEMAS>

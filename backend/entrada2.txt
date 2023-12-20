@@ -1,0 +1,5 @@
+SELECT precio.id, descripcion.info FROM tbproductos, tbclientes WHERE precio.hola=0 && descripcon.info != 44;
+
+
+SELECT precio.id, Concatena("hola", "mundo"), hola FROM tbproductos, tbclientes WHERE precio.hola=0 && descripcon.info != 44;
+
