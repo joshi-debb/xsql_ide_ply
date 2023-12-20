@@ -47,7 +47,7 @@ from interprete.instrucciones.exec import Exec
 from interprete.instrucciones.llamada_funcion import LlamadaFnc
 from interprete.expresiones.case import Case
 from interprete.expresiones.ternario import OpTernario
-
+from interprete.instrucciones.acceso_tabla import AccesoTabla
 
 from interprete.extra.tipos import *
 
@@ -76,7 +76,7 @@ def getTextVal_coma(params):
 def getTextValExp_coma(params):
     text_var = ''
     for i in range(len(params)):
-        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion) or isinstance(params[i], Argumento) or isinstance(params[i], LlamadaFnc) or isinstance(params[i], When):
+        if isinstance(params[i], Expresion) or isinstance(params[i], Campo) or isinstance(params[i], Atributo) or isinstance(params[i], Declaracion) or isinstance(params[i], Argumento) or isinstance(params[i], LlamadaFnc) or isinstance(params[i], When) or isinstance(params[i], AccesoTabla):
             if i == len(params) - 1:
                 text_var += params[i].text_val
             else:
@@ -265,10 +265,22 @@ def p_condicion_where_expresion(t):
                            | ID BETWEEN expresion AND expresion
     '''
     if len(t) == 2:
+        print('Vino a caer aqui el: ', t[1].text_val)
         t[0] = t[1]
     else:
         text_val = f'{t[1]} BETWEEN {t[3].text_val} && {t[5].text_val}'
         t[0] = Between(text_val=text_val, campo=t[1], op1=t[3], op2=t[5], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_campos_select(t):
+    '''
+    campos_select : campos_select COMA expresion
+                  | expresion
+    '''
+    if len(t) == 2:
+        t[0] = [t[1]]
+    else:
+        t[1].append(t[3])
+        t[0] = t[1]
 
 def p_columnas(t):
     '''
@@ -284,7 +296,7 @@ def p_columnas(t):
 def p_columna(t):
     '''
     columna : ID
-            | ID PT ID
+            | ID PUNTO ID
     '''
     if len(t) == 2:
         t[0] = t[1]
@@ -381,16 +393,16 @@ def p_op_select(t):
 
 def p_select_tabla(t):
     '''
-    select_tabla : columnas FROM nombre_tablas WHERE condicion_where_select
+    select_tabla : campos_select FROM nombre_tablas WHERE condicion_where_select
     '''
-    text_val = f'{getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
+    text_val = f'{getTextValExp_coma(t[1])} FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_1(t):
     '''
-    select_tabla : columnas FROM nombre_tablas empty
+    select_tabla : campos_select FROM nombre_tablas empty
     '''
-    text_val = f'{getTextVal_coma(t[1])} FROM {getTextVal_coma(t[3])}'
+    text_val = f'{getTextValExp_coma(t[1])} FROM {getTextVal_coma(t[3])}'
     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_select_tabla_2(t):
@@ -758,6 +770,13 @@ def p_acceso_var(t):
     '''
     text_val = t[1] + t[2]  
     t[0] = Acceso(text_val, t[2], linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_acceso_tabla(t):
+    '''
+    expresion : ID PUNTO ID
+    '''
+    text_val = f'{t[1]}.{t[3]}'
+    t[0] = AccesoTabla(text_val=text_val, nom_tabla=t[1], nom_campo=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_case(t):
     '''

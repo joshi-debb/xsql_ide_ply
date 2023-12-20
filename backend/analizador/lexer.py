@@ -91,8 +91,8 @@ tokens = [
     'ID',
     'PARA',
     'PARC',
-    'PT',
     'PYC',
+    'PUNTO',
     'COMA',
     'ARROBA'
 ] + list(reservadas.values())
@@ -108,7 +108,6 @@ t_RESTAR = r'-'
 t_MULT = r'\*'
 t_DIV = r'/'
 t_MODULO = r'%'
-t_PT = r'/.'
 t_PYC = r';'
 t_PARA = r'\('
 t_PARC = r'\)'
@@ -124,6 +123,7 @@ t_OR = r'\|\|'
 t_AND = r'&&'
 t_NEGACION = r'!'
 t_ARROBA = r'@'
+t_PUNTO = r'\.'
 
 def t_FLOAT(t):
     r'\d+\.\d+'

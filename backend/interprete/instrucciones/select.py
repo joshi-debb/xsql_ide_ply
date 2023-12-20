@@ -43,6 +43,21 @@ class Select(Instruccion):
         
 
     def ejecutar(self, env:Enviroment):
+        
+        # text_val_campos = []
+        # print('---- CAMPOS ----')
+        # for campo in self.campos:
+        #     print('--------------')
+        #     print('Tipo Campo: ', type(campo))
+        #     print('text_val: ', campo.text_val)
+        #     print('--------------')
+        #     text_val_campos.append(campo.text_val)
+        
+        # print('----- TEXT_VAL CAMPOS -----')
+        # print(text_val_campos)
+        # for text in text_val_campos:
+        #     print('> ', text)
+        # return
                 
         if self.condicion_where == None:
             if self.campos == '*':

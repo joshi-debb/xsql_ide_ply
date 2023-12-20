@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 
@@ -6,3 +7,10 @@ tbidentificacion.identificacion,tbidentificaciontipo.identificaciontipo
 FROM tbcliente,tbidentificacion ,tbidentificaciontipo 
 where tbcliente.codigocliente = tbidentificacion.codigocliente 
 && tbcliente.identificaciontipo = tbidentificacion.identificaciontipo
+=======
+SELECT precio.id, descripcion.info FROM tbproductos, tbclientes WHERE precio.hola=0 && descripcon.info != 44;
+
+
+SELECT precio.id, Concatena("hola", "mundo"), hola FROM tbproductos, tbclientes WHERE precio.hola=0 && descripcon.info != 44;
+
+>>>>>>> 9d037b3764ea5203bdea0790d89c5f28ece90513
