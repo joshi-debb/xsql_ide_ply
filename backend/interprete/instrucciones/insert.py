@@ -57,15 +57,15 @@ class Insert(Instruccion):
                                     
                                 for x in range(0, count_in_fields):
                                     for atribute in fields.getElementsByTagName('field'):
-                                        if atribute.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or atribute.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
-                                            primary_key = atribute.getAttribute('name')
-                                            for recs in table.getElementsByTagName('records'):
-                                                for rc in recs.getElementsByTagName('field'):
-                                                        val = self.tupla[x]
-                                                        expr = val.ejecutar(env)
-                                                        if str(expr.valor) == rc.firstChild.data and rc.getAttribute('name') == primary_key:
-                                                            print("Error: No se puede repetir la llave primaria")
-                                                            return
+                                        # if atribute.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or atribute.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
+                                        #     primary_key = atribute.getAttribute('name')
+                                        #     for recs in table.getElementsByTagName('records'):
+                                        #         for rc in recs.getElementsByTagName('field'):
+                                        #                 val = self.tupla[x]
+                                        #                 expr = val.ejecutar(env)
+                                        #                 if str(expr.valor) == rc.firstChild.data and rc.getAttribute('name') == primary_key:
+                                        #                     print("Error: No se puede repetir la llave primaria")
+                                        #                     return
                                             
                                         campo = self.campos[x]
                                         if campo == atribute.getAttribute('name'):

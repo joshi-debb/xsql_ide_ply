@@ -30,9 +30,9 @@ CREATE TABLE tbidentificacion (
     ididentificaciontipo int REFERENCE tbidentificaciontipo (ididentificaciontipo)
 );
 
-INSERT INTO tbidentificaciontipo (identificaciontipo,identificaciontipo) VALUES(1,'DPI');
-INSERT INTO tbidentificaciontipo (identificaciontipo,identificaciontipo) VALUES(2,'NIT');
-INSERT INTO tbidentificaciontipo (identificaciontipo,identificaciontipo) VALUES(3,'PASAPORTE');
+INSERT INTO tbidentificaciontipo (ididentificaciontipo,identificaciontipo) VALUES(1,'DPI');
+INSERT INTO tbidentificaciontipo (ididentificaciontipo,identificaciontipo) VALUES(2,'NIT');
+INSERT INTO tbidentificaciontipo (ididentificaciontipo,identificaciontipo) VALUES(3,'PASAPORTE');
 
 INSERT INTO tbestado (idestado,estado) VALUES(1,'Activo');
 INSERT INTO tbestado (idestado,estado) VALUES(2,'Inactivo');
@@ -41,8 +41,7 @@ INSERT INTO tbestado (idestado,estado) VALUES(3,'Eliminado');
 INSERT INTO tbcliente (codigocliente,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,fecha_nacimiento,genero,idestado)
 VALUES ('GT-0001','PETER','JUAN','PARKER','SEGUNDO','1990-01-01','M',1);
 
-----------------------------------------------------------------------------
---- Error aqui, cuando no se ingresa un campo (en que si puede ser null), no se inserta
+
 INSERT INTO tbcliente (codigocliente,primer_nombre,primer_apellido,segundo_apellido,fecha_nacimiento,estado)
 VALUES ('GT-0002','JULIO','PEREZ','LOPEZ','1995-12-01',1);
 
