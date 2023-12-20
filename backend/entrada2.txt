@@ -1,0 +1,8 @@
+
+
+
+SELECT tbcliente.codigocliente, CONCATENA(primer_nombre,primer_apellido),
+tbidentificacion.identificacion,tbidentificaciontipo.identificaciontipo
+FROM tbcliente,tbidentificacion ,tbidentificaciontipo 
+where tbcliente.codigocliente = tbidentificacion.codigocliente 
+&& tbcliente.identificaciontipo = tbidentificacion.identificaciontipo

@@ -38,7 +38,6 @@ INSERT INTO tbestado (idestado,estado) VALUES(1,'Activo');
 INSERT INTO tbestado (idestado,estado) VALUES(2,'Inactivo');
 INSERT INTO tbestado (idestado,estado) VALUES(3,'Eliminado');
 
--- Se modifico el campo 'idestado'
 INSERT INTO tbcliente (codigocliente,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,fecha_nacimiento,genero,idestado)
 VALUES ('GT-0001','PETER','JUAN','PARKER','SEGUNDO','1990-01-01','M',1);
 
@@ -46,28 +45,25 @@ VALUES ('GT-0001','PETER','JUAN','PARKER','SEGUNDO','1990-01-01','M',1);
 --- Error aqui, cuando no se ingresa un campo (en que si puede ser null), no se inserta
 INSERT INTO tbcliente (codigocliente,primer_nombre,primer_apellido,segundo_apellido,fecha_nacimiento,estado)
 VALUES ('GT-0002','JULIO','PEREZ','LOPEZ','1995-12-01',1);
-----------------------------------------------------------------------------
 
-----------------------------------------------------------------------------
--- Descripcion: No los inserta, dice "No se puede repetir la llave primaria"
--- ERROR NUESTRO
+
 INSERT INTO tbidentificacion (ididentificacion,codigocliente,identificacion,ididentificaciontipo)
 VALUES (1,'GT-0001','45784560101',1);
 INSERT INTO tbidentificacion (ididentificacion,codigocliente,identificacion,ididentificaciontipo)
 VALUES (2,'GT-0001','94675057',2);
-----------------------------------------------------------------------------
+
 INSERT INTO tbidentificacion (ididentificacion,codigocliente,identificacion,ididentificaciontipo)
 VALUES (3,'GT-0002','4854560101',1);
 
 
-----------------------------------------------------------------------------
+
 -- Descripcion: No lo acepta gramaticalmente ni en la logica
-SELECT tbcliente.codigocliente,CONCATENA(primer_nombre,primer_apellido) nombrecompleto, -- Mencionar si lo puede quitar del select
+SELECT tbcliente.codigocliente, CONCATENA(primer_nombre,primer_apellido),
 tbidentificacion.identificacion,tbidentificaciontipo.identificaciontipo
 FROM tbcliente,tbidentificacion ,tbidentificaciontipo 
 where tbcliente.codigocliente = tbidentificacion.codigocliente 
 && tbcliente.identificaciontipo = tbidentificacion.identificaciontipo
-----------------------------------------------------------------------------
+
 
 CREATE TABLE tbproducto (
     idproducto int primary key,
@@ -75,10 +71,7 @@ CREATE TABLE tbproducto (
     idestado int not null
 );
 
-----------------------------------------------------------------------------
--- Descripcion: Cuando se inserta dice "No se puede repetir llave primaria" 
 INSERT INTO tbproducto (idproducto,producto,idestado) VALUES(1,'Credito Fiduiciario',1);
-----------------------------------------------------------------------------
 INSERT INTO tbproducto (idproducto,producto,idestado) VALUES(2,'Credito Hipotecario',1);
 INSERT INTO tbproducto (idproducto,producto,idestado) VALUES(3,'Tarjeta de Credito Oro',1);
 
@@ -92,16 +85,17 @@ CREATE TABLE tbcredito (
 );
 
 CREATE TABLE tbobligaciontipo (
-    idobligaciontipo int NOT NULL,  -- Le falta primaria key
-    obligaciontipo nvarchar(30)     -- Faltaba nvarchar
+    idobligaciontipo int NOT NULL PRIMARY KEY,
+    obligaciontipo nvarchar(30)   
 );
 
--- Falta especificar los campos
--- INSERT INTO tbobligaciontipo VALUES (1,'DIRECTO');
--- INSERT INTO tbobligaciontipo VALUES (2,'INDIRECTO');
+
 INSERT INTO tbobligaciontipo (idobligaciontipo, obligaciontipo) VALUES (1,'DIRECTO');
 INSERT INTO tbobligaciontipo (idobligaciontipo, obligaciontipo) VALUES (2,'INDIRECTO');
 
+
+
+====REVISARRRRR <-=====
 ----------------------------------------------------------------------------
 -- Descripcion: Sale mensaje "No existe la referencia"
 CREATE TABLE tbcreditoobligacion (
@@ -109,16 +103,13 @@ CREATE TABLE tbcreditoobligacion (
     credito int PRIMARY KEY,
     idobligaciontipo int REFERENCE tbobligaciontipo (idobligaciontipo)
 );
-----------------------------------------------------------------------------
 
-----------------------------------------------------------------------------
--- Falta especificar los campos
-INSERT INTO tbcredito (1,'45-5454',1,'2023-11-30',1);
-INSERT INTO tbcredito (2,'AF4545D',3,'2023-11-30',1);
+INSERT INTO tbcredito (credito,idcliente,fechaultimocorte,idproducto) VALUES (1,'45-5454',1,'30/11/2023',1);
+INSERT INTO tbcredito (credito,idcliente,fechaultimocorte,idproducto) VALUES (2,'AF4545D',3,'30/11/2023',1);
 
-INSERT INTO tbcreditoobligacion ('GT-0001',1,1);
-INSERT INTO tbcreditoobligacion ('GT-0002',2,1);
-----------------------------------------------------------------------------
+INSERT INTO tbcreditoobligacion (codigocliente,credito,idobligaciontipo) VALUES ('GT-0001',1,1);
+INSERT INTO tbcreditoobligacion (codigocliente,credito,idobligaciontipo) VALUES ('GT-0002',2,1);
+
 
 
 

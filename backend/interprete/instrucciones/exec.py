@@ -40,6 +40,11 @@ class Exec(Instruccion):
                         self.text = str(procedure.firstChild.data)
                         break
         
+        if self.text == '':
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'El procedimiento "{self.nombre_proc}" no existe.')
+            TablaErrores.addError(err)
+            return Retorno(tipo=TipoDato.ERROR, valor=None)
+        
         # Obteniendo el procedure
         instruccion:Procedure = parser.parse(self.text.lower())[0]
 

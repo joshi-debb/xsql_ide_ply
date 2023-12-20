@@ -38,6 +38,11 @@ class LlamadaFnc(Instruccion):
                         self.text = str(function.firstChild.data)
                         break
         
+        if self.text == '':
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'La función "{self.nombre_fnc}" no existe.')
+            TablaErrores.addError(err)
+            return Retorno(tipo=TipoDato.ERROR, valor=None)
+        
         # Obteniendo la Funcion
         instruccion:Function = parser.parse(self.text.lower())[0]
 
