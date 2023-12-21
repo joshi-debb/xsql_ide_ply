@@ -33,40 +33,30 @@ class Insert(Instruccion):
                                 record = mydoc.createElement('record')
                                 records.appendChild(record)
                                 
-                                count_in_fields = 0
-                                for atribute in fields.getElementsByTagName('field'):
-                                    count_in_fields += 1
+                                # count_in_fields = 0
+                                # for atribute in fields.getElementsByTagName('field'):
+                                #     count_in_fields += 1
                                     
                                 count_from_paser = 0
                                 for campo in self.campos:
                                     count_from_paser += 1
                                     
-                                if count_in_fields != count_from_paser:
-                                    print("Error: la cantidad de campos no coincide")
-                                    return
+                                # if count_in_fields != count_from_paser:
+                                #     print("Error: la cantidad de campos no coincide")
+                                #     return
 
-                                counters = 0
-                                for x in range(0, count_in_fields):
-                                    for atribute in fields.getElementsByTagName('field'):
-                                        if atribute.getAttribute('name') == self.campos[x]:
-                                            counters += 1
+                                # counters = 0
+                                # for x in range(0, count_from_paser):
+                                #     for atribute in fields.getElementsByTagName('field'):
+                                #         if atribute.getAttribute('name') == self.campos[x]:
+                                #             counters += 1
                                 
-                                if counters != count_in_fields:
-                                    print("Error: los campos no coinciden")
-                                    return
+                                # if counters != count_in_fields:
+                                #     print("Error: los campos no coinciden")
+                                #     return
                                     
-                                for x in range(0, count_in_fields):
-                                    for atribute in fields.getElementsByTagName('field'):
-                                        # if atribute.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or atribute.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
-                                        #     primary_key = atribute.getAttribute('name')
-                                        #     for recs in table.getElementsByTagName('records'):
-                                        #         for rc in recs.getElementsByTagName('field'):
-                                        #                 val = self.tupla[x]
-                                        #                 expr = val.ejecutar(env)
-                                        #                 if str(expr.valor) == rc.firstChild.data and rc.getAttribute('name') == primary_key:
-                                        #                     print("Error: No se puede repetir la llave primaria")
-                                        #                     return
-                                            
+                                for x in range(0, count_from_paser):
+                                    for atribute in fields.getElementsByTagName('field'):                                            
                                         campo = self.campos[x]
                                         if campo == atribute.getAttribute('name'):
                                             val = self.tupla[x]
