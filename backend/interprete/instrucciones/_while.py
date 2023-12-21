@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.expresiones._return import Return
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
@@ -42,3 +43,10 @@ class While(Instruccion):
             val_condicion = self.condicion.ejecutar(new_env)
 
         return self        
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='WHILE', hijos=[])
+        raiz.addHijo(hijo)
+        self.condicion.recorrerArbol(hijo)
+        self.bloque.recorrerArbol(hijo)

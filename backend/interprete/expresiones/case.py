@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.instrucciones.bloque import Bloque
 from interprete.extra.tipos import TipoDato
 from interprete.extra.enviroment import Enviroment
@@ -15,9 +16,7 @@ class Case(Expresion):
         self._else = _else
         self.bloque_else = bloque_else
     
-    def ejecutar(self, env: Enviroment):
-        print(self.text_val)
-        
+    def ejecutar(self, env: Enviroment):        
         # Si hay condiciones 'when'
         if len(self.lista_when) != 0:
             for when in self.lista_when:
@@ -50,3 +49,19 @@ class Case(Expresion):
                 return ret
 
         return Retorno(tipo=TipoDato.ERROR, valor=None)
+    
+
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='CASE', hijos=[])
+        raiz.addHijo(hijo)
+
+        for when in self.lista_when:
+            when.recorrerArbol(hijo)
+        
+        if self._else == True:
+            id = AST.generarId()
+            hijo = Nodo(id=id, valor='ELSE', hijos=[])
+            raiz.addHijo(hijo)
+            self.bloque_else.recorrerArbol(hijo)
+    

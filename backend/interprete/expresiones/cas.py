@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.expresiones.tipoChars import TipoChars
 from .Expresion import Expresion
 from interprete.extra.tipos import *
@@ -56,7 +57,7 @@ class Cas(Expresion):
         elif simbolo.tipo == TipoDato.INT:
             if self.tipo == TipoDato.NVARCHAR or self.tipo == TipoDato.NCHAR:
                 simbolo.tipo = self.tipo
-                if simbolo.valor > 255: simbolo.valor = chr(0) # Convertir el valor null a cadena
+                if simbolo.valor > 255 or simbolo.valor < 0: simbolo.valor = chr(0) # Convertir el valor null a cadena
                 else:                   simbolo.valor = chr(simbolo.valor)
             elif self.tipo == TipoDato.DECIMAL:
                 simbolo.tipo = TipoDato.DECIMAL
@@ -75,3 +76,13 @@ class Cas(Expresion):
             return Retorno(tipo=TipoDato.ERROR, valor=None)
 
         return Retorno(tipo=simbolo.tipo, valor=simbolo.valor)
+    
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='CAS', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id_var, hijos=[]))
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.tipo.name, hijos=[]))

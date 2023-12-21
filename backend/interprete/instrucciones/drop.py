@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom

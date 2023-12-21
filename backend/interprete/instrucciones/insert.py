@@ -1,4 +1,4 @@
-
+from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Literal import Literal
@@ -92,5 +92,25 @@ class Insert(Instruccion):
             
             print("Insertado correctamente")   
             
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='INSERT', hijos=[])
+        raiz.addHijo(hijo)
+
+        id = AST.generarId()
+        hijo1 = Nodo(id=id, valor='CAMPOS', hijos=[])
+        hijo.addHijo(hijo1)
         
+        # Campos
+        for campo in self.campos:
+            id = AST.generarId()
+            hijo1.addHijo(Nodo(id=id, valor=campo, hijos=[]))
         
+        id = AST.generarId()
+        hijo2 = Nodo(id=id, valor='VALUES', hijos=[])
+        hijo.addHijo(hijo2)
+
+        # Valores
+        for exp in self.tupla:
+            exp.recorrerArbol(hijo2)
+

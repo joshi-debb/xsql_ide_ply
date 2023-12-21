@@ -1,3 +1,4 @@
+from interprete.extra.ast import AST
 from analizador.parser import parser
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import TablaErrores
@@ -48,6 +49,8 @@ print("------------ Errores ------------")
 for error in TablaErrores.errores:
     print(error.serializar())
 
+ast = AST(instrucciones)
+ast.getAST()
     
 opt = input('Borrar archivo structure.xml? s/n: ')
 if opt == 's':    

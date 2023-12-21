@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato, TipoLogico
 from interprete.extra.retorno import Retorno
@@ -42,3 +43,16 @@ class Logica(Expresion):
             resultado.valor = not op1.valor
         
         return resultado
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        tipo = ''
+        if self.operador == TipoLogico.AND: tipo = '&&'
+        elif self.operador == TipoLogico.OR: tipo = '||'
+        elif self.operador == TipoLogico.NOT: tipo = '!'
+        hijo = Nodo(id=id, valor=tipo, hijos=[])
+        raiz.addHijo(hijo)
+        self.op1.recorrerArbol(hijo)
+        if self.operador == TipoLogico.NOT:
+            return
+        self.op2.recorrerArbol(hijo)

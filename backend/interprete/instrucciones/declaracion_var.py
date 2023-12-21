@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.tipos import TipoSimbolo
@@ -46,3 +47,12 @@ class Declaracion(Instruccion):
         env.insertar_simbolo(self.id, simbolo)
 
         return self
+
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='DECLARE', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.tipo.name, hijos=[]))

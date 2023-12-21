@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.symbol import Symbol
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.tipos import TipoDato
@@ -28,4 +29,9 @@ class Acceso(Expresion):
         resultado = Retorno(tipo=simbolo.tipo, valor=simbolo.valor)
         
         return resultado
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor=self.id, hijos=[])
+        raiz.addHijo(hijo)
         

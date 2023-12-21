@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -22,3 +23,13 @@ class Substraer(Expresion):
             resultado.valor = op1.valor[inicio.valor:longitud.valor+inicio.valor]
 
         return resultado
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='SUBSTRAER()', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        self.op1.recorrerArbol(hijo)
+        self.inicio.recorrerArbol(hijo)
+        self.longitud.recorrerArbol(hijo)
+    

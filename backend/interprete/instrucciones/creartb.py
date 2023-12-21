@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .instruccion import Instruccion
 from .atributo import Atributo
 from interprete.extra.tipos import *
@@ -103,5 +104,15 @@ class CrearTB(Instruccion):
   
         return False
     
-    
-            
+    # self.id = id
+    #     self.atributos = atributos
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='CREATE TABLE', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
+        
+        # Atributos
+        for atributo in self.atributos:
+            atributo.recorrerArbol(hijo)

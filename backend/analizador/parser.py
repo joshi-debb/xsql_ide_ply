@@ -877,8 +877,8 @@ def p_expresion_unaria(t):
     '''
     aritmetica : RESTAR expresion %prec UMENOS
     '''
-    text_val = t[1] + t[2].text_val
-    t[0] = Aritmetica(text_val=text_val, op1=t[2], operador=TipoAritmetica.UNARIO, op2=Literal(TipoDato.UNDEFINED, None, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=t.lexpos(1))
+    text_val = f'-{t[2].text_val}'
+    t[0] = Aritmetica(text_val=text_val, op1=t[2], operador=TipoAritmetica.UNARIO, op2=Literal(t[2], TipoDato.UNDEFINED, None, t.lineno(1), t.lexpos(1)), linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_expresion_logica(t):
     '''
@@ -952,10 +952,10 @@ def p_tipo(t):
         t[0] = TipoDato.BIT;
     elif(t[1] == 'decimal'):
         t[0] = TipoDato.DECIMAL;
-    elif(t[1] == 'date'):
-        t[0] = TipoDato.DATE;
     elif(t[1] == 'datetime'):
         t[0] = TipoDato.DATETIME;
+    elif(t[1] == 'date'):
+        t[0] = TipoDato.DATE;
     elif(t[1] == 'nchar'):
         if len(t) == 2:
             t[0] = TipoDato.NCHAR

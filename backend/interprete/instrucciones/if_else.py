@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.expresiones._return import Return
 from xmlrpc.client import Boolean
 from interprete.extra.tipos import TipoDato
@@ -75,3 +76,25 @@ class IfElse(Instruccion):
                 return ret
 
         return self
+
+# self.condicion = condicion
+#         self.bloque = bloque
+#         self.bandera_else = bandera_else
+#         self.bloque_else = bloque_else
+#         self.elseifs = elseifs              # Lista de elif
+
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='IF', hijos=[])
+        raiz.addHijo(hijo)
+        self.condicion.recorrerArbol(hijo)
+        self.bloque.recorrerArbol(hijo)
+
+        for elseif in self.elseifs:
+            elseif.recorrerArbol(hijo)
+        
+        if self.bandera_else == True:
+            id = AST.generarId()
+            hijo2 = Nodo(id=id, valor='ELSE', hijos=[])
+            hijo.addHijo(hijo2)
+            self.bloque_else.recorrerArbol(hijo2)

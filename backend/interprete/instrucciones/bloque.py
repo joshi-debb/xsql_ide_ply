@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.retorno import Retorno
 from interprete.expresiones.Expresion import Expresion
 from interprete.instrucciones.instruccion import Instruccion
@@ -25,3 +26,8 @@ class Bloque(Instruccion):
             # print(f'ERROR: en la linea: {self.linea} y columna: {self.columna}')
 
         return self
+    
+    def recorrerArbol(self, raiz:Nodo):
+        for instruccion in self.instrucciones:
+            instruccion.recorrerArbol(raiz)
+            
