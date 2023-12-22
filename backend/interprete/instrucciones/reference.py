@@ -1,4 +1,4 @@
-
+from interprete.extra.ast import *
 from interprete.instrucciones.instruccion import Instruccion
 
 class Reference(Instruccion):
@@ -11,4 +11,13 @@ class Reference(Instruccion):
 
     def ejecutar(self):
         pass
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='REFERENCE', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.name_table, hijos=[]))
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.atributo_referenciado, hijos=[]))
         

@@ -1,4 +1,4 @@
-
+from interprete.extra.ast import *
 from interprete.instrucciones.condicion_where import CondicionWhere
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
@@ -310,4 +310,37 @@ class Select(Instruccion):
             return True
         except ValueError:
             return False
-    
+        
+    # self.campos = campos
+    # self.tablas = tablas
+    # self.condicion_where = condicion_where
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='SELECT', hijos=[])
+        raiz.addHijo(hijo)
+
+        id = AST.generarId()
+        hijo2 = Nodo(id=id, valor='CAMPOS', hijos=[])
+        hijo.addHijo(hijo2)
+
+        # Campos
+        if self.campos == '*':
+            id = AST.generarId()
+            hijo2.addHijo(Nodo(id=id, valor='*', hijos=[]))
+        else:
+            # Campo es una 'expresion'
+            for campo in self.campos:
+                campo.recorrerArbol(hijo2)
+        
+        # Tablas
+        for tabla in self.tablas:
+            id = AST.generarId()
+            hijo.addHijo(Nodo(id=id, valor=tabla, hijos=[]))
+        
+        # Condicion where
+        if self.condicion_where != None:
+            id = AST.generarId()
+            hijo3 = Nodo(id=id, valor='WHERE', hijos=[])
+            hijo.addHijo(hijo3)
+            self.condicion_where.recorrerArbol(hijo3)
+        

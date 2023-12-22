@@ -1,30 +1,183 @@
-CREATE FUNCTION sumar (@num1 AS int, @num2 AS int) 
-RETURNS int 
-AS 
-BEGIN DECLARE @total AS int;
-SET @ total = @num1 + @num2;
-IF @total >= 0 && @total <= 10 THEN
- SELECT 'el total es >= 0 y <= a 10';
-RETURN @total;
- ELSE IF @total >= 11 && @total <= 20 THEN
- SELECT 'el total es >= 11 y <= 20';
-RETURN @total;
+declare @var int;
+declare @var1 as int;
+declare @var2 as nvarchar(10);
+set @var = -1;
+set @var1 = @var;
+set @var2 = cas(@var as nvarchar(2));
+set @var2 = concatena('hola', 'mundo');
 
-ELSE IF @total >= 21 && @total <= 30 THEN
- SELECT 'el total es >= 31 y <= 30';
-RETURN @total;
+declare @fecha as datetime;
+set @fecha = hoy();
+set @var2 = substraer(@var2, 1, 4);
 
- ELSE THEN
- SELECT 'el resultado es > 30';
-DECLARE @cont AS int;
-WHILE @cont < @total 
-BEGIN 
-SELECT 'valor actual de @cont: ' + @cont;
-SET @ cont = @cont + 1;
-IF @cont == 3 THEN
- SELECT 'el valor de contador es 3';
-RETURN @total;
- END IF;
- END;
- END IF;
- END;
+set @var2 = if (4 < 5, 'VERDADERO', 'FALSO');
+
+declare @n as int;
+set @n = 1;
+set @n = case 
+        when @n == 0 THEN
+            @n;
+        when @n == 1 THEN
+            @n;
+        ELSE THEN
+            @n;
+        END hola;
+
+declare @j decimal;
+WHILE @j < 5 
+BEGIN
+    -- SELECT 'Dentro de WHILE, @flag = 1';
+    set @j = @j + 1;
+END;
+
+
+/*declare @i as int;
+set @i = 6;
+IF @i == 6 BEGIN
+    declare @a as int;
+    -- SELECT 'Entro al if mas interno';
+ELSE BEGIN
+    declare @b as int;
+    -- SELECT 'Entro al else mas interno';
+END IF;
+
+
+IF @i == 6 BEGIN
+    declare @a as int;
+    -- SELECT 'Entro al if mas interno';
+ELSE IF @i == 4 BEGIN
+    declare @a as int;
+ELSE IF @i == 4 BEGIN
+    declare @a as int;
+    -- SELECT 'Entro al else mas interno';
+END IF;
+*/
+
+create data base personas;
+use personas;
+create table persona (
+    nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
+    apellido NVARCHAR(5) NOT NULL,
+    edad INT NOT NULL,
+    altura DECIMAL NOT NULL,
+    fecha DATE NOT NULL  
+);
+
+INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('juanito', 'cascabel', 17, '01/11/2005', 1.80);
+
+DELETE FROM persona WHERE nombre = 'popis';
+
+ALTER TABLE persona ADD estado_civil NVARCHAR(20);
+ALTER TABLE persona DROP nombre;
+SELECT CONTAR(*) FROM persona WHERE edad >= 18;
+SELECT SUMA(edad) FROM persona WHERE altura > 1.2;
+
+UPDATE persona SET edad = '18'  WHERE nombre = 'pepito';
+TRUNCATE TABLE persona;
+
+CREATE PROCEDURE sp_conteo (@i int, @t as nvarchar(10))
+AS
+BEGIN
+    DECLARE @contador int;
+    IF 2 > 1 BEGIN
+        declare @v1 int;
+        SELECT ("Primer if");
+
+        IF 0 < 1 BEGIN
+            declare @v1 int;
+            SELECT ("If anidado");
+        ELSE BEGIN
+            declare @v2 bit;
+        END IF;
+
+    ELSE BEGIN
+        declare @v2 bit;
+        SELECT ("Entro al else");
+    END IF;
+END;
+
+exec sp_conteo @i=1+2*4, @t='hola';
+
+CREATE FUNCTION fn_regresatasa (@idproducto int)
+RETURN decimal  -- Deberia decir RETURNS?
+AS
+BEGIN
+	DECLARE @TASA as decimal; 
+
+	RETURN @TASA;	
+END; -- ADD: punto y coma
+
+CREATE FUNCTION fn_retornanombre (@identificacion nvarchar(20))
+RETURN nvarchar(100)
+AS
+BEGIN
+
+	DECLARE @nombres nvarchar(100);
+	DECLARE @apellidos nvarchar(100);	
+	DECLARE @nombrecompleto nvarchar(100);	
+
+	set @nombrecompleto = CONCATENA(@nombrecompleto,@apellidos);
+
+	return @nombrecompleto;
+
+END;
+
+declare @nombre as nvarchar(10);
+set @nombre = fn_retornanombre('Gerson');
+
+DECLARE @cuota decimal;
+DECLARE @ajuste decimal; 
+
+CASE 
+    WHEN @cuota > 1000 && @cuota <  1500
+        THEN SET @ajuste = 75;
+    WHEN @cuota >= 1500 && @cuota <  2000
+        THEN SET @ajuste = 125;	
+    WHEN @cuota > 0 &&  @cuota < 1000
+        THEN SET @ajuste = 25;
+    WHEN @cuota >=  2000
+        THEN SET @ajuste = 150;					
+    ELSE 
+        THEN SET @ajuste = 0;
+END;
+
+CREATE TABLE tbcliente (codigocliente nvarchar(15) PRIMARY KEY,
+primer_nombre nvarchar(50) not null,
+segundo_nombre nvarchar(50),
+primer_apellido nvarchar(50) not null,
+segundo_apellido nvarchar(50),
+fecha_nacimiento date not null, 
+genero nvarchar(1),
+idestado int not null REFERENCE tbestado (idestado));
+
+SELECT * FROM persona;
+SELECT * FROM persona WHERE edad > 20;
+SELECT * FROM persona, nombre_otra_tabla WHERE edad > 20;
+SELECT * FROM persona, nombre_otra_tabla WHERE edad > 20 && edad < 80;
+
+SELECT * FROM persona
+WHERE fecha BETWEEN '01/01/2004' && HOY();
+
+SELECT * FROM persona
+WHERE altura BETWEEN '1.5' && '1.8';
+
+
+DROP TABLE persona;
+
+TRUNCATE TABLE persona;
+
+UPDATE persona SET nombre = 'pepito'  WHERE edad = '18';
+
+DELETE FROM persona WHERE nombre = 'popis';
+
+ALTER TABLE persona ADD estado_civil NVARCHAR(20);
+
+ALTER TABLE persona DROP nombre;
+
+
+SELECT CONTAR(*) FROM persona WHERE edad >= 18;
+
+SELECT SUMA(edad) FROM persona WHERE altura > 1.2;
+
+
+

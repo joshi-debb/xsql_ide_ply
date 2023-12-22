@@ -51,6 +51,7 @@ class Relacional(Expresion):
                 resultado.valor = (op1.valor == op2.valor)
                 
         elif self.operador == TipoRelacional.DESIGUALDAD:
+            # Agregar cadena con cadena
             if (op1.tipo == TipoDato.INT or op1.tipo == TipoDato.DECIMAL) and (op2.tipo == TipoDato.INT or op2.tipo == TipoDato.DECIMAL):
                 resultado.tipo = TipoDato.BOOL
                 resultado.valor = (op1.valor != op2.valor)

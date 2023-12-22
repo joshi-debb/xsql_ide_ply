@@ -1,3 +1,4 @@
+from interprete.instrucciones.reference import Reference
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.extra.ast import *
 from interprete.extra.tipos import *
@@ -25,5 +26,10 @@ class Atributo:
 
         tipo = ''
         for parametro in self.parametros:
-            id = AST.generarId()
-            hijo.addHijo(Nodo(id=id, valor=parametro.name, hijos=[]))
+            if isinstance(parametro, Reference):
+                parametro.recorrerArbol(hijo)
+            elif parametro == TipoOpciones.REFERENCE:
+                continue
+            else:
+                id = AST.generarId()
+                hijo.addHijo(Nodo(id=id, valor=parametro.name, hijos=[]))

@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.expresiones.Expresion import Expresion
 from interprete.instrucciones.instruccion import Instruccion
@@ -13,3 +14,12 @@ class Argumento(Instruccion):
     
     def ejecutar(self, env: Enviroment):
         return super().ejecutar(env)
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='ARGUMENTO', hijos=[])
+        raiz.addHijo(hijo)
+        if self.id != None:
+            id = AST.generarId()
+            hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
+        self.expresion.recorrerArbol(hijo)

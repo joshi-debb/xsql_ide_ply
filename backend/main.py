@@ -49,6 +49,7 @@ print("------------ Errores ------------")
 for error in TablaErrores.errores:
     print(error.serializar())
 
+# Generando AST
 ast = AST(instrucciones)
 ast.getAST()
     

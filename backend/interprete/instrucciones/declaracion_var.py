@@ -39,7 +39,7 @@ class Declaracion(Instruccion):
                 simbolo.valor = ' '
             elif self.tipo == TipoDato.DATETIME:
                 simbolo.valor = ' '
-            elif isinstance(self.tipo, TipoChars):
+            elif self.tipo == TipoDato.NCHAR or self.tipo == TipoDato.NVARCHAR:
                 simbolo.valor = ' '
             elif self.tipo == TipoDato.BIT:
                 simbolo.valor = False

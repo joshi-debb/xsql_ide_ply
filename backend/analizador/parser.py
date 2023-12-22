@@ -265,7 +265,6 @@ def p_condicion_where_expresion(t):
                            | ID BETWEEN expresion AND expresion
     '''
     if len(t) == 2:
-        print('Vino a caer aqui el: ', t[1].text_val)
         t[0] = t[1]
     else:
         text_val = f'{t[1]} BETWEEN {t[3].text_val} && {t[5].text_val}'
@@ -450,7 +449,7 @@ def p_concatena(t):
     '''
     concatenar : CONCATENAR PARA expresion COMA expresion PARC
     '''
-    text_val = f'CONCATENAR ({t[3].text_val}, {t[5].text_val})'
+    text_val = f'CONCATENA ({t[3].text_val}, {t[5].text_val})'
     t[0] = Concatenar(text_val, t[3], t[5], t.lineno(1), t.lexpos(1))
 
 def p_substraer(t):
@@ -474,6 +473,13 @@ def p_contar(t):
     text_val = f'CONTAR (*) FROM {getTextVal_coma(t[6])} WHERE {t[8].text_val}'
     t[0] = Contar(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=t[8], linea=t.lineno(1), columna=t.lexpos(1))
 
+def p_contar_1(t):
+    '''
+    contar : CONTAR PARA MULT PARC FROM nombre_tablas
+    '''
+    text_val = f'CONTAR (*) FROM {getTextVal_coma(t[6])}'
+    t[0] = Contar(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+
 # def p_select_tabla_2(t):
 #     '''
 #     select_tabla : MULT FROM nombre_tablas WHERE condicion_where_select
@@ -490,10 +496,18 @@ def p_suma(t):
 
 def p_suma_1(t):
     '''
+    suma : SUMA PARA columnas PARC FROM nombre_tablas
+    '''
+    text_val = f'SUMA ({getTextVal_coma(t[3])}) FROM {getTextVal_coma(t[6])}'
+    t[0] = Suma(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_suma_2(t):
+    '''
     suma : SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
     '''
     text_val = f'SUMA ({t[3]}) FROM {getTextVal_coma(t[6])} WHERE {t[8].text_val}'
     t[0] = Suma(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=t[8], linea=t.lineno(1), columna=t.lexpos(1))
+
 
 # CAS ( expression AS type )
 def p_cast(t):
@@ -562,9 +576,9 @@ def p_crear_procedure(t):
 
 def p_crear_funcion(t):
     '''
-    crear_funcion : CREATE FUNCTION ID PARA parametros PARC RETURNS tipo AS BEGIN bloque END
+    crear_funcion : CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS BEGIN bloque END
     '''
-    text_val = f'CREATE FUNCTION {t[3]} ({getTextValExp_coma(t[5])}) \nRETURNS {tipoToStr(t[8])} \nAS \nBEGIN {getTextVal(t[11])} END'
+    text_val = f'CREATE FUNCTION {t[3]} ({getTextValExp_coma(t[5])}) \nRETURN {tipoToStr(t[8])} \nAS \nBEGIN {getTextVal(t[11])} END'
     bloque = Bloque(getTextVal(t[11]), t[11], linea=t.lineno(1), columna=t.lexpos(1))
     t[0] = Function(text_val=text_val, tipo_ret=t[8], id=t[3], parametros=t[5], instrucciones=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
@@ -618,6 +632,13 @@ def p_ejecutar_procedure(t):
     text_val = f'EXEC {t[2]} {getTextValExp_coma(t[3])}'
     t[0] = Exec(text_val=text_val, nombre_proc=t[2], argumentos=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
+def p_ejecutar_procedure_1(t):
+    '''
+    ejecutar_procedure : EXEC ID PARA argumentos PARC
+    '''
+    text_val = f'EXEC {t[2]} ({getTextValExp_coma(t[4])})'
+    t[0] = Exec(text_val=text_val, nombre_proc=t[2], argumentos=t[4], linea=t.lineno(1), columna=t.lexpos(1))
+
 def p_argumentos(t):
     '''
     argumentos : argumentos COMA argumento
@@ -650,7 +671,7 @@ def p_cmd_alter(t):
     '''
     if len(t) == 8:
         text_val = f'ALTER TABLE {t[3]} ADD {t[6]} {tipoToStr(t[7])}'
-        t[0] = AlterADD(text_val, t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
+        t[0] = AlterADD(text_val, t[3], t[5], t[7], t.lineno(1), t.lexpos(1))
     else:
         text_val = f'ALTER TABLE {t[3]} ADD {t[5]} {tipoToStr(t[6])}'
         t[0] = AlterADD(text_val, t[3], t[5], t[6], t.lineno(1), t.lexpos(1))
@@ -687,44 +708,44 @@ def p_sentencia_return(t):
 
 def p_sentencia_if(t):
     '''
-    s_if : IF expresion THEN bloque END IF
-                 | IF expresion THEN bloque lista_else_if END IF
-                 | IF expresion THEN bloque lista_else_if ELSE THEN bloque END IF
-                 | IF expresion THEN bloque ELSE THEN bloque END IF
+    s_if : IF expresion BEGIN bloque END IF
+                 | IF expresion BEGIN bloque lista_else_if END IF
+                 | IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
+                 | IF expresion BEGIN bloque ELSE BEGIN bloque END IF
     '''
     if len(t) == 7: # if
-        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} END IF'
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} END IF'
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
     
     elif len(t) == 8: # if - else if
-        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} {getTextVal(t[5])} END IF'
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} {getTextVal(t[5])} END IF'
         bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=False, bloque_else=[], elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
     
     elif len(t) == 11: # if - else if - else
-        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} {getTextVal(t[5])} ELSE THEN\n {getTextVal(t[8])} END IF'
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} {getTextVal(t[5])} ELSE BEGIN\n {getTextVal(t[8])} END IF'
         bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
         bloque_else = Bloque(getTextVal(t[8]), t[8], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
     elif len(t) == 10:   # If - else
-        text_val = f'IF {t[2].text_val} THEN\n {getTextVal(t[4])} \nELSE THEN\n {getTextVal(t[7])} END IF'
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} \nELSE BEGIN\n {getTextVal(t[7])} END IF'
         bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
         bloque_else = Bloque(getTextVal(t[7]), t[7], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_lista_else_if(t):
     '''
-    lista_else_if : lista_else_if ELSE IF expresion THEN bloque
-                  | ELSE IF expresion THEN bloque
+    lista_else_if : lista_else_if ELSE IF expresion BEGIN bloque
+                  | ELSE IF expresion BEGIN bloque
     '''
     if len(t) == 7:
-        text_val = f'ELSE IF {t[4].text_val} THEN\n {getTextVal(t[6])}\n'
+        text_val = f'ELSE IF {t[4].text_val} BEGIN\n {getTextVal(t[6])}\n'
         bloque = Bloque(getTextVal(t[6]), t[6], linea=t.lineno(1), columna=t.lexpos(1))
         t[1].append(ElseIf(text_val=text_val, condicion=t[4], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1)))
         t[0] = t[1]
     else:
-        text_val = f'ELSE IF {t[3].text_val} THEN\n {getTextVal(t[5])}\n'
+        text_val = f'ELSE IF {t[3].text_val} BEGIN\n {getTextVal(t[5])}\n'
         bloque = Bloque(getTextVal(t[5]), t[5], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = [ElseIf(text_val=text_val, condicion=t[3], bloque=bloque, linea=t.lineno(1), columna=t.lexpos(1))]
 
@@ -780,8 +801,8 @@ def p_acceso_tabla(t):
 
 def p_case(t):
     '''
-    case : CASE lista_when ELSE THEN bloque END ID
-         | CASE lista_when END ID
+    case : CASE lista_when ELSE THEN bloque END comp_case
+         | CASE lista_when END comp_case
     '''
     if len(t) == 5:
         text_val = f'CASE {getTextValExp_coma(t[2])} END {t[4]}'
@@ -790,6 +811,13 @@ def p_case(t):
         text_val = f'CASE {getTextValExp_coma(t[2])} ELSE THEN {getTextVal(t[5])} END {t[7]}'
         bloque = Bloque(getTextVal(t[5]), t[5], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = Case(text_val=text_val, lista_when=t[2], _else=True, bloque_else=bloque, linea=t.lineno(1), columna=t.lexpos(1))
+
+def p_complemento_else_case(t):
+    '''
+    comp_case : ID
+              | empty
+    '''
+    t[0] = t[1]
 
 def p_case_lista_when(t):
     '''
@@ -840,7 +868,7 @@ def p_expresion_relacional(t):
                | expresion MENOR_IGUAL expresion
                | expresion MAYOR_IGUAL expresion
     '''
-    text_val = f'{t[1].text_val} {t[2]} {t[3].text_val}'
+    text_val = f'{t[1].text_val}  {t[2]}  {t[3].text_val}'
     if t[2] == '=':
         t[0] = Relacional(text_val=text_val, op1=t[1], operador=TipoRelacional.IGUAL, op2=t[3], linea=t.lineno(1), columna=t.lexpos(1))
     elif t[2] == '==':
@@ -908,7 +936,7 @@ def p_cadena(t):
     '''
     literal : CADENA
     '''
-    t[0] = Literal(t[1], TipoDato.NCHAR, t[1], t.lineno(1), t.lexpos(1))
+    t[0] = Literal(f"'{t[1]}'", TipoDato.NCHAR, t[1], t.lineno(1), t.lexpos(1))
 
 def p_decimal(t):
     '''

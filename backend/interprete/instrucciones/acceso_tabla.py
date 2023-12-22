@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.expresiones.Expresion import Expresion
 from interprete.instrucciones.instruccion import Instruccion
@@ -13,3 +14,8 @@ class AccesoTabla(Instruccion):
     
     def ejecutar(self, env: Enviroment):
         pass
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor=f'{self.nom_tabla}.{self.nom_campo}', hijos=[])
+        raiz.addHijo(hijo)

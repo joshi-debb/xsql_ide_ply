@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -73,3 +74,21 @@ class Contar(Expresion):
                                         retorno:Retorno = expresion[0].ejecutar(env)
                                         if retorno.valor == True:
                                             self.counter += 1
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='CONTAR', hijos=[])
+        raiz.addHijo(hijo)                                    
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor='*', hijos=[]))
+
+        # Tablas
+        for tabla in self.tablas:
+            id = AST.generarId()
+            hijo.addHijo(Nodo(id=id, valor=tabla, hijos=[]))
+        
+        # Where
+        if self.condicion_where != None:
+            self.condicion_where.recorrerArbol(hijo)
+
+

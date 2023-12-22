@@ -3,30 +3,17 @@ RETURN decimal  -- Deberia decir RETURNS?
 AS
 BEGIN
 	DECLARE @TASA as decimal; 
-	-- @TASA = 'credito'
-    -- Decile que hace esto
-    select @TASA = tasa from tbproducto where idproducto = @idproducto and idestado = 1;
 
 	RETURN @TASA;	
 END; -- ADD: punto y coma
 CREATE FUNCTION fn_retornanombre (@identificacion nvarchar(20))
-RETURNS nvarchar(100)
+RETURN nvarchar(100)
 AS
 BEGIN
 
 	DECLARE @nombres nvarchar(100);
 	DECLARE @apellidos nvarchar(100);	
 	DECLARE @nombrecompleto nvarchar(100);	
-	
-	SELECT @nombres = CONCATENA(primer_nombre,segundo_nombre) 
-	FROM tbcliente,tbidentificacion
-	where tbcliente.codigocliente = tbidentificacion.codigocliente 
-	and tbidentificacion.identificacion = '@identificacion';
-	
-	SELECT @apellidos = CONCATENA(primer_apellido,segundo_apellido) 
-	FROM tbcliente,tbidentificacion 
-	where tbcliente.codigocliente = tbidentificacion.codigocliente 
-	and tbidentificacion.identificacion = '@identificacion';
 
 	set @nombrecompleto = CONCATENA(@nombrecompleto,@apellidos);
 
@@ -35,6 +22,6 @@ BEGIN
 END;
 
 SELECT * FROM tbproducto where idestado = 1;
-exec sp_actualizatasa (10,'18/12/2023');   -- En que formato '-' o '/'
+exec sp_actualizatasa (10,'18/12/2023');
 SELECT * FROM tbproducto where idestado = 1;
 select * from tbbitacoracambio;

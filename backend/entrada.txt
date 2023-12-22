@@ -115,33 +115,33 @@ SELECT (4<2 && @hola<1);
 SELECT * FROM persona;
 
 
-IF 0 < 1 THEN
+IF 0 < 1 BEGIN
     declare @v2 int;
     SELECT ("Entre a un if");
 END IF;
 
-IF 0 > 1 THEN
+IF 0 > 1 BEGIN
     declare @v1 int;
     SELECT ("Primer if");
 
-    IF 5 > 1 THEN
+    IF 5 > 1 BEGIN
         declare @v1 int;
         SELECT ("If anidado");
-    ELSE THEN
+    ELSE BEGIN
         declare @v2 bit;
     END IF;
 
-ELSE THEN
+ELSE BEGIN
     declare @v2 bit;
     SELECT ("Entro al else");
 END IF;
 
 
-IF 4 < 0 THEN
+IF 4 < 0 BEGIN
     declare @v1 int;
-ELSE IF 3 > 55 THEN
+ELSE IF 3 > 55 BEGIN
     declare @v2 nvarchar(2);
-ELSE THEN
+ELSE BEGIN
     declare @v3 bit;
 END IF;
 
@@ -149,22 +149,22 @@ END IF;
 declare @num int;
 set @num = 1;
 
-IF @num == 0 THEN
+IF @num == 0 BEGIN
     declare @v1 int;
     SELECT ("num = " + @num);
-ELSE IF @num == 1 THEN
+ELSE IF @num == 1 BEGIN
     declare @v2 nvarchar(2);
     SELECT ("num = " + @num);
-ELSE IF @num == 2 THEN
+ELSE IF @num == 2 BEGIN
     declare @v3 nvarchar(2);
     SELECT ("num = " + @num);
-ELSE IF @num == 3 THEN
+ELSE IF @num == 3 BEGIN
     declare @v3 nvarchar(2);
     SELECT ("num = " + @num);
-ELSE IF @num == 4 THEN
+ELSE IF @num == 4 BEGIN
     declare @v3 nvarchar(2);
     SELECT ("num = " + @num);
-ELSE THEN
+ELSE BEGIN
     declare @v3 nvarchar(2);
     SELECT ("num = " + @num);
 END IF;
@@ -217,23 +217,23 @@ SELECT (4<2 && @hola<1);
 SELECT * FROM persona;
 
 
-IF 0 < 1 THEN
+IF 0 < 1 BEGIN
     declare @v2 int;
     SELECT ("Entre a un if");
 END IF;
 
-IF 0 > 1 THEN
+IF 0 > 1 BEGIN
     declare @v1 int;
     SELECT ("Primer if");
 
-    IF 5 > 1 THEN
+    IF 5 > 1 BEGIN
         declare @v1 int;
         SELECT ("If anidado");
-    ELSE THEN
+    ELSE BEGIN
         declare @v2 bit;
     END IF;
 
-ELSE THEN
+ELSE BEGIN
     declare @v2 bit;
     SELECT ("Entro al else");
 END IF;
@@ -242,18 +242,18 @@ CREATE PROCEDURE sp_conteo (@i int)
 AS
 BEGIN
     DECLARE @contador int;
-    IF 0 > 1 THEN
+    IF 0 > 1 BEGIN
         declare @v1 int;
         SELECT ("Primer if");
 
-        IF 5 > 1 THEN
+        IF 5 > 1 BEGIN
             declare @v1 int;
             SELECT ("If anidado");
-        ELSE THEN
+        ELSE BEGIN
             declare @v2 bit;
         END IF;
 
-    ELSE THEN
+    ELSE BEGIN
         declare @v2 bit;
         SELECT ("Entro al else");
     END IF;
@@ -267,9 +267,9 @@ DECLARE @IVA DECIMAL;
  DECLARE @ISR DECIMAL;
  
  SET @IVA = @MONTO - @MONTO/1.12;
- IF @MONTO > 2000 THEN 
+ IF @MONTO > 2000 BEGIN 
  SET @ISR = @MONTO *0.07;
-ELSE then
+ELSE BEGIN
  SET @ISR = @MONTO *0.10;
  END IF;
  
@@ -280,13 +280,13 @@ CREATE PROCEDURE sp_conteo (@i AS int)
 AS
     BEGIN
     DECLARE @contador AS int;
-    if(@i != 0) then
+    if(@i != 0) BEGIN
         WHILE @contador < @i
         BEGIN
             SELECT CONCATENAR(" EJECUCION No.",@i);
             SET @i= @i+1;
         END;
-    ELSE then
+    ELSE BEGIN
         SELECT "NO HAY NADA QUE HACER";
     end if;
 END;

@@ -145,6 +145,7 @@ def t_ID(t):
 
 def t_CADENA(t):
     r'[\'\"][^\'\"]*[\'\"]'
+    t.value = t.value[1:-1]
     return t
 
 def t_salto_linea(t):
