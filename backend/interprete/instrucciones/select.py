@@ -6,12 +6,12 @@ from xml.dom import minidom
 from interprete.instrucciones.between import Between
 from interprete.extra.tipos import TipoDato
 from datetime import datetime
-
-
+from interprete.extra.select_table import Record, Select_table
 from interprete.extra.retorno import Retorno
 
 
 class Select(Instruccion):
+    tabla = {}
     def __init__(self, text_val:str, campos:str, tablas:str, condicion_where:CondicionWhere, linea:int, columna:int):
         super().__init__(text_val, linea, columna)
         self.campos = campos
@@ -40,97 +40,150 @@ class Select(Instruccion):
 
     def set_condicion_bet_aux(self, condicion_bet_aux):
         self.condicion_bet_aux = condicion_bet_aux
-        
-
+    
+    
+    @classmethod
+    def get_tabla(cls):
+        return cls.tabla
+    
     def ejecutar(self, env:Enviroment):
         
-        # text_val_campos = []
+        if isinstance(self.condicion_where, Between):            
+            self.select_where_between(env)
+        else:
+            self.select_where(env)
+        
         # print('---- CAMPOS ----')
         # for campo in self.campos:
         #     print('--------------')
-        #     print('Tipo Campo: ', type(campo))
         #     print('text_val: ', campo.text_val)
         #     print('--------------')
-        #     text_val_campos.append(campo.text_val)
         
-        # print('----- TEXT_VAL CAMPOS -----')
-        # print(text_val_campos)
-        # for text in text_val_campos:
-        #     print('> ', text)
+        # print('where: ', self.condicion_where.text_val)    
+        
         # return
-                
-        if self.condicion_where == None:
-            if self.campos == '*':
-                self.select_all(env)
-            else:
-                self.select_fields(env)
-        else:
-            if isinstance(self.condicion_where, Between):
-                self.select_where_between(env)
-            else:
-                self.select_where(env)
         
-        
-    def select_all(self, env:Enviroment):
-        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+        # self.select_where(env)
+ 
+        # if self.condicion_where == None:
+        #     if self.campos == '*':
+        #         self.select_all(env)
+        #     else:
+        #         self.select_fields(env)
+        # else:
+        #     if isinstance(self.condicion_where, Between):
+        #         self.select_where_between(env)
+        #     else:
+        #         self.select_where(env)
 
-        mydoc = minidom.parse(datas)
         
-        current = mydoc.getElementsByTagName('current')[0]
+    # def select_all(self, env:Enviroment):
+    #     datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
-        for database in mydoc.getElementsByTagName('database'):
-            if database.getAttribute('name') == current.getAttribute('name'):                    
-                for table in database.getElementsByTagName('tables'):
-                    for table in table.getElementsByTagName('table'):
-
-                        if self.campos == '*':
-                            for tabla in self.tablas:
-                                if table.getAttribute('name') == tabla:
-                                    fields = table.getElementsByTagName('fields')[0]
-                                    records = table.getElementsByTagName('records')[0]
-                                    print('-------- CAMPOS {} -----------'.format(tabla))
-                                    for field in fields.getElementsByTagName('field'):
-                                        print(field.getAttribute('name'))
-                                    for record in records.getElementsByTagName('record'):
-                                        print('-------- REGISTRO -----------')
-                                        for data in record.getElementsByTagName('field'):
-                                            print(data.firstChild.data)
+    #     mydoc = minidom.parse(datas)
         
-    def select_fields(self, env:Enviroment):
-        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+    #     current = mydoc.getElementsByTagName('current')[0]
 
-        mydoc = minidom.parse(datas)
-        
-        current = mydoc.getElementsByTagName('current')[0]
+    #     select = Select_table()
 
-        for database in mydoc.getElementsByTagName('database'):
-            if database.getAttribute('name') == current.getAttribute('name'):                    
-                for table in database.getElementsByTagName('tables'):
-                    for table in table.getElementsByTagName('table'):
-                        for tabla in self.tablas:
-                            if table.getAttribute('name') == tabla:
-                                fields = table.getElementsByTagName('fields')[0]
-                                records = table.getElementsByTagName('records')[0]
-                                print('-------- CAMPOS {} -----------'.format(tabla))
-                                for field in fields.getElementsByTagName('field'):
-                                    for campo in self.campos:
-                                        if field.getAttribute('name') == campo:
-                                            print(field.getAttribute('name'))
-                                            for record in records.getElementsByTagName('record'):
-                                                print('-------- REGISTRO -----------')
-                                                for data in record.getElementsByTagName('field'):
-                                                    if data.getAttribute('name') == campo:
-                                                        print(data.firstChild.data)
+    #     for database in mydoc.getElementsByTagName('database'):
+    #         if database.getAttribute('name') == current.getAttribute('name'):                    
+    #             for table in database.getElementsByTagName('tables'):
+    #                 for table in table.getElementsByTagName('table'):
+    #                     for tabla in self.tablas:
+    #                         if table.getAttribute('name') == tabla:
+    #                             # print('-------- CAMPOS -----------')
+    #                             for field in table.getElementsByTagName('fields')[0].getElementsByTagName('field'):
+    #                                 # print(field.getAttribute('name'))
+    #                                 select.fill_fields(field.getAttribute('name'))
+    #                             break
         
-    
+    #     for database in mydoc.getElementsByTagName('database'):
+    #         if database.getAttribute('name') == current.getAttribute('name'):                    
+    #             for table in database.getElementsByTagName('tables'):
+    #                 for table in table.getElementsByTagName('table'):
+    #                     for tabla in self.tablas:
+    #                         if table.getAttribute('name') == tabla:
+    #                             records = table.getElementsByTagName('records')[0]
+    #                             for record in records.getElementsByTagName('record'):
+    #                                 rec = Record()
+    #                                 # print('-------- REGISTRO -----------')
+    #                                 for data in record.getElementsByTagName('field'):
+    #                                     # print(data.firstChild.data)
+    #                                     rec.fill_recods(data.firstChild.data)
+    #                                     # data = SelectTable(data.getAttribute('name'), data.firstChild.data)
+    #                                     # Table.addError(data)
+    #                                 select.fill_records(rec)
+        
+    #     Select.tabla = select.serializar()
+        
+                                        
+        
+    # def select_fields(self, env:Enviroment):
+    #     datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+
+    #     select = Select_table()
+    #     aux_list = []
+        
+    #     # print('-------- CAMPOS -----------')
+    #     for campo in self.campos:
+    #         select.fill_fields(campo.text_val)
+
+    #     mydoc = minidom.parse(datas)
+        
+    #     current = mydoc.getElementsByTagName('current')[0]
+
+    #     for database in mydoc.getElementsByTagName('database'):
+    #         if database.getAttribute('name') == current.getAttribute('name'):                    
+    #             for table in database.getElementsByTagName('tables'):
+    #                 for table in table.getElementsByTagName('table'):
+    #                     for tabla in self.tablas:
+    #                         if table.getAttribute('name') == tabla:
+    #                             fields = table.getElementsByTagName('fields')[0]
+    #                             records = table.getElementsByTagName('records')[0]
+    #                             for field in fields.getElementsByTagName('field'):
+    #                                 for campo in self.campos:
+    #                                     campo_aux = str(campo.text_val).replace(table.getAttribute('name'),'').replace('.','')
+    #                                     if field.getAttribute('name') == campo_aux:
+    #                                         for record in records.getElementsByTagName('record'):
+    #                                             print('-------- REGISTRO -----------')
+    #                                             for data in record.getElementsByTagName('field'):
+    #                                                 if data.getAttribute('name') == campo_aux:
+    #                                                     # data = SelectTable(campo.text_val, data.firstChild.data)
+    #                                                     # Table.addError(data)
+    #                                                     aux_list.append(data.firstChild.data)
+    #                                                     # print(data.firstChild.data)
+        
+    #     Select.tabla = select.serializar()
+                                                    
                                             
     def select_where(self, env:Enviroment):
         from analizador.parser import parser
         
+        select = Select_table()
+        aux_list = []
+        
+        cant_campos = 0
+
         datas = open('backend/structure.xml', 'r+', encoding='utf-8')
         mydoc = minidom.parse(datas)
             
         current = mydoc.getElementsByTagName('current')[0]
+
+        if self.campos == '*':
+            for database in mydoc.getElementsByTagName('database'):
+                if database.getAttribute('name') == mydoc.getElementsByTagName('current')[0].getAttribute('name'):
+                    for table in database.getElementsByTagName('tables')[0].getElementsByTagName('table'):
+                        if self.campos == '*':
+                            for tabla in self.tablas:
+                                if table.getAttribute('name') == tabla:
+                                    for field in table.getElementsByTagName('fields')[0].getElementsByTagName('field'):
+                                        select.fields.append(field.getAttribute('name'))
+                                        cant_campos += 1
+        else:
+            for campo in self.campos:
+                select.fields.append(campo.text_val)
+                cant_campos += 1
 
         for database in mydoc.getElementsByTagName('database'):
             if database.getAttribute('name') == current.getAttribute('name'):
@@ -143,22 +196,40 @@ class Select(Instruccion):
                                     for record in recs.getElementsByTagName('record'):
                                         cont_records += 1
                                         
-                                        self.set_valor(self.condicion_where.text_val.replace('\'',''))
-                                        
-                                        for rc in record.getElementsByTagName('field'):
-                                            if rc.getAttribute('name') in self.condicion_where.text_val:
-                                                self.set_valor(self.get_valor().replace(rc.getAttribute('name'),rc.firstChild.data))
-                                              
-                                        self.aux += ';'
-                                        expresion = parser.parse(self.aux.lower())
+                                        if self.condicion_where == None:
+                                            self.look_in_pos(cont_records-1,aux_list)
+                                            continue
+                                    
+                                        else:
+                                            self.set_valor(self.condicion_where.text_val.replace('\'',''))
+                                            
+                                            for rc in record.getElementsByTagName('field'):
+                                                aux = table.getAttribute('name') + '.' + rc.getAttribute('name')
+                                                if aux in self.condicion_where.text_val:
+                                                    self.set_valor(self.get_valor().replace(aux,rc.firstChild.data))
+                                                
+                                            self.aux += ';'
+                                            # print('aux: ', self.aux)
+                                            expresion = parser.parse(self.aux.lower())
 
-                                        retorno:Retorno = expresion[0].ejecutar(env)
-                                        if retorno.valor == True:
-                                            self.look_in_pos(cont_records-1)
+                                            retorno:Retorno = expresion[0].ejecutar(env)
+                                            if retorno.valor == True:
+                                                self.look_in_pos(cont_records-1,aux_list)
+        
+        
+        for i in range(0, len(aux_list), cant_campos):
+            rec = Record()
+            for j in range(cant_campos):
+                rec.recods.append(aux_list[i+j])
+            select.records.append(rec)
+        
+        Select.tabla = select.serializar()
                                             
     
     def select_where_between(self, env:Enviroment):
         if isinstance(self.condicion_where, Between):
+            
+            aux_list = []
             
             from analizador.parser import parser
             
@@ -227,7 +298,7 @@ class Select(Instruccion):
 
                                                 retorno:Retorno = expresion[0].ejecutar(env)
                                                 if retorno.valor == True:
-                                                    self.look_in_pos(cont_records-1)
+                                                    self.look_in_pos(cont_records-1,aux_list)
                 
             elif not self.is_date_format(op1) and not self.is_date_format(op2):
                 
@@ -262,12 +333,12 @@ class Select(Instruccion):
 
                                                 retorno:Retorno = expresion[0].ejecutar(env)
                                                 if retorno.valor == True:
-                                                    self.look_in_pos(cont_records-1)
+                                                    self.look_in_pos(cont_records-1,aux_list)
             else:
                 print('No se puede operar fecha con otro tipo de dato')
                 return
     
-    def look_in_pos(self, pos:int):
+    def look_in_pos(self, pos:int, aux_list):
 
         datas = open('backend/structure.xml', 'r+', encoding='utf-8')
 
@@ -282,27 +353,18 @@ class Select(Instruccion):
                         if self.campos == '*':
                             for tabla in self.tablas:
                                 if table.getAttribute('name') == tabla:
-                                    fields = table.getElementsByTagName('fields')[0]
-                                    print('-------- CAMPOS {} -----------'.format(tabla))
-                                    for field in fields.getElementsByTagName('field'):
-                                        print(field.getAttribute('name'))
-                                    print('-------- REGISTRO -----------')
                                     for rc in  table.getElementsByTagName('records')[0].getElementsByTagName('record')[pos].getElementsByTagName('field'):
-                                        print(rc.firstChild.data)
-                        else:
+                                        aux_list.append(rc.firstChild.data)
+                        else: 
                             for tabla in self.tablas:
                                 if table.getAttribute('name') == tabla:
-                                    print('-------- CAMPOS {} -----------'.format(tabla))
-                                    for campo in self.campos:
-                                        print(campo)
-                                    
-                                    print('-------- REGISTRO -----------')
+                                    # print('-------- REGISTRO -----------')
                                     for rc in  table.getElementsByTagName('records')[0].getElementsByTagName('record')[pos].getElementsByTagName('field'):
                                         for campo in self.campos:
-                                            if rc.getAttribute('name') == campo:
+                                            campo_aux = str(campo.text_val).replace(table.getAttribute('name'),'').replace('.','')
+                                            if rc.getAttribute('name') == campo_aux:
+                                                aux_list.append(rc.firstChild.data)
                                                 print(rc.firstChild.data)
-
-   
     
     def is_date_format(self, date):
         try:

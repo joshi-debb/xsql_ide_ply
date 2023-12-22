@@ -3,6 +3,7 @@ from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import TablaErrores
 from xml.dom import minidom
 import os
+from interprete.instrucciones.select import Select
 
 
 filename = 'backend/structure.xml'
@@ -30,7 +31,7 @@ else:
 
     print("Structure XML created successfully")
 
-f = open('backend/entrada2.txt', 'r')
+f = open('backend/entrada_real1.txt', 'r')
 entrada = f.read()
 # print(input)
 instrucciones = parser.parse(entrada.lower())
@@ -44,16 +45,22 @@ for instruccion in instrucciones:
 # except Exception as e:
 #    print(f'ERROR al ejecutar las instrucciones')
 
+print('--------selects---------')
+print(Select.get_tabla())
+
+
 print("------------ Errores ------------")
 for error in TablaErrores.errores:
     print(error.serializar())
+    
+
 
     
-opt = input('Borrar archivo structure.xml? s/n: ')
-if opt == 's':    
-    # Verificar si el archivo existe antes de intentar borrarlo
-    if os.path.exists('backend/structure.xml'):
-        os.remove('backend/structure.xml')
-        print(f"El archivo {'backend/structure.xml'} ha sido borrado con éxito.")
-    else:
-        print(f"El archivo {'backend/structure.xml'} no existe.")
+# opt = input('Borrar archivo structure.xml? s/n: ')
+# if opt == 's':    
+#     # Verificar si el archivo existe antes de intentar borrarlo
+#     if os.path.exists('backend/structure.xml'):
+#         os.remove('backend/structure.xml')
+#         print(f"El archivo {'backend/structure.xml'} ha sido borrado con éxito.")
+#     else:
+#         print(f"El archivo {'backend/structure.xml'} no existe.")
