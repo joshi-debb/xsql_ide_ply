@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.symbol import Symbol
 from interprete.extra.tipos import TipoDato, TipoSimbolo
 from .instruccion import Instruccion
@@ -73,6 +74,24 @@ class Procedure(Instruccion):
         simbolo = Symbol(TipoSimbolo.PROCEDURE, TipoDato.UNDEFINED, self.id, None, env.ambito, self.parametros, self.instrucciones)
         env.insertar_simbolo(self.id, simbolo)
 
+    # self.id = id
+    # if parametros[0] == None: self.parametros = []            # Arreglo de declaraciones
+    # else:                     self.parametros = parametros
+    # self.instrucciones = instrucciones    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='PROCEDURE', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
+
+        id = AST.generarId()
+        hijo1 = Nodo(id=id, valor='PAMETROS', hijos=[])
+        hijo.addHijo(hijo1)
+        # Parametros (arreglo de declaraciones de variables)
+        for parametro in self.parametros:
+            parametro.recorrerArbol(hijo1)
         
-        
+        # Instrucciones
+        self.instrucciones.recorrerArbol(hijo)
     

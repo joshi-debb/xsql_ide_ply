@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Expresion import Expresion
 from interprete.extra.enviroment import Enviroment
@@ -21,3 +22,13 @@ class Campo(Instruccion):
     # Retorna el valor que va a tener ese campo
     def getExpresion(self):
         return self.expresion.ejecutar()
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='SET', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
+        self.expresion.recorrerArbol(hijo)
+
+        

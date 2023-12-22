@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.expresiones.tipoChars import TipoChars
 from .instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
@@ -77,3 +78,33 @@ class Function(Instruccion):
     
     def getTipoRetorno(self):
         return self.tipo_ret
+
+    # if isinstance(tipo_ret, TipoChars): self.tipo_ret = tipo_ret.charTipo
+    # else:                               self.tipo_ret = tipo_ret
+    # self.id = id
+    # if parametros[0] == None: self.parametros = []            # Arreglo de declaraciones
+    # else:                     self.parametros = parametros
+    # self.instrucciones = instrucciones
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='FUNCTION', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
+        
+        id = AST.generarId()
+        hijo1 = Nodo(id=id, valor='RETURN', hijos=[])
+        hijo.addHijo(hijo1)
+        id = AST.generarId()
+        hijo1.addHijo(Nodo(id=id, valor=self.tipo_ret.name, hijos=[]))
+        
+        if len(self.parametros) != 0:
+            id = AST.generarId()
+            hijo2 = Nodo(id=id, valor='PARAMETROS', hijos=[])
+            hijo.addHijo(hijo2)
+            # Parametros (arreglo de declaraciones de variables)
+            for parametro in self.parametros:
+                parametro.recorrerArbol(hijo2)
+        
+        # Instrucciones
+        self.instrucciones.recorrerArbol(hijo)

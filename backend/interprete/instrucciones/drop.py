@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom
@@ -34,4 +35,10 @@ class Drop(Instruccion):
                 print("Error: En la base de datos actual no existe la tabla")
                 return
 
-
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='DROP', hijos=[])
+        raiz.addHijo(hijo)                                    
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.name_table, hijos=[]))                                    
+    

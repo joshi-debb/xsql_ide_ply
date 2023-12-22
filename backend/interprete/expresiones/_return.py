@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -11,3 +12,11 @@ class Return(Expresion):
     
     def ejecutar(self, env: Enviroment):
         return self     # Retornando la clase en sí
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='RETURN', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        self.exp_ret.recorrerArbol(hijo)
+    

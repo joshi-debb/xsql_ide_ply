@@ -33,7 +33,7 @@ BEGIN
 		
 	RETURN @alturamora
 
-END
+END;
 
 CREATE PROCEDURE sp_actualizaalturamora (@credito int,@diasmora int)
 AS
@@ -67,7 +67,7 @@ BEGIN
 	end 	             
 		update tbcreditosaldo set alturamora = @alturamora 
 		where credito = @credito and diasmora = @diasmora;
-END
+END;
 
 
 CREATE FUNCTION sp_calculacuota (@saldo decimal, @plazo int ,@diasmora int)
@@ -110,4 +110,4 @@ BEGIN
 		SET @cuota = @cuota-@ajuste;	
 			
 		RETURN @cuota;	
-END
+END;

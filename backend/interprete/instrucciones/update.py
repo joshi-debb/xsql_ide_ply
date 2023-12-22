@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.instrucciones.asignacion_campo import Campo
 from interprete.instrucciones.condicion_where import CondicionWhere
@@ -102,3 +103,20 @@ class Update(Instruccion):
                                                     return True
         
         return False
+    
+    # self.table_name = table_name
+    # self.tupla = tupla                 
+    # self.condicion = condicion
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='UPDATE', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.table_name, hijos=[]))
+
+        # Campos
+        for campo in self.tupla:
+            campo.recorrerArbol(hijo)
+        
+        # Condicion
+        self.condicion.recorrerArbol(hijo)

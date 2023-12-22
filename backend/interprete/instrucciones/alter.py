@@ -1,4 +1,4 @@
-
+from interprete.extra.ast import *
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.extra.tipos import TipoDato
 from interprete.expresiones.tipoChars import TipoChars
@@ -50,9 +50,24 @@ class AlterADD(Instruccion):
             file.truncate()
             file.write(formatted_xml)
             print("Campo agregado")
-        
-        
     
+    # self.name_table = name_table
+    #     self.campo = campo
+    #     self.tipo = tipo
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='ALTER ADD', hijos=[])
+        raiz.addHijo(hijo)                                    
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.name_table, hijos=[]))                                    
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.campo, hijos=[]))
+        tipo = ''                                    
+        if isinstance(self.tipo, TipoChars): tipo = self.tipo.charTipo.name
+        else:                                tipo = self.tipo.name
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=tipo, hijos=[]))
+
 
 class AlterDROP(Instruccion):
     def __init__(self, text_val:str, name_table, campo, line, column):
@@ -90,3 +105,13 @@ class AlterDROP(Instruccion):
             file.truncate()
             file.write(formatted_xml)
             print("Campo Eliminado")
+    
+    # ALTER TABLE persona DROP nombre
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='ALTER DROP', hijos=[])
+        raiz.addHijo(hijo)                                    
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.name_table, hijos=[]))  
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.campo, hijos=[]))  

@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -251,3 +252,19 @@ class Aritmetica(Expresion):
                 TablaErrores.addError(err)
 
         return resultado
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        tipo = ''
+        if self.operador == TipoAritmetica.SUMA: tipo = '+'
+        elif self.operador == TipoAritmetica.RESTA: tipo = '-'
+        elif self.operador == TipoAritmetica.MULTIPLICACION: tipo = '*'
+        elif self.operador == TipoAritmetica.DIVISION: tipo = '/'
+        elif self.operador == TipoAritmetica.UNARIO: tipo = '-'
+        hijo = Nodo(id=id, valor=tipo, hijos=[])
+        raiz.addHijo(hijo)
+        self.op1.recorrerArbol(hijo)
+        if self.operador == TipoAritmetica.UNARIO:
+            return
+        self.op2.recorrerArbol(hijo)
+        

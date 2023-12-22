@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -14,9 +15,6 @@ class OpTernario(Expresion):
         self.instruccionFalse = instruccionFalse
     
     def ejecutar(self, env: Enviroment):
-        print('OP TERNARIO: ')
-        print(self.text_val)
-
         val_condicion:Retorno = self.condicion.ejecutar(env)
 
         # Si hay un error en la expresion...
@@ -37,3 +35,12 @@ class OpTernario(Expresion):
             return self.instruccionTrue.ejecutar(env)
         else:
             return self.instruccionFalse.ejecutar(env)
+
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='IF', hijos=[])
+        raiz.addHijo(hijo)
+        self.condicion.recorrerArbol(hijo)
+        self.instruccionTrue.recorrerArbol(hijo)
+        self.instruccionFalse.recorrerArbol(hijo)
+    

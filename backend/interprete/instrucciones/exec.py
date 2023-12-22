@@ -1,4 +1,4 @@
-
+from interprete.extra.ast import *
 from interprete.expresiones._return import Return
 from interprete.instrucciones.asignacion_var import AsignacionVar
 from interprete.instrucciones.procedure import Procedure
@@ -111,6 +111,24 @@ class Exec(Instruccion):
             err = Error(tipo='Semántico', linea=ret.linea, columna=ret.columna, descripcion=f'Solo se puede utilizar la sentencia RETURN dento de una función.')
             TablaErrores.addError(err)
 
-        return Retorno(tipo=TipoDato.ERROR, valor=None)
+        return Retorno(tipo=TipoDato.ERROR, valor=None) 
+    
+    # self.nombre_proc = nombre_proc
+    # if argumentos[0] == None: self.argumentos = []
+    # else:                     self.argumentos = argumentos
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='EXEC', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.nombre_proc, hijos=[]))
+        
+        # Argumentos
+        if len(self.argumentos) != 0:
+            id = AST.generarId()
+            hijo2 = Nodo(id=id, valor='ARGUMENTOS', hijos=[])
+            hijo.addHijo(hijo2)
+            for argumento in self.argumentos:
+                argumento.recorrerArbol(hijo2)
 
     

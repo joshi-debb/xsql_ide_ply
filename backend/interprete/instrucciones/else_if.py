@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Expresion import Expresion
@@ -33,3 +34,13 @@ class ElseIf(Instruccion):
         if val_condicion.valor == True:
             return True
         return False
+    
+    # self.condicion = condicion
+    #     self.bloque = bloque
+        
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='ELSE IF', hijos=[])
+        raiz.addHijo(hijo)
+        self.condicion.recorrerArbol(hijo)
+        self.bloque.recorrerArbol(hijo)

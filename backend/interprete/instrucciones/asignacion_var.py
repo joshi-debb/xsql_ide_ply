@@ -1,4 +1,4 @@
-from msilib.schema import Error
+from interprete.extra.ast import *
 from operator import truediv
 from interprete.extra.retorno import Retorno
 from interprete.extra.tipos import TipoDato, TipoSimbolo
@@ -63,11 +63,19 @@ class AsignacionVar(Instruccion):
                 return self
             return self
         
+        elif simbolo.tipo == TipoDato.DATETIME:
+            if exp.tipo == TipoDato.NCHAR or exp.tipo == TipoDato.NVARCHAR or exp.tipo == TipoDato.DATETIME:
+                simbolo.valor = exp.valor
+            else: 
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
+                TablaErrores.addError(err)
+            return self
+
         # El tipo de la variable debe coincidir con el tipo de de dato asignandose
         if exp.tipo != simbolo.tipo:
             # Agregando a la tabla de erorres
-            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='La expresion debe ser del mismo tipo que la variable')
-            TablaErrores.addError(err)
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
             return self
 
         else:
@@ -75,3 +83,12 @@ class AsignacionVar(Instruccion):
             simbolo.valor = exp.valor
 
         return self
+
+
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='SET', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
+        self.expresion.recorrerArbol(hijo)

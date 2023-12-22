@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.instrucciones.asignacion_campo import Campo
 from interprete.instrucciones.condicion_where import CondicionWhere
@@ -40,6 +41,12 @@ class Delete(Instruccion):
             file.truncate()
             file.write(formatted_xml)
                                                             
-                                            
+
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='DELETE', hijos=[])
+        raiz.addHijo(hijo)                                    
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.table_name, hijos=[]))                                    
+        self.condicion.recorrerArbol(hijo)
         
-            

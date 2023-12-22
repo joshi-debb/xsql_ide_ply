@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
 from xml.dom import minidom
@@ -40,4 +41,10 @@ class CrearBD(Instruccion):
             file.write(formatted_xml)
             
             print("Database created successfully")
-                
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='CREATE DATA BASE', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))

@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -20,3 +21,11 @@ class Concatenar(Expresion):
             resultado.valor = op1.valor + op2.valor
 
         return resultado
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='CONCATENA', hijos=[])
+        raiz.addHijo(hijo)
+        self.op1.recorrerArbol(hijo)
+        self.op2.recorrerArbol(hijo)
+    

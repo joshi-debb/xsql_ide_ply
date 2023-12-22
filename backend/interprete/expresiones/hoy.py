@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
@@ -19,3 +20,9 @@ class Hoy(Expresion):
         resultado = Retorno(tipo=TipoDato.DATETIME, valor=fecha_hora_formateada)
 
         return resultado
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='HOY()', hijos=[])
+        raiz.addHijo(hijo)
+    

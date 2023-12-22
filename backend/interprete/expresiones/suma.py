@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.expresiones.acceso import Acceso
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
@@ -107,4 +108,27 @@ class Suma(Expresion):
             float_cadena = float(cadena)
             return True
         except ValueError:
-            return False                       
+            return False           
+
+    # self.campos = campos
+    # self.tablas = tablas
+    # self.condicion_where = condicion_where
+
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='SUMA', hijos=[])
+        raiz.addHijo(hijo)
+        
+        # Campos
+        for campo in self.campos:                               
+            id = AST.generarId()
+            hijo.addHijo(Nodo(id=id, valor=campo, hijos=[]))
+
+        # Tablas
+        for tabla in self.tablas:
+            id = AST.generarId()
+            hijo.addHijo(Nodo(id=id, valor=tabla, hijos=[]))
+        
+        # Where
+        if self.condicion_where != None:
+            self.condicion_where.recorrerArbol(hijo)            

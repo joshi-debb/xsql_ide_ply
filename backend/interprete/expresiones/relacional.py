@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoDato, TipoRelacional
 from interprete.extra.retorno import Retorno
@@ -50,8 +51,24 @@ class Relacional(Expresion):
                 resultado.valor = (op1.valor == op2.valor)
                 
         elif self.operador == TipoRelacional.DESIGUALDAD:
+            # Agregar cadena con cadena
             if (op1.tipo == TipoDato.INT or op1.tipo == TipoDato.DECIMAL) and (op2.tipo == TipoDato.INT or op2.tipo == TipoDato.DECIMAL):
                 resultado.tipo = TipoDato.BOOL
                 resultado.valor = (op1.valor != op2.valor)
         
         return resultado
+        
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        tipo = ''
+        if self.operador == TipoRelacional.IGUALDAD: tipo = '=='
+        elif self.operador == TipoRelacional.DESIGUALDAD: tipo = '!='
+        elif self.operador == TipoRelacional.MENOR_IGUAL: tipo = '<='
+        elif self.operador == TipoRelacional.MAYOR_IGUAL: tipo = '>='
+        elif self.operador == TipoRelacional.MENOR: tipo = '<'
+        elif self.operador == TipoRelacional.MAYOR: tipo = '>'
+        elif self.operador == TipoRelacional.IGUAL: tipo = '='
+        hijo = Nodo(id=id, valor=tipo, hijos=[])
+        raiz.addHijo(hijo)
+        self.op1.recorrerArbol(hijo)
+        self.op2.recorrerArbol(hijo)

@@ -1,3 +1,4 @@
+from interprete.extra.ast import *
 from interprete.extra.tipos import TipoDato
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
@@ -34,3 +35,12 @@ class When(Instruccion):
         if val_condicion.valor == True:
             return True
         return False
+    
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='WHEN', hijos=[])
+        raiz.addHijo(hijo)
+        self.condicion.recorrerArbol(hijo)
+        self.bloque.recorrerArbol(hijo)
+    

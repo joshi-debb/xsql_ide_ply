@@ -1,4 +1,4 @@
-
+from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from .instruccion import Instruccion
 from xml.dom import minidom
@@ -23,4 +23,10 @@ class Use(Instruccion):
             file.write(formatted_xml)
 
         print("Current database changed to: ", self.id)
-       
+    
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='USE', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))

@@ -1,4 +1,4 @@
-
+from interprete.extra.ast import *
 from interprete.instrucciones.function import Function
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
@@ -120,3 +120,21 @@ class LlamadaFnc(Instruccion):
             TablaErrores.addError(err)
 
         return Retorno(tipo=TipoDato.ERROR, valor=None)
+
+    # self.nombre_fnc = nombre_fnc
+    # if argumentos[0] == None: self.argumentos = []
+    # else:                     self.argumentos = argumentos
+    def recorrerArbol(self, raiz:Nodo):
+        id = AST.generarId()
+        hijo = Nodo(id=id, valor='LLAMADA FUNCION', hijos=[])
+        raiz.addHijo(hijo)
+        id = AST.generarId()
+        hijo.addHijo(Nodo(id=id, valor=self.nombre_fnc, hijos=[]))
+        
+        # Argumentos
+        if len(self.argumentos) != 0:
+            id = AST.generarId()
+            hijo2 = Nodo(id=id, valor='ARGUMENTOS', hijos=[])
+            hijo.addHijo(hijo2)
+            for argumento in self.argumentos:
+                argumento.recorrerArbol(hijo2)
