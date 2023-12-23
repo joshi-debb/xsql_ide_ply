@@ -1,3 +1,6 @@
+
+
+
 CREATE FUNCTION fn_retornaalturamora (@diasmora int)
 RETURN nvarchar(100)
 AS
@@ -34,6 +37,8 @@ BEGIN
 	RETURN @alturamora
 
 END;
+
+
 
 CREATE PROCEDURE sp_actualizaalturamora (@credito int,@diasmora int)
 AS

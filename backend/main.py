@@ -5,6 +5,7 @@ from interprete.extra.errores import TablaErrores
 from xml.dom import minidom
 import os
 from interprete.instrucciones.select import Select
+from interprete.extra.c3d import Traduccion
 
 
 filename = 'backend/structure.xml'
@@ -39,10 +40,12 @@ instrucciones = parser.parse(entrada.lower())
 
 env = Enviroment(ent_anterior=None, ambito='Global')
 
+traduccion = Traduccion()
+
 # Ejecutando todas las instrucciones
 # try:
 for instruccion in instrucciones:
-    instruccion.ejecutar(env)
+    instruccion.ejecutar(env, traduccion)
 # except Exception as e:
 #    print(f'ERROR al ejecutar las instrucciones')
 

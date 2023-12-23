@@ -52,111 +52,7 @@ class Select(Instruccion):
             self.select_where_between(env)
         else:
             self.select_where(env)
-        
-        # print('---- CAMPOS ----')
-        # for campo in self.campos:
-        #     print('--------------')
-        #     print('text_val: ', campo.text_val)
-        #     print('--------------')
-        
-        # print('where: ', self.condicion_where.text_val)    
-        
-        # return
-        
-        # self.select_where(env)
- 
-        # if self.condicion_where == None:
-        #     if self.campos == '*':
-        #         self.select_all(env)
-        #     else:
-        #         self.select_fields(env)
-        # else:
-        #     if isinstance(self.condicion_where, Between):
-        #         self.select_where_between(env)
-        #     else:
-        #         self.select_where(env)
-
-        
-    # def select_all(self, env:Enviroment):
-    #     datas = open('backend/structure.xml', 'r+', encoding='utf-8')
-
-    #     mydoc = minidom.parse(datas)
-        
-    #     current = mydoc.getElementsByTagName('current')[0]
-
-    #     select = Select_table()
-
-    #     for database in mydoc.getElementsByTagName('database'):
-    #         if database.getAttribute('name') == current.getAttribute('name'):                    
-    #             for table in database.getElementsByTagName('tables'):
-    #                 for table in table.getElementsByTagName('table'):
-    #                     for tabla in self.tablas:
-    #                         if table.getAttribute('name') == tabla:
-    #                             # print('-------- CAMPOS -----------')
-    #                             for field in table.getElementsByTagName('fields')[0].getElementsByTagName('field'):
-    #                                 # print(field.getAttribute('name'))
-    #                                 select.fill_fields(field.getAttribute('name'))
-    #                             break
-        
-    #     for database in mydoc.getElementsByTagName('database'):
-    #         if database.getAttribute('name') == current.getAttribute('name'):                    
-    #             for table in database.getElementsByTagName('tables'):
-    #                 for table in table.getElementsByTagName('table'):
-    #                     for tabla in self.tablas:
-    #                         if table.getAttribute('name') == tabla:
-    #                             records = table.getElementsByTagName('records')[0]
-    #                             for record in records.getElementsByTagName('record'):
-    #                                 rec = Record()
-    #                                 # print('-------- REGISTRO -----------')
-    #                                 for data in record.getElementsByTagName('field'):
-    #                                     # print(data.firstChild.data)
-    #                                     rec.fill_recods(data.firstChild.data)
-    #                                     # data = SelectTable(data.getAttribute('name'), data.firstChild.data)
-    #                                     # Table.addError(data)
-    #                                 select.fill_records(rec)
-        
-    #     Select.tabla = select.serializar()
-        
-                                        
-        
-    # def select_fields(self, env:Enviroment):
-    #     datas = open('backend/structure.xml', 'r+', encoding='utf-8')
-
-    #     select = Select_table()
-    #     aux_list = []
-        
-    #     # print('-------- CAMPOS -----------')
-    #     for campo in self.campos:
-    #         select.fill_fields(campo.text_val)
-
-    #     mydoc = minidom.parse(datas)
-        
-    #     current = mydoc.getElementsByTagName('current')[0]
-
-    #     for database in mydoc.getElementsByTagName('database'):
-    #         if database.getAttribute('name') == current.getAttribute('name'):                    
-    #             for table in database.getElementsByTagName('tables'):
-    #                 for table in table.getElementsByTagName('table'):
-    #                     for tabla in self.tablas:
-    #                         if table.getAttribute('name') == tabla:
-    #                             fields = table.getElementsByTagName('fields')[0]
-    #                             records = table.getElementsByTagName('records')[0]
-    #                             for field in fields.getElementsByTagName('field'):
-    #                                 for campo in self.campos:
-    #                                     campo_aux = str(campo.text_val).replace(table.getAttribute('name'),'').replace('.','')
-    #                                     if field.getAttribute('name') == campo_aux:
-    #                                         for record in records.getElementsByTagName('record'):
-    #                                             print('-------- REGISTRO -----------')
-    #                                             for data in record.getElementsByTagName('field'):
-    #                                                 if data.getAttribute('name') == campo_aux:
-    #                                                     # data = SelectTable(campo.text_val, data.firstChild.data)
-    #                                                     # Table.addError(data)
-    #                                                     aux_list.append(data.firstChild.data)
-    #                                                     # print(data.firstChild.data)
-        
-    #     Select.tabla = select.serializar()
                                                     
-                                            
     def select_where(self, env:Enviroment):
         from analizador.parser import parser
         
@@ -229,11 +125,32 @@ class Select(Instruccion):
     def select_where_between(self, env:Enviroment):
         if isinstance(self.condicion_where, Between):
             
+            select = Select_table()
             aux_list = []
+            cant_campos = 0
             
             from analizador.parser import parser
             
             print('Es between')
+            
+            if self.campos == '*':
+                
+                datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+                mydoc = minidom.parse(datas)
+                
+                for database in mydoc.getElementsByTagName('database'):
+                    if database.getAttribute('name') == mydoc.getElementsByTagName('current')[0].getAttribute('name'):
+                        for table in database.getElementsByTagName('tables')[0].getElementsByTagName('table'):
+                            if self.campos == '*':
+                                for tabla in self.tablas:
+                                    if table.getAttribute('name') == tabla:
+                                        for field in table.getElementsByTagName('fields')[0].getElementsByTagName('field'):
+                                            select.fields.append(field.getAttribute('name'))
+                                            cant_campos += 1
+            else:
+                for campo in self.campos:
+                    select.fields.append(campo.text_val)
+                    cant_campos += 1
             
             
             op1 = self.condicion_where.op1.text_val
@@ -299,6 +216,15 @@ class Select(Instruccion):
                                                 retorno:Retorno = expresion[0].ejecutar(env)
                                                 if retorno.valor == True:
                                                     self.look_in_pos(cont_records-1,aux_list)
+                                                    
+                                                    
+                for i in range(0, len(aux_list), cant_campos):
+                    rec = Record()
+                    for j in range(cant_campos):
+                        rec.recods.append(aux_list[i+j])
+                    select.records.append(rec)
+                
+                Select.tabla = select.serializar()
                 
             elif not self.is_date_format(op1) and not self.is_date_format(op2):
                 
@@ -334,6 +260,15 @@ class Select(Instruccion):
                                                 retorno:Retorno = expresion[0].ejecutar(env)
                                                 if retorno.valor == True:
                                                     self.look_in_pos(cont_records-1,aux_list)
+                                                    
+                for i in range(0, len(aux_list), cant_campos):
+                    rec = Record()
+                    for j in range(cant_campos):
+                        rec.recods.append(aux_list[i+j])
+                    select.records.append(rec)
+                
+                Select.tabla = select.serializar()                                    
+
             else:
                 print('No se puede operar fecha con otro tipo de dato')
                 return
@@ -364,7 +299,7 @@ class Select(Instruccion):
                                             campo_aux = str(campo.text_val).replace(table.getAttribute('name'),'').replace('.','')
                                             if rc.getAttribute('name') == campo_aux:
                                                 aux_list.append(rc.firstChild.data)
-                                                print(rc.firstChild.data)
+                                                # print(rc.firstChild.data)
     
     def is_date_format(self, date):
         try:

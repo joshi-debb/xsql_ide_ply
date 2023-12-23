@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SCHEMAS>
+	<current name="personas"/>
+	<database name="personas">
+		<tables>
+			<table name="persona">
+				<fields>
+					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
+					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="nombre">juanito</field>
+						<field name="apellido">cascabel</field>
+						<field name="edad">17</field>
+						<field name="fecha">01/11/2005</field>
+						<field name="altura">1.8</field>
+					</record>
+					<record>
+						<field name="nombre">lola</field>
+						<field name="apellido">molinillo</field>
+						<field name="edad">18</field>
+						<field name="fecha">05/03/2004</field>
+						<field name="altura">1.55</field>
+					</record>
+					<record>
+						<field name="nombre">carlitos</field>
+						<field name="apellido">travesura</field>
+						<field name="edad">19</field>
+						<field name="fecha">09/08/2003</field>
+						<field name="altura">1.65</field>
+					</record>
+					<record>
+						<field name="nombre">maria</field>
+						<field name="apellido">santos</field>
+						<field name="edad">20</field>
+						<field name="fecha">11/01/2002</field>
+						<field name="altura">1.77</field>
+					</record>
+					<record>
+						<field name="nombre">pedrito</field>
+						<field name="apellido">flores</field>
+						<field name="edad">21</field>
+						<field name="fecha">03/02/2001</field>
+						<field name="altura">1.71</field>
+					</record>
+				</records>
+			</table>
+			<table name="alumno">
+				<fields>
+					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="registro" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
+					<field name="grado" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="nombre">juan</field>
+						<field name="apellido">lopez</field>
+						<field name="registro">1001</field>
+						<field name="grado">1a</field>
+						<field name="altura">1.8</field>
+					</record>
+					<record>
+						<field name="nombre">ana</field>
+						<field name="apellido">gomez</field>
+						<field name="registro">1002</field>
+						<field name="grado">2b</field>
+						<field name="altura">1.55</field>
+					</record>
+					<record>
+						<field name="nombre">carlos</field>
+						<field name="apellido">perez</field>
+						<field name="registro">1003</field>
+						<field name="grado">3c</field>
+						<field name="altura">1.65</field>
+					</record>
+					<record>
+						<field name="nombre">maria</field>
+						<field name="apellido">martinez</field>
+						<field name="registro">1004</field>
+						<field name="grado">4d</field>
+						<field name="altura">1.77</field>
+					</record>
+					<record>
+						<field name="nombre">pedro</field>
+						<field name="apellido">rodriguez</field>
+						<field name="registro">1005</field>
+						<field name="grado">5e</field>
+						<field name="altura">1.71</field>
+					</record>
+				</records>
+			</table>
+		</tables>
+		<views/>
+		<functions/>
+		<procedures/>
+	</database>
+</SCHEMAS>

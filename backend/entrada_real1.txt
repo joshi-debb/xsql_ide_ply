@@ -202,8 +202,10 @@ tidproductobproducto. = tbcredito.idproducto;
 SELECT * FROM tbidentificacion where tbidentificacion.ididentificacion = 1;
 SELECT tbidentificacion.codigocliente, tbidentificacion.identificacion FROM tbidentificacion;
 
+
 */
 
 
-SELECT * FROM persona
-WHERE fecha BETWEEN '01/01/2004' && HOY();
+DECLARE @hola INT;
+SET @hola = 123;
+SELECT ("El valor de la variable es: " + @hola + " unidades");
