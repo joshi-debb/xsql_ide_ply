@@ -27,6 +27,7 @@ class Declaracion(Instruccion):
             return self
         
         # Simbolo a insertar en tabla de simbolos
+        print('A TB simbolos: ', self.id)
         simbolo = Symbol(TipoSimbolo.VARIABLE, self.tipo, self.id, self.valor, env.ambito, None)
 
         # Guardando con un valor por defecto

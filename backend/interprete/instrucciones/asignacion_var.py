@@ -17,7 +17,6 @@ class AsignacionVar(Instruccion):
         self.columna = columna
     
     def ejecutar(self, env:Enviroment):
-        
         # Validar que la variable exista en la tabla de simbolos
         if not env.existe_simbolo(self.id, TipoSimbolo.VARIABLE):
             # Agregando a la tabla de erorres
@@ -65,6 +64,15 @@ class AsignacionVar(Instruccion):
         
         elif simbolo.tipo == TipoDato.DATETIME:
             if exp.tipo == TipoDato.NCHAR or exp.tipo == TipoDato.NVARCHAR or exp.tipo == TipoDato.DATETIME:
+                simbolo.valor = exp.valor
+            else: 
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
+                TablaErrores.addError(err)
+            return self
+
+        elif simbolo.tipo == TipoDato.DATE:
+            if exp.tipo == TipoDato.NCHAR or exp.tipo == TipoDato.NVARCHAR or exp.tipo == TipoDato.DATE:
                 simbolo.valor = exp.valor
             else: 
                 # Agregando a la tabla de erorres

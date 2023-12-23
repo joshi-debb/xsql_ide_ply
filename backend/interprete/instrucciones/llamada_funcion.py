@@ -45,9 +45,10 @@ class LlamadaFnc(Instruccion):
         
         # Obteniendo la Funcion
         instruccion:Function = parser.parse(self.text.lower())[0]
-
-        # Guardando la funcion en la tabla de simbolos
-        instruccion.guardarEnTablaSimbolos(env)
+        
+        if not env.existe_simbolo_ent_actual(self.nombre_fnc, TipoSimbolo.FUNCTION):
+            # Guardando la funcion en la tabla de simbolos
+            instruccion.guardarEnTablaSimbolos(env)
         
         # Obteniendo la funcion de la tabla de simbolos
         simbolo = env.getSimbolo(self.nombre_fnc, TipoSimbolo.FUNCTION)

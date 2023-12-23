@@ -28,4 +28,11 @@ class TablaErrores:
     def getTablaErrores(cls):
         return cls.errores
     
+    @classmethod
+    def serializarTBErrores(cls):
+        errores = []
+        for error in cls.errores:
+            errores.append(error.serializar())
+        return errores
+    
     

@@ -5,6 +5,7 @@ from interprete.extra.errores import TablaErrores
 from xml.dom import minidom
 import os
 from interprete.instrucciones.select import Select
+from interprete.extra.consola import Consola
 
 
 filename = 'backend/structure.xml'
@@ -49,16 +50,20 @@ for instruccion in instrucciones:
 print('--------selects---------')
 print(Select.get_tabla())
 
+# Generando AST
+# print('--------AST---------')
+# ast = AST(instrucciones)
+# ast.getAST()
+
+print('--------Consola---------')
+print(Consola.getConsola())
+
+# Retorna todos los simbolos de todos los entornos
+print('--------Enviroments---------')
+print(Enviroment.serializarTodosSimbolos())
 
 print("------------ Errores ------------")
-for error in TablaErrores.errores:
-    print(error.serializar())
-    
-
-
-# Generando AST
-ast = AST(instrucciones)
-ast.getAST()
+print(TablaErrores.serializarTBErrores())
     
 # opt = input('Borrar archivo structure.xml? s/n: ')
 # if opt == 's':    

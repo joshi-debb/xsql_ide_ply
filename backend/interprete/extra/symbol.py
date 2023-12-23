@@ -10,3 +10,14 @@ class Symbol:
         self.parametros = parametros        # Para el caso de funciones y procedimientos
         self.instrucciones = instrucciones  # Para el caso de funciones y procedimientos, sus instrucciones
     
+    # Los parametros son un arreglo de declaraciones, y cada declaracion tiene el atributo 'id'
+    def serializarParametros(self):
+        text = ''
+        if self.parametros == None:
+            return text
+        for i in range(len(self.parametros)):
+            if i == len(self.parametros) - 1:
+                text += self.parametros[i].id
+            else:
+                text += self.parametros[i].id + ', '
+        return text
