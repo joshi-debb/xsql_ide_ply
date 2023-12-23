@@ -48,8 +48,9 @@ class Exec(Instruccion):
         # Obteniendo el procedure
         instruccion:Procedure = parser.parse(self.text.lower())[0]
 
-        # Guardando el procedimiento en la tabla de simbolos
-        instruccion.guardarEnTablaSimbolos(env)
+        if not env.existe_simbolo_ent_actual(self.nombre_proc, TipoSimbolo.PROCEDURE):
+            # Guardando el procedimiento en la tabla de simbolos
+            instruccion.guardarEnTablaSimbolos(env)
 
         # Obteniendo el procedimiento de la tabla de simbolos    
         simbolo = env.getSimbolo(self.nombre_proc, TipoSimbolo.PROCEDURE)

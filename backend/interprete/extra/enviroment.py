@@ -3,6 +3,7 @@ from interprete.extra.tipos import TipoSimbolo
 from interprete.extra.symbol_table import TablaSimbolos
 
 class Enviroment():
+    env_list = []
     def __init__(self, ent_anterior, ambito:str):
         self.ent_anterior:Enviroment = ent_anterior
         self.ambito = ambito
@@ -10,6 +11,7 @@ class Enviroment():
         self.ts_funciones = TablaSimbolos()
         self.ts_procedures = TablaSimbolos()
         self.dentro_funcion = False
+        Enviroment.addEnviroment(self)
     
     def insertar_simbolo(self, id:str, simbolo:Symbol):
         if simbolo.tipo_simbolo == TipoSimbolo.VARIABLE:
@@ -77,4 +79,60 @@ class Enviroment():
     def getDentroFunction(self):
         return self.dentro_funcion
     
+    # Serializa la tabla de simbolos de un entorno
+    def getTablaSimbolos(self):
+        simbolos = []
+        # Llenado de variables
+        for simbolo in self.ts_variables.getTS():
+            template = {
+                'simbolo': simbolo.tipo_simbolo.name,
+                'tipo': simbolo.tipo.name,
+                'id': simbolo.id,
+                'valor': simbolo.valor,
+                'parametros': simbolo.serializarParametros(),
+                'ambito': simbolo.ambito
+            }
+            simbolos.append(template)
+
+        # Llenado de funciones
+        for simbolo in self.ts_funciones.getTS():
+            template = {
+                'simbolo': simbolo.tipo_simbolo.name,
+                'tipo': simbolo.tipo.name,
+                'id': simbolo.id,
+                'valor': '',
+                'parametros': simbolo.serializarParametros(),
+                'ambito': simbolo.ambito
+            }
+            simbolos.append(template)
+
+        # Llenado de procedmientos
+        for simbolo in self.ts_procedures.getTS():
+            template = {
+                'simbolo': simbolo.tipo_simbolo.name,
+                'tipo': simbolo.tipo.name,
+                'id': simbolo.id,
+                'valor': '',
+                'parametros': simbolo.serializarParametros(),
+                'ambito': simbolo.ambito
+            }
+            simbolos.append(template)
+        
+        return simbolos
+
     
+    @classmethod
+    def addEnviroment(cls, env):
+        cls.env_list.append(env)
+    
+    @classmethod
+    def getEnviroments(cls):
+        return cls.env_list
+    
+    # Obtiene los simbolos de todos los entornos creados
+    @classmethod
+    def serializarTodosSimbolos(cls):
+        simbolos = []
+        for env in cls.env_list:
+            simbolos = simbolos + env.getTablaSimbolos()
+        return simbolos

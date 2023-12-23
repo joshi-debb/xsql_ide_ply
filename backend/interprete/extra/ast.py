@@ -1,4 +1,5 @@
 from subprocess import check_call
+from interprete.extra.consola import Consola
 
 class Nodo:
     # id -> Identificador del dodo
@@ -44,7 +45,8 @@ class AST:
         archivo.close()
         
         check_call(['dot','-Tpng',filename,'-o', "backend/AST.png"])
-        print("Generado con exito")
+        Consola.addConsola('AST generado con éxito.')
+        return {'dot': dot}
 
     def graficarArbol(self, raiz:Nodo, declaraciones:str, conexiones:str):
         for hijo in raiz.getHijos():

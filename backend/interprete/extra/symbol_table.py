@@ -14,3 +14,5 @@ class TablaSimbolos:
     def getSimbolo(self, id:str) -> Symbol:
         return self.ts.get(id)
     
+    def getTS(self):
+        return self.ts.values()

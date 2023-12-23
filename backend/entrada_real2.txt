@@ -7,12 +7,13 @@ RETURN decimal
 AS
 BEGIN
 	DECLARE @TASA as decimal; 
-	set @TASA = (select tasa from tbproducto where idproducto = @idproducto and idestado = 1);
+	-- set @TASA = (select tasa from tbproducto where idproducto = @idproducto and idestado = 1);
 
 	RETURN @TASA;	
 END; -- ADD: punto y coma
+
 CREATE FUNCTION fn_retornanombre (@identificacion nvarchar(20))
-RETURNS nvarchar(100)
+RETURN nvarchar(100)
 AS
 BEGIN
 

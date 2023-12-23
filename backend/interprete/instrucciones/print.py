@@ -2,6 +2,7 @@ from interprete.extra.ast import *
 from interprete.extra.tipos import TipoDato
 from .instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.consola import Consola
 
 class Print(Instruccion):
     def __init__(self, text_val:str, argumento, linea, columna):
@@ -17,7 +18,7 @@ class Print(Instruccion):
             print("Semántico", f'Error en la expresión de la funcion print()', self.linea, self.columna)
             return self
 
-        print(str(exp.valor))
+        Consola.addConsola(exp.valor)
     
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()

@@ -73,7 +73,7 @@ class Function(Instruccion):
     
     # Insertar un nuevo simbolo (procedimiento) a la tabla de simbolos
     def guardarEnTablaSimbolos(self, env:Enviroment):
-        simbolo = Symbol(TipoSimbolo.FUNCTION, TipoDato.UNDEFINED, self.id, None, env.ambito, self.parametros, self.instrucciones)
+        simbolo = Symbol(TipoSimbolo.FUNCTION, self.tipo_ret, self.id, None, env.ambito, self.parametros, self.instrucciones)
         env.insertar_simbolo(self.id, simbolo)
     
     def getTipoRetorno(self):
