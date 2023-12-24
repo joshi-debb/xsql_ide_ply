@@ -4,6 +4,7 @@ from interprete.instrucciones.asignacion_campo import Campo
 from interprete.instrucciones.condicion_where import CondicionWhere
 from xml.dom import minidom
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.consola import Consola
 
 class Update(Instruccion):
     def __init__(self, text_val:str, table_name:str, tupla:Campo, condicion:CondicionWhere, linea:int, columna:int):
@@ -36,7 +37,8 @@ class Update(Instruccion):
                                     for tup in self.tupla:
                                         if rc.getAttribute('name') == tup.id:
                                             rc.firstChild.data = tup.expresion.ejecutar(env).valor
-                                            print('Registro actualizado')
+                                            # print('Registro actualizado')
+                                            Consola.addConsola('Registro actualizado')
                                             break
      
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')

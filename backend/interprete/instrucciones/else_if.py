@@ -5,6 +5,8 @@ from interprete.expresiones.Expresion import Expresion
 from interprete.extra.retorno import Retorno
 from interprete.extra.errores import *
 from interprete.extra.tipos import TipoDato
+from interprete.extra.generador import Generador
+
 
 class ElseIf(Instruccion):
 
@@ -44,3 +46,6 @@ class ElseIf(Instruccion):
         raiz.addHijo(hijo)
         self.condicion.recorrerArbol(hijo)
         self.bloque.recorrerArbol(hijo)
+    
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

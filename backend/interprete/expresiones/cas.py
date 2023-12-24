@@ -6,6 +6,8 @@ from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import *
 from interprete.extra.symbol import Symbol
+from interprete.extra.generador import Generador
+
 
 class Cas(Expresion):
     
@@ -86,3 +88,6 @@ class Cas(Expresion):
         hijo.addHijo(Nodo(id=id, valor=self.id_var, hijos=[]))
         id = AST.generarId()
         hijo.addHijo(Nodo(id=id, valor=self.tipo.name, hijos=[]))
+        
+    def generar3d(self,env: Enviroment, generador: Generador):
+        pass

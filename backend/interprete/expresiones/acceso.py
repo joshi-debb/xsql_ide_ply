@@ -6,6 +6,7 @@ from .Expresion import Expresion
 from interprete.extra.retorno import Retorno
 from interprete.extra.tipos import TipoSimbolo
 from interprete.extra.errores import Error, TablaErrores
+from interprete.extra.generador import Generador
 
 class Acceso(Expresion):
     def __init__(self, text_val:str, id:str, linea:int, columna:int):
@@ -34,4 +35,7 @@ class Acceso(Expresion):
         id = AST.generarId()
         hijo = Nodo(id=id, valor=self.id, hijos=[])
         raiz.addHijo(hijo)
+        
+    def generar3d(self,env: Enviroment, generador: Generador):
+        pass
         

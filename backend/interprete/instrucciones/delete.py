@@ -27,13 +27,15 @@ class Delete(Instruccion):
 
                                 for atribute in fields.getElementsByTagName('field'):
                                     if atribute.getAttribute('name') == self.condicion.id:
-                                        print(atribute.getAttribute('name'), '=', self.condicion.id)
+                                        # print(atribute.getAttribute('name'), '=', self.condicion.id)
                                         for recs in table.getElementsByTagName('records'):
                                             for record in recs.getElementsByTagName('record'):
                                                 for rc in record.getElementsByTagName('field'):
                                                     if rc.getAttribute('name') == self.condicion.id:
                                                         if rc.firstChild.data == self.condicion.expresion.ejecutar(env).valor:
                                                             record.parentNode.removeChild(record)
+                                                            Consola.addConsola('Registro eliminado')
+                                                            
                                                             
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
             formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')

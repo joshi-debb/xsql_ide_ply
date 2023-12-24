@@ -5,6 +5,7 @@ from interprete.extra.tipos import *
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.instrucciones.reference import Reference
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.consola import Consola
 
 from xml.dom import minidom
 
@@ -27,7 +28,8 @@ class CrearTB(Instruccion):
                     tables = elem.getElementsByTagName('table')
                     for table in tables:
                         if table.getAttribute('name') == self.id:
-                            print("La tabla ya existe")
+                            # print("La tabla ya existe")
+                            Consola.addConsola('La tabla ya existe')
                             return
                     
                     #crear tabla dentro de la llave tables
@@ -58,7 +60,8 @@ class CrearTB(Instruccion):
                         for parametro in atributo.parametros:
                             if isinstance(parametro, Reference):
                                 if self.check_referece(parametro.name_table,parametro.atributo_referenciado) == False:
-                                    print("No existe la referencia")
+                                    # print("No existe la referencia")
+                                    Consola.addConsola('No existe la referencia')
                                     return
                                 else:
                                     field.setAttribute('table', str(parametro.name_table))
@@ -76,12 +79,13 @@ class CrearTB(Instruccion):
                     file.truncate()
                     file.write(formatted_xml)
             
-                    print("Table created successfully")
-
+                    # print("Table created successfully")
+                    Consola.addConsola('Tabla creada exitosamente')
                     break
 
                 else:
-                    print("En la base de datos actual no se puede crear la tabla")
+                    # print("En la base de datos actual no se puede crear la tabla")
+                    Consola.addConsola('En la base de datos actual no se puede crear la tabla')
             
         
 

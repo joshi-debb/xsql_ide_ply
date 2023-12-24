@@ -4,6 +4,7 @@ from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import Error, TablaErrores
+from interprete.extra.generador import Generador
 
 class Aritmetica(Expresion):
     def __init__(self, text_val:str, op1:Expresion, operador:TipoAritmetica, op2:Expresion, linea, columna):
@@ -267,4 +268,7 @@ class Aritmetica(Expresion):
         if self.operador == TipoAritmetica.UNARIO:
             return
         self.op2.recorrerArbol(hijo)
-        
+    
+    
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

@@ -5,6 +5,7 @@ from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.extra.errores import *
+from interprete.extra.generador import Generador
 
 class OpTernario(Expresion):
 
@@ -44,3 +45,5 @@ class OpTernario(Expresion):
         self.instruccionTrue.recorrerArbol(hijo)
         self.instruccionFalse.recorrerArbol(hijo)
     
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

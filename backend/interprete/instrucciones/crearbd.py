@@ -2,6 +2,7 @@ from interprete.extra.ast import *
 from .instruccion import Instruccion
 from interprete.extra.enviroment import Enviroment
 from xml.dom import minidom
+from interprete.extra.consola import Consola
 
 class CrearBD(Instruccion):
     def __init__(self, text_val:str, id, linea:int, columna:int):
@@ -14,7 +15,8 @@ class CrearBD(Instruccion):
             bases = mydoc.getElementsByTagName('database')
             for elem in bases:
                 if elem.getAttribute('name') == self.id:
-                    print("Database already exists")
+                    # print("Database already exists")
+                    Consola.addConsola('La base de datos ya existe')
                     return
 
             raiz = mydoc.documentElement
@@ -40,7 +42,8 @@ class CrearBD(Instruccion):
             file.truncate()
             file.write(formatted_xml)
             
-            print("Database created successfully")
+            # print("Database created successfully")
+            Consola.addConsola('Base de datos creada exitosamente')
     
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()

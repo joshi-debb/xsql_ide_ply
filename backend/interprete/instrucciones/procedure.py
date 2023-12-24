@@ -6,6 +6,7 @@ from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.declaracion_var import Declaracion
 from interprete.instrucciones.bloque import Bloque
 from interprete.extra.errores import *
+from interprete.extra.consola import Consola
 
 from xml.dom import minidom
 
@@ -32,7 +33,8 @@ class Procedure(Instruccion):
                     procedures = elem.getElementsByTagName('procedure')
                     for procedure in procedures:
                         if procedure.getAttribute('name') == self.id:
-                            print("El procedimiento ya existe")
+                            # print("El procedimiento ya existe")
+                            Consola.addConsola('El procedimiento ya existe')
                             return
                     
                     #crear procedure dentro de la llave procedures
@@ -51,13 +53,13 @@ class Procedure(Instruccion):
                     file.truncate()
                     file.write(formatted_xml)
             
-                    print("Procedimiento creado exitosamente")
-
+                    # print("Procedimiento creado exitosamente")
+                    Consola.addConsola('Procedimiento creado exitosamente')
                     break
 
                 else:
-                    print("En la base de datos actual no se puede crear el procedimiento")
-
+                    # print("En la base de datos actual no se puede crear el procedimiento")
+                    Consola.addConsola('En la base de datos actual no se puede crear el procedimiento')
         # Validar que no exista un procedimiento con el mismo nombre antes de insertar en XML en la base de dato en uso.
         
         # Guardar el procedimiento en el XML en la base de datos actual.

@@ -131,8 +131,6 @@ class Select(Instruccion):
             
             from analizador.parser import parser
             
-            print('Es between')
-            
             if self.campos == '*':
                 
                 datas = open('backend/structure.xml', 'r+', encoding='utf-8')
@@ -270,7 +268,7 @@ class Select(Instruccion):
                 Select.tabla = select.serializar()                                    
 
             else:
-                print('No se puede operar fecha con otro tipo de dato')
+                Consola.addConsola('No se puede operar fecha con otro tipo de dato')
                 return
     
     def look_in_pos(self, pos:int, aux_list):

@@ -11,6 +11,8 @@ from interprete.instrucciones.asignacion_var import AsignacionVar
 from interprete.instrucciones.argumento import Argumento
 from interprete.expresiones._return import Return
 from xml.dom import minidom
+from interprete.extra.generador import Generador
+
 
 # Esta clase buscará la funcion en el XML
 class LlamadaFnc(Instruccion):
@@ -139,3 +141,6 @@ class LlamadaFnc(Instruccion):
             hijo.addHijo(hijo2)
             for argumento in self.argumentos:
                 argumento.recorrerArbol(hijo2)
+    
+    def ejecutar3d(self, env: Enviroment, generador: Generador):
+        pass

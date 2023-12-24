@@ -6,6 +6,7 @@ from interprete.expresiones.Expresion import Expresion
 from interprete.extra.retorno import Retorno
 from interprete.extra.errores import *
 from interprete.instrucciones.bloque import Bloque
+from interprete.extra.generador import Generador
 
 class When(Instruccion):
 
@@ -43,4 +44,7 @@ class When(Instruccion):
         raiz.addHijo(hijo)
         self.condicion.recorrerArbol(hijo)
         self.bloque.recorrerArbol(hijo)
+    
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass
     

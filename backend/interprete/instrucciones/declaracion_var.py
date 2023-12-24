@@ -8,6 +8,8 @@ from interprete.extra.tipos import TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.extra.symbol import Symbol
 from interprete.extra.errores import Error, TablaErrores
+from interprete.extra.generador import Generador
+
 
 class Declaracion(Instruccion):
     def __init__(self, text_val:str, id:str, tipo:TipoDato, linea:int, columna:int):
@@ -57,3 +59,6 @@ class Declaracion(Instruccion):
         hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
         id = AST.generarId()
         hijo.addHijo(Nodo(id=id, valor=self.tipo.name, hijos=[]))
+        
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

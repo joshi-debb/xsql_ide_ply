@@ -7,6 +7,7 @@ from interprete.instrucciones.bloque import Bloque
 from interprete.extra.tipos import *
 from interprete.extra.errores import *
 from interprete.extra.symbol import Symbol
+from interprete.extra.consola import Consola
 
 from xml.dom import minidom
 
@@ -35,7 +36,8 @@ class Function(Instruccion):
                     functions = elem.getElementsByTagName('function')
                     for function in functions:
                         if function.getAttribute('name') == self.id:
-                            print("La funcion ya existe")
+                            # print("La funcion ya existe")
+                            Consola.addConsola('La funcion ya existe')
                             return
                     
                     #crear function dentro de la llave functions
@@ -54,12 +56,16 @@ class Function(Instruccion):
                     file.truncate()
                     file.write(formatted_xml)
             
-                    print("Funcion creada exitosamente")
+                    # print("Funcion creada exitosamente")
+                    Consola.addConsola('Funcion creada exitosamente')
 
                     break
 
                 else:
-                    print("En la base de datos actual no se puede crear la funcion")
+                    # print("En la base de datos actual no se puede crear la funcion")
+                    Consola.addConsola('En la base de datos actual no se puede crear la funcion')
+                    
+                    
         
         # Validar que no exista una función con el mismo nombre antes de insertar en XML en la base de dato en uso.
         

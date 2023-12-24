@@ -2,6 +2,7 @@ from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom
+from interprete.extra.consola import Consola
 
 class Truncate(Instruccion):
     def __init__(self, text_val:str, name_table, line, column):
@@ -31,9 +32,11 @@ class Truncate(Instruccion):
                                     file.truncate()
                                     file.write(formatted_xml)
                                     return
-                    print("Error: no existe la tabla")
+                    # print("Error: no existe la tabla")
+                    Consola.addConsola('Error: no existe la tabla')
                     return
-                print("Error: En la base de datos actual no existe la tabla")
+                # print("Error: En la base de datos actual no existe la tabla")
+                Consola.addConsola('Error: En la base de datos actual no existe la tabla')
                 return  
     
 

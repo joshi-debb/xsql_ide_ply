@@ -2,6 +2,7 @@ from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from interprete.instrucciones.instruccion import Instruccion
 from xml.dom import minidom
+from interprete.extra.consola import Consola
 
 class Drop(Instruccion):
     def __init__(self, text_val:str, name_table, line, column):
@@ -11,7 +12,6 @@ class Drop(Instruccion):
         self.columna = column
 
     def ejecutar(self, env:Enviroment):
-        print("ejecutar")
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             
@@ -23,16 +23,19 @@ class Drop(Instruccion):
                         for table in table.getElementsByTagName('table'):
                             if table.getAttribute('name') == self.name_table:
                                 table.parentNode.removeChild(table)
-                                print("Tabla eliminada")
+                                # print("Tabla eliminada")
+                                Consola.addConsola('Tabla eliminada')
                                 xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
                                 formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')
                                 file.seek(0)
                                 file.truncate()
                                 file.write(formatted_xml)
                                 return
-                    print("Error: no existe la tabla")
+                    # print("Error: no existe la tabla")
+                    Consola.addConsola('No existe la tabla')
                     return
-                print("Error: En la base de datos actual no existe la tabla")
+                # print("Error: En la base de datos actual no existe la tabla")
+                Consola.addConsola('En la base de datos actual no existe la tabla')
                 return
 
     def recorrerArbol(self, raiz:Nodo):

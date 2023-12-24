@@ -3,6 +3,7 @@ from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.generador import Generador
 
 class Substraer(Expresion):
     
@@ -33,3 +34,5 @@ class Substraer(Expresion):
         self.inicio.recorrerArbol(hijo)
         self.longitud.recorrerArbol(hijo)
     
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

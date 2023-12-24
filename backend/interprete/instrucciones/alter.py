@@ -2,8 +2,7 @@ from interprete.extra.ast import *
 from interprete.instrucciones.instruccion import Instruccion
 from interprete.extra.tipos import TipoDato
 from interprete.expresiones.tipoChars import TipoChars
-
-
+from interprete.extra.consola import Consola
 from xml.dom import minidom
 from interprete.extra.enviroment import Enviroment
 
@@ -30,7 +29,8 @@ class AlterADD(Instruccion):
                                 for field in table.getElementsByTagName('fields'):
                                     for fl in field.getElementsByTagName('field'):
                                         if fl.getAttribute('name') == self.campo:
-                                            print("Error: El campo ya existe")
+                                            # print("Error: El campo ya existe")
+                                            Consola.addConsola('El campo ya existe')
                                             return
 
                                 nfield = mydoc.createElement('field')
@@ -49,7 +49,8 @@ class AlterADD(Instruccion):
             file.seek(0)
             file.truncate()
             file.write(formatted_xml)
-            print("Campo agregado")
+            # print("Campo agregado")
+            Consola.addConsola('Campo agregado')
     
     # self.name_table = name_table
     #     self.campo = campo
@@ -90,10 +91,11 @@ class AlterDROP(Instruccion):
                             if table.getAttribute('name') == self.name_table:
                                 for field in table.getElementsByTagName('fields'):
                                     for fl in field.getElementsByTagName('field'):
-                                        print(fl.getAttribute('name') == self.campo)
+                                        # print(fl.getAttribute('name') == self.campo)
                                         if fl.getAttribute('name') == self.campo:
                                             if fl.getAttribute('param') == 'TipoOpciones.PRIMARYKEY':
-                                                print("Error: No se puede eliminar el campo porque es llave primaria")
+                                                # print("Error: No se puede eliminar el campo porque es llave primaria")
+                                                Consola.addConsola('No se puede eliminar el campo porque es llave primaria')
                                                 return
                                             ## Eliminar campo
                                             field.removeChild(fl)
@@ -104,7 +106,8 @@ class AlterDROP(Instruccion):
             file.seek(0)
             file.truncate()
             file.write(formatted_xml)
-            print("Campo Eliminado")
+            # print("Campo Eliminado")
+            Consola.addConsola('Campo Eliminado')
     
     # ALTER TABLE persona DROP nombre
     def recorrerArbol(self, raiz:Nodo):

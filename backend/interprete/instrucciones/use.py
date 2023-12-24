@@ -2,6 +2,7 @@ from interprete.extra.ast import *
 from interprete.extra.enviroment import Enviroment
 from .instruccion import Instruccion
 from xml.dom import minidom
+from interprete.extra.consola import Consola
 
 class Use(Instruccion):
     def __init__(self, text_val:str, id, line, column):
@@ -22,7 +23,8 @@ class Use(Instruccion):
             file.truncate()
             file.write(formatted_xml)
 
-        print("Current database changed to: ", self.id)
+        Consola.addConsola("Base de datos actual: " + self.id)
+        # print("Current database changed to: ", self.id)
     
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()

@@ -202,10 +202,12 @@ tidproductobproducto. = tbcredito.idproducto;
 SELECT * FROM tbidentificacion where tbidentificacion.ididentificacion = 1;
 SELECT tbidentificacion.codigocliente, tbidentificacion.identificacion FROM tbidentificacion;
 
-
-*/
-
-
 DECLARE @hola INT;
 SET @hola = 123;
 SELECT ("El valor de la variable es: " + @hola + " unidades");
+
+*/
+
+CREATE DATA BASE tbbanco;  
+
+USE tbbanco;

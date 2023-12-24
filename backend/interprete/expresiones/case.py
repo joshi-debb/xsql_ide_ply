@@ -7,6 +7,8 @@ from interprete.extra.retorno import Retorno
 from interprete.extra.errores import *
 from interprete.expresiones.when import When
 from interprete.expresiones._return import Return
+from interprete.extra.generador import Generador
+
 
 class Case(Expresion):
 
@@ -64,4 +66,7 @@ class Case(Expresion):
             hijo = Nodo(id=id, valor='ELSE', hijos=[])
             raiz.addHijo(hijo)
             self.bloque_else.recorrerArbol(hijo)
+            
+    def generar3d(self,env: Enviroment, generador: Generador):
+        pass
     

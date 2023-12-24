@@ -11,6 +11,8 @@ from interprete.extra.errores import *
 from interprete.extra.tipos import TipoSimbolo
 from interprete.extra.symbol import Symbol
 from interprete.extra.tipos import TipoDato
+from interprete.extra.generador import Generador
+
 
 from xml.dom import minidom
 
@@ -133,3 +135,5 @@ class Exec(Instruccion):
                 argumento.recorrerArbol(hijo2)
 
     
+    def ejecutar3d(self, env: Enviroment, generador: Generador):
+        pass

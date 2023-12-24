@@ -7,6 +7,8 @@ from interprete.expresiones.Expresion import Expresion
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import Error, TablaErrores
 from interprete.expresiones.tipoChars import TipoChars
+from interprete.extra.generador import Generador
+
 
 class AsignacionVar(Instruccion):
     def __init__(self, text_val:str, id:str, expresion:Expresion, linea:int, columna:int):
@@ -100,3 +102,6 @@ class AsignacionVar(Instruccion):
         id = AST.generarId()
         hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
         self.expresion.recorrerArbol(hijo)
+        
+    def ejecutar3d(self, env: Enviroment, generador: Generador):
+        pass

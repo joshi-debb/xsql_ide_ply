@@ -4,6 +4,8 @@ from interprete.extra.tipos import TipoAritmetica, TipoDato, TipoLogico
 from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import Error, TablaErrores
+from interprete.extra.generador import Generador
+
 
 class Logica(Expresion):
     def __init__(self, text_val:str, op1:Expresion, operador:TipoLogico, op2:Expresion, linea, columna):
@@ -56,3 +58,6 @@ class Logica(Expresion):
         if self.operador == TipoLogico.NOT:
             return
         self.op2.recorrerArbol(hijo)
+        
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

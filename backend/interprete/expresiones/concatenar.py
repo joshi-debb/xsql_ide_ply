@@ -3,6 +3,7 @@ from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.generador import Generador
 
 class Concatenar(Expresion):
     
@@ -28,4 +29,7 @@ class Concatenar(Expresion):
         raiz.addHijo(hijo)
         self.op1.recorrerArbol(hijo)
         self.op2.recorrerArbol(hijo)
+    
+    def generar3d(self,env: Enviroment, generador: Generador):
+        pass
     

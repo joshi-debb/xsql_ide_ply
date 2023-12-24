@@ -3,6 +3,8 @@ from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.generador import Generador
+
 
 class Return(Expresion):
 
@@ -20,3 +22,5 @@ class Return(Expresion):
         id = AST.generarId()
         self.exp_ret.recorrerArbol(hijo)
     
+    def generar3d(self,env: Enviroment,generador: Generador):
+        pass

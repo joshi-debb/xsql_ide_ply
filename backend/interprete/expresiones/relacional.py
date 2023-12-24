@@ -4,6 +4,8 @@ from interprete.extra.tipos import TipoDato, TipoRelacional
 from interprete.extra.retorno import Retorno
 from interprete.extra.enviroment import Enviroment
 from interprete.extra.errores import Error, TablaErrores
+from interprete.extra.generador import Generador
+
 
 class Relacional(Expresion):
     def __init__(self, text_val:str, op1:Expresion, operador:TipoRelacional, op2:Expresion, linea, columna):
@@ -72,3 +74,6 @@ class Relacional(Expresion):
         raiz.addHijo(hijo)
         self.op1.recorrerArbol(hijo)
         self.op2.recorrerArbol(hijo)
+    
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

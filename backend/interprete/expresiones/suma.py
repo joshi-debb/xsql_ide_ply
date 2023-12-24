@@ -5,6 +5,8 @@ from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.instrucciones.condicion_where import CondicionWhere
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.generador import Generador
+from interprete.extra.consola import Consola
 
 from xml.dom import minidom
 
@@ -30,7 +32,8 @@ class Suma(Expresion):
         if self.condicion_where != None:
             self.select_where(env)
         else:
-            print('Suma no admite sin where')
+            # print('Suma no admite sin where')
+            Consola.addConsola('Suma no admite sin where')
             return
         
         # Cuando se obtenga la suma, modificar la variable resultado con el con el total
@@ -66,7 +69,8 @@ class Suma(Expresion):
                                                 if self.is_integer(rc.firstChild.data) or self.is_flot(rc.firstChild.data):
                                                     self.set_valor(self.get_valor().replace(rc.getAttribute('name'),rc.firstChild.data))
                                                 else:
-                                                    print('No se puede sumar campos no numericos')
+                                                    # print('No se puede sumar campos no numericos')
+                                                    Consola.addConsola('No se puede sumar campos no numericos')
                                                     return
                                         self.aux += ';'
                                         expresion = parser.parse(self.aux.lower())
@@ -131,4 +135,7 @@ class Suma(Expresion):
         
         # Where
         if self.condicion_where != None:
-            self.condicion_where.recorrerArbol(hijo)            
+            self.condicion_where.recorrerArbol(hijo)
+    
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

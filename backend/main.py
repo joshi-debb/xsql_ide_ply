@@ -6,6 +6,7 @@ from xml.dom import minidom
 import os
 from interprete.instrucciones.select import Select
 from interprete.extra.consola import Consola
+from interprete.extra.generador import Generador
 
 
 filename = 'backend/structure.xml'
@@ -46,6 +47,16 @@ for instruccion in instrucciones:
     instruccion.ejecutar(env)
 # except Exception as e:
 #    print(f'ERROR al ejecutar las instrucciones')
+
+
+# print('--------Generando C3D---------')
+# generador = Generador()
+# for instruccion in instrucciones:
+#     instruccion.ejecutar3d(env, generador)
+
+
+# print(generador.generate_main())
+
 
 print('--------selects---------')
 print(Select.get_tabla())

@@ -8,6 +8,8 @@ from interprete.expresiones.Expresion import Expresion
 from interprete.extra.retorno import Retorno
 from interprete.extra.errores import *
 from interprete.instrucciones.else_if import ElseIf
+from interprete.extra.generador import Generador
+
 
 class IfElse(Instruccion):
 
@@ -98,3 +100,6 @@ class IfElse(Instruccion):
             hijo2 = Nodo(id=id, valor='ELSE', hijos=[])
             hijo.addHijo(hijo2)
             self.bloque_else.recorrerArbol(hijo2)
+
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

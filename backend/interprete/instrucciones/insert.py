@@ -4,6 +4,7 @@ from interprete.instrucciones.instruccion import Instruccion
 from interprete.expresiones.Literal import Literal
 from interprete.extra.tipos import TipoDato
 from xml.dom import minidom
+from interprete.extra.consola import Consola
 
 class Insert(Instruccion):
     def __init__(self, text_val:str, name_table, campos, tupla:Literal, line, column):
@@ -70,7 +71,8 @@ class Insert(Instruccion):
                                                 inrecord.appendChild(mydoc.createTextNode(str(expr.valor)))
                                                 record.appendChild(inrecord)
                                             else:
-                                                print("Error: el tipo de dato no coincide")
+                                                # print("Error: el tipo de dato no coincide")
+                                                Consola.addConsola('El tipo de dato no coincide')
                                                 return
 
                             
@@ -80,7 +82,10 @@ class Insert(Instruccion):
             file.truncate()
             file.write(formatted_xml)
             
-            print("Insertado correctamente")   
+            # print("Insertado correctamente")
+            Consola.addConsola('Insertado correctamente')
+
+              
             
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()

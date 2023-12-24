@@ -4,6 +4,8 @@ from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from interprete.instrucciones.condicion_where import CondicionWhere
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.generador import Generador
+from interprete.extra.consola import Consola
 
 from xml.dom import minidom
 
@@ -27,13 +29,15 @@ class Contar(Expresion):
         resultado = Retorno(tipo=TipoDato.INT, valor=0)
 
         if self.campos != '*':
-            print('Contar no admite campos')
+            # print('Contar no admite campos')
+            Consola.addConsola('Contar no admite campos')
             return
 
         if self.condicion_where != None:
             self.count_where(env)
         else:
-            print('Contar no admite sin where')
+            # print('Contar no admite sin where')
+            Consola.addConsola('Contar no admite sin where')
             return
 
         # Cuando se obtenga la suma, modificar la variable resultado con el con el total
@@ -90,5 +94,8 @@ class Contar(Expresion):
         # Where
         if self.condicion_where != None:
             self.condicion_where.recorrerArbol(hijo)
+    
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass
 
 

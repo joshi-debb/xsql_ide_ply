@@ -4,6 +4,7 @@ from interprete.extra.tipos import TipoAritmetica, TipoDato
 from interprete.extra.retorno import Retorno
 from datetime import datetime
 from interprete.extra.enviroment import Enviroment
+from interprete.extra.generador import Generador
 
 class Hoy(Expresion):
     
@@ -26,3 +27,5 @@ class Hoy(Expresion):
         hijo = Nodo(id=id, valor='HOY()', hijos=[])
         raiz.addHijo(hijo)
     
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        pass

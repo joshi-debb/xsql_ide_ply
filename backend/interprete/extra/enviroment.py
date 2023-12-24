@@ -11,6 +11,7 @@ class Enviroment():
         self.ts_funciones = TablaSimbolos()
         self.ts_procedures = TablaSimbolos()
         self.dentro_funcion = False
+        self.generador = None
         Enviroment.addEnviroment(self)
     
     def insertar_simbolo(self, id:str, simbolo:Symbol):
