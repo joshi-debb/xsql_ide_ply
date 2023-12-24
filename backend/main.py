@@ -5,7 +5,6 @@ from interprete.extra.errores import TablaErrores
 from xml.dom import minidom
 import os
 from interprete.instrucciones.select import Select
-from interprete.extra.c3d import Traduccion
 from interprete.extra.consola import Consola
 
 
@@ -41,12 +40,10 @@ instrucciones = parser.parse(entrada.lower())
 
 env = Enviroment(ent_anterior=None, ambito='Global')
 
-traduccion = Traduccion()
-
 # Ejecutando todas las instrucciones
 # try:
 for instruccion in instrucciones:
-    instruccion.ejecutar(env, traduccion)
+    instruccion.ejecutar(env)
 # except Exception as e:
 #    print(f'ERROR al ejecutar las instrucciones')
 

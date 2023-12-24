@@ -10,7 +10,7 @@ class Traduccion:
         self.list_funcs:[str] = [] # Esta lista almacena el entorndo de las funciones
         self.is_main:bool = True
         self.list_c3d:[str] = [] # Esta lista almacena el codigo 3d
-        
+    
     def get_new_tmp(self):
         temporal = 't' + str(self.tmp)
         self.tmp += 1
@@ -22,11 +22,18 @@ class Traduccion:
         self.index_stack += 1
         return new_stack
     
-    def set_stack(self, index, temporal):
+    def set_stack(self, index, temporal, esdeclaracion):
         if self.is_main:
-            self.list_main.append('stack[' + str(index) + '] = ' + temporal + ';\n')
+            if esdeclaracion:
+                self.list_main.append('stack[' + str(index) + '] = ' + temporal + ';\n')
+            else:
+                self.list_main.append('stack[' + str(index) + ']' + ';\n')
         else:
-            self.list_funcs.append('stack[' + str(index) + '] = ' + temporal + ';\n')
+            if esdeclaracion:
+                self.list_funcs.append('stack[' + str(index) + '] = ' + temporal + ';\n')
+            else:
+                self.list_funcs.append('stack[' + str(index) + ']' + ';\n')
+            
             
     def get_stack(self, index, temporal):
         if self.is_main:
@@ -37,10 +44,37 @@ class Traduccion:
     def Print(self, temporal, tipo):
         if self.is_main:
             self.list_main.append('printf("%' + tipo + '", ' + temporal + ');\n')
-            self.list_main.append('printf("%' + '10' + '", ' + 'c' + ');\n')
+            self.list_main.append('printf("%' + 'c' + '", ' + '10' + ');\n')
         else:
             self.list_funcs.append('printf("%' + tipo + '", ' + temporal + ');\n')
-            self.list_funcs.append('printf("%' + '10' + '", ' + 'c' + ');\n')
+            self.list_funcs.append('printf("%' + 'c' + '", ' + '10' + ');\n')
 
+    def generate_render(self) -> [str]:
+        
+        encabezado = '#include <stdio.h>\n'
+        encabezado += 'float P, H;\n'
+        encabezado += 'float stack[100000];\n'
+        encabezado += 'float heap[100000];\n'
+        
+        lista = []
+        lista.append(encabezado)
+        if len(self.list_tmp) != 0:
+            temporal = 'float ' + ", ".join(self.list_tmp) + ';\n'
+            lista.append(temporal)
+            
+        if len(self.list_funcs) != 0:
+            for i in self.list_funcs:
+                lista.append(i)
+                
+        lista.append('int main(){\n')
+        
+        if len(self.list_main) != 0:
+            for i in self.list_main:
+                lista.append(i)      
+
+        lista.append('return 0;\n')
+        lista.append('}')
+                
+        return lista
 
             
