@@ -35,10 +35,9 @@ class Print(Instruccion):
     def ejecutar3d(self, env:Enviroment, generador:Generador):
         codigo = ''
         valor_exp:Retorno3d = self.argumento.ejecutar3d(env, generador)
-        codigo += valor_exp.codigo
                 
         if valor_exp.tipo == TipoDato.INT:
-            codigo += f'printf("%d", {valor_exp.temporal});\n'
+            codigo += f'printf("%d", (int) {valor_exp.temporal});\n'
         elif valor_exp.tipo == TipoDato.DECIMAL:
             codigo += f'printf("%f",(float) {valor_exp.temporal});\n'
         elif valor_exp.tipo == TipoDato.NVARCHAR or valor_exp.tipo == TipoDato.NCHAR:

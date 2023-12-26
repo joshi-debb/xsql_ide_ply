@@ -61,4 +61,40 @@ class Declaracion(Instruccion):
         hijo.addHijo(Nodo(id=id, valor=self.tipo.name, hijos=[]))
         
     def ejecutar3d(self, env:Enviroment, generador:Generador):
-        pass
+
+        # Validar si la variable existe en la tabla de simbolos
+        if env.existe_simbolo_ent_actual(self.id, TipoSimbolo.VARIABLE):
+            # Agregando a la tabla de errores
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Ya existe una variable con el nombre {self.id}.')
+            TablaErrores.addError(err)
+            return self
+
+        tam_env = env.getTamanio()              # Tamaño del entorno
+        tmp2 = generador.obtenerTemporal()
+        tmp = generador.obtenerTemporal()       # Donde se indexar al stack
+
+        valor = ''
+        # Guardando con un valor por defecto
+        if self.valor == None:
+            if self.tipo == TipoDato.INT:
+                valortmp = 0
+            elif self.tipo == TipoDato.DECIMAL:
+                valor = 0.0
+            elif self.tipo == TipoDato.DATE:
+                valor = '\"\"'
+            elif self.tipo == TipoDato.DATETIME:
+                valor = '\"\"'
+            elif self.tipo == TipoDato.NCHAR or self.tipo == TipoDato.NVARCHAR:
+                valor = '\"\"'
+            elif self.tipo == TipoDato.BIT:
+                valor = 0
+
+        generador.agregarInstruccion('/* DECLARACION DE VARIABLE */')
+        generador.agregarInstruccion(f'{tmp} = SP + {tam_env};')
+        generador.agregarInstruccion(f'stack [(int) {tmp}] = {valor};')
+        env.incrementarTamanio()
+
+        simbolo = Symbol(TipoSimbolo.VARIABLE, self.tipo, self.id, self.valor, env.ambito, None, direccion=tam_env)
+        env.insertar_simbolo(id=self.id, simbolo=simbolo)
+        
+        return self

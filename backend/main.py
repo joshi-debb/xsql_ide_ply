@@ -34,7 +34,7 @@ else:
 
     print("Structure XML created successfully")
 
-f = open('backend/entrada_real1.txt', 'r')
+f = open('backend/entrada.txt', 'r')
 entrada = f.read()
 # print(input)
 instrucciones = parser.parse(entrada.lower())
@@ -43,19 +43,19 @@ env = Enviroment(ent_anterior=None, ambito='Global')
 
 # Ejecutando todas las instrucciones
 # try:
-for instruccion in instrucciones:
-    instruccion.ejecutar(env)
+# for instruccion in instrucciones:
+#     instruccion.ejecutar(env)
 # except Exception as e:
 #    print(f'ERROR al ejecutar las instrucciones')
 
 
 # print('--------Generando C3D---------')
-# generador = Generador()
-# for instruccion in instrucciones:
-#     instruccion.ejecutar3d(env, generador)
+generador = Generador()
+for instruccion in instrucciones:
+    instruccion.ejecutar3d(env, generador)
 
-
-# print(generador.generate_main())
+with open('backend/C3D.txt', 'w', encoding='utf-8') as file:
+    file.write(generador.generate_main())
 
 
 print('--------selects---------')
@@ -63,8 +63,8 @@ print(Select.get_tabla())
 
 # Generando AST
 # print('--------AST---------')
-# ast = AST(instrucciones)
-# ast.getAST()
+ast = AST(instrucciones)
+ast.getAST()    
 
 print('--------Consola---------')
 print(Consola.getConsola())

@@ -1,3 +1,4 @@
+from interprete.extra.retorno import Retorno3d
 from interprete.extra.ast import *
 from .Expresion import Expresion
 from interprete.extra.tipos import TipoAritmetica, TipoDato
@@ -254,6 +255,42 @@ class Aritmetica(Expresion):
 
         return resultado
     
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        op1:Retorno3d = self.op1.ejecutar(env)
+        op2:Retorno3d = self.op2.ejecutar(env)
+        resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
+
+        codigo = ''
+        tmp1 = generador.obtenerEtiqueta()
+
+        if self.operador == TipoAritmetica.SUMA:
+            if op1.tipo == TipoDato.INT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.etiqueta} + {op2.etiqueta};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal='', tipo=TipoDato.INT, valor='')
+
+            if op1.tipo == TipoDato.INT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.etiqueta} + {op2.etiqueta};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal='', tipo=TipoDato.INT, valor='')
+
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.NVARCHAR or op1.tipo == TipoDato.INT and op2.tipo == TipoDato.NCHAR:
+                pass
+    
+    def concatenar(self, env:Enviroment, generador:Generador):
+        codigo = ''
+        etq_ciclo = generador.obtenerEtiqueta()
+        etq_salida = generador.obtenerEtiqueta()
+        caracter = generador.obtenerTemporal()
+
+        codigo += f'{etq_ciclo}:\n'
+        codigo += f'{etq_ciclo}:\n'
+        codigo += f'{etq_ciclo}:\n'
+        codigo += f'{etq_ciclo}:\n'
+
+
+
+
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()
         tipo = ''
@@ -270,5 +307,4 @@ class Aritmetica(Expresion):
         self.op2.recorrerArbol(hijo)
     
     
-    def ejecutar3d(self, env:Enviroment, generador:Generador):
-        pass
+    

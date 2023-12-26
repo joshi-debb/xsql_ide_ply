@@ -123,6 +123,22 @@ class LlamadaFnc(Instruccion):
             TablaErrores.addError(err)
 
         return Retorno(tipo=TipoDato.ERROR, valor=None)
+    
+    def ejecutar3d(self, env: Enviroment, generador: Generador):
+        codigo = ''
+
+        if not env.existe_simbolo(self.nombre_fnc, TipoSimbolo.FUNCTION):
+            funcion = env.getSimbolo(self.nombre_fnc, TipoSimbolo.FUNCTION)
+            codigo = f'/* LLAMADA A FUNCION {self.nombre_fnc} */'
+            # Creando un nuevo entorno
+            new_env = Enviroment(ent_anterior=env, ambito="FUNCTION")
+            new_env.setDentroFuncion(True)
+            new_env.tamanio = 1
+            generador.agregarInstruccion(f'SP = SP + {env.tamanio};')
+            generador.agregarInstruccion(f'{self.nombre_fnc}();')
+            generador.agregarInstruccion(f'SP = SP - {env.tamanio};')
+        
+        return self
 
     # self.nombre_fnc = nombre_fnc
     # if argumentos[0] == None: self.argumentos = []
@@ -142,5 +158,4 @@ class LlamadaFnc(Instruccion):
             for argumento in self.argumentos:
                 argumento.recorrerArbol(hijo2)
     
-    def ejecutar3d(self, env: Enviroment, generador: Generador):
-        pass
+    

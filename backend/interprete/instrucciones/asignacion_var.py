@@ -1,3 +1,4 @@
+from interprete.extra.retorno import Retorno3d
 from interprete.extra.ast import *
 from operator import truediv
 from interprete.extra.retorno import Retorno
@@ -94,6 +95,26 @@ class AsignacionVar(Instruccion):
 
         return self
 
+    def ejecutar3d(self, env: Enviroment, generador: Generador):
+        # Validar que la variable exista en la tabla de simbolos
+        if not env.existe_simbolo(self.id, TipoSimbolo.VARIABLE):
+            # Agregando a la tabla de erorres
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error de asignacion de variable. No existe una variable con el nombre {self.id}')
+            TablaErrores.addError(err)
+            return self
+        
+        simbolo = env.getSimbolo(self.id, TipoSimbolo.VARIABLE)
+        exp:Retorno3d = self.expresion.ejecutar3d(env, generador)
+
+        generador.agregarInstruccion('/* ASIGNACION DE VARIABLE */')
+        if simbolo.tipo == exp.tipo:
+            tmp1 = generador.obtenerTemporal()
+            generador.agregarInstruccion(f'{tmp1} = SP + {simbolo.direccion};')
+            generador.agregarInstruccion(f'stack[(int) {tmp1}] = {exp.temporal};')
+            simbolo.valor = exp.valor
+
+        return self
+
 
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()
@@ -103,5 +124,3 @@ class AsignacionVar(Instruccion):
         hijo.addHijo(Nodo(id=id, valor=self.id, hijos=[]))
         self.expresion.recorrerArbol(hijo)
         
-    def ejecutar3d(self, env: Enviroment, generador: Generador):
-        pass

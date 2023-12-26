@@ -12,8 +12,16 @@ class Enviroment():
         self.ts_procedures = TablaSimbolos()
         self.dentro_funcion = False
         self.generador = None
+        self.tamanio = 0                    # Para manejo de funciones/procedimientos (es como un offset)
         Enviroment.addEnviroment(self)
     
+    # Incrementa el tamaño del entorno
+    def incrementarTamanio(self):
+        self.tamanio += 1
+
+    def getTamanio(self):
+        return self.tamanio
+
     def insertar_simbolo(self, id:str, simbolo:Symbol):
         if simbolo.tipo_simbolo == TipoSimbolo.VARIABLE:
             self.ts_variables.instertarSimbolo(id, simbolo)

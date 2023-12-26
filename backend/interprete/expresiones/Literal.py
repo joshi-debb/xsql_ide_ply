@@ -34,19 +34,11 @@ class Literal(Expresion):
                 codigo += f'HP = HP + 1;\n'
             codigo += f'heap[HP] = 0;\n'
             codigo += f'HP = HP + 1;\n'
-            
         generador.agregarInstruccion(codigo)
-        
-        retorno_c3d = Retorno3d()
-        
-        retorno_c3d.iniciarRetorno(codigo, '', temp, self.tipo)
-            
-        return retorno_c3d
+      
+        return Retorno3d(codigo=codigo, etiqueta='', temporal=temp, tipo=self.tipo, valor=self.valor)
     
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()
         hijo = Nodo(id=id, valor=self.valor, hijos=[])
         raiz.addHijo(hijo)
-    
-    def ejecutar3d(self, env:Enviroment, generador:Generador):
-        pass
