@@ -1,0 +1,13 @@
+
+#include <stdio.h>
+float stack[10000];
+float heap[10000];
+int SP = 0;
+int HP = 0;
+;
+
+
+int main() {
+
+return 0;
+}

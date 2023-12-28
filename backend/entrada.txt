@@ -1,4 +1,3 @@
-declare @a as NVARCHAR(4);
-set @a = "hola";
-SELECT @a;
-hola();
+
+
+SELECT * from persona;
