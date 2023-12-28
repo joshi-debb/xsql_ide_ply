@@ -109,6 +109,15 @@ Tabs
   width: 100%;
 }
 
+.scroleados{
+  white-space: nowrap;
+  width: 1250px;
+  height: calc(100vh - 474px);
+  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
 .EntornoTable th,
 .EntornoTable td {
   border: 1px solid #000000;
@@ -120,6 +129,7 @@ Tabs
   background-color: #000000;
   color: white;
 }
+
 
 /* 
 Tabs 
@@ -176,9 +186,6 @@ buttons
   overflow: auto;
   
 }
-
-
-
 
 
 /* 

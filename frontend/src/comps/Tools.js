@@ -14,95 +14,127 @@ export function MyButtons({ texto, manejarClic }) {
   );
 }
 
-
-
-
 export function TableErrors({ datos }) {
   return (
-    <table className='custom-table'>
-      <tbody>
-        {datos.map(item => {
-
-          if (item.tipo === 'SINTACTICO') {
+    <div className='scroleados'>
+      <table className='EntornoTable'>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Descripcion</th>
+            <th>Linea</th>
+            <th>Columna</th>
+          </tr>
+        </thead>
+        <tbody>
+          {datos.map(item => {
             return (
-              <tr key={item.id}>
+              <tr key={item.linea}>
                 <td> {item.tipo} </td>
-                <td> Fila:{item.fila}</td>
-                <td>Columna:{item.columna}</td>
-                <td>Token invalido:{item.instruccion}</td>
-                <td  > Se esperaba:{item.descripcion} </td>
+                <td> {item.descripcion} </td>
+                <td>{item.linea}</td>
+                <td>{item.columna}</td>
               </tr>
             );
-          } else {
-            return (
-              <tr key={item.id}>
-                <td> {item.tipo} </td>
-                <td>Fila: {item.fila}</td>
-                <td>Columna: {item.columna}</td>
-                <td>{item.instruccion}</td>
-                <td>{item.descripcion} </td>
-              </tr>
-            );
-          }
-        })}
-      </tbody>
-    </table>
+          })}
+        </tbody>
+      </table>
+    </div>
   );
-
-
 }
 
 export function TableEnviroments({ env }) {
   return (
-    <table className='EntornoTable'>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>TIPO DE SIMBOLO</th>
-          <th>PRIMITIVO</th>
-          <th>ENTORNO</th>
-          <th>FILA</th>
-          <th>COLUMNA</th>
-        </tr>
-      </thead>
-      <tbody>
-        {env.map(item => {
-          return (
-            <tr key={item.id}>
-              <td> {item.id} </td>
-              <td> {item.typesymbol} </td>
-              <td>{item.type}</td>
-              <td>{item.env}</td>
-              <td>{item.line}</td>
-              <td>{item.col}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div className='scroleados'>
+      <table className='EntornoTable'>
+        <thead>
+          <tr>
+            <th>ambito</th>
+            <th>id</th>
+            <th>parametros</th>
+            <th>simbolo</th>
+            <th>tipo</th>
+            <th>valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {env.map(item => {
+            return (
+              <tr key={item.id}>
+                <td> {item.ambito} </td>
+                <td> {item.id} </td>
+                <td>{item.parametros}</td>
+                <td>{item.tipo_simbolo}</td>
+                <td>{item.tipo}</td>
+                <td>{item.valor}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+
   );
-
-
 }
 
 
 export function TerminalPrint({ console }) {
   return (
-    <div>
+    <div className='scroleados'>
       {console.map(item => {
         return (
-          <pre>{item}</pre>
+          <pre key={1}>{item}</pre>
         );
       })}
     </div>
 
   );
-
-
 }
 
+export function ASTPrint({ ast }) {
+  return (
+    <div style={{ withSpace: 'nowrap', overflow: 'hidden', width: '1250px', height: 'calc(100vh - 474px)', overflowX: 'auto', overflowY: 'auto' }}>
+      {ast && (
+        <div className='scroll-container'>
+          <img src={ast} />
+        </div>
+      )}
+    </div>
+  );
+}
 
-export function Pestaña({ items, env, terminal }) {
+export function Select_Table({ select }) {
+  return (
+    <div className='scroleados'>
+      <table className='EntornoTable'>
+        <thead>
+          <tr>
+            {select.res.fields.map(item => {
+              return (
+                <th>{item}</th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {select.res.records.map(items => {
+            return (
+              <tr>
+                {items.map((item) => {
+                  return (
+                    <td> {item} </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export function Pestaña({ items, env, terminal, ast, select }) {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabSelect = (index) => {
@@ -114,18 +146,26 @@ export function Pestaña({ items, env, terminal }) {
       <Tabs selectedIndex={activeTab} onSelect={handleTabSelect}>
         <TabList>
           <Tab>CONSOLA</Tab>
-          {/* <Tab>TABLA DE SIMBOLOS</Tab>
-          <Tab>ERRORES</Tab> */}
+          <Tab>TABLA DE SIMBOLOS</Tab>
+          <Tab>ERRORES</Tab>
+          <Tab>AST-GDA</Tab>
+          <Tab>SELECT</Tab>
         </TabList>
-        <TabPanel>
+        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
           < TerminalPrint console={terminal} />
         </TabPanel>
-        {/* <TabPanel>
+        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
           < TableEnviroments env={env} />
         </TabPanel>
-        <TabPanel>
+        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
           < TableErrors datos={items} />
-        </TabPanel> */}
+        </TabPanel>
+        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
+          < ASTPrint ast={ast} />
+        </TabPanel>
+        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
+          < Select_Table select={select} />
+        </TabPanel>
       </Tabs>
     </div>
   );

@@ -1,0 +1,5 @@
+digraph {
+	0 [label = "INSTRUCCIONES"];
+	1 [label = "4"];
+	0 -> 1;
+}

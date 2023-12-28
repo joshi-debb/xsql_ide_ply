@@ -1,5 +1,4 @@
 
-SELECT * from persona;
 
 /*
 declare @a as NVARCHAR(4);
@@ -62,7 +61,7 @@ ELSE
 BEGIN   
     select 'Ninguna opcion';
 END IF;
-*/
+
 
 CREATE DATA BASE tbbanco;  
 
@@ -89,3 +88,8 @@ BEGIN
 END;
 
 select fn_retornanombre("Gerson", "Quintana");
+*/
+
+ @a NVARCHAR(4);
+
+

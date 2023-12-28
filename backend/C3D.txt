@@ -4,10 +4,12 @@ float stack[10000];
 float heap[10000];
 int SP = 0;
 int HP = 0;
-;
+float t0;
 
 
 int main() {
+t0 = 4;
+
 
 return 0;
 }

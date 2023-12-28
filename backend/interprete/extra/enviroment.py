@@ -145,3 +145,7 @@ class Enviroment():
         for env in cls.env_list:
             simbolos = simbolos + env.getTablaSimbolos()
         return simbolos
+
+    @classmethod
+    def cleanEnviroments(cls):
+        cls.env_list = []
