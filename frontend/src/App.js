@@ -1,13 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import './css/App.css';
-import { MyButtons, Pestaña, import_data } from './comps/Tools';
+import { Pestaña, side_bar } from './comps/Tools';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { saveAs} from 'file-saver';
 
-import Sidebar from './comps/Sidebar';
 
 
 function App() {
@@ -115,19 +114,24 @@ function App() {
   return (
     <div className="App">
       <div>
-        <div className="navbar">
-          <h1>XSQL-IDE</h1>
-          <div className="file-input-wrapper">
+        <div className="navbar" >
+          <h1 className="custom-color">XSQL-IDE</h1>
+          <h1 className="custom-color">XSQL-IDE</h1>
+          <h1 class="custom-color2">XSQL-IDE</h1>
+          <h1 className="custom-color">XSQL-IDE</h1>
+
+          <div className="file-input-wrapper" >
             <input className="file-input" type="file" id="fileInput" onChange={impport_data} />
-            <label className="file-input-label" htmlFor="fileInput"> Importar </label>
-            <button className="buttons" onClick={handleSave}>Guardar</button>
+            <label className="file-input-label" htmlFor="fileInput"> ABRIR </label>
+            <button className="buttons" onClick={handleSave}> GUARDAR </button>
           </div>
         </div>
       </div>
 
+
       <div style={{ display: 'flex' }}>
         <div>
-          {Sidebar()}
+          {side_bar()}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -154,11 +158,11 @@ function App() {
                 />
               </div>
 
-              <div>
-                <button className="buttons" type="button" onClick={ejecutar}>Ejecutar</button>
-                <button className="buttons" type="button" onClick={imges}>ast</button>
-                <button className="buttons" type="button" onClick={traducir}>Traducir</button>
-                <button className="buttons" type="button" onClick={selects}>select</button>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <button className="buttons" type="button" onClick={ejecutar}> EJECUTAR </button>
+                <button className="buttons" type="button" onClick={traducir}> TRADUCIR </button>
+                <button className="buttons" type="button" onClick={imges}> ASTGDA </button>
+                <button className="buttons" type="button" onClick={selects}> SELECT </button>
               </div>
             </div>
 

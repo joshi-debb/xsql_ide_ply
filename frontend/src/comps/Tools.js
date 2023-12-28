@@ -3,6 +3,65 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import '../css/App.css'
 
+
+export function side_bar() {
+  return (
+    <div className="sidebar">
+
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button className="buttons"> IMPORTAR </button>
+        <button className="buttons"> EXPORTAR </button>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <button className="buttons"> SQL DUMP </button>
+        <button className="buttons"> RECARGAR </button>
+      </div>
+
+      <hr />
+      <div>
+        <h4 style={{ display: 'flex', justifyContent: 'center' }}>DBMS</h4 >
+      </div>
+      <hr />
+      {/* aqui se deben recorrer las bases de datos */}
+      <ul>
+        <li> File
+          <ul>
+            <li>Tablas</li>
+            <ul>
+              <li>tabla1</li>
+              <li>tabla2</li>
+            </ul>
+            <li>Vistas</li>
+            <li>Funciones</li>
+            <li>Procedimientos</li>
+          </ul>
+        </li>
+      </ul>
+      <hr />
+      <hr />
+      <ul>
+        <li>File
+          <ul>
+            <li>Tablas</li>
+            <ul>
+              <li>tabla1</li>
+              <li>tabla2</li>
+            </ul>
+            <li>Vistas</li>
+            <li>Funciones</li>
+            <li>Procedimientos</li>
+          </ul>
+        </li>
+      </ul>
+      <hr />
+
+      
+
+    </div>
+  );
+}
+
+
 export function MyButtons({ texto, manejarClic }) {
 
   return (
@@ -93,7 +152,7 @@ export function TerminalPrint({ console }) {
 
 export function ASTPrint({ ast }) {
   return (
-    <div style={{ withSpace: 'nowrap', overflow: 'hidden', width: '1250px', height: 'calc(100vh - 474px)', overflowX: 'auto', overflowY: 'auto' }}>
+    <div style={{ withSpace: 'nowrap', overflow: 'hidden', width: '1250px', height: 'calc(100vh - 550px)', overflowX: 'auto', overflowY: 'auto' }}>
       {ast && (
         <div className='scroll-container'>
           <img src={ast} />
@@ -148,22 +207,22 @@ export function Pestaña({ items, env, terminal, ast, select }) {
           <Tab>CONSOLA</Tab>
           <Tab>TABLA DE SIMBOLOS</Tab>
           <Tab>ERRORES</Tab>
-          <Tab>AST-GDA</Tab>
-          <Tab>SELECT</Tab>
+          <Tab>ASTGDA</Tab>
+          <Tab>CONSULTAS</Tab>
         </TabList>
-        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
+        <TabPanel style={{ height: 'calc(100vh - 525px)' }}>
           < TerminalPrint console={terminal} />
         </TabPanel>
-        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
+        <TabPanel style={{ height: 'calc(100vh - 525px)' }}>
           < TableEnviroments env={env} />
         </TabPanel>
-        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
+        <TabPanel style={{ height: 'calc(100vh - 525px)' }}>
           < TableErrors datos={items} />
         </TabPanel>
-        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
+        <TabPanel style={{ height: 'calc(100vh - 525px)' }}>
           < ASTPrint ast={ast} />
         </TabPanel>
-        <TabPanel style={{ height: 'calc(100vh - 474px)' }}>
+        <TabPanel style={{ height: 'calc(100vh - 525px)' }}>
           < Select_Table select={select} />
         </TabPanel>
       </Tabs>

@@ -90,6 +90,28 @@ END;
 select fn_retornanombre("Gerson", "Quintana");
 */
 
- @a NVARCHAR(4);
+CREATE DATA BASE tbbanco;  
+
+USE tbbanco;
+
+CREATE FUNCTION fn_retornanombre (@primer_nombre nvarchar(20), @segundo_nombre NVARCHAR(10))
+RETURN nvarchar(100)
+AS
+BEGIN
+
+	DECLARE @nombres nvarchar(100);
+	DECLARE @apellidos nvarchar(100);	
+	DECLARE @nombrecompleto nvarchar(100);	
+	
+	
+	set @nombres = CONCATENA (@primer_nombre,@segundo_nombre) ;
+	set @APELLIDOS = CONCATENA (@primer_nombre,@segundo_nombre) ;
+	set @nombrecompleto = CONCATENA(@nombrecompleto,@apellidos);
 
 
+
+	return @nombrecompleto;
+
+END;
+
+select fn_retornanombre("Gerson", "Quintana");

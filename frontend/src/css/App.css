@@ -26,15 +26,31 @@ Paneles
 .navbar {
   height: auto;
   width: auto;
-  color: #CD1818;
   padding: 1rem 2rem;
   border: 5px solid #000000;
   background-color: #526D82;
 }
 
+.custom-color {
+  color: #526D82;
+}
+
+.custom-color2 {
+  color: #B80000;
+}
+
+.custom-color3 {
+  color: #9DB2BF;
+}
+
+
 .sidebar {
+  white-space: nowrap;
   width: 14rem;
   height: calc(100vh - 75px);
+  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
   border-bottom: 5px solid #000000;
   border-left: 5px solid #000000;
   border-right: 5px solid #000000;
@@ -64,6 +80,8 @@ Paneles
   width: 100%;
   height: calc(100vh - 474px);
   border-bottom: 5px solid #000000;
+  border-right: 5px solid #000000;
+
   background-color: #2B2B2B;
 }
 
@@ -112,7 +130,7 @@ Tabs
 .scroleados{
   white-space: nowrap;
   width: 1250px;
-  height: calc(100vh - 474px);
+  height: calc(100vh - 550px);
   overflow: hidden;
   overflow-x: auto;
   overflow-y: auto;
@@ -142,26 +160,26 @@ buttons
 
 
 .buttons {
-  padding: 10px 7px;
+  padding: 7px 10px;
   cursor: pointer;
   font: bold 120% monospace;
   color: #000000;
-  background-color:  rgb(255, 251, 0);
+  border: 2px solid #000000;
+  background-color:  #EEF5FF;
 }
 
-
 .file-input-label {
-  padding: 10px 8px;
+  padding: 7px 8px;
   cursor: pointer;
   font: bold 120% monospace;
   color: #000000;
-  background-color:  rgb(255, 251, 0);
+  background-color:  #EEF5FF;
 }
 
 .file-input-wrapper {
   position: relative;
   display: inline-block;
-  background-color: #ffffff;
+  background-color: #060606;
 }
 
 .file-input {
@@ -171,20 +189,6 @@ buttons
 
 .file-input-label:hover {
   background-color: #ffffff;
-}
-
-
-.custom-table td {
-  white-space: nowrap;
-  max-width: 500px;
-  background-color: #000000;
-  color: #ffffff;
-  padding: 12px;
-  border: 3px solid #fbff00;
-  border-radius: 15px;
-  font: bold 90% sans-serif;
-  overflow: auto;
-  
 }
 
 
