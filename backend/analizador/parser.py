@@ -480,12 +480,6 @@ def p_contar_1(t):
     text_val = f'CONTAR (*) FROM {getTextVal_coma(t[6])}'
     t[0] = Contar(text_val=text_val, campos=t[3], tablas=t[6], condicion_where=None, linea=t.lineno(1), columna=t.lexpos(1))
 
-# def p_select_tabla_2(t):
-#     '''
-#     select_tabla : MULT FROM nombre_tablas WHERE condicion_where_select
-#     '''
-#     text_val = f'* FROM {getTextVal_coma(t[3])} WHERE {t[5].text_val}'
-#     t[0] = Select(text_val=text_val, campos=t[1], tablas=t[3], condicion_where=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_suma(t):
     '''
@@ -956,11 +950,6 @@ def p_null(t):
     '''
     t[0] = Literal(t[1], valor=t[1], tipo=TipoDato.NULL, linea=t.lineno(1), columna=t.lexpos(1))
 
-# def p_acceso_atributo_tabla(t):
-#     '''
-#     expresion : ID PT ID
-#     '''
-#     t[0] = AccesoAtributo(table_name=t[1], atribute_name=t[3], linea=t.lineno(1), columna=t.lexpos(1))
 
 def p_tipo(t):
     '''
