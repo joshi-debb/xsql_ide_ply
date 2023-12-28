@@ -1,3 +1,4 @@
+from interprete.extra.retorno import Retorno3d
 from interprete.extra.ast import *
 from interprete.expresiones._return import Return
 from xmlrpc.client import Boolean
@@ -79,11 +80,44 @@ class IfElse(Instruccion):
 
         return self
 
-# self.condicion = condicion
-#         self.bloque = bloque
-#         self.bandera_else = bandera_else
-#         self.bloque_else = bloque_else
-#         self.elseifs = elseifs              # Lista de elif
+    def ejecutar3d(self, env:Enviroment, generador:Generador):
+        etq_salida = generador.obtenerEtiqueta()
+        
+        # Cuando hay una operacion or, and, not, no hay que generar la etiqueta verdadera
+        self.condicion.setEtiquetas(generador.obtenerEtiqueta(), generador.obtenerEtiqueta())
+
+        exp_condicion:Retorno3d = self.condicion.ejecutar3d(env, generador)
+
+        generador.agregarInstruccion('/* INSTRUCCION IF */')
+        generador.agregarInstruccion(f'{self.condicion.getEtqTrue()}:')
+        self.generarC3DInstrucciones(env, generador, self.bloque.instrucciones)
+        generador.agregarInstruccion(f'goto {etq_salida};')
+        generador.agregarInstruccion(f'{self.condicion.getEtqFalse()}:')
+
+        # Codigo else if's
+        if len(self.elseifs) > 0:
+            for elseif in self.elseifs:
+                elseif.condicion.etq_true = generador.obtenerEtiqueta()
+                elseif.condicion.etq_false = generador.obtenerEtiqueta()
+                exp_subcondicion = elseif.condicion.ejecutar3d(env, generador)
+                generador.agregarInstruccion(f'{elseif.condicion.getEtqTrue()}:')
+                self.generarC3DInstrucciones(env, generador, elseif.bloque.instrucciones)
+                generador.agregarInstruccion(f'goto {etq_salida};')
+                generador.agregarInstruccion(f'{elseif.condicion.getEtqFalse()}:')
+        
+        if self.bandera_else:
+            self.generarC3DInstrucciones(env, generador, self.bloque_else.instrucciones)
+
+        generador.agregarInstruccion(f'{etq_salida}:')
+
+        return self
+
+    def generarC3DInstrucciones(self, env:Enviroment, generador:Generador, lista):
+        codigo = ''
+        for instruccion in lista:
+            instruccion.ejecutar3d(env, generador)
+        # return codigo
+        
 
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()
@@ -100,6 +134,3 @@ class IfElse(Instruccion):
             hijo2 = Nodo(id=id, valor='ELSE', hijos=[])
             hijo.addHijo(hijo2)
             self.bloque_else.recorrerArbol(hijo2)
-
-    def ejecutar3d(self, env:Enviroment, generador:Generador):
-        pass

@@ -34,7 +34,7 @@ class Case(Expresion):
 
                     elif isinstance(ret, Retorno):
                         return ret
-                    return Retorno(tipo=TipoDato.ERROR, valor=None)
+                    return self
         
         # Si viene un bloque ELSE
         if self._else == True:
@@ -50,7 +50,7 @@ class Case(Expresion):
             elif isinstance(ret, Retorno):
                 return ret
 
-        return Retorno(tipo=TipoDato.ERROR, valor=None)
+        return self
     
 
     def recorrerArbol(self, raiz:Nodo):

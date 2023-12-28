@@ -5,7 +5,7 @@ CREATE FUNCTION fn_retornaalturamora (@diasmora int)
 RETURN nvarchar(100)
 AS
 BEGIN
-	DECLARE @alturamora varchar(100)
+		DECLARE @alturamora nvarchar(100);
 
 		IF (@diasmora > 0 && @diasmora < 30) 
 		BEGIN
@@ -32,9 +32,7 @@ BEGIN
 			SET @alturamora = 'Altura Mora 5';				
 		END;
 
-	end 
-		
-	RETURN @alturamora
+	RETURN @alturamora;
 
 END;
 
@@ -43,7 +41,7 @@ END;
 CREATE PROCEDURE sp_actualizaalturamora (@credito int,@diasmora int)
 AS
 BEGIN
-	DECLARE @alturamora int		
+		DECLARE @alturamora int;		
 		IF (@diasmora > 0 && @diasmora < 30) 
 		BEGIN
 			SET @alturamora = 0;
@@ -69,9 +67,8 @@ BEGIN
 			SET @alturamora = 4;				
 		END;
 
-	end 	             
-		update tbcreditosaldo set alturamora = @alturamora 
-		where credito = @credito and diasmora = @diasmora;
+		-- update tbcreditosaldo set alturamora = @alturamora 
+		-- where credito = @credito and diasmora = @diasmora;
 END;
 
 
@@ -79,8 +76,8 @@ CREATE FUNCTION sp_calculacuota (@saldo decimal, @plazo int ,@diasmora int)
 RETURN decimal
 AS
 BEGIN
-		DECLARE @cuota decimal
-		DECLARE @ajuste decimal 
+		DECLARE @cuota decimal;
+		DECLARE @ajuste decimal; 
 		
 		if (@saldo > 5000 && @diasmora > 30)
 		begin 

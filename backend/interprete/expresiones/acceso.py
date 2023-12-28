@@ -45,7 +45,7 @@ class Acceso(Expresion):
         tmp1 = generador.obtenerTemporal()
         tmp2 = generador.obtenerTemporal()
 
-        codigo = f'/* ACCESO A VARIABLE */\n'
+        codigo = f'/* ACCESO A VARIABLE {self.id}*/\n'
         codigo += f'{tmp1} = SP + {simbolo.direccion};\n'
         codigo += f'{tmp2} = stack [(int) {tmp1}];\n'
         generador.agregarInstruccion(codigo)

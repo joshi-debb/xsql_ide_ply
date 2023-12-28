@@ -43,19 +43,20 @@ env = Enviroment(ent_anterior=None, ambito='Global')
 
 # Ejecutando todas las instrucciones
 # try:
-# for instruccion in instrucciones:
-#     instruccion.ejecutar(env)
+for instruccion in instrucciones:
+    instruccion.ejecutar(env)
 # except Exception as e:
 #    print(f'ERROR al ejecutar las instrucciones')
 
 
 # print('--------Generando C3D---------')
-generador = Generador()
-for instruccion in instrucciones:
-    instruccion.ejecutar3d(env, generador)
+# generador = Generador()
+# for instruccion in instrucciones:
+#     if isinstance(instruccion, LlamadaFnc):
+#         instruccion.ejecutar3d(env, generador)
 
-with open('backend/C3D.txt', 'w', encoding='utf-8') as file:
-    file.write(generador.generate_main())
+# with open('backend/C3D.txt', 'w', encoding='utf-8') as file:
+#     file.write(generador.generate_main())
 
 
 print('--------selects---------')
@@ -76,11 +77,3 @@ print(Enviroment.serializarTodosSimbolos())
 print("------------ Errores ------------")
 print(TablaErrores.serializarTBErrores())
     
-# opt = input('Borrar archivo structure.xml? s/n: ')
-# if opt == 's':    
-#     # Verificar si el archivo existe antes de intentar borrarlo
-#     if os.path.exists('backend/structure.xml'):
-#         os.remove('backend/structure.xml')
-#         print(f"El archivo {'backend/structure.xml'} ha sido borrado con éxito.")
-#     else:
-#         print(f"El archivo {'backend/structure.xml'} no existe.")

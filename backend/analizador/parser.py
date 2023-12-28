@@ -708,28 +708,28 @@ def p_sentencia_return(t):
 
 def p_sentencia_if(t):
     '''
-    s_if : IF expresion BEGIN bloque END IF
-                 | IF expresion BEGIN bloque lista_else_if END IF
-                 | IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-                 | IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    s_if : IF expresion BEGIN bloque END
+                 | IF expresion BEGIN bloque lista_else_if END
+                 | IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+                 | IF expresion BEGIN bloque ELSE BEGIN bloque END
     '''
-    if len(t) == 7: # if
-        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} END IF'
+    if len(t) == 6: # if
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} END'
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1)), bandera_else=False, bloque_else=[], elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
     
-    elif len(t) == 8: # if - else if
-        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} {getTextVal(t[5])} END IF'
+    elif len(t) == 7: # if - else if
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} {getTextVal(t[5])} END'
         bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=False, bloque_else=[], elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
     
-    elif len(t) == 11: # if - else if - else
-        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} {getTextVal(t[5])} ELSE BEGIN\n {getTextVal(t[8])} END IF'
+    elif len(t) == 10: # if - else if - else
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} {getTextVal(t[5])} ELSE BEGIN\n {getTextVal(t[8])} END'
         bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
         bloque_else = Bloque(getTextVal(t[8]), t[8], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=t[5], linea=t.lineno(1), columna=t.lexpos(1))
 
-    elif len(t) == 10:   # If - else
-        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} \nELSE BEGIN\n {getTextVal(t[7])} END IF'
+    elif len(t) == 9:   # If - else
+        text_val = f'IF {t[2].text_val} BEGIN\n {getTextVal(t[4])} \nELSE BEGIN\n {getTextVal(t[7])} END'
         bloque = Bloque(getTextVal(t[4]), t[4], linea=t.lineno(1), columna=t.lexpos(1))
         bloque_else = Bloque(getTextVal(t[7]), t[7], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = IfElse(text_val=text_val, condicion=t[2], bloque=bloque, bandera_else=True, bloque_else=bloque_else, elseifs=[], linea=t.lineno(1), columna=t.lexpos(1))
@@ -805,10 +805,10 @@ def p_case(t):
          | CASE lista_when END comp_case
     '''
     if len(t) == 5:
-        text_val = f'CASE {getTextValExp_coma(t[2])} END {t[4]}'
+        text_val = f'CASE {getTextVal(t[2])} END {t[4]}'
         t[0] = Case(text_val=text_val, lista_when=t[2], _else=False, bloque_else=[], linea=t.lineno(1), columna=t.lexpos(1))
     else:
-        text_val = f'CASE {getTextValExp_coma(t[2])} ELSE THEN {getTextVal(t[5])} END {t[7]}'
+        text_val = f'CASE {getTextVal(t[2])} ELSE THEN {getTextVal(t[5])} END {t[7]}'
         bloque = Bloque(getTextVal(t[5]), t[5], linea=t.lineno(1), columna=t.lexpos(1))
         t[0] = Case(text_val=text_val, lista_when=t[2], _else=True, bloque_else=bloque, linea=t.lineno(1), columna=t.lexpos(1))
 
@@ -1002,7 +1002,7 @@ def p_empty(t):
     '''
     empty :
     '''
-    t[0] = None
+    t[0] = ''
 
 # Error sintáctico
 def p_error(t):

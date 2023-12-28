@@ -1,3 +1,4 @@
+from interprete.extra.retorno import Retorno3d
 from interprete.extra.ast import *
 from interprete.instrucciones.function import Function
 from interprete.instrucciones.instruccion import Instruccion
@@ -125,20 +126,88 @@ class LlamadaFnc(Instruccion):
         return Retorno(tipo=TipoDato.ERROR, valor=None)
     
     def ejecutar3d(self, env: Enviroment, generador: Generador):
+        from analizador.parser import parser
+
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+
+        mydoc = minidom.parse(datas)
+        current = mydoc.getElementsByTagName('current')[0]  
+        bases = mydoc.getElementsByTagName('database')
+        
+        for elem in bases:
+            if elem.getAttribute('name') == current.getAttribute('name'):
+                functions = elem.getElementsByTagName('function')
+                for function in functions:
+                    if function.getAttribute('name') == self.nombre_fnc:
+                        self.text = str(function.firstChild.data)
+                        break
+        
+        if self.text == '':
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'La función "{self.nombre_fnc}" no existe.')
+            TablaErrores.addError(err)
+            return Retorno3d()
+        
+        # Obteniendo la Funcion
+        instruccion:Function = parser.parse(self.text.lower())[0]
+        
+        if not env.existe_simbolo_ent_actual(self.nombre_fnc, TipoSimbolo.FUNCTION):
+            # Guardando la funcion en la tabla de simbolos
+            instruccion.guardarEnTablaSimbolos(env)
+            print('GUARDANDO FUNCION')
+
         codigo = ''
 
-        if not env.existe_simbolo(self.nombre_fnc, TipoSimbolo.FUNCTION):
-            funcion = env.getSimbolo(self.nombre_fnc, TipoSimbolo.FUNCTION)
-            codigo = f'/* LLAMADA A FUNCION {self.nombre_fnc} */'
-            # Creando un nuevo entorno
-            new_env = Enviroment(ent_anterior=env, ambito="FUNCTION")
-            new_env.setDentroFuncion(True)
-            new_env.tamanio = 1
-            generador.agregarInstruccion(f'SP = SP + {env.tamanio};')
-            generador.agregarInstruccion(f'{self.nombre_fnc}();')
-            generador.agregarInstruccion(f'SP = SP - {env.tamanio};')
+        # if env.existe_simbolo(self.nombre_fnc, TipoSimbolo.FUNCTION):
+        funcion:Symbol = env.getSimbolo(self.nombre_fnc, TipoSimbolo.FUNCTION)
+        codigo = f'/* LLAMADA A FUNCION {self.nombre_fnc} */'
+        # Creando un nuevo entorno
+        new_env = Enviroment(ent_anterior=env, ambito="FUNCTION")
+        new_env.setDentroFuncion(True)
+        new_env.tamanio = 1
+
+        self.verificarFuncionGenerada(env, generador, funcion)
+
+        tmp = generador.obtenerTemporal()
+        codigo += f'{tmp} = SP + {env.tamanio}'
+
+        # codigo += funcion.ejecutarParametros(new_env, self.argumentos, env, tmp)
+        # ============================================
+        # Validar que la llamada tenga la misma cantidad de parametros que recibe la función
+        if len(self.argumentos) != len(funcion.parametros):
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'La llamada al procedimiento debe tener la misma cantidad de argumentos que el procedimiento "{self.nombre_fnc}"')
+            TablaErrores.addError(err)
+            return Retorno3d()
+
+        # Parametros que recibe la función en su declaracion
+        parametros = funcion.parametros
+
+        # Declarando los parametros
+        for parametro in parametros:
+            parametro.ejecutar3d(new_env, generador)
+        
+        asignaciones:AsignacionVar = []
+        # ============================================
+
+        generador.agregarInstruccion(f'SP = SP + {env.tamanio};')
+        generador.agregarInstruccion(f'{self.nombre_fnc}();')
+        generador.agregarInstruccion(f'SP = SP - {env.tamanio};')
         
         return self
+    
+    # def ejecutarParametros(self, new_env, argumentos, env, tmp):
+        
+    
+    def verificarFuncionGenerada(self, env:Enviroment, generador:Generador, funcion:Function):
+        # simbolo:Symbol = env.getSimbolo(id=self.nombre_fnc, tipo_simbolo=TipoSimbolo.FUNCTION)
+
+        # Si el codigo ya fue generado
+        if funcion.ya_generado:
+            return 
+        
+        #codigo = funcion.ejecutar3d(env, generador)
+        # generador.agregarFuncion(codigo)  
+        funcion.ya_generado = True
+
 
     # self.nombre_fnc = nombre_fnc
     # if argumentos[0] == None: self.argumentos = []

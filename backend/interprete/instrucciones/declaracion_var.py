@@ -1,3 +1,4 @@
+from interprete.extra.retorno import Retorno3d
 from interprete.extra.ast import *
 from interprete.expresiones.tipoChars import TipoChars
 from interprete.extra.enviroment import Enviroment
@@ -9,6 +10,7 @@ from interprete.extra.retorno import Retorno
 from interprete.extra.symbol import Symbol
 from interprete.extra.errores import Error, TablaErrores
 from interprete.extra.generador import Generador
+from interprete.expresiones.Literal import Literal
 
 
 class Declaracion(Instruccion):
@@ -69,29 +71,30 @@ class Declaracion(Instruccion):
             TablaErrores.addError(err)
             return self
 
-        tam_env = env.getTamanio()              # Tamaño del entorno
-        tmp2 = generador.obtenerTemporal()
-        tmp = generador.obtenerTemporal()       # Donde se indexar al stack
+        exp = None
 
-        valor = ''
         # Guardando con un valor por defecto
         if self.valor == None:
             if self.tipo == TipoDato.INT:
-                valortmp = 0
+                exp = Literal('', TipoDato.INT, 0, self.linea, self.columna)
             elif self.tipo == TipoDato.DECIMAL:
-                valor = 0.0
+                exp = Literal('', TipoDato.DECIMAL, 0.0, self.linea, self.columna)
             elif self.tipo == TipoDato.DATE:
-                valor = '\"\"'
+                exp = Literal('', TipoDato.DATE, '', self.linea, self.columna)
             elif self.tipo == TipoDato.DATETIME:
-                valor = '\"\"'
+                exp = Literal('', TipoDato.DATETIME, '', self.linea, self.columna)
             elif self.tipo == TipoDato.NCHAR or self.tipo == TipoDato.NVARCHAR:
-                valor = '\"\"'
+                exp = Literal('', self.tipo, '', self.linea, self.columna)
             elif self.tipo == TipoDato.BIT:
-                valor = 0
+                exp = Literal('', TipoDato.BIT, 0, self.linea, self.columna)
 
-        generador.agregarInstruccion('/* DECLARACION DE VARIABLE */')
+        generador.agregarInstruccion(f'/* DECLARACION DE VARIABLE {self.id} */')
+        exp_c3d:Retorno3d = exp.ejecutar3d(env, generador)
+        tam_env = env.getTamanio()              # Tamaño del entorno
+        tmp = generador.obtenerTemporal()       # Donde se indexar al stack
+
         generador.agregarInstruccion(f'{tmp} = SP + {tam_env};')
-        generador.agregarInstruccion(f'stack [(int) {tmp}] = {valor};')
+        generador.agregarInstruccion(f'stack [(int) {tmp}] = {exp_c3d.temporal};')
         env.incrementarTamanio()
 
         simbolo = Symbol(TipoSimbolo.VARIABLE, self.tipo, self.id, self.valor, env.ambito, None, direccion=tam_env)

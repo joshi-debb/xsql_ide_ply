@@ -5,6 +5,7 @@ class Generador:
         self.etiquetas = 0
         self.codigo = ''
         self.main = ''
+        self.funciones = ''
         
     
     def obtenerTemporal(self) -> str:
@@ -25,6 +26,9 @@ class Generador:
         codigo += self.codigo + "\n"
         codigo += 'int main() {\n' + f'{self.main}\n' + f'return 0;' + "\n}"
         return codigo
+    
+    def agregarFuncion(self, codigo_fnc):
+        self.funciones += codigo_fnc + '\n'
     
     def reiniciarGenerador(self):
         self.temporales = 0

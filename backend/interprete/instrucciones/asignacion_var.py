@@ -72,6 +72,7 @@ class AsignacionVar(Instruccion):
                 # Agregando a la tabla de erorres
                 err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
                 TablaErrores.addError(err)
+                return self
             return self
 
         elif simbolo.tipo == TipoDato.DATE:
@@ -81,6 +82,7 @@ class AsignacionVar(Instruccion):
                 # Agregando a la tabla de erorres
                 err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
                 TablaErrores.addError(err)
+                return self
             return self
 
         # El tipo de la variable debe coincidir con el tipo de de dato asignandose
@@ -103,15 +105,88 @@ class AsignacionVar(Instruccion):
             TablaErrores.addError(err)
             return self
         
-        simbolo = env.getSimbolo(self.id, TipoSimbolo.VARIABLE)
+        generador.agregarInstruccion(f'/* ASIGNACION DE VARIABLE {self.id} */')
         exp:Retorno3d = self.expresion.ejecutar3d(env, generador)
 
-        generador.agregarInstruccion('/* ASIGNACION DE VARIABLE */')
-        if simbolo.tipo == exp.tipo:
-            tmp1 = generador.obtenerTemporal()
+        if exp.tipo == TipoDato.ERROR:
+            # Agregando error a la tabla de erorres
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error en la asignacion de variable')
+            TablaErrores.addError(err)
+            return self
+
+        simbolo = env.getSimbolo(self.id, TipoSimbolo.VARIABLE)
+        tmp1 = generador.obtenerTemporal()
+        
+        if simbolo.tipo == TipoDato.BIT:
+            if exp.tipo != TipoDato.INT and exp.tipo != TipoDato.NULL:
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error Semantico. El valor a asignar debe ser tipo bit (1 o 0)')
+                TablaErrores.addError(err)
+                return self
+            if exp.valor == 1:
+                simbolo.valor = True
+            elif exp.valor == 0:
+                simbolo.valor = False
+            elif exp.valor == 'null':
+                simbolo.valor = None
+            else:
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error Semantico. El valor a asignar debe ser tipo bit (1, 0 o null)')
+                TablaErrores.addError(err)
+                return self
             generador.agregarInstruccion(f'{tmp1} = SP + {simbolo.direccion};')
             generador.agregarInstruccion(f'stack[(int) {tmp1}] = {exp.temporal};')
+            return self
+
+        elif simbolo.tipo == TipoDato.NCHAR or simbolo.tipo == TipoDato.NVARCHAR:
+            if exp.tipo == TipoDato.NCHAR or exp.tipo == TipoDato.NVARCHAR:
+                simbolo.tipo = simbolo.tipo
+                simbolo.valor = exp.valor
+            else:
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
+                TablaErrores.addError(err)
+                return self
+            generador.agregarInstruccion(f'{tmp1} = SP + {simbolo.direccion};')
+            generador.agregarInstruccion(f'stack[(int) {tmp1}] = {exp.temporal};')
+            return self
+        
+        elif simbolo.tipo == TipoDato.DATETIME:
+            if exp.tipo == TipoDato.NCHAR or exp.tipo == TipoDato.NVARCHAR or exp.tipo == TipoDato.DATETIME:
+                simbolo.valor = exp.valor
+            else: 
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
+                TablaErrores.addError(err)
+                return self
+            generador.agregarInstruccion(f'{tmp1} = SP + {simbolo.direccion};')
+            generador.agregarInstruccion(f'stack[(int) {tmp1}] = {exp.temporal};')
+            return self
+
+        elif simbolo.tipo == TipoDato.DATE:
+            if exp.tipo == TipoDato.NCHAR or exp.tipo == TipoDato.NVARCHAR or exp.tipo == TipoDato.DATE:
+                simbolo.valor = exp.valor
+            else: 
+                # Agregando a la tabla de erorres
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
+                TablaErrores.addError(err)
+                return self
+            generador.agregarInstruccion(f'{tmp1} = SP + {simbolo.direccion};')
+            generador.agregarInstruccion(f'stack[(int) {tmp1}] = {exp.temporal};')
+            return self
+
+        # El tipo de la variable debe coincidir con el tipo de de dato asignandose
+        if exp.tipo != simbolo.tipo:
+            # Agregando a la tabla de erorres
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error Semantico. El valor a asignar debe ser tipo {simbolo.tipo.name}')
+            TablaErrores.addError(err)
+            return self
+
+        else:
+            # Modificando el valor de la variable
             simbolo.valor = exp.valor
+            generador.agregarInstruccion(f'{tmp1} = SP + {simbolo.direccion};')
+            generador.agregarInstruccion(f'stack[(int) {tmp1}] = {exp.temporal};')
 
         return self
 

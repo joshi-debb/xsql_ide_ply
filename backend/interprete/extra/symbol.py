@@ -10,6 +10,7 @@ class Symbol:
         self.parametros = parametros        # Para el caso de funciones y procedimientos
         self.instrucciones = instrucciones  # Para el caso de funciones y procedimientos, sus instrucciones
         self.direccion = direccion          # Para almacenar la direccion relativa a un procedimiento/funcion
+        self.ya_generado = False            # Para ver si ya se genero el C3D de la funcion
 
     # Los parametros son un arreglo de declaraciones, y cada declaracion tiene el atributo 'id'
     def serializarParametros(self):
