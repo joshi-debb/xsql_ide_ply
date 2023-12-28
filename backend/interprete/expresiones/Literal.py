@@ -22,18 +22,25 @@ class Literal(Expresion):
         codigo = ''
         temp = ''
         
+        temp = generador.obtenerTemporal()
+        
         if self.tipo == TipoDato.DECIMAL or self.tipo == TipoDato.INT:
-            temp = generador.obtenerTemporal()
             codigo += f'{temp} = {self.valor};\n'
         
-        elif self.tipo == TipoDato.NVARCHAR or self.tipo == TipoDato.NCHAR:
-            temp = generador.obtenerTemporal()
+        elif self.tipo == TipoDato.BIT:
+            if self.valor == True or self.valor == False:
+                codigo += f'{temp} = {int(self.valor)};\n'
+            else:
+                codigo += f'{temp} = {0};\n'
+
+        elif self.tipo == TipoDato.NVARCHAR or self.tipo == TipoDato.NCHAR or self.tipo == TipoDato.DATE or self.tipo == TipoDato.DATETIME:
             codigo += f'{temp} = HP;\n'
             for c in self.valor:
                 codigo += f'heap[HP] = {ord(c)};\n'
                 codigo += f'HP = HP + 1;\n'
             codigo += f'heap[HP] = 0;\n'
             codigo += f'HP = HP + 1;\n'
+            
         generador.agregarInstruccion(codigo)
       
         return Retorno3d(codigo=codigo, etiqueta='', temporal=temp, tipo=self.tipo, valor=self.valor)

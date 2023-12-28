@@ -119,10 +119,10 @@ Rule 107   cmd_alter -> ALTER TABLE ID DROP ID
 Rule 108   cmd_alter_comp -> COLUMN ID
 Rule 109   cmd_alter_comp -> ID
 Rule 110   s_return -> RETURN expresion
-Rule 111   s_if -> IF expresion BEGIN bloque END IF
-Rule 112   s_if -> IF expresion BEGIN bloque lista_else_if END IF
-Rule 113   s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-Rule 114   s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+Rule 111   s_if -> IF expresion BEGIN bloque END
+Rule 112   s_if -> IF expresion BEGIN bloque lista_else_if END
+Rule 113   s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+Rule 114   s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque END
 Rule 115   lista_else_if -> lista_else_if ELSE IF expresion BEGIN bloque
 Rule 116   lista_else_if -> ELSE IF expresion BEGIN bloque
 Rule 117   s_while -> WHILE expresion BEGIN bloque END
@@ -215,7 +215,7 @@ FROM                 : 30 57 58 59 60 72 73 74 75 76
 FUNCTION             : 87
 HOY                  : 71
 ID                   : 25 26 27 28 29 30 31 32 33 35 40 41 41 44 45 52 52 77 79 80 81 82 85 86 87 90 91 97 98 101 104 104 105 105 106 106 107 107 108 109 127 128 128 131 136 157
-IF                   : 111 111 112 112 113 113 114 114 115 116 138
+IF                   : 111 112 113 114 115 116 138
 IGUAL                : 33 81 82 85 101 139
 IGUALDAD             : 140
 INSERT               : 28
@@ -419,10 +419,10 @@ state 0
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -615,10 +615,10 @@ state 2
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -1873,10 +1873,10 @@ state 58
 state 59
 
     (138) ternario -> IF . PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> IF . expresion BEGIN bloque END IF
-    (112) s_if -> IF . expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> IF . expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> IF . expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> IF . expresion BEGIN bloque END
+    (112) s_if -> IF . expresion BEGIN bloque lista_else_if END
+    (113) s_if -> IF . expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> IF . expresion BEGIN bloque ELSE BEGIN bloque END
     (119) expresion -> . aritmetica
     (120) expresion -> . relacional
     (121) expresion -> . logica
@@ -4563,10 +4563,10 @@ state 126
 
 state 127
 
-    (111) s_if -> IF expresion . BEGIN bloque END IF
-    (112) s_if -> IF expresion . BEGIN bloque lista_else_if END IF
-    (113) s_if -> IF expresion . BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> IF expresion . BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> IF expresion . BEGIN bloque END
+    (112) s_if -> IF expresion . BEGIN bloque lista_else_if END
+    (113) s_if -> IF expresion . BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> IF expresion . BEGIN bloque ELSE BEGIN bloque END
     (146) aritmetica -> expresion . SUMAR expresion
     (147) aritmetica -> expresion . RESTAR expresion
     (148) aritmetica -> expresion . MULT expresion
@@ -6278,10 +6278,10 @@ state 180
 
 state 181
 
-    (111) s_if -> IF expresion BEGIN . bloque END IF
-    (112) s_if -> IF expresion BEGIN . bloque lista_else_if END IF
-    (113) s_if -> IF expresion BEGIN . bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> IF expresion BEGIN . bloque ELSE BEGIN bloque END IF
+    (111) s_if -> IF expresion BEGIN . bloque END
+    (112) s_if -> IF expresion BEGIN . bloque lista_else_if END
+    (113) s_if -> IF expresion BEGIN . bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> IF expresion BEGIN . bloque ELSE BEGIN bloque END
     (118) bloque -> . instrucciones
     (2) instrucciones -> . instrucciones instruccion
     (3) instrucciones -> . instruccion
@@ -6363,10 +6363,10 @@ state 181
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -6555,10 +6555,10 @@ state 182
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -7608,10 +7608,10 @@ state 223
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -7878,10 +7878,10 @@ state 227
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -8076,10 +8076,10 @@ state 228
 
 state 229
 
-    (111) s_if -> IF expresion BEGIN bloque . END IF
-    (112) s_if -> IF expresion BEGIN bloque . lista_else_if END IF
-    (113) s_if -> IF expresion BEGIN bloque . lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> IF expresion BEGIN bloque . ELSE BEGIN bloque END IF
+    (111) s_if -> IF expresion BEGIN bloque . END
+    (112) s_if -> IF expresion BEGIN bloque . lista_else_if END
+    (113) s_if -> IF expresion BEGIN bloque . lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> IF expresion BEGIN bloque . ELSE BEGIN bloque END
     (115) lista_else_if -> . lista_else_if ELSE IF expresion BEGIN bloque
     (116) lista_else_if -> . ELSE IF expresion BEGIN bloque
 
@@ -8170,10 +8170,10 @@ state 230
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -9257,28 +9257,28 @@ state 273
 
 state 274
 
-    (111) s_if -> IF expresion BEGIN bloque END . IF
+    (111) s_if -> IF expresion BEGIN bloque END .
 
-    IF              shift and go to state 307
+    PYC             reduce using rule 111 (s_if -> IF expresion BEGIN bloque END .)
 
 
 state 275
 
-    (112) s_if -> IF expresion BEGIN bloque lista_else_if . END IF
-    (113) s_if -> IF expresion BEGIN bloque lista_else_if . ELSE BEGIN bloque END IF
+    (112) s_if -> IF expresion BEGIN bloque lista_else_if . END
+    (113) s_if -> IF expresion BEGIN bloque lista_else_if . ELSE BEGIN bloque END
     (115) lista_else_if -> lista_else_if . ELSE IF expresion BEGIN bloque
 
-    END             shift and go to state 308
-    ELSE            shift and go to state 309
+    END             shift and go to state 307
+    ELSE            shift and go to state 308
 
 
 state 276
 
-    (114) s_if -> IF expresion BEGIN bloque ELSE . BEGIN bloque END IF
+    (114) s_if -> IF expresion BEGIN bloque ELSE . BEGIN bloque END
     (116) lista_else_if -> ELSE . IF expresion BEGIN bloque
 
-    BEGIN           shift and go to state 311
-    IF              shift and go to state 310
+    BEGIN           shift and go to state 310
+    IF              shift and go to state 309
 
 
 state 277
@@ -9312,7 +9312,7 @@ state 279
     (152) logica -> expresion . OR expresion
     (153) logica -> expresion . AND expresion
 
-    PARC            shift and go to state 312
+    PARC            shift and go to state 311
     SUMAR           shift and go to state 84
     RESTAR          shift and go to state 85
     MULT            shift and go to state 86
@@ -9345,7 +9345,7 @@ state 280
     (152) logica -> expresion . OR expresion
     (153) logica -> expresion . AND expresion
 
-    COMA            shift and go to state 313
+    COMA            shift and go to state 312
     SUMAR           shift and go to state 84
     RESTAR          shift and go to state 85
     MULT            shift and go to state 86
@@ -9373,7 +9373,7 @@ state 281
 
     ID              shift and go to state 175
 
-    nombre_tablas                  shift and go to state 314
+    nombre_tablas                  shift and go to state 313
     columnas                       shift and go to state 173
     columna                        shift and go to state 174
 
@@ -9390,7 +9390,7 @@ state 282
     ID              shift and go to state 175
 
     columnas                       shift and go to state 173
-    nombre_tablas                  shift and go to state 315
+    nombre_tablas                  shift and go to state 314
     columna                        shift and go to state 174
 
 state 283
@@ -9404,7 +9404,7 @@ state 283
 
     ID              shift and go to state 175
 
-    nombre_tablas                  shift and go to state 316
+    nombre_tablas                  shift and go to state 315
     columnas                       shift and go to state 173
     columna                        shift and go to state 174
 
@@ -9429,7 +9429,7 @@ state 284
     NCHAR           shift and go to state 218
     NVARCHAR        shift and go to state 219
 
-    tipo                           shift and go to state 317
+    tipo                           shift and go to state 316
 
 state 285
 
@@ -9470,7 +9470,7 @@ state 286
 
     (86) crear_procedure -> CREATE PROCEDURE ID PARA parametros PARC . AS BEGIN bloque END
 
-    AS              shift and go to state 318
+    AS              shift and go to state 317
 
 
 state 287
@@ -9485,7 +9485,7 @@ state 287
     PARC            reduce using rule 168 (empty -> .)
     COMA            reduce using rule 168 (empty -> .)
 
-    parametro                      shift and go to state 319
+    parametro                      shift and go to state 318
     empty                          shift and go to state 246
 
 state 288
@@ -9502,7 +9502,7 @@ state 288
     (166) tipo -> . NCHAR PARA literal PARC
     (167) tipo -> . NVARCHAR PARA literal PARC
 
-    AS              shift and go to state 321
+    AS              shift and go to state 320
     INT             shift and go to state 213
     BIT             shift and go to state 214
     DECIMAL         shift and go to state 215
@@ -9511,13 +9511,13 @@ state 288
     NCHAR           shift and go to state 218
     NVARCHAR        shift and go to state 219
 
-    tipo                           shift and go to state 320
+    tipo                           shift and go to state 319
 
 state 289
 
     (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC . RETURN tipo AS BEGIN bloque END
 
-    RETURN          shift and go to state 322
+    RETURN          shift and go to state 321
 
 
 state 290
@@ -9534,14 +9534,14 @@ state 290
 
     PARC            reduce using rule 45 (atributo -> ID tipo .)
     COMA            reduce using rule 45 (atributo -> ID tipo .)
-    NOT             shift and go to state 326
-    NULL            shift and go to state 327
-    PRIMARY         shift and go to state 328
-    REFERENCE       shift and go to state 329
-    ID              shift and go to state 323
+    NOT             shift and go to state 325
+    NULL            shift and go to state 326
+    PRIMARY         shift and go to state 327
+    REFERENCE       shift and go to state 328
+    ID              shift and go to state 322
 
-    atributo_opciones              shift and go to state 324
-    atributo_opcion                shift and go to state 325
+    atributo_opciones              shift and go to state 323
+    atributo_opcion                shift and go to state 324
 
 state 291
 
@@ -9558,13 +9558,13 @@ state 292
 
     ID              shift and go to state 248
 
-    atributo                       shift and go to state 330
+    atributo                       shift and go to state 329
 
 state 293
 
     (28) cmd_insert -> INSERT INTO ID PARA columnas PARC . VALUES PARA valores PARC
 
-    VALUES          shift and go to state 331
+    VALUES          shift and go to state 330
 
 
 state 294
@@ -9688,7 +9688,7 @@ state 297
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    expresion                      shift and go to state 332
+    expresion                      shift and go to state 331
     aritmetica                     shift and go to state 30
     relacional                     shift and go to state 31
     logica                         shift and go to state 32
@@ -9732,7 +9732,7 @@ state 299
     NCHAR           shift and go to state 218
     NVARCHAR        shift and go to state 219
 
-    tipo                           shift and go to state 333
+    tipo                           shift and go to state 332
 
 state 300
 
@@ -9745,7 +9745,7 @@ state 301
 
     (166) tipo -> NCHAR PARA literal . PARC
 
-    PARC            shift and go to state 334
+    PARC            shift and go to state 333
 
 
 state 302
@@ -9759,7 +9759,7 @@ state 303
 
     (167) tipo -> NVARCHAR PARA literal . PARC
 
-    PARC            shift and go to state 335
+    PARC            shift and go to state 334
 
 
 state 304
@@ -9834,7 +9834,7 @@ state 304
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    expresion                      shift and go to state 336
+    expresion                      shift and go to state 335
     aritmetica                     shift and go to state 30
     relacional                     shift and go to state 31
     logica                         shift and go to state 32
@@ -9879,7 +9879,7 @@ state 305
     THEN            reduce using rule 168 (empty -> .)
     WHERE           reduce using rule 168 (empty -> .)
 
-    comp_case                      shift and go to state 337
+    comp_case                      shift and go to state 336
     empty                          shift and go to state 226
 
 state 306
@@ -9954,7 +9954,7 @@ state 306
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    expresion                      shift and go to state 338
+    expresion                      shift and go to state 337
     aritmetica                     shift and go to state 30
     relacional                     shift and go to state 31
     logica                         shift and go to state 32
@@ -9972,30 +9972,329 @@ state 306
 
 state 307
 
-    (111) s_if -> IF expresion BEGIN bloque END IF .
+    (112) s_if -> IF expresion BEGIN bloque lista_else_if END .
 
-    PYC             reduce using rule 111 (s_if -> IF expresion BEGIN bloque END IF .)
+    PYC             reduce using rule 112 (s_if -> IF expresion BEGIN bloque lista_else_if END .)
 
 
 state 308
 
-    (112) s_if -> IF expresion BEGIN bloque lista_else_if END . IF
+    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE . BEGIN bloque END
+    (115) lista_else_if -> lista_else_if ELSE . IF expresion BEGIN bloque
 
-    IF              shift and go to state 339
+    BEGIN           shift and go to state 339
+    IF              shift and go to state 338
 
 
 state 309
 
-    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE . BEGIN bloque END IF
-    (115) lista_else_if -> lista_else_if ELSE . IF expresion BEGIN bloque
+    (116) lista_else_if -> ELSE IF . expresion BEGIN bloque
+    (119) expresion -> . aritmetica
+    (120) expresion -> . relacional
+    (121) expresion -> . logica
+    (122) expresion -> . literal
+    (123) expresion -> . llamada_fnc
+    (124) expresion -> . case
+    (125) expresion -> . ternario
+    (126) expresion -> . PARA expresion PARC
+    (127) expresion -> . ARROBA ID
+    (128) expresion -> . ID PUNTO ID
+    (146) aritmetica -> . expresion SUMAR expresion
+    (147) aritmetica -> . expresion RESTAR expresion
+    (148) aritmetica -> . expresion MULT expresion
+    (149) aritmetica -> . expresion DIV expresion
+    (150) aritmetica -> . RESTAR expresion
+    (139) relacional -> . expresion IGUAL expresion
+    (140) relacional -> . expresion IGUALDAD expresion
+    (141) relacional -> . expresion DESIGUALDAD expresion
+    (142) relacional -> . expresion MENOR expresion
+    (143) relacional -> . expresion MAYOR expresion
+    (144) relacional -> . expresion MENOR_IGUAL expresion
+    (145) relacional -> . expresion MAYOR_IGUAL expresion
+    (151) logica -> . NEGACION expresion
+    (152) logica -> . expresion OR expresion
+    (153) logica -> . expresion AND expresion
+    (154) literal -> . ENTERO
+    (155) literal -> . CADENA
+    (156) literal -> . FLOAT
+    (157) literal -> . ID
+    (158) literal -> . NULL
+    (136) llamada_fnc -> . ID PARA argumentos PARC
+    (137) llamada_fnc -> . funcion_sistema
+    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
+    (130) case -> . CASE lista_when END comp_case
+    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
+    (63) funcion_sistema -> . concatenar
+    (64) funcion_sistema -> . substraer
+    (65) funcion_sistema -> . hoy
+    (66) funcion_sistema -> . contar
+    (67) funcion_sistema -> . suma
+    (68) funcion_sistema -> . cas
+    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
+    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
+    (71) hoy -> . HOY PARA PARC
+    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
+    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
+    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
+    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
 
-    BEGIN           shift and go to state 341
-    IF              shift and go to state 340
+    PARA            shift and go to state 27
+    ARROBA          shift and go to state 24
+    ID              shift and go to state 25
+    RESTAR          shift and go to state 50
+    NEGACION        shift and go to state 52
+    ENTERO          shift and go to state 53
+    CADENA          shift and go to state 54
+    FLOAT           shift and go to state 55
+    NULL            shift and go to state 56
+    CASE            shift and go to state 58
+    IF              shift and go to state 107
+    CONCATENAR      shift and go to state 70
+    SUBSTRAER       shift and go to state 71
+    HOY             shift and go to state 72
+    CONTAR          shift and go to state 73
+    SUMA            shift and go to state 74
+    CAS             shift and go to state 75
 
+    expresion                      shift and go to state 340
+    aritmetica                     shift and go to state 30
+    relacional                     shift and go to state 31
+    logica                         shift and go to state 32
+    literal                        shift and go to state 33
+    llamada_fnc                    shift and go to state 34
+    case                           shift and go to state 35
+    ternario                       shift and go to state 36
+    funcion_sistema                shift and go to state 57
+    concatenar                     shift and go to state 63
+    substraer                      shift and go to state 64
+    hoy                            shift and go to state 65
+    contar                         shift and go to state 66
+    suma                           shift and go to state 67
+    cas                            shift and go to state 68
 
 state 310
 
-    (116) lista_else_if -> ELSE IF . expresion BEGIN bloque
+    (114) s_if -> IF expresion BEGIN bloque ELSE BEGIN . bloque END
+    (118) bloque -> . instrucciones
+    (2) instrucciones -> . instrucciones instruccion
+    (3) instrucciones -> . instruccion
+    (4) instruccion -> . clausula PYC
+    (5) instruccion -> . declaracion_variable PYC
+    (6) instruccion -> . asignacion_variable PYC
+    (7) instruccion -> . crear_procedure PYC
+    (8) instruccion -> . ejecutar_procedure PYC
+    (9) instruccion -> . crear_funcion PYC
+    (10) instruccion -> . expresion PYC
+    (11) instruccion -> . sentencia_control PYC
+    (15) clausula -> . use_db
+    (16) clausula -> . crear_db
+    (17) clausula -> . crear_tb
+    (18) clausula -> . cmd_insert
+    (19) clausula -> . cmd_update
+    (20) clausula -> . cmd_delete
+    (21) clausula -> . cmd_select
+    (22) clausula -> . cmd_drop
+    (23) clausula -> . cmd_truncate
+    (24) clausula -> . cmd_alter
+    (78) declaracion_variable -> . declaracion
+    (82) asignacion_variable -> . SET ARROBA ID IGUAL expresion
+    (86) crear_procedure -> . CREATE PROCEDURE ID PARA parametros PARC AS BEGIN bloque END
+    (97) ejecutar_procedure -> . EXEC ID argumentos
+    (98) ejecutar_procedure -> . EXEC ID PARA argumentos PARC
+    (87) crear_funcion -> . CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS BEGIN bloque END
+    (119) expresion -> . aritmetica
+    (120) expresion -> . relacional
+    (121) expresion -> . logica
+    (122) expresion -> . literal
+    (123) expresion -> . llamada_fnc
+    (124) expresion -> . case
+    (125) expresion -> . ternario
+    (126) expresion -> . PARA expresion PARC
+    (127) expresion -> . ARROBA ID
+    (128) expresion -> . ID PUNTO ID
+    (12) sentencia_control -> . s_if
+    (13) sentencia_control -> . s_while
+    (14) sentencia_control -> . s_return
+    (26) use_db -> . USE ID
+    (25) crear_db -> . CREATE DATA BASE ID
+    (27) crear_tb -> . CREATE TABLE ID PARA atributos PARC
+    (28) cmd_insert -> . INSERT INTO ID PARA columnas PARC VALUES PARA valores PARC
+    (29) cmd_update -> . UPDATE ID SET campos WHERE condicion_where
+    (30) cmd_delete -> . DELETE FROM ID WHERE condicion_where
+    (53) cmd_select -> . SELECT op_select
+    (54) cmd_select -> . op_select
+    (31) cmd_drop -> . DROP TABLE ID
+    (32) cmd_truncate -> . TRUNCATE TABLE ID
+    (104) cmd_alter -> . ALTER TABLE ID ADD COLUMN ID tipo
+    (105) cmd_alter -> . ALTER TABLE ID ADD ID tipo
+    (106) cmd_alter -> . ALTER TABLE ID DROP COLUMN ID
+    (107) cmd_alter -> . ALTER TABLE ID DROP ID
+    (79) declaracion -> . DECLARE ARROBA ID tipo
+    (80) declaracion -> . DECLARE ARROBA ID AS tipo
+    (146) aritmetica -> . expresion SUMAR expresion
+    (147) aritmetica -> . expresion RESTAR expresion
+    (148) aritmetica -> . expresion MULT expresion
+    (149) aritmetica -> . expresion DIV expresion
+    (150) aritmetica -> . RESTAR expresion
+    (139) relacional -> . expresion IGUAL expresion
+    (140) relacional -> . expresion IGUALDAD expresion
+    (141) relacional -> . expresion DESIGUALDAD expresion
+    (142) relacional -> . expresion MENOR expresion
+    (143) relacional -> . expresion MAYOR expresion
+    (144) relacional -> . expresion MENOR_IGUAL expresion
+    (145) relacional -> . expresion MAYOR_IGUAL expresion
+    (151) logica -> . NEGACION expresion
+    (152) logica -> . expresion OR expresion
+    (153) logica -> . expresion AND expresion
+    (154) literal -> . ENTERO
+    (155) literal -> . CADENA
+    (156) literal -> . FLOAT
+    (157) literal -> . ID
+    (158) literal -> . NULL
+    (136) llamada_fnc -> . ID PARA argumentos PARC
+    (137) llamada_fnc -> . funcion_sistema
+    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
+    (130) case -> . CASE lista_when END comp_case
+    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
+    (117) s_while -> . WHILE expresion BEGIN bloque END
+    (110) s_return -> . RETURN expresion
+    (55) op_select -> . select_tabla
+    (56) op_select -> . print
+    (63) funcion_sistema -> . concatenar
+    (64) funcion_sistema -> . substraer
+    (65) funcion_sistema -> . hoy
+    (66) funcion_sistema -> . contar
+    (67) funcion_sistema -> . suma
+    (68) funcion_sistema -> . cas
+    (57) select_tabla -> . campos_select FROM nombre_tablas WHERE condicion_where_select
+    (58) select_tabla -> . campos_select FROM nombre_tablas empty
+    (59) select_tabla -> . MULT FROM nombre_tablas WHERE condicion_where_select
+    (60) select_tabla -> . MULT FROM nombre_tablas
+    (62) print -> . expresion
+    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
+    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
+    (71) hoy -> . HOY PARA PARC
+    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
+    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
+    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
+    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
+    (36) campos_select -> . campos_select COMA expresion
+    (37) campos_select -> . expresion
+
+    SET             shift and go to state 23
+    CREATE          shift and go to state 26
+    EXEC            shift and go to state 28
+    PARA            shift and go to state 27
+    ARROBA          shift and go to state 24
+    ID              shift and go to state 25
+    USE             shift and go to state 40
+    INSERT          shift and go to state 41
+    UPDATE          shift and go to state 42
+    DELETE          shift and go to state 43
+    SELECT          shift and go to state 44
+    DROP            shift and go to state 46
+    TRUNCATE        shift and go to state 47
+    ALTER           shift and go to state 48
+    DECLARE         shift and go to state 49
+    RESTAR          shift and go to state 50
+    NEGACION        shift and go to state 52
+    ENTERO          shift and go to state 53
+    CADENA          shift and go to state 54
+    FLOAT           shift and go to state 55
+    NULL            shift and go to state 56
+    CASE            shift and go to state 58
+    IF              shift and go to state 59
+    WHILE           shift and go to state 60
+    RETURN          shift and go to state 29
+    MULT            shift and go to state 51
+    CONCATENAR      shift and go to state 70
+    SUBSTRAER       shift and go to state 71
+    HOY             shift and go to state 72
+    CONTAR          shift and go to state 73
+    SUMA            shift and go to state 74
+    CAS             shift and go to state 75
+
+    expresion                      shift and go to state 10
+    bloque                         shift and go to state 341
+    instrucciones                  shift and go to state 230
+    instruccion                    shift and go to state 3
+    clausula                       shift and go to state 4
+    declaracion_variable           shift and go to state 5
+    asignacion_variable            shift and go to state 6
+    crear_procedure                shift and go to state 7
+    ejecutar_procedure             shift and go to state 8
+    crear_funcion                  shift and go to state 9
+    sentencia_control              shift and go to state 11
+    use_db                         shift and go to state 12
+    crear_db                       shift and go to state 13
+    crear_tb                       shift and go to state 14
+    cmd_insert                     shift and go to state 15
+    cmd_update                     shift and go to state 16
+    cmd_delete                     shift and go to state 17
+    cmd_select                     shift and go to state 18
+    cmd_drop                       shift and go to state 19
+    cmd_truncate                   shift and go to state 20
+    cmd_alter                      shift and go to state 21
+    declaracion                    shift and go to state 22
+    aritmetica                     shift and go to state 30
+    relacional                     shift and go to state 31
+    logica                         shift and go to state 32
+    literal                        shift and go to state 33
+    llamada_fnc                    shift and go to state 34
+    case                           shift and go to state 35
+    ternario                       shift and go to state 36
+    s_if                           shift and go to state 37
+    s_while                        shift and go to state 38
+    s_return                       shift and go to state 39
+    op_select                      shift and go to state 45
+    funcion_sistema                shift and go to state 57
+    select_tabla                   shift and go to state 61
+    print                          shift and go to state 62
+    concatenar                     shift and go to state 63
+    substraer                      shift and go to state 64
+    hoy                            shift and go to state 65
+    contar                         shift and go to state 66
+    suma                           shift and go to state 67
+    cas                            shift and go to state 68
+    campos_select                  shift and go to state 69
+
+state 311
+
+    (69) concatenar -> CONCATENAR PARA expresion COMA expresion PARC .
+
+    PYC             reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    SUMAR           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    RESTAR          reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    MULT            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    DIV             reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    IGUAL           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    IGUALDAD        reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    DESIGUALDAD     reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    MENOR           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    MAYOR           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    MENOR_IGUAL     reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    MAYOR_IGUAL     reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    OR              reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    AND             reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    FROM            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    COMA            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    PARC            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    BEGIN           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    THEN            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+    WHERE           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
+
+
+state 312
+
+    (70) substraer -> SUBSTRAER PARA expresion COMA expresion COMA . expresion PARC
     (119) expresion -> . aritmetica
     (120) expresion -> . relacional
     (121) expresion -> . logica
@@ -10081,319 +10380,13 @@ state 310
     suma                           shift and go to state 67
     cas                            shift and go to state 68
 
-state 311
-
-    (114) s_if -> IF expresion BEGIN bloque ELSE BEGIN . bloque END IF
-    (118) bloque -> . instrucciones
-    (2) instrucciones -> . instrucciones instruccion
-    (3) instrucciones -> . instruccion
-    (4) instruccion -> . clausula PYC
-    (5) instruccion -> . declaracion_variable PYC
-    (6) instruccion -> . asignacion_variable PYC
-    (7) instruccion -> . crear_procedure PYC
-    (8) instruccion -> . ejecutar_procedure PYC
-    (9) instruccion -> . crear_funcion PYC
-    (10) instruccion -> . expresion PYC
-    (11) instruccion -> . sentencia_control PYC
-    (15) clausula -> . use_db
-    (16) clausula -> . crear_db
-    (17) clausula -> . crear_tb
-    (18) clausula -> . cmd_insert
-    (19) clausula -> . cmd_update
-    (20) clausula -> . cmd_delete
-    (21) clausula -> . cmd_select
-    (22) clausula -> . cmd_drop
-    (23) clausula -> . cmd_truncate
-    (24) clausula -> . cmd_alter
-    (78) declaracion_variable -> . declaracion
-    (82) asignacion_variable -> . SET ARROBA ID IGUAL expresion
-    (86) crear_procedure -> . CREATE PROCEDURE ID PARA parametros PARC AS BEGIN bloque END
-    (97) ejecutar_procedure -> . EXEC ID argumentos
-    (98) ejecutar_procedure -> . EXEC ID PARA argumentos PARC
-    (87) crear_funcion -> . CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS BEGIN bloque END
-    (119) expresion -> . aritmetica
-    (120) expresion -> . relacional
-    (121) expresion -> . logica
-    (122) expresion -> . literal
-    (123) expresion -> . llamada_fnc
-    (124) expresion -> . case
-    (125) expresion -> . ternario
-    (126) expresion -> . PARA expresion PARC
-    (127) expresion -> . ARROBA ID
-    (128) expresion -> . ID PUNTO ID
-    (12) sentencia_control -> . s_if
-    (13) sentencia_control -> . s_while
-    (14) sentencia_control -> . s_return
-    (26) use_db -> . USE ID
-    (25) crear_db -> . CREATE DATA BASE ID
-    (27) crear_tb -> . CREATE TABLE ID PARA atributos PARC
-    (28) cmd_insert -> . INSERT INTO ID PARA columnas PARC VALUES PARA valores PARC
-    (29) cmd_update -> . UPDATE ID SET campos WHERE condicion_where
-    (30) cmd_delete -> . DELETE FROM ID WHERE condicion_where
-    (53) cmd_select -> . SELECT op_select
-    (54) cmd_select -> . op_select
-    (31) cmd_drop -> . DROP TABLE ID
-    (32) cmd_truncate -> . TRUNCATE TABLE ID
-    (104) cmd_alter -> . ALTER TABLE ID ADD COLUMN ID tipo
-    (105) cmd_alter -> . ALTER TABLE ID ADD ID tipo
-    (106) cmd_alter -> . ALTER TABLE ID DROP COLUMN ID
-    (107) cmd_alter -> . ALTER TABLE ID DROP ID
-    (79) declaracion -> . DECLARE ARROBA ID tipo
-    (80) declaracion -> . DECLARE ARROBA ID AS tipo
-    (146) aritmetica -> . expresion SUMAR expresion
-    (147) aritmetica -> . expresion RESTAR expresion
-    (148) aritmetica -> . expresion MULT expresion
-    (149) aritmetica -> . expresion DIV expresion
-    (150) aritmetica -> . RESTAR expresion
-    (139) relacional -> . expresion IGUAL expresion
-    (140) relacional -> . expresion IGUALDAD expresion
-    (141) relacional -> . expresion DESIGUALDAD expresion
-    (142) relacional -> . expresion MENOR expresion
-    (143) relacional -> . expresion MAYOR expresion
-    (144) relacional -> . expresion MENOR_IGUAL expresion
-    (145) relacional -> . expresion MAYOR_IGUAL expresion
-    (151) logica -> . NEGACION expresion
-    (152) logica -> . expresion OR expresion
-    (153) logica -> . expresion AND expresion
-    (154) literal -> . ENTERO
-    (155) literal -> . CADENA
-    (156) literal -> . FLOAT
-    (157) literal -> . ID
-    (158) literal -> . NULL
-    (136) llamada_fnc -> . ID PARA argumentos PARC
-    (137) llamada_fnc -> . funcion_sistema
-    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
-    (130) case -> . CASE lista_when END comp_case
-    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
-    (117) s_while -> . WHILE expresion BEGIN bloque END
-    (110) s_return -> . RETURN expresion
-    (55) op_select -> . select_tabla
-    (56) op_select -> . print
-    (63) funcion_sistema -> . concatenar
-    (64) funcion_sistema -> . substraer
-    (65) funcion_sistema -> . hoy
-    (66) funcion_sistema -> . contar
-    (67) funcion_sistema -> . suma
-    (68) funcion_sistema -> . cas
-    (57) select_tabla -> . campos_select FROM nombre_tablas WHERE condicion_where_select
-    (58) select_tabla -> . campos_select FROM nombre_tablas empty
-    (59) select_tabla -> . MULT FROM nombre_tablas WHERE condicion_where_select
-    (60) select_tabla -> . MULT FROM nombre_tablas
-    (62) print -> . expresion
-    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
-    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
-    (71) hoy -> . HOY PARA PARC
-    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
-    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
-    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
-    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
-    (36) campos_select -> . campos_select COMA expresion
-    (37) campos_select -> . expresion
-
-    SET             shift and go to state 23
-    CREATE          shift and go to state 26
-    EXEC            shift and go to state 28
-    PARA            shift and go to state 27
-    ARROBA          shift and go to state 24
-    ID              shift and go to state 25
-    USE             shift and go to state 40
-    INSERT          shift and go to state 41
-    UPDATE          shift and go to state 42
-    DELETE          shift and go to state 43
-    SELECT          shift and go to state 44
-    DROP            shift and go to state 46
-    TRUNCATE        shift and go to state 47
-    ALTER           shift and go to state 48
-    DECLARE         shift and go to state 49
-    RESTAR          shift and go to state 50
-    NEGACION        shift and go to state 52
-    ENTERO          shift and go to state 53
-    CADENA          shift and go to state 54
-    FLOAT           shift and go to state 55
-    NULL            shift and go to state 56
-    CASE            shift and go to state 58
-    IF              shift and go to state 59
-    WHILE           shift and go to state 60
-    RETURN          shift and go to state 29
-    MULT            shift and go to state 51
-    CONCATENAR      shift and go to state 70
-    SUBSTRAER       shift and go to state 71
-    HOY             shift and go to state 72
-    CONTAR          shift and go to state 73
-    SUMA            shift and go to state 74
-    CAS             shift and go to state 75
-
-    expresion                      shift and go to state 10
-    bloque                         shift and go to state 343
-    instrucciones                  shift and go to state 230
-    instruccion                    shift and go to state 3
-    clausula                       shift and go to state 4
-    declaracion_variable           shift and go to state 5
-    asignacion_variable            shift and go to state 6
-    crear_procedure                shift and go to state 7
-    ejecutar_procedure             shift and go to state 8
-    crear_funcion                  shift and go to state 9
-    sentencia_control              shift and go to state 11
-    use_db                         shift and go to state 12
-    crear_db                       shift and go to state 13
-    crear_tb                       shift and go to state 14
-    cmd_insert                     shift and go to state 15
-    cmd_update                     shift and go to state 16
-    cmd_delete                     shift and go to state 17
-    cmd_select                     shift and go to state 18
-    cmd_drop                       shift and go to state 19
-    cmd_truncate                   shift and go to state 20
-    cmd_alter                      shift and go to state 21
-    declaracion                    shift and go to state 22
-    aritmetica                     shift and go to state 30
-    relacional                     shift and go to state 31
-    logica                         shift and go to state 32
-    literal                        shift and go to state 33
-    llamada_fnc                    shift and go to state 34
-    case                           shift and go to state 35
-    ternario                       shift and go to state 36
-    s_if                           shift and go to state 37
-    s_while                        shift and go to state 38
-    s_return                       shift and go to state 39
-    op_select                      shift and go to state 45
-    funcion_sistema                shift and go to state 57
-    select_tabla                   shift and go to state 61
-    print                          shift and go to state 62
-    concatenar                     shift and go to state 63
-    substraer                      shift and go to state 64
-    hoy                            shift and go to state 65
-    contar                         shift and go to state 66
-    suma                           shift and go to state 67
-    cas                            shift and go to state 68
-    campos_select                  shift and go to state 69
-
-state 312
-
-    (69) concatenar -> CONCATENAR PARA expresion COMA expresion PARC .
-
-    PYC             reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    SUMAR           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    RESTAR          reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    MULT            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    DIV             reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    IGUAL           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    IGUALDAD        reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    DESIGUALDAD     reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    MENOR           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    MAYOR           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    MENOR_IGUAL     reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    MAYOR_IGUAL     reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    OR              reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    AND             reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    FROM            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    COMA            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    PARC            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    BEGIN           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    THEN            reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-    WHERE           reduce using rule 69 (concatenar -> CONCATENAR PARA expresion COMA expresion PARC .)
-
-
 state 313
-
-    (70) substraer -> SUBSTRAER PARA expresion COMA expresion COMA . expresion PARC
-    (119) expresion -> . aritmetica
-    (120) expresion -> . relacional
-    (121) expresion -> . logica
-    (122) expresion -> . literal
-    (123) expresion -> . llamada_fnc
-    (124) expresion -> . case
-    (125) expresion -> . ternario
-    (126) expresion -> . PARA expresion PARC
-    (127) expresion -> . ARROBA ID
-    (128) expresion -> . ID PUNTO ID
-    (146) aritmetica -> . expresion SUMAR expresion
-    (147) aritmetica -> . expresion RESTAR expresion
-    (148) aritmetica -> . expresion MULT expresion
-    (149) aritmetica -> . expresion DIV expresion
-    (150) aritmetica -> . RESTAR expresion
-    (139) relacional -> . expresion IGUAL expresion
-    (140) relacional -> . expresion IGUALDAD expresion
-    (141) relacional -> . expresion DESIGUALDAD expresion
-    (142) relacional -> . expresion MENOR expresion
-    (143) relacional -> . expresion MAYOR expresion
-    (144) relacional -> . expresion MENOR_IGUAL expresion
-    (145) relacional -> . expresion MAYOR_IGUAL expresion
-    (151) logica -> . NEGACION expresion
-    (152) logica -> . expresion OR expresion
-    (153) logica -> . expresion AND expresion
-    (154) literal -> . ENTERO
-    (155) literal -> . CADENA
-    (156) literal -> . FLOAT
-    (157) literal -> . ID
-    (158) literal -> . NULL
-    (136) llamada_fnc -> . ID PARA argumentos PARC
-    (137) llamada_fnc -> . funcion_sistema
-    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
-    (130) case -> . CASE lista_when END comp_case
-    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (63) funcion_sistema -> . concatenar
-    (64) funcion_sistema -> . substraer
-    (65) funcion_sistema -> . hoy
-    (66) funcion_sistema -> . contar
-    (67) funcion_sistema -> . suma
-    (68) funcion_sistema -> . cas
-    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
-    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
-    (71) hoy -> . HOY PARA PARC
-    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
-    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
-    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
-    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
-
-    PARA            shift and go to state 27
-    ARROBA          shift and go to state 24
-    ID              shift and go to state 25
-    RESTAR          shift and go to state 50
-    NEGACION        shift and go to state 52
-    ENTERO          shift and go to state 53
-    CADENA          shift and go to state 54
-    FLOAT           shift and go to state 55
-    NULL            shift and go to state 56
-    CASE            shift and go to state 58
-    IF              shift and go to state 107
-    CONCATENAR      shift and go to state 70
-    SUBSTRAER       shift and go to state 71
-    HOY             shift and go to state 72
-    CONTAR          shift and go to state 73
-    SUMA            shift and go to state 74
-    CAS             shift and go to state 75
-
-    expresion                      shift and go to state 344
-    aritmetica                     shift and go to state 30
-    relacional                     shift and go to state 31
-    logica                         shift and go to state 32
-    literal                        shift and go to state 33
-    llamada_fnc                    shift and go to state 34
-    case                           shift and go to state 35
-    ternario                       shift and go to state 36
-    funcion_sistema                shift and go to state 57
-    concatenar                     shift and go to state 63
-    substraer                      shift and go to state 64
-    hoy                            shift and go to state 65
-    contar                         shift and go to state 66
-    suma                           shift and go to state 67
-    cas                            shift and go to state 68
-
-state 314
 
     (72) contar -> CONTAR PARA MULT PARC FROM nombre_tablas . WHERE condicion_where_select
     (73) contar -> CONTAR PARA MULT PARC FROM nombre_tablas .
 
   ! shift/reduce conflict for WHERE resolved as shift
-    WHERE           shift and go to state 345
+    WHERE           shift and go to state 343
     PYC             reduce using rule 73 (contar -> CONTAR PARA MULT PARC FROM nombre_tablas .)
     SUMAR           reduce using rule 73 (contar -> CONTAR PARA MULT PARC FROM nombre_tablas .)
     RESTAR          reduce using rule 73 (contar -> CONTAR PARA MULT PARC FROM nombre_tablas .)
@@ -10417,13 +10410,13 @@ state 314
   ! WHERE           [ reduce using rule 73 (contar -> CONTAR PARA MULT PARC FROM nombre_tablas .) ]
 
 
-state 315
+state 314
 
     (74) suma -> SUMA PARA columnas PARC FROM nombre_tablas . WHERE condicion_where_select
     (75) suma -> SUMA PARA columnas PARC FROM nombre_tablas .
 
   ! shift/reduce conflict for WHERE resolved as shift
-    WHERE           shift and go to state 346
+    WHERE           shift and go to state 344
     PYC             reduce using rule 75 (suma -> SUMA PARA columnas PARC FROM nombre_tablas .)
     SUMAR           reduce using rule 75 (suma -> SUMA PARA columnas PARC FROM nombre_tablas .)
     RESTAR          reduce using rule 75 (suma -> SUMA PARA columnas PARC FROM nombre_tablas .)
@@ -10447,28 +10440,28 @@ state 315
   ! WHERE           [ reduce using rule 75 (suma -> SUMA PARA columnas PARC FROM nombre_tablas .) ]
 
 
-state 316
+state 315
 
     (76) suma -> SUMA PARA MULT PARC FROM nombre_tablas . WHERE condicion_where_select
 
-    WHERE           shift and go to state 347
+    WHERE           shift and go to state 345
+
+
+state 316
+
+    (77) cas -> CAS PARA ARROBA ID AS tipo . PARC
+
+    PARC            shift and go to state 346
 
 
 state 317
 
-    (77) cas -> CAS PARA ARROBA ID AS tipo . PARC
+    (86) crear_procedure -> CREATE PROCEDURE ID PARA parametros PARC AS . BEGIN bloque END
 
-    PARC            shift and go to state 348
+    BEGIN           shift and go to state 347
 
 
 state 318
-
-    (86) crear_procedure -> CREATE PROCEDURE ID PARA parametros PARC AS . BEGIN bloque END
-
-    BEGIN           shift and go to state 349
-
-
-state 319
 
     (88) parametros -> parametros COMA parametro .
 
@@ -10476,7 +10469,7 @@ state 319
     COMA            reduce using rule 88 (parametros -> parametros COMA parametro .)
 
 
-state 320
+state 319
 
     (90) parametro -> ARROBA ID tipo .
 
@@ -10484,7 +10477,7 @@ state 320
     COMA            reduce using rule 90 (parametro -> ARROBA ID tipo .)
 
 
-state 321
+state 320
 
     (91) parametro -> ARROBA ID AS . tipo
     (159) tipo -> . INT
@@ -10505,9 +10498,9 @@ state 321
     NCHAR           shift and go to state 218
     NVARCHAR        shift and go to state 219
 
-    tipo                           shift and go to state 350
+    tipo                           shift and go to state 348
 
-state 322
+state 321
 
     (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC RETURN . tipo AS BEGIN bloque END
     (159) tipo -> . INT
@@ -10528,16 +10521,16 @@ state 322
     NCHAR           shift and go to state 218
     NVARCHAR        shift and go to state 219
 
-    tipo                           shift and go to state 351
+    tipo                           shift and go to state 349
 
-state 323
+state 322
 
     (52) atributo_opcion -> ID . PARA ID PARC
 
-    PARA            shift and go to state 352
+    PARA            shift and go to state 350
 
 
-state 324
+state 323
 
     (44) atributo -> ID tipo atributo_opciones .
     (46) atributo_opciones -> atributo_opciones . atributo_opcion
@@ -10549,15 +10542,15 @@ state 324
 
     PARC            reduce using rule 44 (atributo -> ID tipo atributo_opciones .)
     COMA            reduce using rule 44 (atributo -> ID tipo atributo_opciones .)
-    NOT             shift and go to state 326
-    NULL            shift and go to state 327
-    PRIMARY         shift and go to state 328
-    REFERENCE       shift and go to state 329
-    ID              shift and go to state 323
+    NOT             shift and go to state 325
+    NULL            shift and go to state 326
+    PRIMARY         shift and go to state 327
+    REFERENCE       shift and go to state 328
+    ID              shift and go to state 322
 
-    atributo_opcion                shift and go to state 353
+    atributo_opcion                shift and go to state 351
 
-state 325
+state 324
 
     (47) atributo_opciones -> atributo_opcion .
 
@@ -10570,14 +10563,14 @@ state 325
     COMA            reduce using rule 47 (atributo_opciones -> atributo_opcion .)
 
 
-state 326
+state 325
 
     (48) atributo_opcion -> NOT . NULL
 
-    NULL            shift and go to state 354
+    NULL            shift and go to state 352
 
 
-state 327
+state 326
 
     (49) atributo_opcion -> NULL .
 
@@ -10590,14 +10583,14 @@ state 327
     COMA            reduce using rule 49 (atributo_opcion -> NULL .)
 
 
-state 328
+state 327
 
     (50) atributo_opcion -> PRIMARY . KEY
 
-    KEY             shift and go to state 355
+    KEY             shift and go to state 353
 
 
-state 329
+state 328
 
     (51) atributo_opcion -> REFERENCE .
 
@@ -10610,7 +10603,7 @@ state 329
     COMA            reduce using rule 51 (atributo_opcion -> REFERENCE .)
 
 
-state 330
+state 329
 
     (42) atributos -> atributos COMA atributo .
 
@@ -10618,14 +10611,14 @@ state 330
     COMA            reduce using rule 42 (atributos -> atributos COMA atributo .)
 
 
-state 331
+state 330
 
     (28) cmd_insert -> INSERT INTO ID PARA columnas PARC VALUES . PARA valores PARC
 
-    PARA            shift and go to state 356
+    PARA            shift and go to state 354
 
 
-state 332
+state 331
 
     (33) condicion_where -> ID IGUAL expresion .
     (146) aritmetica -> expresion . SUMAR expresion
@@ -10658,14 +10651,14 @@ state 332
     AND             shift and go to state 96
 
 
-state 333
+state 332
 
     (104) cmd_alter -> ALTER TABLE ID ADD COLUMN ID tipo .
 
     PYC             reduce using rule 104 (cmd_alter -> ALTER TABLE ID ADD COLUMN ID tipo .)
 
 
-state 334
+state 333
 
     (166) tipo -> NCHAR PARA literal PARC .
 
@@ -10680,7 +10673,7 @@ state 334
     AS              reduce using rule 166 (tipo -> NCHAR PARA literal PARC .)
 
 
-state 335
+state 334
 
     (167) tipo -> NVARCHAR PARA literal PARC .
 
@@ -10695,7 +10688,7 @@ state 335
     AS              reduce using rule 167 (tipo -> NVARCHAR PARA literal PARC .)
 
 
-state 336
+state 335
 
     (35) condicion_where_select -> ID BETWEEN expresion . AND expresion
     (146) aritmetica -> expresion . SUMAR expresion
@@ -10712,7 +10705,7 @@ state 336
     (152) logica -> expresion . OR expresion
     (153) logica -> expresion . AND expresion
 
-    AND             shift and go to state 357
+    AND             shift and go to state 355
     SUMAR           shift and go to state 84
     RESTAR          shift and go to state 85
     MULT            shift and go to state 86
@@ -10727,7 +10720,7 @@ state 336
     OR              shift and go to state 95
 
 
-state 337
+state 336
 
     (129) case -> CASE lista_when ELSE THEN bloque END comp_case .
 
@@ -10753,7 +10746,7 @@ state 337
     WHERE           reduce using rule 129 (case -> CASE lista_when ELSE THEN bloque END comp_case .)
 
 
-state 338
+state 337
 
     (138) ternario -> IF PARA expresion COMA expresion COMA expresion . PARC
     (146) aritmetica -> expresion . SUMAR expresion
@@ -10770,7 +10763,7 @@ state 338
     (152) logica -> expresion . OR expresion
     (153) logica -> expresion . AND expresion
 
-    PARC            shift and go to state 358
+    PARC            shift and go to state 356
     SUMAR           shift and go to state 84
     RESTAR          shift and go to state 85
     MULT            shift and go to state 86
@@ -10786,14 +10779,7 @@ state 338
     AND             shift and go to state 96
 
 
-state 339
-
-    (112) s_if -> IF expresion BEGIN bloque lista_else_if END IF .
-
-    PYC             reduce using rule 112 (s_if -> IF expresion BEGIN bloque lista_else_if END IF .)
-
-
-state 340
+state 338
 
     (115) lista_else_if -> lista_else_if ELSE IF . expresion BEGIN bloque
     (119) expresion -> . aritmetica
@@ -10865,7 +10851,7 @@ state 340
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    expresion                      shift and go to state 359
+    expresion                      shift and go to state 357
     aritmetica                     shift and go to state 30
     relacional                     shift and go to state 31
     logica                         shift and go to state 32
@@ -10881,9 +10867,9 @@ state 340
     suma                           shift and go to state 67
     cas                            shift and go to state 68
 
-state 341
+state 339
 
-    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN . bloque END IF
+    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN . bloque END
     (118) bloque -> . instrucciones
     (2) instrucciones -> . instrucciones instruccion
     (3) instrucciones -> . instruccion
@@ -10965,10 +10951,10 @@ state 341
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -11030,7 +11016,7 @@ state 341
     CAS             shift and go to state 75
 
     expresion                      shift and go to state 10
-    bloque                         shift and go to state 360
+    bloque                         shift and go to state 358
     instrucciones                  shift and go to state 230
     instruccion                    shift and go to state 3
     clausula                       shift and go to state 4
@@ -11073,7 +11059,7 @@ state 341
     cas                            shift and go to state 68
     campos_select                  shift and go to state 69
 
-state 342
+state 340
 
     (116) lista_else_if -> ELSE IF expresion . BEGIN bloque
     (146) aritmetica -> expresion . SUMAR expresion
@@ -11090,7 +11076,47 @@ state 342
     (152) logica -> expresion . OR expresion
     (153) logica -> expresion . AND expresion
 
-    BEGIN           shift and go to state 361
+    BEGIN           shift and go to state 359
+    SUMAR           shift and go to state 84
+    RESTAR          shift and go to state 85
+    MULT            shift and go to state 86
+    DIV             shift and go to state 87
+    IGUAL           shift and go to state 88
+    IGUALDAD        shift and go to state 89
+    DESIGUALDAD     shift and go to state 90
+    MENOR           shift and go to state 91
+    MAYOR           shift and go to state 92
+    MENOR_IGUAL     shift and go to state 93
+    MAYOR_IGUAL     shift and go to state 94
+    OR              shift and go to state 95
+    AND             shift and go to state 96
+
+
+state 341
+
+    (114) s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque . END
+
+    END             shift and go to state 360
+
+
+state 342
+
+    (70) substraer -> SUBSTRAER PARA expresion COMA expresion COMA expresion . PARC
+    (146) aritmetica -> expresion . SUMAR expresion
+    (147) aritmetica -> expresion . RESTAR expresion
+    (148) aritmetica -> expresion . MULT expresion
+    (149) aritmetica -> expresion . DIV expresion
+    (139) relacional -> expresion . IGUAL expresion
+    (140) relacional -> expresion . IGUALDAD expresion
+    (141) relacional -> expresion . DESIGUALDAD expresion
+    (142) relacional -> expresion . MENOR expresion
+    (143) relacional -> expresion . MAYOR expresion
+    (144) relacional -> expresion . MENOR_IGUAL expresion
+    (145) relacional -> expresion . MAYOR_IGUAL expresion
+    (152) logica -> expresion . OR expresion
+    (153) logica -> expresion . AND expresion
+
+    PARC            shift and go to state 361
     SUMAR           shift and go to state 84
     RESTAR          shift and go to state 85
     MULT            shift and go to state 86
@@ -11108,47 +11134,189 @@ state 342
 
 state 343
 
-    (114) s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque . END IF
+    (72) contar -> CONTAR PARA MULT PARC FROM nombre_tablas WHERE . condicion_where_select
+    (34) condicion_where_select -> . expresion
+    (35) condicion_where_select -> . ID BETWEEN expresion AND expresion
+    (119) expresion -> . aritmetica
+    (120) expresion -> . relacional
+    (121) expresion -> . logica
+    (122) expresion -> . literal
+    (123) expresion -> . llamada_fnc
+    (124) expresion -> . case
+    (125) expresion -> . ternario
+    (126) expresion -> . PARA expresion PARC
+    (127) expresion -> . ARROBA ID
+    (128) expresion -> . ID PUNTO ID
+    (146) aritmetica -> . expresion SUMAR expresion
+    (147) aritmetica -> . expresion RESTAR expresion
+    (148) aritmetica -> . expresion MULT expresion
+    (149) aritmetica -> . expresion DIV expresion
+    (150) aritmetica -> . RESTAR expresion
+    (139) relacional -> . expresion IGUAL expresion
+    (140) relacional -> . expresion IGUALDAD expresion
+    (141) relacional -> . expresion DESIGUALDAD expresion
+    (142) relacional -> . expresion MENOR expresion
+    (143) relacional -> . expresion MAYOR expresion
+    (144) relacional -> . expresion MENOR_IGUAL expresion
+    (145) relacional -> . expresion MAYOR_IGUAL expresion
+    (151) logica -> . NEGACION expresion
+    (152) logica -> . expresion OR expresion
+    (153) logica -> . expresion AND expresion
+    (154) literal -> . ENTERO
+    (155) literal -> . CADENA
+    (156) literal -> . FLOAT
+    (157) literal -> . ID
+    (158) literal -> . NULL
+    (136) llamada_fnc -> . ID PARA argumentos PARC
+    (137) llamada_fnc -> . funcion_sistema
+    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
+    (130) case -> . CASE lista_when END comp_case
+    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
+    (63) funcion_sistema -> . concatenar
+    (64) funcion_sistema -> . substraer
+    (65) funcion_sistema -> . hoy
+    (66) funcion_sistema -> . contar
+    (67) funcion_sistema -> . suma
+    (68) funcion_sistema -> . cas
+    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
+    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
+    (71) hoy -> . HOY PARA PARC
+    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
+    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
+    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
+    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
 
-    END             shift and go to state 362
+    ID              shift and go to state 268
+    PARA            shift and go to state 27
+    ARROBA          shift and go to state 24
+    RESTAR          shift and go to state 50
+    NEGACION        shift and go to state 52
+    ENTERO          shift and go to state 53
+    CADENA          shift and go to state 54
+    FLOAT           shift and go to state 55
+    NULL            shift and go to state 56
+    CASE            shift and go to state 58
+    IF              shift and go to state 107
+    CONCATENAR      shift and go to state 70
+    SUBSTRAER       shift and go to state 71
+    HOY             shift and go to state 72
+    CONTAR          shift and go to state 73
+    SUMA            shift and go to state 74
+    CAS             shift and go to state 75
 
+    condicion_where_select         shift and go to state 362
+    expresion                      shift and go to state 267
+    aritmetica                     shift and go to state 30
+    relacional                     shift and go to state 31
+    logica                         shift and go to state 32
+    literal                        shift and go to state 33
+    llamada_fnc                    shift and go to state 34
+    case                           shift and go to state 35
+    ternario                       shift and go to state 36
+    funcion_sistema                shift and go to state 57
+    concatenar                     shift and go to state 63
+    substraer                      shift and go to state 64
+    hoy                            shift and go to state 65
+    contar                         shift and go to state 66
+    suma                           shift and go to state 67
+    cas                            shift and go to state 68
 
 state 344
 
-    (70) substraer -> SUBSTRAER PARA expresion COMA expresion COMA expresion . PARC
-    (146) aritmetica -> expresion . SUMAR expresion
-    (147) aritmetica -> expresion . RESTAR expresion
-    (148) aritmetica -> expresion . MULT expresion
-    (149) aritmetica -> expresion . DIV expresion
-    (139) relacional -> expresion . IGUAL expresion
-    (140) relacional -> expresion . IGUALDAD expresion
-    (141) relacional -> expresion . DESIGUALDAD expresion
-    (142) relacional -> expresion . MENOR expresion
-    (143) relacional -> expresion . MAYOR expresion
-    (144) relacional -> expresion . MENOR_IGUAL expresion
-    (145) relacional -> expresion . MAYOR_IGUAL expresion
-    (152) logica -> expresion . OR expresion
-    (153) logica -> expresion . AND expresion
+    (74) suma -> SUMA PARA columnas PARC FROM nombre_tablas WHERE . condicion_where_select
+    (34) condicion_where_select -> . expresion
+    (35) condicion_where_select -> . ID BETWEEN expresion AND expresion
+    (119) expresion -> . aritmetica
+    (120) expresion -> . relacional
+    (121) expresion -> . logica
+    (122) expresion -> . literal
+    (123) expresion -> . llamada_fnc
+    (124) expresion -> . case
+    (125) expresion -> . ternario
+    (126) expresion -> . PARA expresion PARC
+    (127) expresion -> . ARROBA ID
+    (128) expresion -> . ID PUNTO ID
+    (146) aritmetica -> . expresion SUMAR expresion
+    (147) aritmetica -> . expresion RESTAR expresion
+    (148) aritmetica -> . expresion MULT expresion
+    (149) aritmetica -> . expresion DIV expresion
+    (150) aritmetica -> . RESTAR expresion
+    (139) relacional -> . expresion IGUAL expresion
+    (140) relacional -> . expresion IGUALDAD expresion
+    (141) relacional -> . expresion DESIGUALDAD expresion
+    (142) relacional -> . expresion MENOR expresion
+    (143) relacional -> . expresion MAYOR expresion
+    (144) relacional -> . expresion MENOR_IGUAL expresion
+    (145) relacional -> . expresion MAYOR_IGUAL expresion
+    (151) logica -> . NEGACION expresion
+    (152) logica -> . expresion OR expresion
+    (153) logica -> . expresion AND expresion
+    (154) literal -> . ENTERO
+    (155) literal -> . CADENA
+    (156) literal -> . FLOAT
+    (157) literal -> . ID
+    (158) literal -> . NULL
+    (136) llamada_fnc -> . ID PARA argumentos PARC
+    (137) llamada_fnc -> . funcion_sistema
+    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
+    (130) case -> . CASE lista_when END comp_case
+    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
+    (63) funcion_sistema -> . concatenar
+    (64) funcion_sistema -> . substraer
+    (65) funcion_sistema -> . hoy
+    (66) funcion_sistema -> . contar
+    (67) funcion_sistema -> . suma
+    (68) funcion_sistema -> . cas
+    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
+    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
+    (71) hoy -> . HOY PARA PARC
+    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
+    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
+    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
+    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
+    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
 
-    PARC            shift and go to state 363
-    SUMAR           shift and go to state 84
-    RESTAR          shift and go to state 85
-    MULT            shift and go to state 86
-    DIV             shift and go to state 87
-    IGUAL           shift and go to state 88
-    IGUALDAD        shift and go to state 89
-    DESIGUALDAD     shift and go to state 90
-    MENOR           shift and go to state 91
-    MAYOR           shift and go to state 92
-    MENOR_IGUAL     shift and go to state 93
-    MAYOR_IGUAL     shift and go to state 94
-    OR              shift and go to state 95
-    AND             shift and go to state 96
+    ID              shift and go to state 268
+    PARA            shift and go to state 27
+    ARROBA          shift and go to state 24
+    RESTAR          shift and go to state 50
+    NEGACION        shift and go to state 52
+    ENTERO          shift and go to state 53
+    CADENA          shift and go to state 54
+    FLOAT           shift and go to state 55
+    NULL            shift and go to state 56
+    CASE            shift and go to state 58
+    IF              shift and go to state 107
+    CONCATENAR      shift and go to state 70
+    SUBSTRAER       shift and go to state 71
+    HOY             shift and go to state 72
+    CONTAR          shift and go to state 73
+    SUMA            shift and go to state 74
+    CAS             shift and go to state 75
 
+    condicion_where_select         shift and go to state 363
+    expresion                      shift and go to state 267
+    aritmetica                     shift and go to state 30
+    relacional                     shift and go to state 31
+    logica                         shift and go to state 32
+    literal                        shift and go to state 33
+    llamada_fnc                    shift and go to state 34
+    case                           shift and go to state 35
+    ternario                       shift and go to state 36
+    funcion_sistema                shift and go to state 57
+    concatenar                     shift and go to state 63
+    substraer                      shift and go to state 64
+    hoy                            shift and go to state 65
+    contar                         shift and go to state 66
+    suma                           shift and go to state 67
+    cas                            shift and go to state 68
 
 state 345
 
-    (72) contar -> CONTAR PARA MULT PARC FROM nombre_tablas WHERE . condicion_where_select
+    (76) suma -> SUMA PARA MULT PARC FROM nombre_tablas WHERE . condicion_where_select
     (34) condicion_where_select -> . expresion
     (35) condicion_where_select -> . ID BETWEEN expresion AND expresion
     (119) expresion -> . aritmetica
@@ -11239,188 +11407,6 @@ state 345
 
 state 346
 
-    (74) suma -> SUMA PARA columnas PARC FROM nombre_tablas WHERE . condicion_where_select
-    (34) condicion_where_select -> . expresion
-    (35) condicion_where_select -> . ID BETWEEN expresion AND expresion
-    (119) expresion -> . aritmetica
-    (120) expresion -> . relacional
-    (121) expresion -> . logica
-    (122) expresion -> . literal
-    (123) expresion -> . llamada_fnc
-    (124) expresion -> . case
-    (125) expresion -> . ternario
-    (126) expresion -> . PARA expresion PARC
-    (127) expresion -> . ARROBA ID
-    (128) expresion -> . ID PUNTO ID
-    (146) aritmetica -> . expresion SUMAR expresion
-    (147) aritmetica -> . expresion RESTAR expresion
-    (148) aritmetica -> . expresion MULT expresion
-    (149) aritmetica -> . expresion DIV expresion
-    (150) aritmetica -> . RESTAR expresion
-    (139) relacional -> . expresion IGUAL expresion
-    (140) relacional -> . expresion IGUALDAD expresion
-    (141) relacional -> . expresion DESIGUALDAD expresion
-    (142) relacional -> . expresion MENOR expresion
-    (143) relacional -> . expresion MAYOR expresion
-    (144) relacional -> . expresion MENOR_IGUAL expresion
-    (145) relacional -> . expresion MAYOR_IGUAL expresion
-    (151) logica -> . NEGACION expresion
-    (152) logica -> . expresion OR expresion
-    (153) logica -> . expresion AND expresion
-    (154) literal -> . ENTERO
-    (155) literal -> . CADENA
-    (156) literal -> . FLOAT
-    (157) literal -> . ID
-    (158) literal -> . NULL
-    (136) llamada_fnc -> . ID PARA argumentos PARC
-    (137) llamada_fnc -> . funcion_sistema
-    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
-    (130) case -> . CASE lista_when END comp_case
-    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (63) funcion_sistema -> . concatenar
-    (64) funcion_sistema -> . substraer
-    (65) funcion_sistema -> . hoy
-    (66) funcion_sistema -> . contar
-    (67) funcion_sistema -> . suma
-    (68) funcion_sistema -> . cas
-    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
-    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
-    (71) hoy -> . HOY PARA PARC
-    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
-    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
-    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
-    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
-
-    ID              shift and go to state 268
-    PARA            shift and go to state 27
-    ARROBA          shift and go to state 24
-    RESTAR          shift and go to state 50
-    NEGACION        shift and go to state 52
-    ENTERO          shift and go to state 53
-    CADENA          shift and go to state 54
-    FLOAT           shift and go to state 55
-    NULL            shift and go to state 56
-    CASE            shift and go to state 58
-    IF              shift and go to state 107
-    CONCATENAR      shift and go to state 70
-    SUBSTRAER       shift and go to state 71
-    HOY             shift and go to state 72
-    CONTAR          shift and go to state 73
-    SUMA            shift and go to state 74
-    CAS             shift and go to state 75
-
-    condicion_where_select         shift and go to state 365
-    expresion                      shift and go to state 267
-    aritmetica                     shift and go to state 30
-    relacional                     shift and go to state 31
-    logica                         shift and go to state 32
-    literal                        shift and go to state 33
-    llamada_fnc                    shift and go to state 34
-    case                           shift and go to state 35
-    ternario                       shift and go to state 36
-    funcion_sistema                shift and go to state 57
-    concatenar                     shift and go to state 63
-    substraer                      shift and go to state 64
-    hoy                            shift and go to state 65
-    contar                         shift and go to state 66
-    suma                           shift and go to state 67
-    cas                            shift and go to state 68
-
-state 347
-
-    (76) suma -> SUMA PARA MULT PARC FROM nombre_tablas WHERE . condicion_where_select
-    (34) condicion_where_select -> . expresion
-    (35) condicion_where_select -> . ID BETWEEN expresion AND expresion
-    (119) expresion -> . aritmetica
-    (120) expresion -> . relacional
-    (121) expresion -> . logica
-    (122) expresion -> . literal
-    (123) expresion -> . llamada_fnc
-    (124) expresion -> . case
-    (125) expresion -> . ternario
-    (126) expresion -> . PARA expresion PARC
-    (127) expresion -> . ARROBA ID
-    (128) expresion -> . ID PUNTO ID
-    (146) aritmetica -> . expresion SUMAR expresion
-    (147) aritmetica -> . expresion RESTAR expresion
-    (148) aritmetica -> . expresion MULT expresion
-    (149) aritmetica -> . expresion DIV expresion
-    (150) aritmetica -> . RESTAR expresion
-    (139) relacional -> . expresion IGUAL expresion
-    (140) relacional -> . expresion IGUALDAD expresion
-    (141) relacional -> . expresion DESIGUALDAD expresion
-    (142) relacional -> . expresion MENOR expresion
-    (143) relacional -> . expresion MAYOR expresion
-    (144) relacional -> . expresion MENOR_IGUAL expresion
-    (145) relacional -> . expresion MAYOR_IGUAL expresion
-    (151) logica -> . NEGACION expresion
-    (152) logica -> . expresion OR expresion
-    (153) logica -> . expresion AND expresion
-    (154) literal -> . ENTERO
-    (155) literal -> . CADENA
-    (156) literal -> . FLOAT
-    (157) literal -> . ID
-    (158) literal -> . NULL
-    (136) llamada_fnc -> . ID PARA argumentos PARC
-    (137) llamada_fnc -> . funcion_sistema
-    (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
-    (130) case -> . CASE lista_when END comp_case
-    (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (63) funcion_sistema -> . concatenar
-    (64) funcion_sistema -> . substraer
-    (65) funcion_sistema -> . hoy
-    (66) funcion_sistema -> . contar
-    (67) funcion_sistema -> . suma
-    (68) funcion_sistema -> . cas
-    (69) concatenar -> . CONCATENAR PARA expresion COMA expresion PARC
-    (70) substraer -> . SUBSTRAER PARA expresion COMA expresion COMA expresion PARC
-    (71) hoy -> . HOY PARA PARC
-    (72) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (73) contar -> . CONTAR PARA MULT PARC FROM nombre_tablas
-    (74) suma -> . SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select
-    (75) suma -> . SUMA PARA columnas PARC FROM nombre_tablas
-    (76) suma -> . SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select
-    (77) cas -> . CAS PARA ARROBA ID AS tipo PARC
-
-    ID              shift and go to state 268
-    PARA            shift and go to state 27
-    ARROBA          shift and go to state 24
-    RESTAR          shift and go to state 50
-    NEGACION        shift and go to state 52
-    ENTERO          shift and go to state 53
-    CADENA          shift and go to state 54
-    FLOAT           shift and go to state 55
-    NULL            shift and go to state 56
-    CASE            shift and go to state 58
-    IF              shift and go to state 107
-    CONCATENAR      shift and go to state 70
-    SUBSTRAER       shift and go to state 71
-    HOY             shift and go to state 72
-    CONTAR          shift and go to state 73
-    SUMA            shift and go to state 74
-    CAS             shift and go to state 75
-
-    condicion_where_select         shift and go to state 366
-    expresion                      shift and go to state 267
-    aritmetica                     shift and go to state 30
-    relacional                     shift and go to state 31
-    logica                         shift and go to state 32
-    literal                        shift and go to state 33
-    llamada_fnc                    shift and go to state 34
-    case                           shift and go to state 35
-    ternario                       shift and go to state 36
-    funcion_sistema                shift and go to state 57
-    concatenar                     shift and go to state 63
-    substraer                      shift and go to state 64
-    hoy                            shift and go to state 65
-    contar                         shift and go to state 66
-    suma                           shift and go to state 67
-    cas                            shift and go to state 68
-
-state 348
-
     (77) cas -> CAS PARA ARROBA ID AS tipo PARC .
 
     PYC             reduce using rule 77 (cas -> CAS PARA ARROBA ID AS tipo PARC .)
@@ -11445,7 +11431,7 @@ state 348
     WHERE           reduce using rule 77 (cas -> CAS PARA ARROBA ID AS tipo PARC .)
 
 
-state 349
+state 347
 
     (86) crear_procedure -> CREATE PROCEDURE ID PARA parametros PARC AS BEGIN . bloque END
     (118) bloque -> . instrucciones
@@ -11529,10 +11515,10 @@ state 349
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -11593,7 +11579,7 @@ state 349
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    bloque                         shift and go to state 367
+    bloque                         shift and go to state 365
     instrucciones                  shift and go to state 230
     instruccion                    shift and go to state 3
     clausula                       shift and go to state 4
@@ -11637,7 +11623,7 @@ state 349
     cas                            shift and go to state 68
     campos_select                  shift and go to state 69
 
-state 350
+state 348
 
     (91) parametro -> ARROBA ID AS tipo .
 
@@ -11645,21 +11631,21 @@ state 350
     COMA            reduce using rule 91 (parametro -> ARROBA ID AS tipo .)
 
 
-state 351
+state 349
 
     (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC RETURN tipo . AS BEGIN bloque END
 
-    AS              shift and go to state 368
+    AS              shift and go to state 366
 
 
-state 352
+state 350
 
     (52) atributo_opcion -> ID PARA . ID PARC
 
-    ID              shift and go to state 369
+    ID              shift and go to state 367
 
 
-state 353
+state 351
 
     (46) atributo_opciones -> atributo_opciones atributo_opcion .
 
@@ -11672,7 +11658,7 @@ state 353
     COMA            reduce using rule 46 (atributo_opciones -> atributo_opciones atributo_opcion .)
 
 
-state 354
+state 352
 
     (48) atributo_opcion -> NOT NULL .
 
@@ -11685,7 +11671,7 @@ state 354
     COMA            reduce using rule 48 (atributo_opcion -> NOT NULL .)
 
 
-state 355
+state 353
 
     (50) atributo_opcion -> PRIMARY KEY .
 
@@ -11698,7 +11684,7 @@ state 355
     COMA            reduce using rule 50 (atributo_opcion -> PRIMARY KEY .)
 
 
-state 356
+state 354
 
     (28) cmd_insert -> INSERT INTO ID PARA columnas PARC VALUES PARA . valores PARC
     (93) valores -> . valores COMA valor
@@ -11777,10 +11763,10 @@ state 356
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    valores                        shift and go to state 370
-    valor                          shift and go to state 371
-    expresion                      shift and go to state 372
-    empty                          shift and go to state 373
+    valores                        shift and go to state 368
+    valor                          shift and go to state 369
+    expresion                      shift and go to state 370
+    empty                          shift and go to state 371
     aritmetica                     shift and go to state 30
     relacional                     shift and go to state 31
     logica                         shift and go to state 32
@@ -11796,7 +11782,7 @@ state 356
     suma                           shift and go to state 67
     cas                            shift and go to state 68
 
-state 357
+state 355
 
     (35) condicion_where_select -> ID BETWEEN expresion AND . expresion
     (153) logica -> expresion AND . expresion
@@ -11869,7 +11855,7 @@ state 357
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    expresion                      shift and go to state 374
+    expresion                      shift and go to state 372
     aritmetica                     shift and go to state 30
     relacional                     shift and go to state 31
     logica                         shift and go to state 32
@@ -11885,7 +11871,7 @@ state 357
     suma                           shift and go to state 67
     cas                            shift and go to state 68
 
-state 358
+state 356
 
     (138) ternario -> IF PARA expresion COMA expresion COMA expresion PARC .
 
@@ -11911,7 +11897,7 @@ state 358
     WHERE           reduce using rule 138 (ternario -> IF PARA expresion COMA expresion COMA expresion PARC .)
 
 
-state 359
+state 357
 
     (115) lista_else_if -> lista_else_if ELSE IF expresion . BEGIN bloque
     (146) aritmetica -> expresion . SUMAR expresion
@@ -11928,7 +11914,7 @@ state 359
     (152) logica -> expresion . OR expresion
     (153) logica -> expresion . AND expresion
 
-    BEGIN           shift and go to state 375
+    BEGIN           shift and go to state 373
     SUMAR           shift and go to state 84
     RESTAR          shift and go to state 85
     MULT            shift and go to state 86
@@ -11944,14 +11930,14 @@ state 359
     AND             shift and go to state 96
 
 
-state 360
+state 358
 
-    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque . END IF
+    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque . END
 
-    END             shift and go to state 376
+    END             shift and go to state 374
 
 
-state 361
+state 359
 
     (116) lista_else_if -> ELSE IF expresion BEGIN . bloque
     (118) bloque -> . instrucciones
@@ -12035,10 +12021,10 @@ state 361
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -12100,7 +12086,7 @@ state 361
     CAS             shift and go to state 75
 
     expresion                      shift and go to state 10
-    bloque                         shift and go to state 377
+    bloque                         shift and go to state 375
     instrucciones                  shift and go to state 230
     instruccion                    shift and go to state 3
     clausula                       shift and go to state 4
@@ -12143,14 +12129,14 @@ state 361
     cas                            shift and go to state 68
     campos_select                  shift and go to state 69
 
-state 362
+state 360
 
-    (114) s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque END . IF
+    (114) s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque END .
 
-    IF              shift and go to state 378
+    PYC             reduce using rule 114 (s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque END .)
 
 
-state 363
+state 361
 
     (70) substraer -> SUBSTRAER PARA expresion COMA expresion COMA expresion PARC .
 
@@ -12176,7 +12162,7 @@ state 363
     WHERE           reduce using rule 70 (substraer -> SUBSTRAER PARA expresion COMA expresion COMA expresion PARC .)
 
 
-state 364
+state 362
 
     (72) contar -> CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select .
 
@@ -12202,7 +12188,7 @@ state 364
     WHERE           reduce using rule 72 (contar -> CONTAR PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select .)
 
 
-state 365
+state 363
 
     (74) suma -> SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select .
 
@@ -12228,7 +12214,7 @@ state 365
     WHERE           reduce using rule 74 (suma -> SUMA PARA columnas PARC FROM nombre_tablas WHERE condicion_where_select .)
 
 
-state 366
+state 364
 
     (76) suma -> SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select .
 
@@ -12254,37 +12240,37 @@ state 366
     WHERE           reduce using rule 76 (suma -> SUMA PARA MULT PARC FROM nombre_tablas WHERE condicion_where_select .)
 
 
-state 367
+state 365
 
     (86) crear_procedure -> CREATE PROCEDURE ID PARA parametros PARC AS BEGIN bloque . END
 
-    END             shift and go to state 379
+    END             shift and go to state 376
+
+
+state 366
+
+    (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS . BEGIN bloque END
+
+    BEGIN           shift and go to state 377
+
+
+state 367
+
+    (52) atributo_opcion -> ID PARA ID . PARC
+
+    PARC            shift and go to state 378
 
 
 state 368
 
-    (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS . BEGIN bloque END
-
-    BEGIN           shift and go to state 380
-
-
-state 369
-
-    (52) atributo_opcion -> ID PARA ID . PARC
-
-    PARC            shift and go to state 381
-
-
-state 370
-
     (28) cmd_insert -> INSERT INTO ID PARA columnas PARC VALUES PARA valores . PARC
     (93) valores -> valores . COMA valor
 
-    PARC            shift and go to state 382
-    COMA            shift and go to state 383
+    PARC            shift and go to state 379
+    COMA            shift and go to state 380
 
 
-state 371
+state 369
 
     (94) valores -> valor .
 
@@ -12292,7 +12278,7 @@ state 371
     COMA            reduce using rule 94 (valores -> valor .)
 
 
-state 372
+state 370
 
     (95) valor -> expresion .
     (146) aritmetica -> expresion . SUMAR expresion
@@ -12326,7 +12312,7 @@ state 372
     AND             shift and go to state 96
 
 
-state 373
+state 371
 
     (96) valor -> empty .
 
@@ -12334,7 +12320,7 @@ state 373
     COMA            reduce using rule 96 (valor -> empty .)
 
 
-state 374
+state 372
 
     (35) condicion_where_select -> ID BETWEEN expresion AND expresion .
     (153) logica -> expresion AND expresion .
@@ -12414,7 +12400,7 @@ state 374
   ! AND             [ shift and go to state 96 ]
 
 
-state 375
+state 373
 
     (115) lista_else_if -> lista_else_if ELSE IF expresion BEGIN . bloque
     (118) bloque -> . instrucciones
@@ -12498,10 +12484,10 @@ state 375
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -12563,7 +12549,7 @@ state 375
     CAS             shift and go to state 75
 
     expresion                      shift and go to state 10
-    bloque                         shift and go to state 384
+    bloque                         shift and go to state 381
     instrucciones                  shift and go to state 230
     instruccion                    shift and go to state 3
     clausula                       shift and go to state 4
@@ -12606,14 +12592,14 @@ state 375
     cas                            shift and go to state 68
     campos_select                  shift and go to state 69
 
-state 376
+state 374
 
-    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END . IF
+    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END .
 
-    IF              shift and go to state 385
+    PYC             reduce using rule 113 (s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END .)
 
 
-state 377
+state 375
 
     (116) lista_else_if -> ELSE IF expresion BEGIN bloque .
 
@@ -12621,21 +12607,14 @@ state 377
     ELSE            reduce using rule 116 (lista_else_if -> ELSE IF expresion BEGIN bloque .)
 
 
-state 378
-
-    (114) s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque END IF .
-
-    PYC             reduce using rule 114 (s_if -> IF expresion BEGIN bloque ELSE BEGIN bloque END IF .)
-
-
-state 379
+state 376
 
     (86) crear_procedure -> CREATE PROCEDURE ID PARA parametros PARC AS BEGIN bloque END .
 
     PYC             reduce using rule 86 (crear_procedure -> CREATE PROCEDURE ID PARA parametros PARC AS BEGIN bloque END .)
 
 
-state 380
+state 377
 
     (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS BEGIN . bloque END
     (118) bloque -> . instrucciones
@@ -12719,10 +12698,10 @@ state 380
     (129) case -> . CASE lista_when ELSE THEN bloque END comp_case
     (130) case -> . CASE lista_when END comp_case
     (138) ternario -> . IF PARA expresion COMA expresion COMA expresion PARC
-    (111) s_if -> . IF expresion BEGIN bloque END IF
-    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END IF
-    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF
-    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END IF
+    (111) s_if -> . IF expresion BEGIN bloque END
+    (112) s_if -> . IF expresion BEGIN bloque lista_else_if END
+    (113) s_if -> . IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END
+    (114) s_if -> . IF expresion BEGIN bloque ELSE BEGIN bloque END
     (117) s_while -> . WHILE expresion BEGIN bloque END
     (110) s_return -> . RETURN expresion
     (55) op_select -> . select_tabla
@@ -12783,7 +12762,7 @@ state 380
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    bloque                         shift and go to state 386
+    bloque                         shift and go to state 382
     instrucciones                  shift and go to state 230
     instruccion                    shift and go to state 3
     clausula                       shift and go to state 4
@@ -12827,7 +12806,7 @@ state 380
     cas                            shift and go to state 68
     campos_select                  shift and go to state 69
 
-state 381
+state 378
 
     (52) atributo_opcion -> ID PARA ID PARC .
 
@@ -12840,14 +12819,14 @@ state 381
     COMA            reduce using rule 52 (atributo_opcion -> ID PARA ID PARC .)
 
 
-state 382
+state 379
 
     (28) cmd_insert -> INSERT INTO ID PARA columnas PARC VALUES PARA valores PARC .
 
     PYC             reduce using rule 28 (cmd_insert -> INSERT INTO ID PARA columnas PARC VALUES PARA valores PARC .)
 
 
-state 383
+state 380
 
     (93) valores -> valores COMA . valor
     (95) valor -> . expresion
@@ -12924,9 +12903,9 @@ state 383
     SUMA            shift and go to state 74
     CAS             shift and go to state 75
 
-    valor                          shift and go to state 387
-    expresion                      shift and go to state 372
-    empty                          shift and go to state 373
+    valor                          shift and go to state 383
+    expresion                      shift and go to state 370
+    empty                          shift and go to state 371
     aritmetica                     shift and go to state 30
     relacional                     shift and go to state 31
     logica                         shift and go to state 32
@@ -12942,7 +12921,7 @@ state 383
     suma                           shift and go to state 67
     cas                            shift and go to state 68
 
-state 384
+state 381
 
     (115) lista_else_if -> lista_else_if ELSE IF expresion BEGIN bloque .
 
@@ -12950,21 +12929,14 @@ state 384
     ELSE            reduce using rule 115 (lista_else_if -> lista_else_if ELSE IF expresion BEGIN bloque .)
 
 
-state 385
-
-    (113) s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF .
-
-    PYC             reduce using rule 113 (s_if -> IF expresion BEGIN bloque lista_else_if ELSE BEGIN bloque END IF .)
-
-
-state 386
+state 382
 
     (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS BEGIN bloque . END
 
-    END             shift and go to state 388
+    END             shift and go to state 384
 
 
-state 387
+state 383
 
     (93) valores -> valores COMA valor .
 
@@ -12972,7 +12944,7 @@ state 387
     COMA            reduce using rule 93 (valores -> valores COMA valor .)
 
 
-state 388
+state 384
 
     (87) crear_funcion -> CREATE FUNCTION ID PARA parametros PARC RETURN tipo AS BEGIN bloque END .
 
@@ -12999,7 +12971,7 @@ WARNING: shift/reduce conflict for MENOR_IGUAL in state 267 resolved as shift
 WARNING: shift/reduce conflict for MAYOR_IGUAL in state 267 resolved as shift
 WARNING: shift/reduce conflict for OR in state 267 resolved as shift
 WARNING: shift/reduce conflict for AND in state 267 resolved as shift
+WARNING: shift/reduce conflict for WHERE in state 313 resolved as shift
 WARNING: shift/reduce conflict for WHERE in state 314 resolved as shift
-WARNING: shift/reduce conflict for WHERE in state 315 resolved as shift
-WARNING: reduce/reduce conflict in state 374 resolved using rule (condicion_where_select -> ID BETWEEN expresion AND expresion)
-WARNING: rejected rule (logica -> expresion AND expresion) in state 374
+WARNING: reduce/reduce conflict in state 372 resolved using rule (condicion_where_select -> ID BETWEEN expresion AND expresion)
+WARNING: rejected rule (logica -> expresion AND expresion) in state 372

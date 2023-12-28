@@ -256,38 +256,353 @@ class Aritmetica(Expresion):
         return resultado
     
     def ejecutar3d(self, env:Enviroment, generador:Generador):
-        op1:Retorno3d = self.op1.ejecutar(env)
-        op2:Retorno3d = self.op2.ejecutar(env)
-        resultado = Retorno(tipo=TipoDato.ERROR, valor=None)
+        op1:Retorno3d = self.op1.ejecutar3d(env, generador)
+        op2:Retorno3d = self.op2.ejecutar3d(env, generador)
 
         codigo = ''
-        tmp1 = generador.obtenerEtiqueta()
+        tmp1 = generador.obtenerTemporal()
+
+         # Que no haya error en los operandos
+        if op1.tipo == TipoDato.ERROR or op2.tipo == TipoDato.ERROR:
+            # Agregando a la tabla de errores
+            err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error al realizar la operación aritmética.')
+            TablaErrores.addError(err)
+            return Retorno3d(tipo=TipoDato.ERROR)
 
         if self.operador == TipoAritmetica.SUMA:
-            if op1.tipo == TipoDato.INT and op2.tipo == TipoDato.INT:
-                codigo = f'{tmp1} = {op1.etiqueta} + {op2.etiqueta};'
+            # bit
+            if op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} || {op2.temporal};'
                 generador.agregarInstruccion(codigo)
-                return Retorno3d(codigo=codigo, etiqueta='', temporal='', tipo=TipoDato.INT, valor='')
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.BIT)
 
-            if op1.tipo == TipoDato.INT and op2.tipo == TipoDato.DECIMAL:
-                codigo = f'{tmp1} = {op1.etiqueta} + {op2.etiqueta};'
+            elif op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
                 generador.agregarInstruccion(codigo)
-                return Retorno3d(codigo=codigo, etiqueta='', temporal='', tipo=TipoDato.INT, valor='')
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
 
-            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.NVARCHAR or op1.tipo == TipoDato.INT and op2.tipo == TipoDato.NCHAR:
+            elif op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+
+            elif op1.tipo == TipoDato.BIT and (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
+                #resultado.tipo = TipoDato.NVARCHAR
+                #resultado.valor = str(op1.valor) + op2.valor
                 pass
+            
+            # int/decimal
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif (op1.tipo == TipoDato.INT or op1.tipo == TipoDato.DECIMAL) and (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
+                # resultado.tipo = TipoDato.NVARCHAR
+                # resultado.valor = str(op1.valor) + op2.valor
+                pass
+            
+            # nchar/nvarchar
+            elif (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) and op2.tipo == TipoDato.BIT:
+                #resultado.tipo = TipoDato.NVARCHAR
+                #resultado.valor = op1.valor + str(op2.valor)
+                pass
+
+            elif (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) and (op2.tipo == TipoDato.INT or op2.tipo == TipoDato.DECIMAL):
+                # resultado.tipo = TipoDato.NVARCHAR
+                #resultado.valor = op1.valor + str(op2.valor)
+                pass
+            
+            elif (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) and (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
+                tmp2 = generador.obtenerTemporal()
+                codigo += f'{tmp2} = HP;'
+                codigo += self.concatenar(env, generador, op1)
+                codigo += self.concatenar(env, generador, op2)
+                codigo += f'heap[HP] = 0;\n'       # Caracter de fin de cadena
+                codigo += f'HP = HP + 1;\n'
+                print(codigo)
+                generador.agregarInstruccion(codigo)
+
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp2, tipo=TipoDato.NVARCHAR, valor='')
+                
+            else:
+                # Agregando a la tabla de errores
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error al realizar lo suma. La suma de los tipos no es permitida.')
+                TablaErrores.addError(err)
+                return Retorno3d(tipo=TipoDato.ERROR)
+
+        if self.operador == TipoAritmetica.RESTA:
+
+            # bit
+            if op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            # int/decimal
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} - {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            else:
+                # Agregando a la tabla de errores
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error al realizar lo resta. La resta de los tipos no es permitida.')
+                TablaErrores.addError(err)
+                return Retorno3d(tipo=TipoDato.ERROR)
+        
+        if self.operador == TipoAritmetica.MULTIPLICACION:
+            # bit
+            if op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} && {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.BIT)
+
+            elif op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            # int/decimal
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} * {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif (op1.tipo == TipoDato.INT or op1.tipo == TipoDato.DECIMAL) and (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
+                # resultado.tipo = TipoDato.NVARCHAR
+                # resultado.valor = str(op1.valor) + op2.valor
+                # codigo = f'{tmp1} = {op1.temporal} + {op2.temporal};'
+                # generador.agregarInstruccion(codigo)
+                # return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+                pass
+            
+            # date/datetime
+            elif (op1.tipo == TipoDato.DATE or op1.tipo == TipoDato.DATETIME) and (op2.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR):
+                tmp2 = generador.obtenerTemporal()
+                codigo += f'{tmp2} = HP;'
+                codigo += self.concatenar(env, generador, op1)
+                codigo += self.concatenar(env, generador, op2)
+                codigo += f'heap[HP] = 0;\n'       # Caracter de fin de cadena
+                codigo += f'HP = HP + 1;\n'
+                print(codigo)
+                generador.agregarInstruccion(codigo)
+
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp2, tipo=TipoDato.NVARCHAR, valor='')
+
+            # nchar/nvarchar
+            elif (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) and (op2.tipo == TipoDato.DATE or op1.tipo == TipoDato.DATETIME):
+                tmp2 = generador.obtenerTemporal()
+                codigo += f'{tmp2} = HP;'
+                codigo += self.concatenar(env, generador, op1)
+                codigo += self.concatenar(env, generador, op2)
+                codigo += f'heap[HP] = 0;\n'       # Caracter de fin de cadena
+                codigo += f'HP = HP + 1;\n'
+                print(codigo)
+                generador.agregarInstruccion(codigo)
+
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp2, tipo=TipoDato.NVARCHAR, valor='')
+            
+            else:
+                # Agregando a la tabla de errores
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error al realizar lo multiplicaión. La multiplicación de los tipos no es permitida.')
+                TablaErrores.addError(err)
+                return Retorno3d(tipo=TipoDato.ERROR)
+        
+        if self.operador == TipoAritmetica.DIVISION:
+            # bit
+            if op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.BIT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+
+            # int/decimal
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.BIT:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.INT and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            elif op1.tipo == TipoDato.DECIMAL and op2.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = {op1.temporal} / {op2.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            # date/datetime
+            elif (op1.tipo == TipoDato.DATE or op1.tipo == TipoDato.DATETIME) and (op2.tipo == TipoDato.NCHAR or op2.tipo == TipoDato.NVARCHAR):
+                tmp2 = generador.obtenerTemporal()
+                codigo += f'{tmp2} = HP;'
+                codigo += self.concatenar(env, generador, op1)
+                codigo += self.concatenar(env, generador, op2)
+                codigo += f'heap[HP] = 0;\n'       # Caracter de fin de cadena
+                codigo += f'HP = HP + 1;\n'
+                print(codigo)
+                generador.agregarInstruccion(codigo)
+
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp2, tipo=TipoDato.NVARCHAR, valor='')
+
+            # nchar/nvarchar
+            elif (op1.tipo == TipoDato.NCHAR or op1.tipo == TipoDato.NVARCHAR) and (op2.tipo == TipoDato.DATE or op2.tipo == TipoDato.DATETIME):
+                tmp2 = generador.obtenerTemporal()
+                codigo += f'{tmp2} = HP;'
+                codigo += self.concatenar(env, generador, op1)
+                codigo += self.concatenar(env, generador, op2)
+                codigo += f'heap[HP] = 0;\n'       # Caracter de fin de cadena
+                codigo += f'HP = HP + 1;\n'
+                print(codigo)
+                generador.agregarInstruccion(codigo)
+
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp2, tipo=TipoDato.NVARCHAR, valor='')
+            
+            else:
+                # Agregando a la tabla de errores
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'Error al realizar lo division. La división de los tipos no es permitida.')
+                TablaErrores.addError(err)
+                return Retorno3d(tipo=TipoDato.ERROR)
+
+        elif self.operador == TipoAritmetica.UNARIO:
+            if op1.tipo == TipoDato.INT:
+                codigo = f'{tmp1} = -{op1.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.INT)
+
+            elif op1.tipo == TipoDato.DECIMAL:
+                codigo = f'{tmp1} = -{op1.temporal};'
+                generador.agregarInstruccion(codigo)
+                return Retorno3d(codigo=codigo, etiqueta='', temporal=tmp1, tipo=TipoDato.DECIMAL)
+            
+            else:
+                # Agregando a la tabla de errores
+                err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'El operador unario debe ser de tipo INT o DECIMAL.')
+                TablaErrores.addError(err)
+                return Retorno3d(tipo=TipoDato.ERROR)
+
+
     
-    def concatenar(self, env:Enviroment, generador:Generador):
+    def concatenar(self, env:Enviroment, generador:Generador, expresion:Retorno3d):
         codigo = ''
         etq_ciclo = generador.obtenerEtiqueta()
         etq_salida = generador.obtenerEtiqueta()
         caracter = generador.obtenerTemporal()
 
         codigo += f'{etq_ciclo}:\n'
-        codigo += f'{etq_ciclo}:\n'
-        codigo += f'{etq_ciclo}:\n'
-        codigo += f'{etq_ciclo}:\n'
-
+        codigo += f'{caracter} = heap[(int) {expresion.temporal}];\n'
+        codigo += f'if ({caracter} == 0) goto {etq_salida};\n'
+        codigo += f'    heap[HP] = {caracter};\n'
+        codigo += f'    HP = HP + 1;\n'
+        codigo += f'    {expresion.temporal} = {expresion.temporal} + 1;\n'
+        codigo += f'    goto {etq_ciclo};\n'
+        codigo += f'{etq_salida}:\n'
+        return codigo
 
 
 

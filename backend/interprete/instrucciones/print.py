@@ -33,14 +33,14 @@ class Print(Instruccion):
     # para el c3d
     
     def ejecutar3d(self, env:Enviroment, generador:Generador):
-        codigo = ''
+        codigo = '/* PRINT */\n'
         valor_exp:Retorno3d = self.argumento.ejecutar3d(env, generador)
-                
-        if valor_exp.tipo == TipoDato.INT:
+        if valor_exp.tipo == TipoDato.INT or valor_exp.tipo == TipoDato.BIT:
             codigo += f'printf("%d", (int) {valor_exp.temporal});\n'
+        
         elif valor_exp.tipo == TipoDato.DECIMAL:
             codigo += f'printf("%f",(float) {valor_exp.temporal});\n'
-        elif valor_exp.tipo == TipoDato.NVARCHAR or valor_exp.tipo == TipoDato.NCHAR:
+        elif valor_exp.tipo == TipoDato.NVARCHAR or valor_exp.tipo == TipoDato.NCHAR or valor_exp.tipo == TipoDato.DATE or valor_exp.tipo == TipoDato.DATETIME:
             etqCiclo = generador.obtenerEtiqueta()
             etqSalida = generador.obtenerEtiqueta()
 
@@ -54,6 +54,7 @@ class Print(Instruccion):
             codigo += f'{tmp} = {tmp} + 1;\n'
             codigo += f'goto {etqCiclo};\n'
             codigo += f'{etqSalida}:\n'
+        codigo += f'printf("\\n");\n'
 
         generador.agregarInstruccion(codigo)
 

@@ -1,7 +1,7 @@
 
 /*
 
--- Esto es opcional
+
 CREATE FUNCTION fn_regresatasa (@idproducto int)
 RETURN decimal
 AS
@@ -10,9 +10,9 @@ BEGIN
 	-- set @TASA = (select tasa from tbproducto where idproducto = @idproducto and idestado = 1);
 
 	RETURN @TASA;	
-END; -- ADD: punto y coma
+END;
 
-CREATE FUNCTION fn_retornanombre (@identificacion nvarchar(20))
+CREATE FUNCTION fn_retornanombre (@primer_nombre nvarchar(20), @segundo_nombre NVARCHAR(10))
 RETURN nvarchar(100)
 AS
 BEGIN
@@ -23,7 +23,7 @@ BEGIN
 	
 	
 	set @nombres = CONCATENA (@primer_nombre,@segundo_nombre) ;
-		set @APELLIDOS = CONCATENA (@primer_nombre,@segundo_nombre) ;
+	set @APELLIDOS = CONCATENA (@primer_nombre,@segundo_nombre) ;
 	set @nombrecompleto = CONCATENA(@nombrecompleto,@apellidos);
 
 
@@ -45,12 +45,11 @@ BEGIN
 
 			update tbproducto set tasa = tasa+(tasa*@aumento/100) 
 			where idestado = 1;
-		END 
 		ELSE 
 		BEGIN
 			update tbproducto set tasa = tasa+(tasa*(@aumento)) 
 			where idestado = 1;
-		END
+		END;
 		
 			
 		DECLARE @tasa nvarchar(5);

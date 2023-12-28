@@ -45,8 +45,7 @@ class Exec(Instruccion):
         if self.text == '':
             err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion=f'El procedimiento "{self.nombre_proc}" no existe.')
             TablaErrores.addError(err)
-            return Retorno(tipo=TipoDato.ERROR, valor=None)
-        
+            return Retorno(tipo=TipoDato.ERROR, valor=None)        
         # Obteniendo el procedure
         instruccion:Procedure = parser.parse(self.text.lower())[0]
 
@@ -105,7 +104,6 @@ class Exec(Instruccion):
         # Asignando los parametros del procedimiento con los valores dados en la llamada
         for asignacion in asignaciones:
             asignacion.ejecutar(new_env)
-        
         # Ejecutando las instrucciones dentro del procedimiento
         ret = simbolo.instrucciones.ejecutar(new_env)
 
@@ -116,9 +114,7 @@ class Exec(Instruccion):
 
         return Retorno(tipo=TipoDato.ERROR, valor=None) 
     
-    # self.nombre_proc = nombre_proc
-    # if argumentos[0] == None: self.argumentos = []
-    # else:                     self.argumentos = argumentos
+    
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()
         hijo = Nodo(id=id, valor='EXEC', hijos=[])

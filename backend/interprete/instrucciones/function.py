@@ -21,6 +21,7 @@ class Function(Instruccion):
         if parametros[0] == None: self.parametros = []            # Arreglo de declaraciones
         else:                     self.parametros = parametros
         self.instrucciones = instrucciones
+        self.ya_generada = False
     
     def ejecutar(self, env: Enviroment):
         
