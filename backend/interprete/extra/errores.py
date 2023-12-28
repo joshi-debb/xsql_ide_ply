@@ -35,4 +35,8 @@ class TablaErrores:
             errores.append(error.serializar())
         return errores
     
+    @classmethod
+    def cleanTablaErrores(cls):
+        cls.errores = []
+    
     

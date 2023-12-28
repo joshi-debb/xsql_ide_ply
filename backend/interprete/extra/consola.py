@@ -1,6 +1,6 @@
 
 class Consola:
-    consola:str = ""
+    consola:str = []
     def __init__(self):
         pass
     
@@ -12,7 +12,8 @@ class Consola:
 
     @classmethod
     def addConsola(cls, datos:str):
-        cls.consola += f'{datos}\n'
+        cls.consola.append(datos)
+        # cls.consola += f'{datos}\n'
     
     @classmethod
     def getConsola(cls):
@@ -20,4 +21,4 @@ class Consola:
     
     @classmethod
     def cleanConsola(cls):
-        cls.consola = ""
+        cls.consola = []
