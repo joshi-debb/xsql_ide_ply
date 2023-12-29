@@ -67,6 +67,9 @@ BEGIN
 			SET @alturamora = 4;				
 		END;
 
+		select "El valor de @altura es ";
+		select @alturamora;
+
 		-- update tbcreditosaldo set alturamora = @alturamora 
 		-- where credito = @credito and diasmora = @diasmora;
 END;

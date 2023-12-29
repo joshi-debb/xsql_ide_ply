@@ -995,14 +995,15 @@ def p_empty(t):
 
 # Error sintáctico
 def p_error(t):
-    if t:
+    if t is not None:
         # Agregando a la tabla de erorres
-        err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'Error sintáxis en token: {t.value}')
+        err = Error(tipo='Sintáctico', linea=t.lineno, columna=find_column(t.lexer.lexdata, t), descripcion=f'No se esperaba token: {t.value}')
+        # Se descarta el token, y el analizador continua
+        parser.errok() 
     else:
         # Agregando a la tabla de erorres
         err = Error(tipo='Sintáctico', linea=0, columna=0, descripcion=f'Final inesperado.')
     TablaErrores.addError(err)
-
 
 # Build the parser
 parser = yacc(debug=True)

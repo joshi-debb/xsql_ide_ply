@@ -46,7 +46,7 @@ BEGIN
 ELSE 
 BEGIN
     select 'incorrecto';
-END IF;
+END;
 declare @a as int;
 declare @b as int;
 set @a = 5;

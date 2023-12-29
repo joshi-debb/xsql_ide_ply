@@ -43,11 +43,11 @@ class AsignacionVar(Instruccion):
                 TablaErrores.addError(err)
                 return self
             if exp.valor == 1:
-                simbolo.valor = True
+                simbolo.valor = 1
             elif exp.valor == 0:
-                simbolo.valor = False
+                simbolo.valor = 1
             elif exp.valor == 'null':
-                simbolo.valor = None
+                simbolo.valor = 0
             else:
                 # Agregando a la tabla de erorres
                 err = Error(tipo='Semántico', linea=self.linea, columna=self.columna, descripcion='Error Semantico. El valor a asignar debe ser tipo bit (1, 0 o null)')

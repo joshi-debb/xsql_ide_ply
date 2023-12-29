@@ -14,17 +14,13 @@ class Bloque(Instruccion):
         self.columna = columna
     
     def ejecutar(self, env: Enviroment):
-        # Creando nuevo entorno
-        # new_env = Enviroment(ent_anterior=env, ambito="Local")
-        # Ejecutando las instrucciones
-        # try:
-        for instruccion in self.instrucciones:
-            ret = instruccion.ejecutar(env)
-            if isinstance(ret, Return) or isinstance(ret, Retorno):
-                return ret
-        # except Exception as e:
-            # print(f'ERROR: en la linea: {self.linea} y columna: {self.columna}')
-
+        try:
+            for instruccion in self.instrucciones:
+                ret = instruccion.ejecutar(env)
+                if isinstance(ret, Return) or isinstance(ret, Retorno):
+                    return ret
+        except Exception as e:
+            print(f"Error inesperado: {e}")
         return self
     
     def recorrerArbol(self, raiz:Nodo):

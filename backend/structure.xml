@@ -54,7 +54,9 @@
 		<functions>
 			<function name="fn_retornanombre">CREATE FUNCTION fn_retornanombre (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);DECLARE @apellidos NVARCHAR(100);DECLARE @nombrecompleto NVARCHAR(100);SET @ nombres = CONCATENA (@primer_nombre, @segundo_nombre);SET @ apellidos = CONCATENA (@primer_nombre, @segundo_nombre);SET @ nombrecompleto = CONCATENA (@nombrecompleto, @apellidos);RETURN @nombrecompleto; END;</function>
 		</functions>
-		<procedures/>
+		<procedures>
+			<procedure name="sp_actualizaalturamora">CREATE PROCEDURE sp_actualizaalturamora (@credito int, @diasmora int) AS BEGIN DECLARE @alturamora int;IF (@diasmora  &gt;  0 &amp;&amp; @diasmora  &lt;  30) BEGIN SET @ alturamora = 0; END;IF (@diasmora  &gt;=  30 &amp;&amp; @diasmora  &lt;  60) BEGIN SET @ alturamora = 1; END;IF (@diasmora  &gt;=  30 &amp;&amp; @diasmora  &lt;  60) BEGIN SET @ alturamora = 2; END;IF (@diasmora  &gt;=  60 &amp;&amp; @diasmora  &lt;  90) BEGIN SET @ alturamora = 3; END;IF (@diasmora  &gt;=  90 &amp;&amp; @diasmora  &lt;  120) BEGIN SET @ alturamora = 4; END;SELECT 'el valor de @altura es ';SELECT @alturamora;END;</procedure>
+		</procedures>
 	</database>
 	<database name="personas">
 		<tables>
