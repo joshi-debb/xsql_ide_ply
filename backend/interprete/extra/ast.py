@@ -1,4 +1,6 @@
 from subprocess import check_call
+from types import NoneType
+from interprete.extra.errores import TablaErrores, Error
 from interprete.extra.consola import Consola
 
 class Nodo:
@@ -32,8 +34,11 @@ class AST:
         conexiones = ''
         raiz = Nodo(id=0, valor='INSTRUCCIONES', hijos=[])
 
-        for instruccion in self.instrucciones:
-            instruccion.recorrerArbol(raiz)
+        try:
+            for instruccion in self.instrucciones:
+                instruccion.recorrerArbol(raiz)
+        except TypeError as e:
+                return
         declaraciones = f'\t{raiz.getId()} [label = "{raiz.getValor()}"];\n'
         declaraciones, conexiones = self.graficarArbol(raiz, declaraciones, conexiones)
         dot = 'digraph {\n' + declaraciones + conexiones + '}\n'

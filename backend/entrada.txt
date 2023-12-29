@@ -46,7 +46,7 @@ BEGIN
 ELSE 
 BEGIN
     select 'incorrecto';
-END IF;
+END;
 declare @a as int;
 declare @b as int;
 set @a = 5;
@@ -114,4 +114,9 @@ BEGIN
 
 END;
 
+<<<<<<< HEAD
 select fn_retornanombre "Gerson", "Quintana";
+=======
+select fn_retornanombre("Gerson", "Quintana");
+
+>>>>>>> 3787d39e26ec2c7b30a41aff2eead17dfcb6ba74

@@ -172,5 +172,9 @@ def find_column(inp, token):
     line_start = inp.rfind('\n', 0, token.lexpos + 1) + 1
     return (token.lexpos - line_start) + 1
 
+def t_eof(t):
+    t.lexer.lineno = 0
+    print('FIN DEL ARCHIVO', t)
+
 
 lex.lex()

@@ -47,7 +47,7 @@ class Declaracion(Instruccion):
             elif self.tipo == TipoDato.NCHAR or self.tipo == TipoDato.NVARCHAR:
                 simbolo.valor = ' '
             elif self.tipo == TipoDato.BIT:
-                simbolo.valor = False
+                simbolo.valor = 0
         
         env.insertar_simbolo(self.id, simbolo)
 

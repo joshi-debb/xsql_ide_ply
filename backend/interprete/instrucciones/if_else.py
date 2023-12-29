@@ -104,7 +104,7 @@ class IfElse(Instruccion):
                 self.generarC3DInstrucciones(env, generador, elseif.bloque.instrucciones)
                 generador.agregarInstruccion(f'goto {etq_salida};')
                 generador.agregarInstruccion(f'{elseif.condicion.getEtqFalse()}:')
-        
+            
         if self.bandera_else:
             self.generarC3DInstrucciones(env, generador, self.bloque_else.instrucciones)
 
