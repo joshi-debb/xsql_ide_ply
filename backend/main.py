@@ -37,6 +37,7 @@ else:
 
     print("Structure XML created successfully")
 
+
 # url del servidor
 base_url = "http://localhost:5000"
 
@@ -55,8 +56,6 @@ def datas():
     global lista_traduccion
     if request.method == 'POST':
         data = request.data.decode('utf-8')
-        print('-----------')
-        print(data);
         instrucciones = parser.parse(data.lower())
         env = Enviroment(ent_anterior=None, ambito='Global')
         for instruccion in instrucciones:
@@ -76,7 +75,48 @@ def datas():
         Enviroment.cleanEnviroments()
         TablaErrores.cleanTablaErrores()
         Consola.cleanConsola()
-        return jsonify(tuple)     
+        return jsonify(tuple) 
+
+
+@app.route("/xml" , methods=['GET'])
+def get_xml_datas():
+    
+    mydoc = minidom.parse('backend/structure.xml')
+    current = mydoc.getElementsByTagName('current')[0].getAttribute('name')
+    
+    json2 = {
+            'current': current,
+            'datas': {},
+        }
+        
+    for base in mydoc.getElementsByTagName('database'):
+        Name, tables, views, procs, funcs = [], [], [], [], []
+        json = {
+            'database': [],
+            'tables': [],
+            'views': [],
+            'procs': [],
+            'funcs': []
+        }
+        Name.append(base.getAttribute('name'))
+        for table in base.getElementsByTagName('table'):
+            tables.append(table.getAttribute('name'))
+        for view in base.getElementsByTagName('view'):
+            views.append(view.getAttribute('name'))
+        for proc in base.getElementsByTagName('procedure'):
+            procs.append(proc.getAttribute('name'))
+        for func in base.getElementsByTagName('function'):
+            funcs.append(func.getAttribute('name'))
+    
+        json['database'] = Name
+        json['tables'] = tables
+        json['views'] = views
+        json['procs'] = procs
+        json['funcs'] = funcs
+
+        json2['datas'] = json
+    
+    return jsonify(datas = json)
 
 @app.route("/traduccion" , methods=['GET'])
 def traduccion():

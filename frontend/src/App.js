@@ -5,7 +5,7 @@ import { Pestaña, side_bar } from './comps/Tools';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
-import { saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 
 
 
@@ -17,9 +17,13 @@ function App() {
   const [selectedFile, setSelectedFile] = useState(null);
 
 
-  const [items, setItems] = useState({ListConsole: [], ListError: [], ListSymbol: []});
 
-  const [select_items, set_select_items] = useState({ListSelect: []});
+  const [items, setItems] = useState({ ListConsole: [], ListError: [], ListSymbol: [] });
+
+  const [select_items, set_select_items] = useState({ ListSelect: [] });
+
+  const [current_item, set_current_item] = useState({ xml_data: []});
+
 
 
   const handleChange1 = (value) => {
@@ -30,18 +34,19 @@ function App() {
     setCode2(value);
   }
 
+  // boton de guardar
   const handleSave = () => {
     const a = document.createElement("a");
-    
+
     // Definir las variables blob y url con let o const
     const blob = new Blob([code1], { type: "octet/stream" });
     const url = window.URL.createObjectURL(blob);
-    
+
     a.href = url;
     a.download = 'default.sql';
-    
+
     a.click();
-    
+
     window.URL.revokeObjectURL(url);
   };
 
@@ -52,7 +57,7 @@ function App() {
       const reader = new FileReader();
       reader.onload = (e) => {
         setCode1(e.target.result);
-        
+
       };
       reader.readAsText(file);
     }
@@ -61,42 +66,57 @@ function App() {
   }
 
   const traducir = () => {
-    fetch ('http://localhost:5000/traduccion', {
+    fetch('http://localhost:5000/traduccion', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(data => {setCode2(data.res)})
-    .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(data => { setCode2(data.res) })
+      .catch(err => console.log(err))
   }
-  
+
   const selects = () => {
-    fetch ('http://localhost:5000/selects', {
+    fetch('http://localhost:5000/selects', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(data => {
-      set_select_items(data)
+      .then(res => res.json())
+      .then(data => {
+        set_select_items(data)
+      })
+      .catch(err => console.log(err))
+  }
+
+  const xml_datas = () => {
+    fetch('http://localhost:5000/xml', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
-    .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(data => {
+        set_current_item(data)
+
+      })
+      .catch(err => console.log(err))
   }
 
   const ejecutar = () => {
-    fetch ('http://localhost:5000/datas', {
+    fetch('http://localhost:5000/datas', {
       method: 'POST',
       body: code1,
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(data => {setItems(data)})
-    .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(data => { setItems(data) })
+      .catch(err => console.log(err))
   }
 
   const [imageSrc, setImageSrc] = useState('');
@@ -131,7 +151,72 @@ function App() {
 
       <div style={{ display: 'flex' }}>
         <div>
-          {side_bar()}
+          {/* sidebar */}
+
+          <div className="sidebar">
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <button className="buttons"> IMPORTAR </button>
+              <button className="buttons"> EXPORTAR </button>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <button className="buttons"> SQL DUMP </button>
+              <button className="buttons" onClick={xml_datas}> RECARGAR </button>
+            </div>
+
+            <hr />
+            <div>
+              <h4 style={{ display: 'flex', justifyContent: 'center' }}>DBMS</h4 >
+              {/* {current_item.datas.database.map(item => {
+                console.log(item)
+              })} */}
+              <h4 style={{ display: 'flex', justifyContent: 'center' }}></h4 >
+            </div>
+            {/* aqui se deben recorrer las bases de datos */}
+            <hr />
+            
+            {console.log(current_item.xml_data)}
+            {/* {current_item.xml_data.map(item => {
+                console.log(item)
+              })} */}
+            <ul>
+              <li> File
+                <ul>
+                  <li>Tablas</li>
+                  <ul>
+                    <li>tabla1</li>
+                    <li>tabla2</li>
+                  </ul>
+                  <li>Vistas</li>
+                  <li>Funciones</li>
+                  <li>Procedimientos</li>
+                </ul>
+              </li>
+            </ul>
+            <hr />
+            <hr />
+            <ul>
+              <li>File
+                <ul>
+                  <li>Tablas</li>
+                  <ul>
+                    <li>tabla1</li>
+                    <li>tabla2</li>
+                  </ul>
+                  <li>Vistas</li>
+                  <li>Funciones</li>
+                  <li>Procedimientos</li>
+                </ul>
+              </li>
+            </ul>
+            <hr />
+
+
+
+          </div>
+
+
+
+          {/* sidebar */}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -169,7 +254,7 @@ function App() {
           </div>
 
           <div className="paneles">
-            <Pestaña items={items.ListError} env={items.ListSymbol} terminal={items.ListConsole} ast={imageSrc} select={select_items}/>
+            <Pestaña items={items.ListError} env={items.ListSymbol} terminal={items.ListConsole} ast={imageSrc} select={select_items} />
           </div>
 
         </div>

@@ -4,7 +4,10 @@ import 'react-tabs/style/react-tabs.css';
 import '../css/App.css'
 
 
-export function side_bar() {
+export function side_bar(datas) {
+  console.log('side_bar')
+  console.log(datas)
+
   return (
     <div className="sidebar">
 
@@ -20,6 +23,7 @@ export function side_bar() {
       <hr />
       <div>
         <h4 style={{ display: 'flex', justifyContent: 'center' }}>DBMS</h4 >
+        <h4 style={{ display: 'flex', justifyContent: 'center' }}>default</h4 >
       </div>
       <hr />
       {/* aqui se deben recorrer las bases de datos */}
@@ -108,24 +112,24 @@ export function TableEnviroments({ env }) {
       <table className='EntornoTable'>
         <thead>
           <tr>
-            <th>ambito</th>
-            <th>id</th>
-            <th>parametros</th>
-            <th>simbolo</th>
-            <th>tipo</th>
-            <th>valor</th>
+            <th>Id</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+            <th>Entorno</th>
+            <th>Parametros</th>
+            <th>Simbolo</th>
           </tr>
         </thead>
         <tbody>
           {env.map(item => {
             return (
               <tr key={item.id}>
-                <td> {item.ambito} </td>
                 <td> {item.id} </td>
-                <td>{item.parametros}</td>
-                <td>{item.tipo_simbolo}</td>
                 <td>{item.tipo}</td>
                 <td>{item.valor}</td>
+                <td> {item.ambito} </td>
+                <td>{item.parametros}</td>
+                <td>{item.simbolo}</td>
               </tr>
             );
           })}
@@ -142,7 +146,7 @@ export function TerminalPrint({ console }) {
     <div className='scroleados'>
       {console.map(item => {
         return (
-          <pre key={1}>{item}</pre>
+          <pre key={1}>{'> '+item}</pre>
         );
       })}
     </div>
