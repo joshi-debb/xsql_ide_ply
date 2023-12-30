@@ -46,14 +46,12 @@ Paneles
 
 .sidebar {
   white-space: nowrap;
-  width: 14rem;
-  height: calc(100vh - 75px);
+  width: 18.5rem;
+  height: calc(100vh - 120px);
   overflow: hidden;
   overflow-x: auto;
   overflow-y: auto;
-  border-bottom: 5px solid #000000;
-  border-left: 5px solid #000000;
-  border-right: 5px solid #000000;
+  border: 5px solid #000000;
   background-color: #9DB2BF;
 }
 
@@ -169,14 +167,18 @@ buttons
 }
 
 .file-input-label {
-  padding: 7px 8px;
+  padding: 7px 10px;
   cursor: pointer;
   font: bold 120% monospace;
+  border: 2px solid #000000;
+
   color: #000000;
   background-color:  #EEF5FF;
 }
 
 .file-input-wrapper {
+  border-left: 5px solid #000000;
+  border-right: 5px solid #000000;
   position: relative;
   display: inline-block;
   background-color: #060606;
@@ -194,4 +196,64 @@ buttons
 
 /* 
 buttons 
+*/
+
+
+/*
+Dropdown
+*/
+
+
+.database-name {
+  font-weight: bold; /* Hace que el nombre de la base de datos sea negrita */
+  color: #8f0707;
+  font-size: x-large;
+  background-color: #97aab6;
+  
+}
+
+hr {
+  align-self: center;
+  border-style: dashed;
+  height: 5px;
+  background-color: #000000;
+}
+
+li::before {
+  content: '>';
+}
+
+ul {
+  list-style-type:none; /* Elimina los puntos de la lista principal */
+  font-weight: bold;
+  
+}
+
+.titulos {
+  font-size: large;
+  font-weight: bold;
+}
+
+
+.table-list,
+.view-list,
+.function-list,
+.procedure-list {
+  color: #8f0707;
+  font-size: large;
+  margin-bottom: 5px;
+  justify-content: center;
+  background-color: #97aab6;
+
+}
+
+.side_header {
+  font-family: cursive;
+  color: #8f0707;
+  font-weight: bold;
+
+}
+
+/*
+Dropdown
 */

@@ -2,85 +2,52 @@ import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import '../css/App.css'
-import { Dropdown, DropdownButton } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export function DatabaseInfo({ asdf }) {
-  const [aux, setaux] = useState(0);
-  const handle = (pepito) => {
-    setaux(pepito);
-  };
   return (
-
-    <div >
-      <div >
-        {
-          asdf.map(item => {
-            
-            return (
-
-              <div>
-
-                <hr />
-                <ul>
-                  <DropdownButton className='hola' title={item.db[0]} onSelect={handle}>
-
-                    <ul>
-                      <DropdownButton title='Tablas'>
-                        {item.tables.map(tab => {
-                          return (
-                            <ul>
-                              <li>{tab}</li>
-                            </ul>
-                          );
-                        }
-                        )}
-
-                      </DropdownButton>
-                      <DropdownButton title='Vistas'>
-                        {item.views.map(view => {
-                          return (
-                            <ul>
-                              <li>{view}</li>
-                            </ul>
-                          );
-                        }
-                        )}
-                      </DropdownButton>
-                      <DropdownButton title='Funciones'>
-                        {item.funcs.map(func => {
-                          return (
-                            <ul>
-                              <li>{func}</li>
-                            </ul>
-                          );
-                        }
-                        )}
-                      </DropdownButton>
-                      <DropdownButton title='Procedimientos'>
-                        {item.procs.map(proc => {
-                          return (
-                            <ul>
-                              <li>{proc}</li>
-                            </ul>
-                          );
-                        }
-                        )}
-                      </DropdownButton>
-                    </ul>
-
-                  </DropdownButton>
-                </ul>
-              </div>
-            );
-          })
-
-        }
+    <div className='base-info'>
+      
+      <div>
+        
+        {asdf.map((item, index) => (
+          
+          <div key={index} className="database-info">
+            <ul>
+            <hr />
+              <li className="database-name">{item.db[0]}</li>
+              <li className='titulos'>Tablas</li>
+              <ul className="table-list">
+                {item.tables.map((tab, tabIndex) => (
+                  <li key={tabIndex}>{tab}</li>
+                ))}
+              </ul>
+              <li className='titulos'>Vistas</li>
+              <ul className="view-list">
+                {item.views.map((view, viewIndex) => (
+                  <li key={viewIndex}>{view}</li>
+                ))}
+              </ul>
+              <li className='titulos'>Funciones</li>
+              <ul className="function-list">
+                {item.funcs.map((func, funcIndex) => (
+                  <li key={funcIndex}>{func}</li>
+                ))}
+              </ul>
+              <li className='titulos'>Procedimientos</li>
+              <ul className="procedure-list">
+                {item.procs.map((proc, procIndex) => (
+                  <li key={procIndex}>{proc}</li>
+                ))}
+              </ul>
+              <hr />
+            </ul>
+          </div>
+        ))}
+        
       </div>
-
+      
     </div>
-
   );
 }
 

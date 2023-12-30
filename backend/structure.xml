@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SCHEMAS>
-	<current name="personas"/>
+	<current name="tbbanco"/>
 	<database name="personas">
 		<tables>
 			<table name="persona">

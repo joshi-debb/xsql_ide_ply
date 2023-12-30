@@ -110,17 +110,25 @@ def datas():
 def get_xml_datas():
     
     mydoc = minidom.parse('backend/structure.xml')
+    current = mydoc.getElementsByTagName('current')[0].getAttribute('name')
+    
+    current_db = []
+    current_db.append(current)
     
     aux = []
     
+    cont = 0
+    
     for base in mydoc.getElementsByTagName('database'):
+        cont += 1
         name, tables, views, procs, funcs = [], [], [], [], []
         json = {
             'db': [],
             'tables': [],
             'views': [],
             'procs': [],
-            'funcs': []
+            'funcs': [],
+            'current': []
         }
         name.append(base.getAttribute('name'))
         for table in base.getElementsByTagName('table'):
@@ -137,7 +145,27 @@ def get_xml_datas():
         json['views'] = views
         json['procs'] = procs
         json['funcs'] = funcs
+        json['current'] = current_db
         
+        aux.append(json)
+    
+    if cont == 0:
+        name, tables, views, procs, funcs = [], [], [], [], []
+        json = {
+            'db': [],
+            'tables': [],
+            'views': [],
+            'procs': [],
+            'funcs': [],
+            'current': []
+        }
+        name.append('sys')
+        json['db'] = name
+        json['tables'] = tables
+        json['views'] = views
+        json['procs'] = procs
+        json['funcs'] = funcs
+        json['current'] = current_db
         aux.append(json)
 
     return jsonify(aux)
