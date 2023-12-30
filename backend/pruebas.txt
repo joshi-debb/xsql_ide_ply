@@ -6,9 +6,11 @@ create table persona (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
     apellido NVARCHAR(5) NOT NULL,
     edad INT NOT NULL,
-    altura DECIMAL NOT NULL,
-    fecha DATE NOT NULL  
+	fecha DATE NOT NULL,
+    altura DECIMAL NOT NULL
 );
+
+
 
 INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('juanito', 'cascabel', 17, '01/11/2005', 1.80);
 INSERT INTO persona (nombre, apellido, edad, fecha, altura) VALUES ('lola', 'molinillo', 18, '05/03/2004', 1.55);
@@ -21,8 +23,9 @@ create table alumno (
     nombre NVARCHAR(5) NOT NULL PRIMARY KEY,
     apellido NVARCHAR(5) NOT NULL,
     registro INT NOT NULL,
-    altura DECIMAL NOT NULL,
-    grado NVARCHAR(5) NOT NULL    
+	grado NVARCHAR(5) NOT NULL,
+    altura DECIMAL NOT NULL
+        
 );
 
 
@@ -310,3 +313,4 @@ BEGIN
 	return @nombrecompleto;
 
 END;
+

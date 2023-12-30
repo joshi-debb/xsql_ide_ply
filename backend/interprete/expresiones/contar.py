@@ -33,12 +33,7 @@ class Contar(Expresion):
             Consola.addConsola('Contar no admite campos')
             return
 
-        if self.condicion_where != None:
-            self.count_where(env)
-        else:
-            # print('Contar no admite sin where')
-            Consola.addConsola('Contar no admite sin where')
-            return
+        self.count_where(env)
 
         # Cuando se obtenga la suma, modificar la variable resultado con el con el total
         resultado.valor = self.counter
@@ -64,6 +59,10 @@ class Contar(Expresion):
                                 for recs in table.getElementsByTagName('records'):
                                     for record in recs.getElementsByTagName('record'):
                                         cont_records += 1
+                                        
+                                        if self.condicion_where == None:
+                                            self.counter += 1
+                                            continue
                                         
                                         self.set_valor(self.condicion_where.text_val.replace('\'',''))
                                         

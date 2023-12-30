@@ -110,23 +110,19 @@ def datas():
 def get_xml_datas():
     
     mydoc = minidom.parse('backend/structure.xml')
-    current = mydoc.getElementsByTagName('current')[0].getAttribute('name')
     
-    json2 = {
-            'current': current,
-            'datas': {},
-        }
-        
+    aux = []
+    
     for base in mydoc.getElementsByTagName('database'):
-        Name, tables, views, procs, funcs = [], [], [], [], []
+        name, tables, views, procs, funcs = [], [], [], [], []
         json = {
-            'database': [],
+            'db': [],
             'tables': [],
             'views': [],
             'procs': [],
             'funcs': []
         }
-        Name.append(base.getAttribute('name'))
+        name.append(base.getAttribute('name'))
         for table in base.getElementsByTagName('table'):
             tables.append(table.getAttribute('name'))
         for view in base.getElementsByTagName('view'):
@@ -135,16 +131,104 @@ def get_xml_datas():
             procs.append(proc.getAttribute('name'))
         for func in base.getElementsByTagName('function'):
             funcs.append(func.getAttribute('name'))
-    
-        json['database'] = Name
+
+        json['db'] = name
         json['tables'] = tables
         json['views'] = views
         json['procs'] = procs
         json['funcs'] = funcs
+        
+        aux.append(json)
 
-        json2['datas'] = json
+    return jsonify(aux)
+
+
+@app.route("/export" , methods=['GET'])
+def get_xml_export():
     
-    return jsonify(datas = json)
+    mydoc = minidom.parse('backend/structure.xml')
+    current = mydoc.getElementsByTagName('current')[0].getAttribute('name')
+
+    lista_export = []
+    
+    for base in mydoc.getElementsByTagName('database'):
+        if base.getAttribute('name') == current:
+            for table in base.getElementsByTagName('tables')[0].getElementsByTagName('table'):
+                
+                records = table.getElementsByTagName('records')[0]
+                for record in records.getElementsByTagName('record'):
+                    export = 'INSERT INTO ' + table.getAttribute('name') + ' ('
+                    fields = table.getElementsByTagName('fields')[0]
+                    for column in fields.getElementsByTagName('field'):
+                        export += column.getAttribute('name') + ','
+                    export = export[:-1]
+                    export += ') VALUES ('
+                    for rc in record.getElementsByTagName('field'):
+                        export += '\'' + rc.firstChild.data + '\','
+                    export = export[:-1]
+                    export += ');'                    
+                    lista_export.append(export)
+
+    return jsonify(datas = lista_export)
+
+
+@app.route("/dump" , methods=['GET'])
+def get_xml_dump():
+    
+    mydoc = minidom.parse('backend/structure.xml')
+    current = mydoc.getElementsByTagName('current')[0].getAttribute('name')
+
+    lista_dump = []
+    
+    for base in mydoc.getElementsByTagName('database'):
+        if base.getAttribute('name') == current:
+            for table in base.getElementsByTagName('tables')[0].getElementsByTagName('table'):
+                dump = 'CREATE TABLE ' + table.getAttribute('name') + ' ('
+                fields = table.getElementsByTagName('fields')[0]
+                for column in fields.getElementsByTagName('field'):
+                    dump += column.getAttribute('name') + ' ' + column.getAttribute('type') + ' '
+                    if column.getAttribute('param1') != '':
+                        dump += column.getAttribute('param1') + ' '
+                    if column.getAttribute('param2') != '':
+                        dump += column.getAttribute('param2') + ' '
+                    dump += ','                  
+                dump = dump[:-1]
+                dump += ');'
+                
+                if 'TipoDato.NVARCHAR' in dump:
+                    dump = dump.replace('TipoDato.NVARCHAR', 'NVARCHAR(10)')
+                if 'TipoDato.INT' in dump:
+                    dump = dump.replace('TipoDato.INT', 'INT')
+                if 'TipoDato.DECIMAL' in dump:
+                    dump = dump.replace('TipoDato.DECIMAL', 'DECIMAL')
+                if 'TipoDato.DATE' in dump:
+                    dump = dump.replace('TipoDato.DATE', 'DATE')
+                if 'TipoDato.BOOLEAN' in dump:
+                    dump = dump.replace('TipoDato.BOOLEAN', 'BOOLEAN')
+                if 'TipoDato.NCHAR' in dump:
+                    dump = dump.replace('TipoDato.NCHAR', 'NCHAR(10)')
+                if 'TipoDato.DATETIME' in dump:
+                    dump = dump.replace('TipoDato.DATETIME', 'DATETIME')
+                if 'TipoDato.BIT' in dump:
+                    dump = dump.replace('TipoDato.BIT', 'BIT')
+                if 'TipoDato.NULL' in dump:
+                    dump = dump.replace('TipoDato.NULL', 'NULL')
+                if 'TipoDato.ERROR' in dump:
+                    dump = dump.replace('TipoDato.ERROR', 'ERROR')
+                if 'TipoOpciones.NOTNULL' in dump:
+                    dump = dump.replace('TipoOpciones.NOTNULL', 'NOT NULL')
+                if 'TipoOpciones.NULL' in dump:
+                    dump = dump.replace('TipoOpciones.NULL', 'NULL')
+                if 'TipoOpciones.PRIMARYKEY' in dump:
+                    dump = dump.replace('TipoOpciones.PRIMARYKEY', 'PRIMARY KEY')
+                if 'TipoOpciones.REFERENCE' in dump:
+                    dump = dump.replace('TipoOpciones.REFERENCE', 'REFERENCES')
+
+                dump = dump.replace(' ,', ',').replace(' )', ')')
+                
+                lista_dump.append(dump)
+                
+    return jsonify(datas = lista_dump)
 
 @app.route("/traduccion" , methods=['GET'])
 def traduccion():
@@ -152,6 +236,7 @@ def traduccion():
 
 @app.route("/selects" , methods=['GET'])
 def selects():
+    print(Select.get_tabla())
     return jsonify(res = Select.get_tabla()) 
 
 @app.route('/get_image')
@@ -162,46 +247,3 @@ def get_image():
 if __name__=='__main__':
     app.run(debug = True, port = 5000)
     
-    
-# SI SE VA A USAR EL SERVIDOR DE FLASK
-# DESCOMENTAR EL CODIGO DE ARRIBA Y COMENTAR EL CODIGO DE ABAJO
-
-# SI NO SE VA A USAR EL SERVIDOR DE FLASK
-# SE PUEDE USAR ESTE CODIGO PARA EJECUTAR EL ANALIZADOR
-
-# f = open('backend/entrada.txt', 'r')
-# entrada = f.read()
-# instrucciones = parser.parse(entrada.lower())
-
-# # print('--------Creando enviroment---------')
-# env = Enviroment(ent_anterior=None, ambito='Global')
-
-# # print('--------Ejecutando instrucciones---------')
-# for instruccion in instrucciones:
-#     instruccion.ejecutar(env)
-
-
-# # print('--------Generando C3D---------')
-# generador = Generador()
-# for instruccion in instrucciones:
-#     instruccion.ejecutar3d(env, generador)
-
-# with open('backend/C3D.txt', 'w', encoding='utf-8') as file:
-#     file.write(generador.generate_main())
-
-
-# # print('--------selects---------')
-# print(Select.get_tabla())
-
-# # print('--------AST---------')
-# ast = AST(instrucciones)
-# ast.getAST()    
-
-# # print('--------Consola---------')
-# print(Consola.getConsola())
-
-# # print('--------Enviroments---------')
-# print(Enviroment.serializarTodosSimbolos())
-
-# # print("------------ Errores ------------")
-# print(TablaErrores.serializarTBErrores())

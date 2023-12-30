@@ -23,7 +23,6 @@ class Drop(Instruccion):
                         for table in table.getElementsByTagName('table'):
                             if table.getAttribute('name') == self.name_table:
                                 table.parentNode.removeChild(table)
-                                # print("Tabla eliminada")
                                 Consola.addConsola('Tabla eliminada')
                                 xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
                                 formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')
@@ -31,10 +30,8 @@ class Drop(Instruccion):
                                 file.truncate()
                                 file.write(formatted_xml)
                                 return
-                    # print("Error: no existe la tabla")
                     Consola.addConsola('No existe la tabla')
                     return
-                # print("Error: En la base de datos actual no existe la tabla")
                 Consola.addConsola('En la base de datos actual no existe la tabla')
                 return
 

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import './css/App.css';
-import { Pestaña, side_bar } from './comps/Tools';
+import { Pestaña, DatabaseInfo } from './comps/Tools';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
@@ -16,13 +16,14 @@ function App() {
 
   const [selectedFile, setSelectedFile] = useState(null);
 
+  const [estado, setEstado] = useState(false);
 
 
   const [items, setItems] = useState({ ListConsole: [], ListError: [], ListSymbol: [] });
 
   const [select_items, set_select_items] = useState({ ListSelect: [] });
 
-  const [current_item, set_current_item] = useState({ xml_data: []});
+  const [current_item, set_current_item] = useState({ database: [] });
 
 
 
@@ -91,20 +92,22 @@ function App() {
       .catch(err => console.log(err))
   }
 
-  const xml_datas = () => {
-    fetch('http://localhost:5000/xml', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        set_current_item(data)
-
+  const xml_datas =
+    async () => {
+      fetch('http://localhost:5000/xml', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
-      .catch(err => console.log(err))
-  }
+        .then(res => res.json())
+        .then(data => {
+          set_current_item(data)
+          setEstado(true)
+          // console.log(data)
+        })
+        .catch(err => console.log(err))
+    }
 
   const ejecutar = () => {
     fetch('http://localhost:5000/datas', {
@@ -132,6 +135,7 @@ function App() {
   }
 
   return (
+
     <div className="App">
       <div>
         <div className="navbar" >
@@ -151,9 +155,10 @@ function App() {
 
       <div style={{ display: 'flex' }}>
         <div>
-          {/* sidebar */}
 
+          {/* sidebar */}
           <div className="sidebar">
+
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <button className="buttons"> IMPORTAR </button>
               <button className="buttons"> EXPORTAR </button>
@@ -165,56 +170,24 @@ function App() {
 
             <hr />
             <div>
-              <h4 style={{ display: 'flex', justifyContent: 'center' }}>DBMS</h4 >
-              {/* {current_item.datas.database.map(item => {
-                console.log(item)
-              })} */}
-              <h4 style={{ display: 'flex', justifyContent: 'center' }}></h4 >
+
+
             </div>
-            {/* aqui se deben recorrer las bases de datos */}
+
             <hr />
-            
-            {console.log(current_item.xml_data)}
-            {/* {current_item.xml_data.map(item => {
-                console.log(item)
-              })} */}
-            <ul>
-              <li> File
-                <ul>
-                  <li>Tablas</li>
-                  <ul>
-                    <li>tabla1</li>
-                    <li>tabla2</li>
-                  </ul>
-                  <li>Vistas</li>
-                  <li>Funciones</li>
-                  <li>Procedimientos</li>
-                </ul>
-              </li>
-            </ul>
-            <hr />
-            <hr />
-            <ul>
-              <li>File
-                <ul>
-                  <li>Tablas</li>
-                  <ul>
-                    <li>tabla1</li>
-                    <li>tabla2</li>
-                  </ul>
-                  <li>Vistas</li>
-                  <li>Funciones</li>
-                  <li>Procedimientos</li>
-                </ul>
-              </li>
-            </ul>
+            <div>
+              <h4 style={{ display: 'flex', justifyContent: 'center' }}>DBMS</h4 >
+            </div>
             <hr />
 
-
+            <div>
+              {
+                estado && <DatabaseInfo asdf={current_item} />
+              }
+              {estado === false}
+            </div>
 
           </div>
-
-
 
           {/* sidebar */}
         </div>
@@ -254,7 +227,7 @@ function App() {
           </div>
 
           <div className="paneles">
-            <Pestaña items={items.ListError} env={items.ListSymbol} terminal={items.ListConsole} ast={imageSrc} select={select_items} />
+              <Pestaña items={items.ListError} env={items.ListSymbol} terminal={items.ListConsole} ast={imageSrc} select={select_items}/>
           </div>
 
         </div>

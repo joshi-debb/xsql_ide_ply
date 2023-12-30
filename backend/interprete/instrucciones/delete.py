@@ -15,6 +15,8 @@ class Delete(Instruccion):
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
             mydoc = minidom.parse(file)
             
+            encontrado = False
+            
             current = mydoc.getElementsByTagName('current')[0]
 
             #Eliminar registro donde se cumpla la condicion
@@ -27,7 +29,6 @@ class Delete(Instruccion):
 
                                 for atribute in fields.getElementsByTagName('field'):
                                     if atribute.getAttribute('name') == self.condicion.id:
-                                        # print(atribute.getAttribute('name'), '=', self.condicion.id)
                                         for recs in table.getElementsByTagName('records'):
                                             for record in recs.getElementsByTagName('record'):
                                                 for rc in record.getElementsByTagName('field'):
@@ -35,7 +36,10 @@ class Delete(Instruccion):
                                                         if rc.firstChild.data == self.condicion.expresion.ejecutar(env).valor:
                                                             record.parentNode.removeChild(record)
                                                             Consola.addConsola('Registro eliminado')
-                                                            
+                                                            encontrado = True
+
+            if not encontrado:
+                Consola.addConsola('Error: Registro no encontrado')                                             
                                                             
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
             formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')

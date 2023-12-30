@@ -1,4 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SCHEMAS>
-	<current name="default"/>
+	<current name="personas"/>
+	<database name="personas">
+		<tables>
+			<table name="persona">
+				<fields>
+					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="nombre">juanito</field>
+						<field name="apellido">cascabel</field>
+						<field name="edad">17</field>
+						<field name="fecha">01/11/2005</field>
+						<field name="altura">1.8</field>
+					</record>
+					<record>
+						<field name="nombre">lola</field>
+						<field name="apellido">molinillo</field>
+						<field name="edad">18</field>
+						<field name="fecha">05/03/2004</field>
+						<field name="altura">1.55</field>
+					</record>
+					<record>
+						<field name="nombre">carlitos</field>
+						<field name="apellido">travesura</field>
+						<field name="edad">19</field>
+						<field name="fecha">09/08/2003</field>
+						<field name="altura">1.65</field>
+					</record>
+					<record>
+						<field name="nombre">maria</field>
+						<field name="apellido">santos</field>
+						<field name="edad">20</field>
+						<field name="fecha">11/01/2002</field>
+						<field name="altura">1.77</field>
+					</record>
+					<record>
+						<field name="nombre">pedrito</field>
+						<field name="apellido">flores</field>
+						<field name="edad">21</field>
+						<field name="fecha">03/02/2001</field>
+						<field name="altura">1.71</field>
+					</record>
+				</records>
+			</table>
+			<table name="alumno">
+				<fields>
+					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
+					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="registro" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="grado" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="nombre">juan</field>
+						<field name="apellido">lopez</field>
+						<field name="registro">1001</field>
+						<field name="grado">1a</field>
+						<field name="altura">1.8</field>
+					</record>
+					<record>
+						<field name="nombre">ana</field>
+						<field name="apellido">gomez</field>
+						<field name="registro">1002</field>
+						<field name="grado">2b</field>
+						<field name="altura">1.55</field>
+					</record>
+					<record>
+						<field name="nombre">carlos</field>
+						<field name="apellido">perez</field>
+						<field name="registro">1003</field>
+						<field name="grado">3c</field>
+						<field name="altura">1.65</field>
+					</record>
+					<record>
+						<field name="nombre">maria</field>
+						<field name="apellido">martinez</field>
+						<field name="registro">1004</field>
+						<field name="grado">4d</field>
+						<field name="altura">1.77</field>
+					</record>
+					<record>
+						<field name="nombre">pedro</field>
+						<field name="apellido">rodriguez</field>
+						<field name="registro">1005</field>
+						<field name="grado">5e</field>
+						<field name="altura">1.71</field>
+					</record>
+				</records>
+			</table>
+		</tables>
+		<views/>
+		<functions>
+			<function name="f1">CREATE FUNCTION f1 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+			<function name="f2">CREATE FUNCTION f2 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+			<function name="f3">CREATE FUNCTION f3 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+			<function name="f4">CREATE FUNCTION f4 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+		</functions>
+		<procedures>
+			<procedure name="p1">CREATE PROCEDURE p1 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="p2">CREATE PROCEDURE p2 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="p3">CREATE PROCEDURE p3 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="p4">CREATE PROCEDURE p4 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+		</procedures>
+	</database>
+	<database name="tbbanco">
+		<tables>
+			<table name="tbestado">
+				<fields>
+					<field name="idestado" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="estado" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="idestado">1</field>
+						<field name="estado">activo</field>
+					</record>
+					<record>
+						<field name="idestado">2</field>
+						<field name="estado">inactivo</field>
+					</record>
+					<record>
+						<field name="idestado">3</field>
+						<field name="estado">eliminado</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbidentificaciontipo">
+				<fields>
+					<field name="ididentificaciontipo" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="identificaciontipo" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="ididentificaciontipo">1</field>
+						<field name="identificaciontipo">dpi</field>
+					</record>
+					<record>
+						<field name="ididentificaciontipo">2</field>
+						<field name="identificaciontipo">nit</field>
+					</record>
+					<record>
+						<field name="ididentificaciontipo">3</field>
+						<field name="identificaciontipo">pasaporte</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbcliente">
+				<fields>
+					<field name="codigocliente" type="TipoDato.NVARCHAR" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="primer_nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="segundo_nombre" type="TipoDato.NVARCHAR"/>
+					<field name="primer_apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="segundo_apellido" type="TipoDato.NVARCHAR"/>
+					<field name="fecha_nacimiento" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+					<field name="genero" type="TipoDato.NVARCHAR"/>
+					<field name="idestado" type="TipoDato.INT" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.REFERENCE" table="tbestado" field="idestado"/>
+				</fields>
+				<records>
+					<record>
+						<field name="codigocliente">gt-0001</field>
+						<field name="primer_nombre">peter</field>
+						<field name="segundo_nombre">juan</field>
+						<field name="primer_apellido">parker</field>
+						<field name="segundo_apellido">segundo</field>
+						<field name="fecha_nacimiento">1990-01-01</field>
+						<field name="genero">m</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0002</field>
+						<field name="primer_nombre">julio</field>
+						<field name="primer_apellido">perez</field>
+						<field name="segundo_apellido">lopez</field>
+						<field name="fecha_nacimiento">1995-12-01</field>
+						<field name="idestado">1</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbidentificacion">
+				<fields>
+					<field name="ididentificacion" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="codigocliente" type="TipoDato.NVARCHAR" param1="TipoOpciones.PRIMARYKEY" param2="TipoOpciones.REFERENCE" table="tbcliente" field="codigocliente"/>
+					<field name="identificacion" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="ididentificaciontipo" type="TipoDato.INT" param1="TipoOpciones.REFERENCE" table="tbidentificaciontipo" field="ididentificaciontipo"/>
+				</fields>
+				<records>
+					<record>
+						<field name="ididentificacion">1</field>
+						<field name="codigocliente">gt-0001</field>
+						<field name="identificacion">45784560101</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+					<record>
+						<field name="ididentificacion">2</field>
+						<field name="codigocliente">gt-0001</field>
+						<field name="identificacion">94675057</field>
+						<field name="ididentificaciontipo">2</field>
+					</record>
+					<record>
+						<field name="ididentificacion">3</field>
+						<field name="codigocliente">gt-0002</field>
+						<field name="identificacion">4854560101</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbproducto">
+				<fields>
+					<field name="idproducto" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="producto" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="idestado" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="column" type="TipoDato.DECIMAL" param="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="idproducto">1</field>
+						<field name="producto">credito fiduiciario</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="idproducto">2</field>
+						<field name="producto">credito hipotecario</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="idproducto">3</field>
+						<field name="producto">tarjeta de credito oro</field>
+						<field name="idestado">1</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbcredito">
+				<fields>
+					<field name="credito" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="nocuenta" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="idcliente" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="fechaultimocorte" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
+					<field name="idproducto" type="TipoDato.INT" param1="TipoOpciones.REFERENCE" table="tbproducto" field="idproducto"/>
+				</fields>
+				<records>
+					<record>
+						<field name="credito">1</field>
+						<field name="nocuenta">45-5454</field>
+						<field name="idcliente">1</field>
+						<field name="fechaultimocorte">2023-11-30</field>
+						<field name="idproducto">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="nocuenta">af4545d</field>
+						<field name="idcliente">3</field>
+						<field name="fechaultimocorte">2023-11-30</field>
+						<field name="idproducto">1</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbobligaciontipo">
+				<fields>
+					<field name="idobligaciontipo" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="obligaciontipo" type="TipoDato.NVARCHAR"/>
+				</fields>
+				<records>
+					<record>
+						<field name="idobligaciontipo">1</field>
+						<field name="obligaciontipo">directo</field>
+					</record>
+					<record>
+						<field name="idobligaciontipo">2</field>
+						<field name="obligaciontipo">indirecto</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbcreditoobligacion">
+				<fields>
+					<field name="codigocliente" type="TipoDato.NVARCHAR" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="credito" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="idobligaciontipo" type="TipoDato.INT" param1="TipoOpciones.REFERENCE" table="tbobligaciontipo" field="idobligaciontipo"/>
+				</fields>
+				<records>
+					<record>
+						<field name="codigocliente">gt-0001</field>
+						<field name="credito">1</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0002</field>
+						<field name="credito">2</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbcreditosaldo">
+				<fields>
+					<field name="credito" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="fechacorte" type="TipoDato.DATE" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="idmoneda" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="idcreditoestado" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="saldoactual" type="TipoDato.DECIMAL"/>
+					<field name="saldomora" type="TipoDato.DECIMAL"/>
+					<field name="valorcuota" type="TipoDato.DECIMAL"/>
+					<field name="diasmora" type="TipoDato.INT"/>
+					<field name="alturamora" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="limite" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
+					<field name="idcalificacion" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+				</fields>
+				<records>
+					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">2023-01-31</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">5</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">2023-01-31</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">15000</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+				</records>
+			</table>
+		</tables>
+		<views/>
+		<functions>
+			<function name="f1">CREATE FUNCTION f1 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+			<function name="f2">CREATE FUNCTION f2 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+			<function name="f3">CREATE FUNCTION f3 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+			<function name="f4">CREATE FUNCTION f4 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+		</functions>
+		<procedures>
+			<procedure name="p1">CREATE PROCEDURE p1 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="p2">CREATE PROCEDURE p2 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="p3">CREATE PROCEDURE p3 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="p4">CREATE PROCEDURE p4 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+		</procedures>
+	</database>
 </SCHEMAS>

@@ -16,11 +16,11 @@ class Update(Instruccion):
     def ejecutar(self, env:Enviroment):
 
         if self.is_pk_repetido(env):
-            print("Error: Llave primaria repetida")
+            Consola.addConsola('Error: Llave primaria repetida')
             return
 
         if self.look_in_pos(env) < 0:
-            print("Error: Registro no encontrado")
+            Consola.addConsola('Error: Registro no encontrado')
             return
 
         with open('backend/structure.xml', 'r+', encoding='utf-8') as file:
@@ -37,7 +37,6 @@ class Update(Instruccion):
                                     for tup in self.tupla:
                                         if rc.getAttribute('name') == tup.id:
                                             rc.firstChild.data = tup.expresion.ejecutar(env).valor
-                                            # print('Registro actualizado')
                                             Consola.addConsola('Registro actualizado')
                                             break
      

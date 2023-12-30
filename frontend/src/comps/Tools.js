@@ -2,69 +2,87 @@ import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import '../css/App.css'
+import { Dropdown, DropdownButton } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-export function side_bar(datas) {
-  console.log('side_bar')
-  console.log(datas)
-
+export function DatabaseInfo({ asdf }) {
+  const [aux, setaux] = useState(0);
+  const handle = (pepito) => {
+    setaux(pepito);
+  };
   return (
-    <div className="sidebar">
 
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button className="buttons"> IMPORTAR </button>
-        <button className="buttons"> EXPORTAR </button>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button className="buttons"> SQL DUMP </button>
-        <button className="buttons"> RECARGAR </button>
-      </div>
+    <div >
+      <div >
+        {
+          asdf.map(item => {
+            
+            return (
 
-      <hr />
-      <div>
-        <h4 style={{ display: 'flex', justifyContent: 'center' }}>DBMS</h4 >
-        <h4 style={{ display: 'flex', justifyContent: 'center' }}>default</h4 >
-      </div>
-      <hr />
-      {/* aqui se deben recorrer las bases de datos */}
-      <ul>
-        <li> File
-          <ul>
-            <li>Tablas</li>
-            <ul>
-              <li>tabla1</li>
-              <li>tabla2</li>
-            </ul>
-            <li>Vistas</li>
-            <li>Funciones</li>
-            <li>Procedimientos</li>
-          </ul>
-        </li>
-      </ul>
-      <hr />
-      <hr />
-      <ul>
-        <li>File
-          <ul>
-            <li>Tablas</li>
-            <ul>
-              <li>tabla1</li>
-              <li>tabla2</li>
-            </ul>
-            <li>Vistas</li>
-            <li>Funciones</li>
-            <li>Procedimientos</li>
-          </ul>
-        </li>
-      </ul>
-      <hr />
+              <div>
 
-      
+                <hr />
+                <ul>
+                  <DropdownButton className='hola' title={item.db[0]} onSelect={handle}>
+
+                    <ul>
+                      <DropdownButton title='Tablas'>
+                        {item.tables.map(tab => {
+                          return (
+                            <ul>
+                              <li>{tab}</li>
+                            </ul>
+                          );
+                        }
+                        )}
+
+                      </DropdownButton>
+                      <DropdownButton title='Vistas'>
+                        {item.views.map(view => {
+                          return (
+                            <ul>
+                              <li>{view}</li>
+                            </ul>
+                          );
+                        }
+                        )}
+                      </DropdownButton>
+                      <DropdownButton title='Funciones'>
+                        {item.funcs.map(func => {
+                          return (
+                            <ul>
+                              <li>{func}</li>
+                            </ul>
+                          );
+                        }
+                        )}
+                      </DropdownButton>
+                      <DropdownButton title='Procedimientos'>
+                        {item.procs.map(proc => {
+                          return (
+                            <ul>
+                              <li>{proc}</li>
+                            </ul>
+                          );
+                        }
+                        )}
+                      </DropdownButton>
+                    </ul>
+
+                  </DropdownButton>
+                </ul>
+              </div>
+            );
+          })
+
+        }
+      </div>
 
     </div>
+
   );
 }
-
 
 export function MyButtons({ texto, manejarClic }) {
 
@@ -146,7 +164,7 @@ export function TerminalPrint({ console }) {
     <div className='scroleados'>
       {console.map(item => {
         return (
-          <pre key={1}>{'> '+item}</pre>
+          <pre key={1}>{'> ' + item}</pre>
         );
       })}
     </div>

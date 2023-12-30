@@ -34,30 +34,18 @@ class Insert(Instruccion):
                                 record = mydoc.createElement('record')
                                 records.appendChild(record)
                                 
-                                # count_in_fields = 0
-                                # for atribute in fields.getElementsByTagName('field'):
-                                #     count_in_fields += 1
-                                    
+
                                 count_from_paser = 0
                                 for campo in self.campos:
                                     count_from_paser += 1
                                     
-                                # if count_in_fields != count_from_paser:
-                                #     print("Error: la cantidad de campos no coincide")
-                                #     return
-
-                                # counters = 0
-                                # for x in range(0, count_from_paser):
-                                #     for atribute in fields.getElementsByTagName('field'):
-                                #         if atribute.getAttribute('name') == self.campos[x]:
-                                #             counters += 1
-                                
-                                # if counters != count_in_fields:
-                                #     print("Error: los campos no coinciden")
-                                #     return
-                                    
                                 for x in range(0, count_from_paser):
                                     for atribute in fields.getElementsByTagName('field'):                                            
+                                        if self.is_pk_repetido(env) == True:
+                                            print("Error: No se puede repetir la llave primaria")
+                                            Consola.addConsola('No se puede repetir la llave primaria')
+                                            return
+
                                         campo = self.campos[x]
                                         if campo == atribute.getAttribute('name'):
                                             val = self.tupla[x]
@@ -85,7 +73,56 @@ class Insert(Instruccion):
             # print("Insertado correctamente")
             Consola.addConsola('Insertado correctamente')
 
-              
+
+    #retorna el nombre del campo que es llave primaria
+    def get_pk(self) -> str:
+            
+            pk = ''
+            
+            datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+    
+            mydoc = minidom.parse(datas)
+            
+            current = mydoc.getElementsByTagName('current')[0]
+        
+            for database in mydoc.getElementsByTagName('database'):
+                if database.getAttribute('name') == current.getAttribute('name'):                    
+                    for table in database.getElementsByTagName('tables'):
+                        for table in table.getElementsByTagName('table'):
+                            if table.getAttribute('name') == self.name_table:
+                                fields = table.getElementsByTagName('fields')[0]
+                                for field in fields.getElementsByTagName('field'):
+                                    if field.getAttribute('param1') == 'TipoOpciones.PRIMARYKEY' or field.getAttribute('param2') == 'TipoOpciones.PRIMARYKEY':
+                                        pk = field.getAttribute('name')
+                                        break
+                                
+            return pk
+    
+    #retorna true si la llave primaria ya existe
+    def is_pk_repetido(self, env:Enviroment) -> bool:
+        
+        pk = self.get_pk()
+        
+        datas = open('backend/structure.xml', 'r+', encoding='utf-8')
+    
+        mydoc = minidom.parse(datas)
+        
+        current = mydoc.getElementsByTagName('current')[0]
+    
+        for database in mydoc.getElementsByTagName('database'):
+            if database.getAttribute('name') == current.getAttribute('name'):                    
+                for table in database.getElementsByTagName('tables'):
+                    for table in table.getElementsByTagName('table'):
+                        if table.getAttribute('name') == self.name_table:
+                            records = table.getElementsByTagName('records')[0]
+                            for record in records.getElementsByTagName('record'):
+                                for field in record.getElementsByTagName('field'):
+                                    if field.getAttribute('name') == pk:
+                                        if str(field.firstChild.data) == str(self.tupla[0].ejecutar(env).valor):
+                                            return True
+                                        
+        return False         
+
             
     def recorrerArbol(self, raiz:Nodo):
         id = AST.generarId()
