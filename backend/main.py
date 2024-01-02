@@ -264,7 +264,6 @@ def traduccion():
 
 @app.route("/selects" , methods=['GET'])
 def selects():
-    print(Select.get_tabla())
     return jsonify(res = Select.get_tabla()) 
 
 @app.route('/get_image')
