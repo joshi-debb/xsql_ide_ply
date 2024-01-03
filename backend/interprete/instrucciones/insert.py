@@ -41,10 +41,10 @@ class Insert(Instruccion):
                                     
                                 for x in range(0, count_from_paser):
                                     for atribute in fields.getElementsByTagName('field'):                                            
-                                        if self.is_pk_repetido(env) == True:
-                                            print("Error: No se puede repetir la llave primaria")
-                                            Consola.addConsola('No se puede repetir la llave primaria')
-                                            return
+                                        # if self.is_pk_repetido(env) == True:
+                                        #     print("Error: No se puede repetir la llave primaria")
+                                        #     Consola.addConsola('No se puede repetir la llave primaria')
+                                        #     return
 
                                         campo = self.campos[x]
                                         if campo == atribute.getAttribute('name'):

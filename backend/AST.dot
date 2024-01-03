@@ -1,15 +1,15 @@
 digraph {
 	0 [label = "INSTRUCCIONES"];
-	3110 [label = "USE"];
-	3111 [label = "personas"];
-	3112 [label = "SELECT"];
-	3113 [label = "CAMPOS"];
-	3114 [label = "*"];
-	3115 [label = "persona"];
-	0 -> 3110;
-	3110 -> 3111;
-	0 -> 3112;
-	3112 -> 3113;
-	3113 -> 3114;
-	3112 -> 3115;
+	158 [label = "SELECT"];
+	159 [label = "LLAMADA FUNCION"];
+	160 [label = "fn_retornaalturamora"];
+	161 [label = "ARGUMENTOS"];
+	162 [label = "ARGUMENTO"];
+	163 [label = "45"];
+	0 -> 158;
+	158 -> 159;
+	159 -> 160;
+	159 -> 161;
+	161 -> 162;
+	162 -> 163;
 }

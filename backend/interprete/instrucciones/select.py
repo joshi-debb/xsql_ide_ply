@@ -105,7 +105,7 @@ class Select(Instruccion):
                                                     self.set_valor(self.get_valor().replace(aux,rc.firstChild.data))
                                                 
                                             self.aux += ';'
-                                            # print('aux: ', self.aux)
+                                            print('aux: ', self.aux)
                                             expresion = parser.parse(self.aux.lower())
 
                                             retorno:Retorno = expresion[0].ejecutar(env)

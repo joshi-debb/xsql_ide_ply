@@ -41,8 +41,15 @@ class AlterADD(Instruccion):
                                     nfield.setAttribute('type', str(self.tipo))
                                 
                                 nfield.setAttribute('param', 'TipoOpciones.NOTNULL')
-
                                 field.appendChild(nfield)
+                                
+                                for records in table.getElementsByTagName('records'):
+                                    for record in records.getElementsByTagName('record'):
+                                        nrecord = mydoc.createElement('field')
+                                        nrecord.setAttribute('name', self.campo)
+                                        nrecord.appendChild(mydoc.createTextNode('0'))
+                                        record.appendChild(nrecord)
+                                        
             
             xml_str = mydoc.toxml(encoding='utf-8').decode('utf-8').replace('\n', '').replace('\t', '')
             formatted_xml = minidom.parseString(xml_str).toprettyxml(indent="\t", encoding='utf-8').decode('utf-8')

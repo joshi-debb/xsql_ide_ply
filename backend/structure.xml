@@ -1,115 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SCHEMAS>
-	<current name="personas"/>
-	<database name="personas">
-		<tables>
-			<table name="persona">
-				<fields>
-					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
-					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="edad" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
-					<field name="fecha" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
-					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
-				</fields>
-				<records>
-					<record>
-						<field name="nombre">juanito</field>
-						<field name="apellido">cascabel</field>
-						<field name="edad">17</field>
-						<field name="fecha">01/11/2005</field>
-						<field name="altura">1.8</field>
-					</record>
-					<record>
-						<field name="nombre">lola</field>
-						<field name="apellido">molinillo</field>
-						<field name="edad">18</field>
-						<field name="fecha">05/03/2004</field>
-						<field name="altura">1.55</field>
-					</record>
-					<record>
-						<field name="nombre">carlitos</field>
-						<field name="apellido">travesura</field>
-						<field name="edad">19</field>
-						<field name="fecha">09/08/2003</field>
-						<field name="altura">1.65</field>
-					</record>
-					<record>
-						<field name="nombre">maria</field>
-						<field name="apellido">santos</field>
-						<field name="edad">20</field>
-						<field name="fecha">11/01/2002</field>
-						<field name="altura">1.77</field>
-					</record>
-					<record>
-						<field name="nombre">pedrito</field>
-						<field name="apellido">flores</field>
-						<field name="edad">21</field>
-						<field name="fecha">03/02/2001</field>
-						<field name="altura">1.71</field>
-					</record>
-				</records>
-			</table>
-			<table name="alumno">
-				<fields>
-					<field name="nombre" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.PRIMARYKEY"/>
-					<field name="apellido" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="registro" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
-					<field name="grado" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="altura" type="TipoDato.DECIMAL" param1="TipoOpciones.NOTNULL"/>
-				</fields>
-				<records>
-					<record>
-						<field name="nombre">juan</field>
-						<field name="apellido">lopez</field>
-						<field name="registro">1001</field>
-						<field name="grado">1a</field>
-						<field name="altura">1.8</field>
-					</record>
-					<record>
-						<field name="nombre">ana</field>
-						<field name="apellido">gomez</field>
-						<field name="registro">1002</field>
-						<field name="grado">2b</field>
-						<field name="altura">1.55</field>
-					</record>
-					<record>
-						<field name="nombre">carlos</field>
-						<field name="apellido">perez</field>
-						<field name="registro">1003</field>
-						<field name="grado">3c</field>
-						<field name="altura">1.65</field>
-					</record>
-					<record>
-						<field name="nombre">maria</field>
-						<field name="apellido">martinez</field>
-						<field name="registro">1004</field>
-						<field name="grado">4d</field>
-						<field name="altura">1.77</field>
-					</record>
-					<record>
-						<field name="nombre">pedro</field>
-						<field name="apellido">rodriguez</field>
-						<field name="registro">1005</field>
-						<field name="grado">5e</field>
-						<field name="altura">1.71</field>
-					</record>
-				</records>
-			</table>
-		</tables>
-		<views/>
-		<functions>
-			<function name="f1">CREATE FUNCTION f1 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
-			<function name="f2">CREATE FUNCTION f2 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
-			<function name="f3">CREATE FUNCTION f3 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
-			<function name="f4">CREATE FUNCTION f4 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
-		</functions>
-		<procedures>
-			<procedure name="p1">CREATE PROCEDURE p1 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
-			<procedure name="p2">CREATE PROCEDURE p2 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
-			<procedure name="p3">CREATE PROCEDURE p3 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
-			<procedure name="p4">CREATE PROCEDURE p4 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
-		</procedures>
-	</database>
+	<current name="tbbanco"/>
 	<database name="tbbanco">
 		<tables>
 			<table name="tbestado">
@@ -170,7 +61,7 @@
 						<field name="segundo_nombre">juan</field>
 						<field name="primer_apellido">parker</field>
 						<field name="segundo_apellido">segundo</field>
-						<field name="fecha_nacimiento">1990-01-01</field>
+						<field name="fecha_nacimiento">01-01-1900</field>
 						<field name="genero">m</field>
 						<field name="idestado">1</field>
 					</record>
@@ -179,7 +70,70 @@
 						<field name="primer_nombre">julio</field>
 						<field name="primer_apellido">perez</field>
 						<field name="segundo_apellido">lopez</field>
-						<field name="fecha_nacimiento">1995-12-01</field>
+						<field name="fecha_nacimiento">01-12-1950</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0003</field>
+						<field name="primer_nombre">alfredo</field>
+						<field name="primer_apellido">ortiz</field>
+						<field name="segundo_apellido">lopez</field>
+						<field name="fecha_nacimiento">05-06-1979</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt0004</field>
+						<field name="primer_nombre">karla</field>
+						<field name="segundo_nombre">leticia</field>
+						<field name="primer_apellido">santos</field>
+						<field name="segundo_apellido">juarez</field>
+						<field name="fecha_nacimiento">1975-01-01</field>
+						<field name="genero">f</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0006</field>
+						<field name="primer_nombre">kimberly</field>
+						<field name="primer_apellido">esquibel</field>
+						<field name="segundo_apellido">castillo</field>
+						<field name="fecha_nacimiento">14-09-1991</field>
+						<field name="genero">f</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0007</field>
+						<field name="primer_nombre">roberto</field>
+						<field name="segundo_nombre">alejandro</field>
+						<field name="primer_apellido">montepeque</field>
+						<field name="fecha_nacimiento">14-09-1991</field>
+						<field name="genero">m</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0008</field>
+						<field name="primer_nombre">juan</field>
+						<field name="segundo_nombre">carlos</field>
+						<field name="primer_apellido">davila</field>
+						<field name="fecha_nacimiento">14-12-1998</field>
+						<field name="genero">f</field>
+						<field name="idestado">3</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0009</field>
+						<field name="primer_nombre">esperanza</field>
+						<field name="segundo_nombre">maria</field>
+						<field name="primer_apellido">bolaños</field>
+						<field name="fecha_nacimiento">10-10-2000</field>
+						<field name="genero">f</field>
+						<field name="idestado">2</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0010</field>
+						<field name="primer_nombre">alicia</field>
+						<field name="segundo_nombre">del carmen</field>
+						<field name="primer_apellido">herrera</field>
+						<field name="fecha_nacimiento">15-09-1976</field>
+						<field name="genero">f</field>
 						<field name="idestado">1</field>
 					</record>
 				</records>
@@ -190,6 +144,7 @@
 					<field name="codigocliente" type="TipoDato.NVARCHAR" param1="TipoOpciones.PRIMARYKEY" param2="TipoOpciones.REFERENCE" table="tbcliente" field="codigocliente"/>
 					<field name="identificacion" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
 					<field name="ididentificaciontipo" type="TipoDato.INT" param1="TipoOpciones.REFERENCE" table="tbidentificaciontipo" field="ididentificaciontipo"/>
+					<field name="idestado" type="TipoDato.INT"/>
 				</fields>
 				<records>
 					<record>
@@ -210,6 +165,66 @@
 						<field name="identificacion">4854560101</field>
 						<field name="ididentificaciontipo">1</field>
 					</record>
+					<record>
+						<field name="ididentificacion">4</field>
+						<field name="codigocliente">gt-0003</field>
+						<field name="identificacion">1513117</field>
+						<field name="ididentificaciontipo">2</field>
+					</record>
+					<record>
+						<field name="ididentificacion">5</field>
+						<field name="codigocliente">gt-0003</field>
+						<field name="identificacion">12345678910</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+					<record>
+						<field name="ididentificacion">6</field>
+						<field name="codigocliente">gt-0003</field>
+						<field name="identificacion">78456564554</field>
+						<field name="ididentificaciontipo">3</field>
+					</record>
+					<record>
+						<field name="ididentificacion">7</field>
+						<field name="codigocliente">gt-0004</field>
+						<field name="identificacion">78456501014554</field>
+						<field name="ididentificaciontipo">3</field>
+					</record>
+					<record>
+						<field name="ididentificacion">8</field>
+						<field name="codigocliente">gt-0005</field>
+						<field name="identificacion">1610417050101</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+					<record>
+						<field name="ididentificacion">9</field>
+						<field name="codigocliente">gt-0006</field>
+						<field name="identificacion">9467505010150</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+					<record>
+						<field name="ididentificacion">10</field>
+						<field name="codigocliente">gt-0007</field>
+						<field name="identificacion">0167805210150</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+					<record>
+						<field name="ididentificacion">11</field>
+						<field name="codigocliente">gt-0008</field>
+						<field name="identificacion">0101505010150</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+					<record>
+						<field name="ididentificacion">12</field>
+						<field name="codigocliente">gt-0009</field>
+						<field name="identificacion">1610417050101</field>
+						<field name="ididentificaciontipo">1</field>
+					</record>
+					<record>
+						<field name="ididentificacion">13</field>
+						<field name="codigocliente">gt-0010</field>
+						<field name="identificacion">1513115</field>
+						<field name="ididentificaciontipo">2</field>
+					</record>
 				</records>
 			</table>
 			<table name="tbproducto">
@@ -217,22 +232,89 @@
 					<field name="idproducto" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
 					<field name="producto" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
 					<field name="idestado" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
-					<field name="column" type="TipoDato.DECIMAL" param="TipoOpciones.NOTNULL"/>
+					<field name="tasa" type="TipoDato.DECIMAL" param="TipoOpciones.NOTNULL"/>
 				</fields>
 				<records>
 					<record>
 						<field name="idproducto">1</field>
 						<field name="producto">credito fiduiciario</field>
 						<field name="idestado">1</field>
+						<field name="tasa">0</field>
 					</record>
 					<record>
 						<field name="idproducto">2</field>
 						<field name="producto">credito hipotecario</field>
 						<field name="idestado">1</field>
+						<field name="tasa">0</field>
 					</record>
 					<record>
 						<field name="idproducto">3</field>
 						<field name="producto">tarjeta de credito oro</field>
+						<field name="idestado">1</field>
+						<field name="tasa">0.45</field>
+					</record>
+					<record>
+						<field name="idproducto">4</field>
+						<field name="producto">tarjeta de credito platinu</field>
+						<field name="idestado">1</field>
+						<field name="tasa">0.36</field>
+					</record>
+					<record>
+						<field name="idproducto">5</field>
+						<field name="producto">credito personal</field>
+						<field name="idestado">2</field>
+						<field name="tasa">0.2</field>
+					</record>
+					<record>
+						<field name="idproducto">6</field>
+						<field name="producto">credito pesonal avanza</field>
+						<field name="idestado">1</field>
+						<field name="tasa">0.17</field>
+					</record>
+					<record>
+						<field name="idproducto">7</field>
+						<field name="producto">cuenta de ahorro</field>
+						<field name="idestado">1</field>
+						<field name="tasa">0.05</field>
+					</record>
+					<record>
+						<field name="idproducto">8</field>
+						<field name="producto">cuenta monetaria</field>
+						<field name="idestado">1</field>
+						<field name="tasa">None</field>
+					</record>
+				</records>
+			</table>
+			<table name="tbclienteba">
+				<fields>
+					<field name="idclienteint" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="nombrecliente" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
+					<field name="idestado" type="TipoDato.INT"/>
+				</fields>
+				<records>
+					<record>
+						<field name="idclienteint">1</field>
+						<field name="nombrecliente">banrural</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="idclienteint">2</field>
+						<field name="nombrecliente">banco industrial</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="idclienteint">3</field>
+						<field name="nombrecliente">banco inmobiliario</field>
+						<field name="idestado">2</field>
+					</record>
+					<record>
+						<field name="idclienteint">4</field>
+						<field name="nombrecliente">banco g&amp;t</field>
+						<field name="idestado">1</field>
+					</record>
+					<record>
+						<field name="idclienteint">5</field>
+						<field name="nombrecliente">banco de antigua</field>
 						<field name="idestado">1</field>
 					</record>
 				</records>
@@ -241,7 +323,7 @@
 				<fields>
 					<field name="credito" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
 					<field name="nocuenta" type="TipoDato.NVARCHAR" param1="TipoOpciones.NOTNULL"/>
-					<field name="idcliente" type="TipoDato.INT" param1="TipoOpciones.NOTNULL"/>
+					<field name="idclienteint" type="TipoDato.INT" param1="TipoOpciones.NOTNULL" param2="TipoOpciones.REFERENCE" table="tbclienteba" field="idclienteint"/>
 					<field name="fechaultimocorte" type="TipoDato.DATE" param1="TipoOpciones.NOTNULL"/>
 					<field name="idproducto" type="TipoDato.INT" param1="TipoOpciones.REFERENCE" table="tbproducto" field="idproducto"/>
 				</fields>
@@ -249,16 +331,58 @@
 					<record>
 						<field name="credito">1</field>
 						<field name="nocuenta">45-5454</field>
-						<field name="idcliente">1</field>
-						<field name="fechaultimocorte">2023-11-30</field>
+						<field name="idclienteint">1</field>
+						<field name="fechaultimocorte">30-11-2023</field>
 						<field name="idproducto">1</field>
 					</record>
 					<record>
 						<field name="credito">2</field>
 						<field name="nocuenta">af4545d</field>
-						<field name="idcliente">3</field>
-						<field name="fechaultimocorte">2023-11-30</field>
+						<field name="idclienteint">3</field>
+						<field name="fechaultimocorte">30-11-2023</field>
 						<field name="idproducto">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="nocuenta">785455-5</field>
+						<field name="idclienteint">2</field>
+						<field name="fechaultimocorte">31-12-2023</field>
+						<field name="idproducto">2</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="nocuenta">4545-4785-4578-4545</field>
+						<field name="idclienteint">2</field>
+						<field name="fechaultimocorte">31-12-2023</field>
+						<field name="idproducto">3</field>
+					</record>
+					<record>
+						<field name="credito">5</field>
+						<field name="nocuenta">3654-4785-4768-4555</field>
+						<field name="idclienteint">2</field>
+						<field name="fechaultimocorte">31-12-2023</field>
+						<field name="idproducto">4</field>
+					</record>
+					<record>
+						<field name="credito">6</field>
+						<field name="nocuenta">315447854768</field>
+						<field name="idclienteint">2</field>
+						<field name="fechaultimocorte">31-12-2023</field>
+						<field name="idproducto">8</field>
+					</record>
+					<record>
+						<field name="credito">7</field>
+						<field name="nocuenta">45875545</field>
+						<field name="idclienteint">4</field>
+						<field name="fechaultimocorte">31-10-2023</field>
+						<field name="idproducto">7</field>
+					</record>
+					<record>
+						<field name="credito">8</field>
+						<field name="nocuenta">788854556</field>
+						<field name="idclienteint">5</field>
+						<field name="fechaultimocorte">31-12-2023</field>
+						<field name="idproducto">5</field>
 					</record>
 				</records>
 			</table>
@@ -280,8 +404,8 @@
 			</table>
 			<table name="tbcreditoobligacion">
 				<fields>
-					<field name="codigocliente" type="TipoDato.NVARCHAR" param1="TipoOpciones.PRIMARYKEY"/>
-					<field name="credito" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY"/>
+					<field name="codigocliente" type="TipoDato.NVARCHAR" param1="TipoOpciones.PRIMARYKEY" param2="TipoOpciones.REFERENCE" table="tbcliente" field="codigocliente"/>
+					<field name="credito" type="TipoDato.INT" param1="TipoOpciones.PRIMARYKEY" param2="TipoOpciones.REFERENCE" table="tbcredito" field="credito"/>
 					<field name="idobligaciontipo" type="TipoDato.INT" param1="TipoOpciones.REFERENCE" table="tbobligaciontipo" field="idobligaciontipo"/>
 				</fields>
 				<records>
@@ -293,6 +417,56 @@
 					<record>
 						<field name="codigocliente">gt-0002</field>
 						<field name="credito">2</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0002</field>
+						<field name="credito">3</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0003</field>
+						<field name="credito">3</field>
+						<field name="idobligaciontipo">2</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0004</field>
+						<field name="credito">4</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0005</field>
+						<field name="credito">5</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0006</field>
+						<field name="credito">5</field>
+						<field name="idobligaciontipo">2</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0007</field>
+						<field name="credito">6</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0008</field>
+						<field name="credito">7</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0009</field>
+						<field name="credito">9</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0010</field>
+						<field name="credito">8</field>
+						<field name="idobligaciontipo">1</field>
+					</record>
+					<record>
+						<field name="codigocliente">gt-0011</field>
+						<field name="credito">7</field>
 						<field name="idobligaciontipo">1</field>
 					</record>
 				</records>
@@ -314,7 +488,7 @@
 				<records>
 					<record>
 						<field name="credito">1</field>
-						<field name="fechacorte">2023-01-31</field>
+						<field name="fechacorte">31-01-2023</field>
 						<field name="idmoneda">1</field>
 						<field name="idcreditoestado">1</field>
 						<field name="saldoactual">5</field>
@@ -326,8 +500,99 @@
 						<field name="idcalificacion">1</field>
 					</record>
 					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">28-02-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">4400</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">31-03-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">3800</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">30-04-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">3200</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">31-05-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">2600</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">30-06-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">2600</field>
+						<field name="saldomora">600</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">30</field>
+						<field name="alturamora">1</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">31-07-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">3150</field>
+						<field name="saldomora">1200.25</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">60</field>
+						<field name="alturamora">2</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">1</field>
+						<field name="fechacorte">30-08-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">3760</field>
+						<field name="saldomora">1700</field>
+						<field name="valorcuota">600</field>
+						<field name="diasmora">90</field>
+						<field name="alturamora">3</field>
+						<field name="limite">5000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
 						<field name="credito">2</field>
-						<field name="fechacorte">2023-01-31</field>
+						<field name="fechacorte">31-01-2023</field>
 						<field name="idmoneda">1</field>
 						<field name="idcreditoestado">1</field>
 						<field name="saldoactual">15000</field>
@@ -338,21 +603,316 @@
 						<field name="limite">15000</field>
 						<field name="idcalificacion">1</field>
 					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">28-02-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">14249.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">31-03-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">12999.5</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">30-04-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">11748.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">31-05-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">10498</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">30-06-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">9247.25</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">31-07-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">7996.5</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">2</field>
+						<field name="fechacorte">30-08-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">6745.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">31-01-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">15000</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">28-02-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">14249.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">31-03-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">12999.5</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">30-04-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">11748.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">31-05-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">10498</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">30-06-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">9247.25</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">31-07-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">7996.5</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">3</field>
+						<field name="fechacorte">30-08-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">6745.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">31-01-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">15000</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">28-02-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">14249.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">31-03-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">12999.5</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.25</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">30-04-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">11748.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">31-05-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">10498</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">30-06-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">9247.25</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">31-07-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">7996.5</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
+					<record>
+						<field name="credito">4</field>
+						<field name="fechacorte">30-08-2023</field>
+						<field name="idmoneda">1</field>
+						<field name="idcreditoestado">1</field>
+						<field name="saldoactual">6745.75</field>
+						<field name="saldomora">0</field>
+						<field name="valorcuota">1250.75</field>
+						<field name="diasmora">0</field>
+						<field name="alturamora">0</field>
+						<field name="limite">15000</field>
+						<field name="idcalificacion">1</field>
+					</record>
 				</records>
 			</table>
 		</tables>
 		<views/>
 		<functions>
-			<function name="f1">CREATE FUNCTION f1 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
-			<function name="f2">CREATE FUNCTION f2 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
-			<function name="f3">CREATE FUNCTION f3 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
-			<function name="f4">CREATE FUNCTION f4 (@primer_nombre NVARCHAR(20), @segundo_nombre NVARCHAR(10)) RETURN NVARCHAR(100) AS BEGIN DECLARE @nombres NVARCHAR(100);RETURN @nombrecompleto; END;</function>
+			<function name="fn_retornaalturamora">CREATE FUNCTION fn_retornaalturamora (@diasmora int) RETURN NVARCHAR(100) AS BEGIN DECLARE @alturamora NVARCHAR(100);IF (@diasmora  &gt;  0 &amp;&amp; @diasmora  &lt;  30) BEGIN SET @ alturamora = 'al dia'; END;IF (@diasmora  &gt;=  30 &amp;&amp; @diasmora  &lt;  60) BEGIN SET @ alturamora = 'altura mora 2'; END;IF (@diasmora  &gt;=  30 &amp;&amp; @diasmora  &lt;  60) BEGIN SET @ alturamora = 'altura mora 3'; END;IF (@diasmora  &gt;=  60 &amp;&amp; @diasmora  &lt;  90) BEGIN SET @ alturamora = 'altura mora 4'; END;IF (@diasmora  &gt;=  90 &amp;&amp; @diasmora  &lt;  120) BEGIN SET @ alturamora = 'altura mora 5'; END;RETURN @alturamora; END;</function>
 		</functions>
 		<procedures>
-			<procedure name="p1">CREATE PROCEDURE p1 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
-			<procedure name="p2">CREATE PROCEDURE p2 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
-			<procedure name="p3">CREATE PROCEDURE p3 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
-			<procedure name="p4">CREATE PROCEDURE p4 (@aumento int, @fecha date) AS BEGIN DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="sp_actualizatasa">CREATE PROCEDURE sp_actualizatasa (@aumento int, @fecha date) AS BEGIN IF (@aumento  &gt;  0) BEGIN UPDATE tbproducto SET tasa = tasa + (tasa * @aumento / 100) WHERE idestado = 1; ELSE BEGIN UPDATE tbproducto SET tasa = tasa + (tasa * (@aumento)) WHERE idestado = 1; END;DECLARE @tasa NVARCHAR(5);SET @ tasa = CAS (@aumento AS NVARCHAR(5));END;</procedure>
+			<procedure name="sp_actualizanombre">CREATE PROCEDURE sp_actualizanombre (@idcliente NVARCHAR(10), @nuevonombre NVARCHAR(100)) AS BEGIN UPDATE tbcliente SET primernombre = @nuevonombre WHERE codigocliente = @idcliente;END;</procedure>
+			<procedure name="sp_actualizaalturamora">CREATE PROCEDURE sp_actualizaalturamora (@credito int, @diasmora int) AS BEGIN DECLARE @alturamora int;IF (@diasmora  &gt;  0 &amp;&amp; @diasmora  &lt;  30) BEGIN SET @ alturamora = 0; END;IF (@diasmora  &gt;=  30 &amp;&amp; @diasmora  &lt;  60) BEGIN SET @ alturamora = 1; END;IF (@diasmora  &gt;=  30 &amp;&amp; @diasmora  &lt;  60) BEGIN SET @ alturamora = 2; END;IF (@diasmora  &gt;=  60 &amp;&amp; @diasmora  &lt;  90) BEGIN SET @ alturamora = 3; END;IF (@diasmora  &gt;=  90 &amp;&amp; @diasmora  &lt;  120) BEGIN SET @ alturamora = 4; END;UPDATE tbcreditosaldo SET alturamora = @alturamora WHERE credito = @credito &amp;&amp; diasmora  =  @diasmora;END;</procedure>
 		</procedures>
 	</database>
 </SCHEMAS>
