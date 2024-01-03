@@ -64,7 +64,6 @@ class Update(Instruccion):
                                 for record in recs.getElementsByTagName('record'):
                                     cont_records += 1
                                     for rc in record.getElementsByTagName('field'):
-                                        print(rc.getAttribute('name'), '==', self.condicion.id, 'and', rc.firstChild.data ,'==', self.condicion.expresion.ejecutar(env).valor)
                                         if rc.getAttribute('name') == self.condicion.id and rc.firstChild.data == str(self.condicion.expresion.ejecutar(env).valor):
                                             found = cont_records
                                             break

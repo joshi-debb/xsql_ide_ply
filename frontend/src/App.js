@@ -178,7 +178,7 @@ function App() {
         const url = window.URL.createObjectURL(finalBlob);
 
         a.href = url;
-        a.download = 'export.sql';
+        a.download = 'dump.sql';
 
         a.click();
 
